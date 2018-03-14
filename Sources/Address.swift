@@ -64,17 +64,11 @@ public struct Address: Hashable, CustomStringConvertible {
 
 extension Address {
     /// Converts the address to an EIP55 checksumed representation.
-    private static func computeEIP55String(for data: Data) -> String {
+    fileprivate static func computeEIP55String(for data: Data) -> String {
         let addressString = data.hexString
         let hashInput = addressString.data(using: .ascii)!
-        var hashOutput = Data(repeating: 0, count: Int(sha3_256_hash_size))
-        hashInput.withUnsafeBytes { input in
-            hashOutput.withUnsafeMutableBytes { output in
-                keccak_256(input, hashInput.count, output)
-            }
-        }
+        let hash = EthereumCrypto.hash(hashInput).hexString
 
-        let hash = hashOutput.hexString
         var string = "0x"
         for (a, h) in zip(addressString, hash) {
             switch (a, h) {
