@@ -8,8 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		6149A6AA201E433A00A2F35C /* TrustCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6149A6A0201E433A00A2F35C /* TrustCore.framework */; };
-		6149A6AF201E433A00A2F35C /* TrustCoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6149A6AE201E433A00A2F35C /* TrustCoreTests.swift */; };
-		6149A6B1201E433B00A2F35C /* TrustCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6149A6A3201E433A00A2F35C /* TrustCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6149A6C5201E448B00A2F35C /* TrustCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 6149A6BC201E43E200A2F35C /* TrustCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6149A6C8201E455D00A2F35C /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6149A6C7201E455D00A2F35C /* Address.swift */; };
+		6149A6CA201E472000A2F35C /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6149A6C9201E472000A2F35C /* Transaction.swift */; };
+		6149A6CC201E496A00A2F35C /* DataHex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6149A6CB201E496900A2F35C /* DataHex.swift */; };
+		6149A6CE201E499B00A2F35C /* DataHexTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6149A6CD201E499B00A2F35C /* DataHexTests.swift */; };
+		6149A6D0201E4B6B00A2F35C /* AddressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6149A6CF201E4B6B00A2F35C /* AddressTests.swift */; };
+		887FD54919AD2FA39E88EAF0 /* Pods_TrustCore_TrustCoreTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1C9DA59AE410E04E68E1F89 /* Pods_TrustCore_TrustCoreTests.framework */; };
+		BB06149A920620338B3323D1 /* Pods_TrustCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 682B6374F9856982618A8501 /* Pods_TrustCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -24,11 +30,23 @@
 
 /* Begin PBXFileReference section */
 		6149A6A0201E433A00A2F35C /* TrustCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TrustCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6149A6A3201E433A00A2F35C /* TrustCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TrustCore.h; sourceTree = "<group>"; };
-		6149A6A4201E433A00A2F35C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6149A6A9201E433A00A2F35C /* TrustCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TrustCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		6149A6AE201E433A00A2F35C /* TrustCoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrustCoreTests.swift; sourceTree = "<group>"; };
-		6149A6B0201E433B00A2F35C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6149A6BC201E43E200A2F35C /* TrustCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TrustCore.h; sourceTree = "<group>"; };
+		6149A6BD201E43E200A2F35C /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		6149A6BF201E43E200A2F35C /* TestsInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = TestsInfo.plist; sourceTree = "<group>"; };
+		6149A6C0201E43E200A2F35C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6149A6C7201E455D00A2F35C /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
+		6149A6C9201E472000A2F35C /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
+		6149A6CB201E496900A2F35C /* DataHex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataHex.swift; sourceTree = "<group>"; };
+		6149A6CD201E499B00A2F35C /* DataHexTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataHexTests.swift; sourceTree = "<group>"; };
+		6149A6CF201E4B6B00A2F35C /* AddressTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressTests.swift; sourceTree = "<group>"; };
+		61645D0D2058A06700411565 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		682B6374F9856982618A8501 /* Pods_TrustCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TrustCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		99258028638D3902B177E80C /* Pods-TrustCore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrustCore.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TrustCore/Pods-TrustCore.debug.xcconfig"; sourceTree = "<group>"; };
+		A1C9DA59AE410E04E68E1F89 /* Pods_TrustCore_TrustCoreTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TrustCore_TrustCoreTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2663E7275439A0F14129090 /* Pods-TrustCore-TrustCoreTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrustCore-TrustCoreTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TrustCore-TrustCoreTests/Pods-TrustCore-TrustCoreTests.debug.xcconfig"; sourceTree = "<group>"; };
+		D64B0D7FFB6053D483E3DE8D /* Pods-TrustCore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrustCore.release.xcconfig"; path = "Pods/Target Support Files/Pods-TrustCore/Pods-TrustCore.release.xcconfig"; sourceTree = "<group>"; };
+		DA1EEB65EA0444554E8E20B2 /* Pods-TrustCore-TrustCoreTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrustCore-TrustCoreTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TrustCore-TrustCoreTests/Pods-TrustCore-TrustCoreTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BB06149A920620338B3323D1 /* Pods_TrustCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,6 +63,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6149A6AA201E433A00A2F35C /* TrustCore.framework in Frameworks */,
+				887FD54919AD2FA39E88EAF0 /* Pods_TrustCore_TrustCoreTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,9 +73,14 @@
 		6149A696201E433A00A2F35C = {
 			isa = PBXGroup;
 			children = (
-				6149A6A2201E433A00A2F35C /* TrustCore */,
-				6149A6AD201E433A00A2F35C /* TrustCoreTests */,
+				6149A6BD201E43E200A2F35C /* README.md */,
+				61645D0D2058A06700411565 /* LICENSE */,
+				6149A6BE201E43E200A2F35C /* Metadata */,
+				6149A6BB201E43E200A2F35C /* Sources */,
+				6149A6C3201E43E200A2F35C /* Tests */,
 				6149A6A1201E433A00A2F35C /* Products */,
+				A21D6DABB34C662DA8064833 /* Pods */,
+				8088D8221423003565C764F4 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -68,22 +93,53 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6149A6A2201E433A00A2F35C /* TrustCore */ = {
+		6149A6BB201E43E200A2F35C /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				6149A6A3201E433A00A2F35C /* TrustCore.h */,
-				6149A6A4201E433A00A2F35C /* Info.plist */,
+				6149A6BC201E43E200A2F35C /* TrustCore.h */,
+				6149A6C7201E455D00A2F35C /* Address.swift */,
+				6149A6C9201E472000A2F35C /* Transaction.swift */,
+				6149A6CB201E496900A2F35C /* DataHex.swift */,
 			);
-			path = TrustCore;
+			path = Sources;
 			sourceTree = "<group>";
 		};
-		6149A6AD201E433A00A2F35C /* TrustCoreTests */ = {
+		6149A6BE201E43E200A2F35C /* Metadata */ = {
 			isa = PBXGroup;
 			children = (
-				6149A6AE201E433A00A2F35C /* TrustCoreTests.swift */,
-				6149A6B0201E433B00A2F35C /* Info.plist */,
+				6149A6BF201E43E200A2F35C /* TestsInfo.plist */,
+				6149A6C0201E43E200A2F35C /* Info.plist */,
 			);
-			path = TrustCoreTests;
+			path = Metadata;
+			sourceTree = "<group>";
+		};
+		6149A6C3201E43E200A2F35C /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				6149A6CD201E499B00A2F35C /* DataHexTests.swift */,
+				6149A6CF201E4B6B00A2F35C /* AddressTests.swift */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		8088D8221423003565C764F4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				682B6374F9856982618A8501 /* Pods_TrustCore.framework */,
+				A1C9DA59AE410E04E68E1F89 /* Pods_TrustCore_TrustCoreTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A21D6DABB34C662DA8064833 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				99258028638D3902B177E80C /* Pods-TrustCore.debug.xcconfig */,
+				D64B0D7FFB6053D483E3DE8D /* Pods-TrustCore.release.xcconfig */,
+				D2663E7275439A0F14129090 /* Pods-TrustCore-TrustCoreTests.debug.xcconfig */,
+				DA1EEB65EA0444554E8E20B2 /* Pods-TrustCore-TrustCoreTests.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -93,7 +149,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6149A6B1201E433B00A2F35C /* TrustCore.h in Headers */,
+				6149A6C5201E448B00A2F35C /* TrustCore.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,10 +160,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6149A6B4201E433B00A2F35C /* Build configuration list for PBXNativeTarget "TrustCore" */;
 			buildPhases = (
+				6AA00B2DFB76AC1F0FCC2DFC /* [CP] Check Pods Manifest.lock */,
 				6149A69B201E433A00A2F35C /* Sources */,
 				6149A69C201E433A00A2F35C /* Frameworks */,
 				6149A69D201E433A00A2F35C /* Headers */,
 				6149A69E201E433A00A2F35C /* Resources */,
+				ABDF52D738AF0BBC97E9EA89 /* [CP] Copy Pods Resources */,
+				61645D0E2058A0A600411565 /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -122,9 +181,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6149A6B7201E433B00A2F35C /* Build configuration list for PBXNativeTarget "TrustCoreTests" */;
 			buildPhases = (
+				9814F0219C3936327D6DF815 /* [CP] Check Pods Manifest.lock */,
 				6149A6A5201E433A00A2F35C /* Sources */,
 				6149A6A6201E433A00A2F35C /* Frameworks */,
 				6149A6A7201E433A00A2F35C /* Resources */,
+				C89972BBC79A5F56D927DFBE /* [CP] Embed Pods Frameworks */,
+				55846C95918AC8FADC37167A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -148,6 +210,7 @@
 				TargetAttributes = {
 					6149A69F201E433A00A2F35C = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
 					6149A6A8201E433A00A2F35C = {
@@ -191,11 +254,120 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		55846C95918AC8FADC37167A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TrustCore-TrustCoreTests/Pods-TrustCore-TrustCoreTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		61645D0E2058A0A600411565 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+			showEnvVarsInLog = 0;
+		};
+		6AA00B2DFB76AC1F0FCC2DFC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TrustCore-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9814F0219C3936327D6DF815 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TrustCore-TrustCoreTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		ABDF52D738AF0BBC97E9EA89 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TrustCore/Pods-TrustCore-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C89972BBC79A5F56D927DFBE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-TrustCore-TrustCoreTests/Pods-TrustCore-TrustCoreTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework",
+				"${BUILT_PRODUCTS_DIR}/SipHash/SipHash.framework",
+				"${BUILT_PRODUCTS_DIR}/TrezorCrypto/TrezorCrypto.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BigInt.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SipHash.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TrezorCrypto.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TrustCore-TrustCoreTests/Pods-TrustCore-TrustCoreTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		6149A69B201E433A00A2F35C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6149A6CA201E472000A2F35C /* Transaction.swift in Sources */,
+				6149A6C8201E455D00A2F35C /* Address.swift in Sources */,
+				6149A6CC201E496A00A2F35C /* DataHex.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -203,7 +375,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6149A6AF201E433A00A2F35C /* TrustCoreTests.swift in Sources */,
+				6149A6D0201E4B6B00A2F35C /* AddressTests.swift in Sources */,
+				6149A6CE201E499B00A2F35C /* DataHexTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,12 +440,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
+				SWIFT_VERSION = 4.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -321,10 +496,12 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
+				SWIFT_VERSION = 4.0;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -333,66 +510,69 @@
 		};
 		6149A6B5201E433B00A2F35C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 99258028638D3902B177E80C /* Pods-TrustCore.debug.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = TrustCore/Info.plist;
+				INFOPLIST_FILE = Metadata/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.trustwalletapp.TrustCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		6149A6B6201E433B00A2F35C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D64B0D7FFB6053D483E3DE8D /* Pods-TrustCore.release.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = TrustCore/Info.plist;
+				INFOPLIST_FILE = Metadata/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.trustwalletapp.TrustCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
 		6149A6B8201E433B00A2F35C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D2663E7275439A0F14129090 /* Pods-TrustCore-TrustCoreTests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = TrustCoreTests/Info.plist;
+				INFOPLIST_FILE = Metadata/TestsInfo.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.trustwalletapp.TrustCoreTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		6149A6B9201E433B00A2F35C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DA1EEB65EA0444554E8E20B2 /* Pods-TrustCore-TrustCoreTests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = TrustCoreTests/Info.plist;
+				INFOPLIST_FILE = Metadata/TestsInfo.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.trustwalletapp.TrustCoreTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

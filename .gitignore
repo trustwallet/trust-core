@@ -1,0 +1,11 @@
+## Various settings
+*.pbxuser
+!default.pbxuser
+xcuserdata/
+
+## CocoaPods
+Pods/
+
+## Swift Package Manager
+.build/
+
