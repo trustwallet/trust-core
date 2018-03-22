@@ -29,4 +29,4 @@ behavior violating this base foundation of respect.
 
 ## License
 
-Trust Core is available under the GNU GPL. See the [LICENSE](https://github.com/TrustWallet/trust-core/blob/master/LICENSE) file for more info.
+Trust Core is available under the MIT license. See the [LICENSE](https://github.com/TrustWallet/trust-core/blob/master/LICENSE) file for more info.
