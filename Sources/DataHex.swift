@@ -47,7 +47,7 @@ extension Data {
     }
 }
 
-extension KeyedDecodingContainerProtocol {
+public extension KeyedDecodingContainerProtocol {
     func decodeHexString(forKey key: Self.Key) throws -> Data {
         let hexString = try decode(String.self, forKey: key)
         guard let data = Data(hexString: hexString) else {
