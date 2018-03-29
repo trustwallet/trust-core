@@ -21,8 +21,8 @@ class RLPTests: XCTestCase {
         XCTAssertEqual(RLP.encode(256)!.hexString, "820100")
         XCTAssertEqual(RLP.encode(1024)!.hexString, "820400")
         XCTAssertEqual(RLP.encode(0xffffff)!.hexString, "83ffffff")
-        XCTAssertEqual(RLP.encode(0xffffffff)!.hexString, "84ffffffff")
-        XCTAssertEqual(RLP.encode(0xffffffffffffff)!.hexString, "87ffffffffffffff")
+        XCTAssertEqual(RLP.encode(0xffffffff as Int64)!.hexString, "84ffffffff")
+        XCTAssertEqual(RLP.encode(0xffffffffffffff as Int64)!.hexString, "87ffffffffffffff")
     }
 
     func testBigInts() {
@@ -33,8 +33,8 @@ class RLPTests: XCTestCase {
         XCTAssertEqual(RLP.encode(BigInt(256))!.hexString, "820100")
         XCTAssertEqual(RLP.encode(BigInt(1024))!.hexString, "820400")
         XCTAssertEqual(RLP.encode(BigInt(0xffffff))!.hexString, "83ffffff")
-        XCTAssertEqual(RLP.encode(BigInt(0xffffffff))!.hexString, "84ffffffff")
-        XCTAssertEqual(RLP.encode(BigInt(0xffffffffffffff))!.hexString, "87ffffffffffffff")
+        XCTAssertEqual(RLP.encode(BigInt(0xffffffff as Int64))!.hexString, "84ffffffff")
+        XCTAssertEqual(RLP.encode(BigInt(0xffffffffffffff as Int64))!.hexString, "87ffffffffffffff")
         XCTAssertEqual(
             RLP.encode(BigInt("102030405060708090a0b0c0d0e0f2", radix: 16)!)!.hexString,
             "8f102030405060708090a0b0c0d0e0f2"

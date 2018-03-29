@@ -25,6 +25,8 @@ public struct RLP {
             return encodeList(list)
         case let number as Int:
             return encodeInt(number)
+        case let number as Int64:
+            return encodeInt64(number)
         case let bigint as BigInt:
             return encodeBigInt(bigint)
         case let biguint as BigUInt:
@@ -52,6 +54,19 @@ public struct RLP {
     }
 
     static func encodeUInt(_ number: UInt) -> Data? {
+        let biguint = BigUInt(number)
+        return encode(biguint)
+    }
+
+    static func encodeInt64(_ number: Int64) -> Data? {
+        guard number >= 0 else {
+            return nil // RLP cannot encode negative numbers
+        }
+        let uint = UInt64(bitPattern: number)
+        return encodeUInt64(uint)
+    }
+
+    static func encodeUInt64(_ number: UInt64) -> Data? {
         let biguint = BigUInt(number)
         return encode(biguint)
     }
