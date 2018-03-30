@@ -60,4 +60,9 @@ class RLPTests: XCTestCase {
         print(encoded.hexString)
         XCTAssert(encoded.hexString.hasPrefix("f90400"))
     }
+
+    func testInvalid() {
+        XCTAssertNil(RLP.encode(-1))
+        XCTAssertNil(RLP.encode([0, -1]))
+    }
 }
