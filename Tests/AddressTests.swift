@@ -8,6 +8,11 @@ import TrustCore
 import XCTest
 
 class AddressTests: XCTestCase {
+    func testInvalid() {
+        XCTAssertNil(Address(string: "abc"))
+        XCTAssertNil(Address(eip55: "5aaeb6053f3e94c9b9a09f33669435e7ef1beaed"))
+    }
+
     func testEIP55() {
         XCTAssertEqual(
             Address(string: "5aaeb6053f3e94c9b9a09f33669435e7ef1beaed")!.eip55String,
@@ -29,5 +34,10 @@ class AddressTests: XCTestCase {
             Address(string: "0xD1220A0cf47c7B9Be7A2E6BA89F429762e7b9aDb")!.eip55String,
             "0xD1220A0cf47c7B9Be7A2E6BA89F429762e7b9aDb"
         )
+    }
+
+    func testDescription() {
+        let address = Address(string: "5aaeb6053f3e94c9b9a09f33669435e7ef1beaed")!
+        XCTAssertEqual(address.description, "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed")
     }
 }
