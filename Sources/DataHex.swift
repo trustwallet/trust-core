@@ -9,31 +9,43 @@ import Foundation
 extension Data {
     /// Initializes `Data` with a hex string representation.
     public init?(hexString: String) {
-        let string: Substring
+        let string: String
         if hexString.hasPrefix("0x") {
-            string = hexString.dropFirst(2)
+            string = String(hexString.dropFirst(2))
         } else {
-            string = Substring(hexString)
+            string = hexString
+        }
+
+        // Convert the string to bytes for better performance
+        guard let stringData = string.data(using: .ascii, allowLossyConversion: true) else {
+            return nil
         }
 
         self.init(capacity: string.count / 2)
-        for offset in stride(from: 0, to: string.count, by: 2) {
-            let start = string.index(string.startIndex, offsetBy: offset)
-            guard string.distance(from: start, to: string.endIndex) >= 2 else {
-                let byte = string[start...]
-                guard let number = UInt8(byte, radix: 16) else {
-                    return nil
-                }
-                append(number)
-                break
-            }
-
-            let end = string.index(string.startIndex, offsetBy: offset + 2)
-            let byte = string[start ..< end]
-            guard let number = UInt8(byte, radix: 16) else {
+        let stringBytes = Array(stringData)
+        for i in stride(from: 0, to: stringBytes.count, by: 2) {
+            guard let high = Data.value(of: stringBytes[i]) else {
                 return nil
             }
-            append(number)
+            if i < stringBytes.count - 1, let low = Data.value(of: stringBytes[i + 1]) {
+                append((high << 4) | low)
+            } else {
+                append(high)
+            }
+        }
+    }
+
+    /// Converts an ASCII byte to a hex value.
+    private static func value(of nibble: UInt8) -> UInt8? {
+        switch nibble {
+        case UInt8(ascii: "0") ... UInt8(ascii: "9"):
+            return nibble - UInt8(ascii: "0")
+        case UInt8(ascii: "a") ... UInt8(ascii: "f"):
+            return 10 + nibble - UInt8(ascii: "a")
+        case UInt8(ascii: "A") ... UInt8(ascii: "F"):
+            return 10 + nibble - UInt8(ascii: "A")
+        default:
+            return nil
         }
     }
 
