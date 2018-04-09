@@ -158,10 +158,10 @@
 			isa = PBXGroup;
 			children = (
 				61D0BA282075D771004F71E1 /* ABIEncoder.swift */,
+				61675574207AE06100018DC8 /* ABIError.swift */,
 				6167556B207ABBEF00018DC8 /* ABIType.swift */,
 				6167556D207ABE6700018DC8 /* ABIValue.swift */,
 				6167556F207AD81E00018DC8 /* Function.swift */,
-				61675574207AE06100018DC8 /* ABIError.swift */,
 			);
 			path = Solidity;
 			sourceTree = "<group>";
