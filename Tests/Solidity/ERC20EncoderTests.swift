@@ -15,6 +15,18 @@ class ERC20EncoderTests: XCTestCase {
         XCTAssertEqual(ERC20Encoder.encodeTotalSupply().hexString, "18160ddd")
     }
 
+    func testEncodeName() {
+        XCTAssertEqual(ERC20Encoder.encodeName().hexString, "06fdde03")
+    }
+
+    func testEncodeSymbol() {
+        XCTAssertEqual(ERC20Encoder.encodeSymbol().hexString, "95d89b41")
+    }
+
+    func testEncodeDecimals() {
+        XCTAssertEqual(ERC20Encoder.encodeDecimals().hexString, "313ce567")
+    }
+
     func testEncodeBalanceOf() {
         XCTAssertEqual(ERC20Encoder.encodeBalanceOf(address: address).hexString, "70a08231\(address.data.hexString)000000000000000000000000")
     }

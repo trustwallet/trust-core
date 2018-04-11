@@ -19,6 +19,36 @@ public final class ERC20Encoder {
         return encoder.data
     }
 
+    /// Encodes a function call to `name`
+    ///
+    /// Solidity function: `string public constant name = "Token Name";`
+    public static func encodeName() -> Data {
+        let function = Function(name: "name", parameters: [])
+        let encoder = ABIEncoder()
+        try! encoder.encode(function: function, arguments: [])
+        return encoder.data
+    }
+
+    /// Encodes a function call to `symbol`
+    ///
+    /// Solidity function: `string public constant symbol = "SYM";`
+    public static func encodeSymbol() -> Data {
+        let function = Function(name: "symbol", parameters: [])
+        let encoder = ABIEncoder()
+        try! encoder.encode(function: function, arguments: [])
+        return encoder.data
+    }
+
+    /// Encodes a function call to `decimals`
+    ///
+    /// Solidity function: `uint8 public constant decimals = 18;`
+    public static func encodeDecimals() -> Data {
+        let function = Function(name: "decimals", parameters: [])
+        let encoder = ABIEncoder()
+        try! encoder.encode(function: function, arguments: [])
+        return encoder.data
+    }
+
     /// Encodes a function call to `balanceOf`
     ///
     /// Solidity function: `function balanceOf(address tokenOwner) public constant returns (uint balance);`
