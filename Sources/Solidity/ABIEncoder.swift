@@ -27,7 +27,7 @@ public final class ABIEncoder: Codable {
         case .int(_, let value):
             try encode(value)
         case .address(let address):
-            try encode(address.data, static: true)
+            try encode(address)
         case .bool(let value):
             try encode(value)
         case .fixed(_, _, let value):
@@ -153,6 +153,13 @@ public final class ABIEncoder: Codable {
         let padding = ((bytes.count + 31) / 32) * 32 - bytes.count
         data.append(bytes)
         data.append(Data(repeating: 0, count: padding))
+    }
+
+    /// Encodes an address
+    public func encode(_ address: Address) throws {
+        let padding = ((address.data.count + 31) / 32) * 32 - address.data.count
+        data.append(Data(repeating: 0, count: padding))
+        data.append(address.data)
     }
 
     /// Encodes a string
