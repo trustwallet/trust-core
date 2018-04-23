@@ -224,7 +224,6 @@
 				6149A69C201E433A00A2F35C /* Frameworks */,
 				6149A69D201E433A00A2F35C /* Headers */,
 				6149A69E201E433A00A2F35C /* Resources */,
-				ABDF52D738AF0BBC97E9EA89 /* [CP] Copy Pods Resources */,
 				61645D0E2058A0A600411565 /* SwiftLint */,
 			);
 			buildRules = (
@@ -245,7 +244,6 @@
 				6149A6A6201E433A00A2F35C /* Frameworks */,
 				6149A6A7201E433A00A2F35C /* Resources */,
 				C89972BBC79A5F56D927DFBE /* [CP] Embed Pods Frameworks */,
-				55846C95918AC8FADC37167A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -314,21 +312,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		55846C95918AC8FADC37167A /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TrustCore-TrustCoreTests/Pods-TrustCore-TrustCoreTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		61645D0E2058A0A600411565 /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -378,21 +361,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		ABDF52D738AF0BBC97E9EA89 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TrustCore/Pods-TrustCore-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C89972BBC79A5F56D927DFBE /* [CP] Embed Pods Frameworks */ = {
