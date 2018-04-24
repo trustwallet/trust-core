@@ -20,11 +20,11 @@ public struct Transaction {
     public var r = BigInt()
     public var s = BigInt()
 
-    /// Creates a `Transaction` with default values and the given recipient address.
-    public init(recipient: Address) {
+    /// Creates a `Transaction`.
+    public init(price: BigInt, gasLimit: UInt64, recipient: Address) {
         accountNonce = 0
-        price = BigInt()
-        gasLimit = 0
+        self.price = price
+        self.gasLimit = gasLimit
         self.recipient = recipient
         amount = BigInt()
     }

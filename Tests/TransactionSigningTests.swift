@@ -11,10 +11,8 @@ import XCTest
 class TransactionSigningTests: XCTestCase {
     func testEIP155SignHash() {
         let address = Address(string: "0x3535353535353535353535353535353535353535")!
-        var transaction = Transaction(recipient: address)
+        var transaction = Transaction(price: 20000000000, gasLimit: 21000, recipient: address)
         transaction.accountNonce = 9
-        transaction.price = 20000000000
-        transaction.gasLimit = 21000
         transaction.amount = BigInt("1000000000000000000")
 
         transaction.sign { hash in
@@ -25,10 +23,8 @@ class TransactionSigningTests: XCTestCase {
 
     func testHomesteadSignHash() {
         let address = Address(string: "0x3535353535353535353535353535353535353535")!
-        var transaction = Transaction(recipient: address)
+        var transaction = Transaction(price: 20000000000, gasLimit: 21000, recipient: address)
         transaction.accountNonce = 9
-        transaction.price = 20000000000
-        transaction.gasLimit = 21000
         transaction.amount = BigInt("1000000000000000000")
 
         transaction.sign(chainID: 0) { hash in
@@ -38,10 +34,8 @@ class TransactionSigningTests: XCTestCase {
     }
 
     func testSignTransaction() {
-        var transaction = Transaction(recipient: Address(string: "0x3535353535353535353535353535353535353535")!)
+        var transaction = Transaction(price: 20000000000, gasLimit: 21000, recipient: Address(string: "0x3535353535353535353535353535353535353535")!)
         transaction.accountNonce = 9
-        transaction.price = 20000000000
-        transaction.gasLimit = 21000
         transaction.amount = BigInt("1000000000000000000")
 
         transaction.sign { hash in
