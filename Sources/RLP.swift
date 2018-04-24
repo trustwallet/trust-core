@@ -92,10 +92,10 @@ public struct RLP {
 
     static func encodeTransaction(_ transaction: Transaction) -> Data? {
         return encodeList([
-            transaction.accountNonce,
-            transaction.price,
+            transaction.nonce,
+            transaction.gasPrice,
             transaction.gasLimit,
-            transaction.recipient.data,
+            transaction.to.data,
             transaction.amount,
             transaction.payload ?? Data(),
             transaction.v,

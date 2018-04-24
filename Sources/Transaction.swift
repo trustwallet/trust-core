@@ -8,10 +8,10 @@ import BigInt
 
 /// Ethereum transaction.
 public struct Transaction {
-    public var accountNonce: UInt64
-    public var price: BigInt
+    public var nonce: UInt64
+    public var gasPrice: BigInt
     public var gasLimit: UInt64
-    public var recipient: Address
+    public var to: Address
     public var amount: BigInt
     public var payload: Data?
 
@@ -21,11 +21,11 @@ public struct Transaction {
     public var s = BigInt()
 
     /// Creates a `Transaction`.
-    public init(price: BigInt, gasLimit: UInt64, recipient: Address) {
-        accountNonce = 0
-        self.price = price
+    public init(gasPrice: BigInt, gasLimit: UInt64, to: Address) {
+        nonce = 0
+        self.gasPrice = gasPrice
         self.gasLimit = gasLimit
-        self.recipient = recipient
+        self.to = to
         amount = BigInt()
     }
 
