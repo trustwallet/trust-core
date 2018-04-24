@@ -14,6 +14,8 @@
 		6149A6CC201E496A00A2F35C /* DataHex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6149A6CB201E496900A2F35C /* DataHex.swift */; };
 		6149A6CE201E499B00A2F35C /* DataHexTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6149A6CD201E499B00A2F35C /* DataHexTests.swift */; };
 		6149A6D0201E4B6B00A2F35C /* AddressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6149A6CF201E4B6B00A2F35C /* AddressTests.swift */; };
+		61555863208ED00A00FB241E /* TransactionSigning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61555862208ED00A00FB241E /* TransactionSigning.swift */; };
+		61555865208ED04F00FB241E /* TransactionSigningTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61555864208ED04E00FB241E /* TransactionSigningTests.swift */; };
 		61645D142058A74E00411565 /* EthereumCryptoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61645D132058A74E00411565 /* EthereumCryptoTests.swift */; };
 		61645D162058BCD500411565 /* EthereumCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 61645D152058BCD500411565 /* EthereumCrypto.m */; };
 		61645D182058BF2E00411565 /* EthereumCrypto.h in Headers */ = {isa = PBXBuildFile; fileRef = 61645D172058BD6800411565 /* EthereumCrypto.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -54,6 +56,8 @@
 		6149A6CB201E496900A2F35C /* DataHex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataHex.swift; sourceTree = "<group>"; };
 		6149A6CD201E499B00A2F35C /* DataHexTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataHexTests.swift; sourceTree = "<group>"; };
 		6149A6CF201E4B6B00A2F35C /* AddressTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressTests.swift; sourceTree = "<group>"; };
+		61555862208ED00A00FB241E /* TransactionSigning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionSigning.swift; sourceTree = "<group>"; };
+		61555864208ED04E00FB241E /* TransactionSigningTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionSigningTests.swift; sourceTree = "<group>"; };
 		61645D0D2058A06700411565 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		61645D132058A74E00411565 /* EthereumCryptoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumCryptoTests.swift; sourceTree = "<group>"; };
 		61645D152058BCD500411565 /* EthereumCrypto.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EthereumCrypto.m; sourceTree = "<group>"; };
@@ -131,6 +135,7 @@
 				6149A6CB201E496900A2F35C /* DataHex.swift */,
 				61645D192058C7B300411565 /* RLP.swift */,
 				6149A6C9201E472000A2F35C /* Transaction.swift */,
+				61555862208ED00A00FB241E /* TransactionSigning.swift */,
 				61675571207AD82900018DC8 /* Solidity */,
 			);
 			path = Sources;
@@ -153,6 +158,7 @@
 				61645D132058A74E00411565 /* EthereumCryptoTests.swift */,
 				61675572207ADB9B00018DC8 /* FunctionTests.swift */,
 				61645D1B2058C86B00411565 /* RLPTests.swift */,
+				61555864208ED04E00FB241E /* TransactionSigningTests.swift */,
 				6167558B207C7A1F00018DC8 /* Solidity */,
 			);
 			path = Tests;
@@ -428,6 +434,7 @@
 				61645D162058BCD500411565 /* EthereumCrypto.m in Sources */,
 				6149A6CA201E472000A2F35C /* Transaction.swift in Sources */,
 				6167556E207ABE6700018DC8 /* ABIValue.swift in Sources */,
+				61555863208ED00A00FB241E /* TransactionSigning.swift in Sources */,
 				6149A6C8201E455D00A2F35C /* Address.swift in Sources */,
 				6149A6CC201E496A00A2F35C /* DataHex.swift in Sources */,
 				61645D1A2058C7B300411565 /* RLP.swift in Sources */,
@@ -442,6 +449,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				61555865208ED04F00FB241E /* TransactionSigningTests.swift in Sources */,
 				6149A6D0201E4B6B00A2F35C /* AddressTests.swift in Sources */,
 				61675573207ADB9B00018DC8 /* FunctionTests.swift in Sources */,
 				61645D142058A74E00411565 /* EthereumCryptoTests.swift in Sources */,
