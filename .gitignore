@@ -1,3 +1,6 @@
+.DS_Store
+*~
+
 ## Various settings
 *.pbxuser
 !default.pbxuser
@@ -8,4 +11,3 @@ Pods/
 
 ## Swift Package Manager
 .build/
-

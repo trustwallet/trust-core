@@ -32,6 +32,11 @@
 		61D0BA2D2075EF53004F71E1 /* ABIEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D0BA2C2075EF53004F71E1 /* ABIEncoderTests.swift */; };
 		887FD54919AD2FA39E88EAF0 /* Pods_TrustCore_TrustCoreTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1C9DA59AE410E04E68E1F89 /* Pods_TrustCore_TrustCoreTests.framework */; };
 		BB06149A920620338B3323D1 /* Pods_TrustCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 682B6374F9856982618A8501 /* Pods_TrustCore.framework */; };
+		BB3864A72090088D00CBF773 /* ENSEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3864A62090088D00CBF773 /* ENSEncoder.swift */; };
+		BB3864A92090145600CBF773 /* ENSEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3864A82090145600CBF773 /* ENSEncoderTests.swift */; };
+		BB3864AB20904B3800CBF773 /* Namehash.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3864AA20904B3800CBF773 /* Namehash.swift */; };
+		BB3864AD20904C3900CBF773 /* NamehashTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3864AC20904C3900CBF773 /* NamehashTests.swift */; };
+		BB3864AF20905AE000CBF773 /* ens_abi.json in Resources */ = {isa = PBXBuildFile; fileRef = BB3864AE20905ADF00CBF773 /* ens_abi.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +81,11 @@
 		682B6374F9856982618A8501 /* Pods_TrustCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TrustCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		99258028638D3902B177E80C /* Pods-TrustCore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrustCore.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TrustCore/Pods-TrustCore.debug.xcconfig"; sourceTree = "<group>"; };
 		A1C9DA59AE410E04E68E1F89 /* Pods_TrustCore_TrustCoreTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TrustCore_TrustCoreTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BB3864A62090088D00CBF773 /* ENSEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ENSEncoder.swift; sourceTree = "<group>"; };
+		BB3864A82090145600CBF773 /* ENSEncoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ENSEncoderTests.swift; sourceTree = "<group>"; };
+		BB3864AA20904B3800CBF773 /* Namehash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Namehash.swift; sourceTree = "<group>"; };
+		BB3864AC20904C3900CBF773 /* NamehashTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamehashTests.swift; sourceTree = "<group>"; };
+		BB3864AE20905ADF00CBF773 /* ens_abi.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ens_abi.json; sourceTree = "<group>"; };
 		D2663E7275439A0F14129090 /* Pods-TrustCore-TrustCoreTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrustCore-TrustCoreTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TrustCore-TrustCoreTests/Pods-TrustCore-TrustCoreTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D64B0D7FFB6053D483E3DE8D /* Pods-TrustCore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrustCore.release.xcconfig"; path = "Pods/Target Support Files/Pods-TrustCore/Pods-TrustCore.release.xcconfig"; sourceTree = "<group>"; };
 		DA1EEB65EA0444554E8E20B2 /* Pods-TrustCore-TrustCoreTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrustCore-TrustCoreTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TrustCore-TrustCoreTests/Pods-TrustCore-TrustCoreTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -173,6 +183,8 @@
 				6167556D207ABE6700018DC8 /* ABIValue.swift */,
 				6167556F207AD81E00018DC8 /* Function.swift */,
 				61675587207C745700018DC8 /* ERC20Encoder.swift */,
+				BB3864A62090088D00CBF773 /* ENSEncoder.swift */,
+				BB3864AA20904B3800CBF773 /* Namehash.swift */,
 			);
 			path = Solidity;
 			sourceTree = "<group>";
@@ -182,6 +194,9 @@
 			children = (
 				61D0BA2C2075EF53004F71E1 /* ABIEncoderTests.swift */,
 				61675589207C7A1500018DC8 /* ERC20EncoderTests.swift */,
+				BB3864A82090145600CBF773 /* ENSEncoderTests.swift */,
+				BB3864AC20904C3900CBF773 /* NamehashTests.swift */,
+				BB3864AE20905ADF00CBF773 /* ens_abi.json */,
 			);
 			path = Solidity;
 			sourceTree = "<group>";
@@ -230,7 +245,6 @@
 				6149A69C201E433A00A2F35C /* Frameworks */,
 				6149A69D201E433A00A2F35C /* Headers */,
 				6149A69E201E433A00A2F35C /* Resources */,
-				ABDF52D738AF0BBC97E9EA89 /* [CP] Copy Pods Resources */,
 				61645D0E2058A0A600411565 /* SwiftLint */,
 			);
 			buildRules = (
@@ -251,7 +265,6 @@
 				6149A6A6201E433A00A2F35C /* Frameworks */,
 				6149A6A7201E433A00A2F35C /* Resources */,
 				C89972BBC79A5F56D927DFBE /* [CP] Embed Pods Frameworks */,
-				55846C95918AC8FADC37167A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -314,27 +327,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BB3864AF20905AE000CBF773 /* ens_abi.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		55846C95918AC8FADC37167A /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TrustCore-TrustCoreTests/Pods-TrustCore-TrustCoreTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		61645D0E2058A0A600411565 /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -386,21 +385,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		ABDF52D738AF0BBC97E9EA89 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TrustCore/Pods-TrustCore-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		C89972BBC79A5F56D927DFBE /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -434,6 +418,7 @@
 				61645D162058BCD500411565 /* EthereumCrypto.m in Sources */,
 				6149A6CA201E472000A2F35C /* Transaction.swift in Sources */,
 				6167556E207ABE6700018DC8 /* ABIValue.swift in Sources */,
+				BB3864AB20904B3800CBF773 /* Namehash.swift in Sources */,
 				61555863208ED00A00FB241E /* TransactionSigning.swift in Sources */,
 				6149A6C8201E455D00A2F35C /* Address.swift in Sources */,
 				6149A6CC201E496A00A2F35C /* DataHex.swift in Sources */,
@@ -442,6 +427,7 @@
 				6167556C207ABBEF00018DC8 /* ABIType.swift in Sources */,
 				61675588207C745700018DC8 /* ERC20Encoder.swift in Sources */,
 				61675575207AE06100018DC8 /* ABIError.swift in Sources */,
+				BB3864A72090088D00CBF773 /* ENSEncoder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -451,7 +437,9 @@
 			files = (
 				61555865208ED04F00FB241E /* TransactionSigningTests.swift in Sources */,
 				6149A6D0201E4B6B00A2F35C /* AddressTests.swift in Sources */,
+				BB3864AD20904C3900CBF773 /* NamehashTests.swift in Sources */,
 				61675573207ADB9B00018DC8 /* FunctionTests.swift in Sources */,
+				BB3864A92090145600CBF773 /* ENSEncoderTests.swift in Sources */,
 				61645D142058A74E00411565 /* EthereumCryptoTests.swift in Sources */,
 				6167558A207C7A1500018DC8 /* ERC20EncoderTests.swift in Sources */,
 				61645D1C2058C86B00411565 /* RLPTests.swift in Sources */,
