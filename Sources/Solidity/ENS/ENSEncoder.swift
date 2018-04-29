@@ -80,25 +80,6 @@ public final class ENSEncoder {
         try! encoder.encode(function: function, arguments: [node, label, owner])
         return encoder.data
     }
-
-    /// https://github.com/ethereum/EIPs/blob/master/EIPS/eip-137.md
-    public static func nameHash(_ name: String) -> Data {
-        var node = [UInt8].init(repeating: 0x0, count: 32)
-        if !name.isEmpty {
-            node = name.split(separator: ".")
-                .map { Array($0.utf8).sha3() }
-                .reversed()
-                .reduce(node) { return ($0 + $1).sha3() }
-        }
-        return Data(node)
-    }
-
-    public static func labelHash(_ label: String) -> Data {
-        guard let data = label.data(using: .utf8) else {
-            return Data()
-        }
-        return EthereumCrypto.hash(data)
-    }
 }
 
 extension Array where Element == UInt8 {
