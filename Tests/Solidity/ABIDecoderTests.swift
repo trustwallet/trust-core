@@ -28,7 +28,7 @@ class ABIDecoderTests: XCTestCase {
         let decoder = ABIDecoder(data: data)
         let value = decoder.decodeInt()
 
-        XCTAssertEqual(value, BigInt(-85091238591234))
+        XCTAssertEqual(value, BigInt("-85091238591234", radix: 10))
     }
 
     func testDecodeBool() {
