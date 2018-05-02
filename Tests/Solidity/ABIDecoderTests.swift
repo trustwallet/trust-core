@@ -160,11 +160,4 @@ class ABIDecoderTests: XCTestCase {
         XCTAssertEqual(arguments[1].nativeValue as? Bool, true)
         XCTAssertEqual(arguments[2].nativeValue as? [BigUInt], [1, 2, 3])
     }
-
-    func testDecodeTupleString() throws {
-        let data = Data(hexString: "0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000e68657769676f76656e732e657468000000000000000000000000000000000000")!
-        let decoder = ABIDecoder(data: data)
-        let values = try decoder.decodeTuple(types: [.string])
-        XCTAssertEqual(values[0].nativeValue as? String, "hewigovens.eth")
-    }
 }
