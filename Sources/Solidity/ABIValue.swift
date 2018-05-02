@@ -7,7 +7,7 @@
 import BigInt
 import Foundation
 
-public indirect enum ABIValue {
+public indirect enum ABIValue: Equatable {
     /// Unsigned integer with `0 < bits <= 256`, `bits % 8 == 0`
     case uint(bits: Int, BigUInt)
 

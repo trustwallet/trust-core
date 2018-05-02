@@ -10,8 +10,8 @@ import Foundation
 /// Encodes fields according to Ethereum's Application Binary Interface Specification
 ///
 /// - SeeAlso: https://solidity.readthedocs.io/en/develop/abi-spec.html
-public final class ABIEncoder: Codable {
-    private let encodedIntSize = 32
+public final class ABIEncoder {
+    static let encodedIntSize = 32
 
     /// Encoded data
     public var data = Data()
@@ -89,7 +89,7 @@ public final class ABIEncoder: Codable {
 
     /// Encodes a boolean field.
     public func encode(_ value: Bool) throws {
-        data.append(Data(repeating: 0, count: encodedIntSize - 1))
+        data.append(Data(repeating: 0, count: ABIEncoder.encodedIntSize - 1))
         data.append(value ? 1 : 0)
     }
 
@@ -103,11 +103,11 @@ public final class ABIEncoder: Codable {
     /// - Throws: `ABIError.integerOverflow` if the value has more than 256 bits.
     public func encode(_ value: BigUInt) throws {
         let valueData = value.serialize()
-        if valueData.count > encodedIntSize {
+        if valueData.count > ABIEncoder.encodedIntSize {
             throw ABIError.integerOverflow
         }
 
-        data.append(Data(repeating: 0, count: encodedIntSize - valueData.count))
+        data.append(Data(repeating: 0, count: ABIEncoder.encodedIntSize - valueData.count))
         data.append(valueData)
     }
 
@@ -121,14 +121,14 @@ public final class ABIEncoder: Codable {
     /// - Throws: `ABIError.integerOverflow` if the value has more than 256 bits.
     public func encode(_ value: BigInt) throws {
         let valueData = twosComplement(value)
-        if valueData.count > encodedIntSize {
+        if valueData.count > ABIEncoder.encodedIntSize {
             throw ABIError.integerOverflow
         }
 
         if value.sign == .plus {
-            data.append(Data(repeating: 0, count: encodedIntSize - valueData.count))
+            data.append(Data(repeating: 0, count: ABIEncoder.encodedIntSize - valueData.count))
         } else {
-            data.append(Data(repeating: 255, count: encodedIntSize - valueData.count))
+            data.append(Data(repeating: 255, count: ABIEncoder.encodedIntSize - valueData.count))
         }
         data.append(valueData)
     }
@@ -174,10 +174,15 @@ public final class ABIEncoder: Codable {
 
     /// Encodes a function signature
     public func encode(signature: String) throws {
+        data.append(try ABIEncoder.encode(signature: signature))
+    }
+
+    /// Encodes a function signature
+    public static func encode(signature: String) throws -> Data {
         guard let bytes = signature.data(using: .utf8) else {
             throw ABIError.invalidUTF8String
         }
         let hash = EthereumCrypto.hash(bytes)
-        data.append(hash[0..<4])
+        return hash[0..<4]
     }
 }

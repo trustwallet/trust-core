@@ -79,4 +79,58 @@ public indirect enum ABIType: Equatable, CustomStringConvertible {
             return types.reduce("", { $0 + $1.description })
         }
     }
+
+    /// Encoded length in bytes, or `nil` for dynamic types
+    public var length: Int? {
+        switch self {
+        case .uint, .int, .address, .bool, .fixed, .ufixed:
+            return 32
+        case .bytes(let count):
+            return ((count + 31) / 32) * 32
+        case .function(let f):
+            let maybeSum = f.parameters.reduce(0 as Int?) {
+                guard let previous = $0, let current = $1.length else {
+                    return nil
+                }
+                return previous + current
+            }
+            guard let sum = maybeSum else {
+                return nil
+            }
+            return 4 + sum
+        case .array(let type, let count):
+            guard let typeLength = type.length else {
+                return nil
+            }
+            return typeLength * count
+        case .dynamicBytes:
+            return nil
+        case .string:
+            return nil
+        case .dynamicArray:
+            return nil
+        case .tuple(let array):
+            let maybeSum = array.reduce(0 as Int?) {
+                guard let previous = $0, let current = $1.length else {
+                    return nil
+                }
+                return previous + current
+            }
+            return maybeSum
+        }
+    }
+
+    /// Whether the type is dynamic
+    public var isDynamic: Bool {
+        switch self {
+        case .uint, .int, .address, .bool, .fixed, .ufixed, .bytes, .array:
+            return false
+        case .dynamicBytes, .string, .dynamicArray:
+            return true
+        case .function(let f):
+            return f.parameters.contains(where: { $0.isDynamic })
+        case .tuple(let array):
+            return array.contains(where: { $0.isDynamic })
+        }
+    }
 }
