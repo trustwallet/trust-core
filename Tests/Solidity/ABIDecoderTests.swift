@@ -12,6 +12,7 @@ class ABIDecoderTests: XCTestCase {
     func testDecodeUInt() {
         let data = Data(hexString: "000000000000000000000000000000000000000000000000000000000000002a")!
         let decoder = ABIDecoder(data: data)
+
         XCTAssertEqual(decoder.decodeUInt(), 42)
     }
 
@@ -49,17 +50,9 @@ class ABIDecoderTests: XCTestCase {
         let array = try decoder.decodeArray(type: .uint(bits: 256), count: 3)
 
         XCTAssertEqual(array.count, 3)
-
-        let values = array.map { (abiValue: ABIValue) -> BigUInt in
-            if case .uint(_, let v) = abiValue {
-                return v
-            } else {
-                fatalError()
-            }
-        }
-        XCTAssertEqual(values[0], BigUInt(1))
-        XCTAssertEqual(values[1], BigUInt(2))
-        XCTAssertEqual(values[2], BigUInt(3))
+        XCTAssertEqual(array[0].nativeValue as? BigUInt, BigUInt(1))
+        XCTAssertEqual(array[1].nativeValue as? BigUInt, BigUInt(2))
+        XCTAssertEqual(array[2].nativeValue as? BigUInt, BigUInt(3))
     }
 
     func testDecodeDynamicArray() throws {
@@ -73,17 +66,9 @@ class ABIDecoderTests: XCTestCase {
         let array = try decoder.decodeArray(type: .uint(bits: 256))
 
         XCTAssertEqual(array.count, 3)
-
-        let values = array.map { (abiValue: ABIValue) -> BigUInt in
-            if case .uint(_, let v) = abiValue {
-                return v
-            } else {
-                fatalError()
-            }
-        }
-        XCTAssertEqual(values[0], BigUInt(1))
-        XCTAssertEqual(values[1], BigUInt(2))
-        XCTAssertEqual(values[2], BigUInt(3))
+        XCTAssertEqual(array[0].nativeValue as? BigUInt, BigUInt(1))
+        XCTAssertEqual(array[1].nativeValue as? BigUInt, BigUInt(2))
+        XCTAssertEqual(array[2].nativeValue as? BigUInt, BigUInt(3))
     }
 
     func testDecodeBytes() throws {
@@ -119,17 +104,14 @@ class ABIDecoderTests: XCTestCase {
 
         XCTAssertEqual(tuple.count, 2)
 
-        guard case .array(_, let array) = tuple[0] else {
+        guard let array = tuple[0].nativeValue as? [BigUInt] else {
             fatalError("Expected an array")
         }
         XCTAssertEqual(array.count, 2)
-        XCTAssertEqual(array[0], .uint(bits: 256, 1))
-        XCTAssertEqual(array[1], .uint(bits: 256, 92))
+        XCTAssertEqual(array[0], 1)
+        XCTAssertEqual(array[1], 92)
 
-        guard case .uint(_, let value) = tuple[1] else {
-            fatalError("Expected a `uint` value")
-        }
-        XCTAssertEqual(value, 3)
+        XCTAssertEqual(tuple[1].nativeValue as? BigUInt, 3)
     }
 
     func testDecodeFixed() throws {
@@ -174,26 +156,15 @@ class ABIDecoderTests: XCTestCase {
             fatalError("Expected a function")
         }
 
-        guard case .dynamicBytes(let arg1) = arguments[0] else {
-            fatalError("Expected `dynamicBytes` as the first argument")
-        }
-        XCTAssertEqual(arg1, Data(hexString: "64617665"))
+        XCTAssertEqual(arguments[0].nativeValue as? Data, Data(hexString: "64617665"))
+        XCTAssertEqual(arguments[1].nativeValue as? Bool, true)
+        XCTAssertEqual(arguments[2].nativeValue as? [BigUInt], [1, 2, 3])
+    }
 
-        guard case .bool(let arg2) = arguments[1] else {
-            fatalError("Expected `bool` as the second argument")
-        }
-        XCTAssertEqual(arg2, true)
-
-        guard case .dynamicArray(_, let arg3) = arguments[2] else {
-            fatalError("Expected `dynamicArray` as the third argument")
-        }
-        let array = arg3.map { (v: ABIValue) -> BigUInt in
-            if case .uint(_, let value) = v {
-                return value
-            } else {
-                return BigUInt()
-            }
-        }
-        XCTAssertEqual(array, [1, 2, 3])
+    func testDecodeTupleString() throws {
+        let data = Data(hexString: "0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000e68657769676f76656e732e657468000000000000000000000000000000000000")!
+        let decoder = ABIDecoder(data: data)
+        let values = try decoder.decodeTuple(types: [.string])
+        XCTAssertEqual(values[0].nativeValue as? String, "hewigovens.eth")
     }
 }

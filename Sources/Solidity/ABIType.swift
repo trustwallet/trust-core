@@ -80,46 +80,6 @@ public indirect enum ABIType: Equatable, CustomStringConvertible {
         }
     }
 
-    /// Encoded length in bytes, or `nil` for dynamic types
-    public var length: Int? {
-        switch self {
-        case .uint, .int, .address, .bool, .fixed, .ufixed:
-            return 32
-        case .bytes(let count):
-            return ((count + 31) / 32) * 32
-        case .function(let f):
-            let maybeSum = f.parameters.reduce(0 as Int?) {
-                guard let previous = $0, let current = $1.length else {
-                    return nil
-                }
-                return previous + current
-            }
-            guard let sum = maybeSum else {
-                return nil
-            }
-            return 4 + sum
-        case .array(let type, let count):
-            guard let typeLength = type.length else {
-                return nil
-            }
-            return typeLength * count
-        case .dynamicBytes:
-            return nil
-        case .string:
-            return nil
-        case .dynamicArray:
-            return nil
-        case .tuple(let array):
-            let maybeSum = array.reduce(0 as Int?) {
-                guard let previous = $0, let current = $1.length else {
-                    return nil
-                }
-                return previous + current
-            }
-            return maybeSum
-        }
-    }
-
     /// Whether the type is dynamic
     public var isDynamic: Bool {
         switch self {

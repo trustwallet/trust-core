@@ -159,4 +159,36 @@ public indirect enum ABIValue: Equatable {
             throw ABIError.invalidArgumentType
         }
     }
+
+    /// Returns the native (Swift) value for this ABI value.
+    public var nativeValue: Any {
+        switch self {
+        case .uint(_, let value):
+            return value
+        case .int(_, let value):
+            return value
+        case .address(let value):
+            return value
+        case .bool(let value):
+            return value
+        case .fixed(_, _, let value):
+            return value
+        case .ufixed(_, _, let value):
+            return value
+        case .bytes(let value):
+            return value
+        case .function(let f, let args):
+            return (f, args)
+        case .array(_, let array):
+            return array.map({ $0.nativeValue })
+        case .dynamicBytes(let value):
+            return value
+        case .string(let value):
+            return value
+        case .dynamicArray(_, let array):
+            return array.map({ $0.nativeValue })
+        case .tuple(let array):
+            return array.map({ $0.nativeValue })
+        }
+    }
 }
