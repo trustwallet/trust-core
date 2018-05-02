@@ -79,4 +79,18 @@ public indirect enum ABIType: Equatable, CustomStringConvertible {
             return types.reduce("", { $0 + $1.description })
         }
     }
+
+    /// Whether the type is dynamic
+    public var isDynamic: Bool {
+        switch self {
+        case .uint, .int, .address, .bool, .fixed, .ufixed, .bytes, .array:
+            return false
+        case .dynamicBytes, .string, .dynamicArray:
+            return true
+        case .function(let f):
+            return f.parameters.contains(where: { $0.isDynamic })
+        case .tuple(let array):
+            return array.contains(where: { $0.isDynamic })
+        }
+    }
 }
