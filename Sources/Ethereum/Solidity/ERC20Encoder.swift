@@ -52,7 +52,7 @@ public final class ERC20Encoder {
     /// Encodes a function call to `balanceOf`
     ///
     /// Solidity function: `function balanceOf(address tokenOwner) public constant returns (uint balance);`
-    public static func encodeBalanceOf(address: Address) -> Data {
+    public static func encodeBalanceOf(address: EthereumAddress) -> Data {
         let function = Function(name: "balanceOf", parameters: [.address])
         let encoder = ABIEncoder()
         try! encoder.encode(function: function, arguments: [address])
@@ -62,7 +62,7 @@ public final class ERC20Encoder {
     /// Encodes a function call to `allowance`
     ///
     /// Solidity function: `function allowance(address tokenOwner, address spender) public constant returns (uint remaining);`
-    public static func encodeAllowance(owner: Address, spender: Address) -> Data {
+    public static func encodeAllowance(owner: EthereumAddress, spender: EthereumAddress) -> Data {
         let function = Function(name: "allowance", parameters: [.address, .address])
         let encoder = ABIEncoder()
         try! encoder.encode(function: function, arguments: [owner, spender])
@@ -72,7 +72,7 @@ public final class ERC20Encoder {
     /// Encodes a function call to `transfer`
     ///
     /// Solidity function: `function transfer(address to, uint tokens) public returns (bool success);`
-    public static func encodeTransfer(to: Address, tokens: BigUInt) -> Data {
+    public static func encodeTransfer(to: EthereumAddress, tokens: BigUInt) -> Data {
         let function = Function(name: "transfer", parameters: [.address, .uint(bits: 256)])
         let encoder = ABIEncoder()
         try! encoder.encode(function: function, arguments: [to, tokens])
@@ -82,7 +82,7 @@ public final class ERC20Encoder {
     /// Encodes a function call to `approve`
     ///
     /// Solidity function: `function approve(address spender, uint tokens) public returns (bool success);`
-    public static func encodeApprove(spender: Address, tokens: BigUInt) -> Data {
+    public static func encodeApprove(spender: EthereumAddress, tokens: BigUInt) -> Data {
         let function = Function(name: "approve", parameters: [.address, .uint(bits: 256)])
         let encoder = ABIEncoder()
         try! encoder.encode(function: function, arguments: [spender, tokens])
@@ -92,7 +92,7 @@ public final class ERC20Encoder {
     /// Encodes a function call to `transferFrom`
     ///
     /// Solidity function: `function transferFrom(address from, address to, uint tokens) public returns (bool success);`
-    public static func encodeTransfer(from: Address, to: Address, tokens: BigUInt) -> Data {
+    public static func encodeTransfer(from: EthereumAddress, to: EthereumAddress, tokens: BigUInt) -> Data {
         let function = Function(name: "transferFrom", parameters: [.address, .address, .uint(bits: 256)])
         let encoder = ABIEncoder()
         try! encoder.encode(function: function, arguments: [from, to, tokens])

@@ -6,19 +6,25 @@
 
 import Foundation
 
-public protocol Address: CustomStringConvertible {
-    /// Validates that the raw data is a valid address.
+public protocol PrivateKey: CustomStringConvertible {
+    /// Validates that raw data is a valid private key.
     static func isValid(data: Data) -> Bool
 
-    /// Validates that the string is a valid address.
+    /// Validates that the string is a valid private key.
     static func isValid(string: String) -> Bool
 
-    /// Raw representation of the address.
+    /// Raw representation of the private key.
     var data: Data { get }
 
-    /// Creates a address from a string representation.
+    /// Public key.
+    var publicKey: PublicKey { get }
+
+    /// Creates a new private key.
+    init()
+
+    /// Creates a private key from a string representation.
     init?(string: String)
 
-    /// Creates a address from a raw representation.
+    /// Creates a private key from a raw representation.
     init?(data: Data)
 }

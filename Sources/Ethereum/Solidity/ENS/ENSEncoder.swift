@@ -24,7 +24,7 @@ public final class ENSEncoder {
     /// Encodes a function call to `setResolver`
     ///
     /// Solidity function: `function setResolver(bytes32 node, address resolver) public;`
-    public static func encodeSetResolver(node: Data, resolver: Address) -> Data {
+    public static func encodeSetResolver(node: Data, resolver: EthereumAddress) -> Data {
         let function = Function(name: "setResolver", parameters: [.bytes(32), .address])
         let encoder = ABIEncoder()
         try! encoder.encode(function: function, arguments: [node, resolver])
@@ -44,7 +44,7 @@ public final class ENSEncoder {
     /// Encodes a function call to `setOwner`
     ///
     /// Solidity function: `function setOwner(bytes32 node, address owner) public;`
-    public static func encodeSetOwner(node: Data, owner: Address) -> Data {
+    public static func encodeSetOwner(node: Data, owner: EthereumAddress) -> Data {
         let function = Function(name: "setOwner", parameters: [.bytes(32), .address])
         let encoder = ABIEncoder()
         try! encoder.encode(function: function, arguments: [node, owner])
@@ -74,7 +74,7 @@ public final class ENSEncoder {
     /// Encodes a function call to `setSubnodeOwner`
     ///
     /// Solidity function: `function setSubnodeOwner(bytes32 node, bytes32 label, address owner) public;`
-    public static func encodeSetSubnodeOwner(node: Data, label: Data, owner: Address) -> Data {
+    public static func encodeSetSubnodeOwner(node: Data, label: Data, owner: EthereumAddress) -> Data {
         let function = Function(name: "setSubnodeOwner", parameters: [.bytes(32), .bytes(32), .address])
         let encoder = ABIEncoder()
         try! encoder.encode(function: function, arguments: [node, label, owner])
