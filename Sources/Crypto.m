@@ -9,16 +9,12 @@
 
 @implementation Crypto
 
+// MARK: - Elliptic Curve Cryptography
+
 + (nonnull NSData *)getPublicKeyFrom:(nonnull NSData *)privateKey {
     NSMutableData *publicKey = [[NSMutableData alloc] initWithLength:65];
     ecdsa_get_public_key65(&secp256k1, privateKey.bytes, publicKey.mutableBytes);
     return publicKey;
-}
-
-+ (nonnull NSData *)hash:(nonnull NSData *)hash {
-    NSMutableData *output = [[NSMutableData alloc] initWithLength:sha3_256_hash_size];
-    keccak_256(hash.bytes, hash.length, output.mutableBytes);
-    return output;
 }
 
 + (nonnull NSData *)signHash:(nonnull NSData *)hash privateKey:(nonnull NSData *)privateKey {
@@ -32,6 +28,36 @@
 + (BOOL)verifySignature:(nonnull NSData *)signature message:(nonnull NSData *)message publicKey:(nonnull NSData *)publicKey {
     return ecdsa_verify_digest(&secp256k1, publicKey.bytes, signature.bytes, message.bytes) == 0;
 }
+
+// MARK: - Hash functions
+
++ (nonnull NSData *)hash:(nonnull NSData *)hash {
+    NSMutableData *output = [[NSMutableData alloc] initWithLength:sha3_256_hash_size];
+    keccak_256(hash.bytes, hash.length, output.mutableBytes);
+    return output;
+}
+
++ (nonnull NSData *)sha256:(nonnull NSData *)data {
+    NSMutableData *result = [[NSMutableData alloc] initWithLength:SHA256_DIGEST_LENGTH];
+    sha256_Raw(data.bytes, data.length, result.mutableBytes);
+    return result;
+}
+
++ (nonnull NSData *)ripemd160:(nonnull NSData *)data {
+    NSMutableData *result = [[NSMutableData alloc] initWithLength:RIPEMD160_DIGEST_LENGTH];
+    ripemd160(data.bytes, (uint32_t)data.length, result.mutableBytes);
+    return result;
+}
+
++ (nonnull NSData *)sha256sha256:(nonnull NSData *)data {
+    return [self sha256:[self sha256:data]];
+}
+
++ (nonnull NSData *)sha256ripemd160:(nonnull NSData *)data {
+    return [self ripemd160:[self sha256:data]];
+}
+
+// MARK: - Base58
 
 + (nonnull NSString *)base58Encode:(nonnull NSData *)data {
     size_t size = 0;
@@ -55,27 +81,7 @@
     return result;
 }
 
-+ (nonnull NSData *)sha256:(nonnull NSData *)data {
-    NSMutableData *result = [[NSMutableData alloc] initWithLength:SHA256_DIGEST_LENGTH];
-    sha256_Raw(data.bytes, data.length, result.mutableBytes);
-    return result;
-}
-
-+ (nonnull NSData *)ripemd160:(nonnull NSData *)data {
-    NSMutableData *result = [[NSMutableData alloc] initWithLength:RIPEMD160_DIGEST_LENGTH];
-    ripemd160(data.bytes, (uint32_t)data.length, result.mutableBytes);
-    return result;
-}
-
-+ (nonnull NSData *)sha256sha256:(nonnull NSData *)data {
-    return [self sha256:[self sha256:data]];
-}
-
-+ (nonnull NSData *)sha256ripemd160:(nonnull NSData *)data {
-    return [self ripemd160:[self sha256:data]];
-}
-
-// MARK: HDWallet
+// MARK: - HDWallet
 
 + (nonnull NSString *)generateMnemonicWithStrength:(NSInteger)strength {
     const char *cstring = mnemonic_generate((int)strength);
