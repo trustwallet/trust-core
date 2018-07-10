@@ -67,5 +67,5 @@ func rlpHash(_ element: Any) -> Data? {
     guard let data = RLP.encode(element) else {
         return nil
     }
-    return EthereumCrypto.hash(data)
+    return Crypto.hash(data)
 }

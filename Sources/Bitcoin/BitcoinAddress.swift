@@ -30,7 +30,7 @@ public struct BitcoinAddress: Address, Hashable {
 
     /// Validates that the string is a valid address.
     static public func isValid(string: String) -> Bool {
-        guard let decoded = BitcoinCrypto.base58Decode(string, expectedSize: Bitcoin.addressSize + 1) else {
+        guard let decoded = Crypto.base58Decode(string, expectedSize: Bitcoin.addressSize + 1) else {
             return false
         }
 
@@ -48,6 +48,9 @@ public struct BitcoinAddress: Address, Hashable {
         return true
     }
 
+    /// Blockchain this address is for.
+    public let blockchain = Blockchain.bitcoin
+
     /// Raw representation of the address.
     public let data: Data
 
@@ -61,14 +64,14 @@ public struct BitcoinAddress: Address, Hashable {
 
     /// Creates an address from a string representation.
     public init?(string: String) {
-        guard let decoded = BitcoinCrypto.base58Decode(string, expectedSize: Bitcoin.addressSize + 1) else {
+        guard let decoded = Crypto.base58Decode(string, expectedSize: Bitcoin.addressSize + 1) else {
             return nil
         }
         self.init(data: decoded)
     }
 
     public var description: String {
-        return BitcoinCrypto.base58Encode(data)
+        return Crypto.base58Encode(data)
     }
 
     public var hashValue: Int {

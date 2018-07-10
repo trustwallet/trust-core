@@ -6,25 +6,80 @@
 
 import Foundation
 
-public protocol PrivateKey: CustomStringConvertible {
+public final class PrivateKey: Hashable, CustomStringConvertible {
     /// Validates that raw data is a valid private key.
-    static func isValid(data: Data) -> Bool
+    static public func isValid(data: Data) -> Bool {
+        // Check length
+        if data.count != Ethereum.privateKeySize {
+            return false
+        }
 
-    /// Validates that the string is a valid private key.
-    static func isValid(string: String) -> Bool
+        // Check for zero address
+        guard data.contains(where: { $0 != 0 }) else {
+            return false
+        }
+
+        return true
+    }
 
     /// Raw representation of the private key.
-    var data: Data { get }
-
-    /// Public key.
-    var publicKey: PublicKey { get }
+    public private(set) var data: Data
 
     /// Creates a new private key.
-    init()
+    public init() {
+        let privateAttributes: [String: Any] = [
+            kSecAttrIsExtractable as String: true,
+        ]
+        let parameters: [String: Any] = [
+            kSecAttrKeyType as String: kSecAttrKeyTypeEC,
+            kSecAttrKeySizeInBits as String: 256,
+            kSecPrivateKeyAttrs as String: privateAttributes,
+        ]
 
-    /// Creates a private key from a string representation.
-    init?(string: String)
+        guard let privateKey = SecKeyCreateRandomKey(parameters as CFDictionary, nil) else {
+            fatalError("Failed to generate key pair")
+        }
+        guard var keyRepresentation = SecKeyCopyExternalRepresentation(privateKey, nil) as Data? else {
+            fatalError("Failed to extract new private key")
+        }
+        defer {
+            keyRepresentation.clear()
+        }
+        data = Data(keyRepresentation.suffix(32))
+    }
 
     /// Creates a private key from a raw representation.
-    init?(data: Data)
+    public init?(data: Data) {
+        if !PrivateKey.isValid(data: data) {
+            return nil
+        }
+        self.data = Data(data)
+    }
+
+    deinit {
+        // Clear memory
+        data.clear()
+    }
+
+    /// Public key.
+    public func publicKey(for blockchain: Blockchain) -> PublicKey {
+        switch blockchain {
+        case .bitcoin:
+            return BitcoinPublicKey(data: Crypto.getPublicKey(from: data))!
+        case .ethereum:
+            return EthereumPublicKey(data: Crypto.getPublicKey(from: data))!
+        }
+    }
+
+    public var description: String {
+        return data.hexString
+    }
+
+    public var hashValue: Int {
+        return data.hashValue
+    }
+
+    public static func == (lhs: PrivateKey, rhs: PrivateKey) -> Bool {
+        return lhs.data == rhs.data
+    }
 }

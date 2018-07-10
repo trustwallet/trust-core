@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
 
   s.source       = { git: 'https://github.com/TrustWallet/trust-core.git', tag: s.version }
   s.source_files = 'Sources/**/*.{swift,h,m}'
-  s.public_header_files = 'Sources/TrustCore.h', 'Sources/Ethereum/EthereumCrypto.h', 'Sources/Bitcoin/BitcoinCrypto.h'
+  s.public_header_files = 'Sources/TrustCore.h', 'Sources/Crypto.h'
 
   s.dependency 'BigInt'
   s.dependency 'TrezorCrypto', '~> 0.0.6'

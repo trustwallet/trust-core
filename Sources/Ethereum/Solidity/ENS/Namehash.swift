@@ -22,5 +22,5 @@ public func labelhash(_ label: String) -> Data {
     guard let data = label.data(using: .utf8) else {
         return Data()
     }
-    return EthereumCrypto.hash(data)
+    return Crypto.hash(data)
 }

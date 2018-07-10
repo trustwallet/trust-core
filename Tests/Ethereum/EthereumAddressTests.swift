@@ -42,8 +42,8 @@ class EthereumAddressTests: XCTestCase {
     }
 
     func testFromPrivateKey() {
-        let privateKey = EthereumPrivateKey(string: "afeefca74d9a325cf1d6b6911d61a65c32afa8e02bd5e78e2e4ac2910bab45f5")!
-        let address = privateKey.publicKey.address
+        let privateKey = PrivateKey(data: Data(hexString: "afeefca74d9a325cf1d6b6911d61a65c32afa8e02bd5e78e2e4ac2910bab45f5")!)!
+        let address = privateKey.publicKey(for: .ethereum).address
 
         XCTAssertEqual(address.description, "0xAc1ec44E4f0ca7D172B7803f6836De87Fb72b309")
     }

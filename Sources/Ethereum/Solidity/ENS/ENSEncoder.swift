@@ -86,7 +86,7 @@ extension Array where Element == UInt8 {
     /// sha3 keccak 256
     public func sha3() -> [Element] {
         let data = Data(bytes: self)
-        let hashed = EthereumCrypto.hash(data)
+        let hashed = Crypto.hash(data)
         return Array(hashed)
     }
 }

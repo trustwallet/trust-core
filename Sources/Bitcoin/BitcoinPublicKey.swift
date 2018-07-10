@@ -15,12 +15,15 @@ public final class BitcoinPublicKey: PublicKey {
         return true
     }
 
+    /// Blockchain this key is for.
+    public let blockchain = Blockchain.bitcoin
+
     /// Raw representation of the public key.
     public let data: Data
 
     /// Address.
     public var address: Address {
-        let hash = Data([Bitcoin.MainNet.publicKeyHashAddressPrefix]) + BitcoinCrypto.sha256ripemd160(data)
+        let hash = Data([Bitcoin.MainNet.publicKeyHashAddressPrefix]) + Crypto.sha256ripemd160(data)
         return BitcoinAddress(data: hash)!
     }
 
