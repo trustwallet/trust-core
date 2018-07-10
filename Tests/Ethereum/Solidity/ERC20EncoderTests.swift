@@ -9,7 +9,7 @@ import TrustCore
 import XCTest
 
 class ERC20EncoderTests: XCTestCase {
-    let address = Address(string: "5aaeb6053f3e94c9b9a09f33669435e7ef1beaed")!
+    let address = EthereumAddress(string: "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed")!
 
     func testEncodeTotalSupply() {
         XCTAssertEqual(ERC20Encoder.encodeTotalSupply().hexString, "18160ddd")

@@ -10,7 +10,7 @@ import XCTest
 
 class TransactionSigningTests: XCTestCase {
     func testEIP155SignHash() {
-        let address = Address(string: "0x3535353535353535353535353535353535353535")!
+        let address = EthereumAddress(string: "0x3535353535353535353535353535353535353535")!
         var transaction = Transaction(gasPrice: 20000000000, gasLimit: 21000, to: address)
         transaction.nonce = 9
         transaction.amount = BigInt("1000000000000000000")
@@ -22,7 +22,7 @@ class TransactionSigningTests: XCTestCase {
     }
 
     func testHomesteadSignHash() {
-        let address = Address(string: "0x3535353535353535353535353535353535353535")!
+        let address = EthereumAddress(string: "0x3535353535353535353535353535353535353535")!
         var transaction = Transaction(gasPrice: 20000000000, gasLimit: 21000, to: address)
         transaction.nonce = 9
         transaction.amount = BigInt("1000000000000000000")
@@ -34,7 +34,7 @@ class TransactionSigningTests: XCTestCase {
     }
 
     func testSignTransaction() {
-        var transaction = Transaction(gasPrice: 20000000000, gasLimit: 21000, to: Address(string: "0x3535353535353535353535353535353535353535")!)
+        var transaction = Transaction(gasPrice: 20000000000, gasLimit: 21000, to: EthereumAddress(string: "0x3535353535353535353535353535353535353535")!)
         transaction.nonce = 9
         transaction.amount = BigInt("1000000000000000000")
 

@@ -11,7 +11,7 @@ public struct Transaction {
     public var nonce: UInt64
     public var gasPrice: BigInt
     public var gasLimit: UInt64
-    public var to: Address
+    public var to: EthereumAddress
     public var amount: BigInt
     public var payload: Data?
 
@@ -21,7 +21,7 @@ public struct Transaction {
     public var s = BigInt()
 
     /// Creates a `Transaction`.
-    public init(gasPrice: BigInt, gasLimit: UInt64, to: Address) {
+    public init(gasPrice: BigInt, gasLimit: UInt64, to: EthereumAddress) {
         nonce = 0
         self.gasPrice = gasPrice
         self.gasLimit = gasLimit

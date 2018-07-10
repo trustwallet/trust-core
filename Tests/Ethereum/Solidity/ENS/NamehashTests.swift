@@ -22,7 +22,7 @@ class NamehashTests: XCTestCase {
     }
 
     func testReverseNode() {
-        let addr = Address(string: "0x5aaeb6053f3e94c9b9a09f33669435e7ef1beaed")!
+        let addr = EthereumAddress(string: "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed")!
         let addr_reverse = "addr.reverse"
         let result = namehash([addr.data.hexString, addr_reverse].joined(separator: "."))
         XCTAssertEqual(result.hexString, "2103fd044150f573e47fcb48a7eedec6afd0911f9af1b0ff9167014ff22edd24")

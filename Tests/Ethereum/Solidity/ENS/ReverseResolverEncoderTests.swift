@@ -9,7 +9,7 @@ import TrustCore
 
 class ReverseResolverEncoderTests: XCTestCase {
 
-    let address = Address(string: "0x5aaeb6053f3e94c9b9a09f33669435e7ef1beaed")!
+    let address = EthereumAddress(string: "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed")!
     let addr_reverse = "addr.reverse"
     let ens_name = "foo.eth"
     lazy var reverse_name: String = {
