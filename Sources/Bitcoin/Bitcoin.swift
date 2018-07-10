@@ -11,14 +11,24 @@ public enum Bitcoin {
     public static let addressSize = 20
 
     public enum MainNet {
-        public static let pubKeyHash: UInt8 = 0x00
-        public static let privateKey: UInt8 = 0x80
-        public static let scriptHash: UInt8 = 0x05
+        /// Public key hash address prefix.
+        public static let publicKeyHashAddressPrefix: UInt8 = 0x00
+
+        /// Private key prefix.
+        public static let privateKeyPrefix: UInt8 = 0x80
+
+        /// Pay to script hash (P2SH) address prefix.
+        public static let payToScriptHashAddressPrefix: UInt8 = 0x05
     }
 
     public enum TestNet {
-        public static let pubKeyHash: UInt8 = 0x6f
-        public static let privateKey: UInt8 = 0xef
-        public static let scriptHash: UInt8 = 0xc
+        /// Public key hash address prefix.
+        public static let publicKeyHashAddressPrefix: UInt8 = 0x6f
+
+        /// Private key prefix.
+        public static let privateKeyPrefix: UInt8 = 0xef
+
+        /// Pay to script hash (P2SH) address prefix.
+        public static let payToScriptHashAddressPrefix: UInt8 = 0x0c
     }
 }

@@ -20,7 +20,7 @@ public final class BitcoinPublicKey: PublicKey {
 
     /// Address.
     public var address: Address {
-        let hash = Data([Bitcoin.MainNet.pubKeyHash]) + BitcoinCrypto.sha256ripemd160(data)
+        let hash = Data([Bitcoin.MainNet.publicKeyHashAddressPrefix]) + BitcoinCrypto.sha256ripemd160(data)
         return BitcoinAddress(data: hash)!
     }
 

@@ -41,4 +41,17 @@ class BitcoinPrivateKeyTests: XCTestCase {
 
         XCTAssertEqual(publicKey.data.hexString, "045d21e7a118c479a007d45401bdbd06e3f9814ad5bbbbc5cec17f19029a060903ccfca71eff2101ad68238112e7585110e0f2c32d345225985356dc7cab8fdcc9")
     }
+
+    func testClearMemory() {
+        let pointer: UnsafePointer<UInt8>
+        let key: Data
+        do {
+            let privateKey = BitcoinPrivateKey()
+            key = Data(privateKey.data)
+            pointer = privateKey.data.withUnsafeBytes({ (p: UnsafePointer<UInt8>) in return p })
+        }
+
+        let bp = UnsafeBufferPointer(start: pointer, count: Bitcoin.privateKeySize)
+        XCTAssertTrue(zip(bp, key).contains(where: { $0 != $1 }))
+    }
 }

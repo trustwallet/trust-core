@@ -49,9 +49,9 @@ public final class BitcoinPrivateKey: PrivateKey {
             return false
         }
 
-        // Verify network ID
-        let networkID = decoded[0]
-        if networkID != Bitcoin.MainNet.privateKey && networkID != Bitcoin.TestNet.privateKey {
+        // Verify prefix
+        let prefix = decoded[0]
+        if prefix != Bitcoin.MainNet.privateKeyPrefix && prefix != Bitcoin.TestNet.privateKeyPrefix {
             return false
         }
 
@@ -59,7 +59,7 @@ public final class BitcoinPrivateKey: PrivateKey {
     }
 
     /// Raw representation of the private key.
-    public let data: Data
+    public private(set) var data: Data
 
     /// Public key.
     public var publicKey: PublicKey {
@@ -88,13 +88,18 @@ public final class BitcoinPrivateKey: PrivateKey {
             return nil
         }
 
-        // Verify network ID
-        let networkID = decoded[0]
-        if networkID != Bitcoin.MainNet.privateKey && networkID != Bitcoin.TestNet.privateKey {
+        // Verify prefix
+        let prefix = decoded[0]
+        if prefix != Bitcoin.MainNet.privateKeyPrefix && prefix != Bitcoin.TestNet.privateKeyPrefix {
             return nil
         }
 
         data = Data(decoded.dropFirst())
+    }
+
+    deinit {
+        // Clear memory
+        data.clear()
     }
 
     /// Creates a private key from a raw representation.
@@ -106,7 +111,7 @@ public final class BitcoinPrivateKey: PrivateKey {
     }
 
     public var description: String {
-        let payload = Data([Bitcoin.MainNet.privateKey]) + data
+        let payload = Data([Bitcoin.MainNet.privateKeyPrefix]) + data
         return BitcoinCrypto.base58Encode(payload)
     }
 }

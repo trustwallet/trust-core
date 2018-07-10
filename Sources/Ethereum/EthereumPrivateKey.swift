@@ -32,7 +32,7 @@ public final class EthereumPrivateKey: PrivateKey {
     }
 
     /// Raw representation of the private key.
-    public let data: Data
+    public private(set) var data: Data
 
     /// Public key.
     public var publicKey: PublicKey {
@@ -57,10 +57,13 @@ public final class EthereumPrivateKey: PrivateKey {
             fatalError("Failed to generate key pair")
         }
 
-        guard let keyRepresentation = SecKeyCopyExternalRepresentation(privateKey, nil) as Data? else {
+        guard var keyRepresentation = SecKeyCopyExternalRepresentation(privateKey, nil) as Data? else {
             fatalError("Failed to extract new private key")
         }
-        data = keyRepresentation.suffix(32)
+        defer {
+            keyRepresentation.clear()
+        }
+        data = Data(keyRepresentation.suffix(32))
     }
 
     /// Creates a private key from a string representation.
@@ -74,6 +77,11 @@ public final class EthereumPrivateKey: PrivateKey {
     /// Creates a private key from a raw representation.
     public init?(data: Data) {
         self.data = data
+    }
+
+    deinit {
+        // Clear memory
+        data.clear()
     }
 
     public var description: String {

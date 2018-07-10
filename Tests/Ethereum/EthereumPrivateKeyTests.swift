@@ -41,4 +41,17 @@ class EthereumPrivateKeyTests: XCTestCase {
 
         XCTAssertEqual(publicKey.data.hexString, "0499c6f51ad6f98c9c583f8e92bb7758ab2ca9a04110c0a1126ec43e5453d196c166b489a4b7c491e7688e6ebea3a71fc3a1a48d60f98d5ce84c93b65e423fde91")
     }
+
+    func testClearMemory() {
+        let pointer: UnsafePointer<UInt8>
+        let key: Data
+        do {
+            let privateKey = EthereumPrivateKey()
+            key = Data(privateKey.data)
+            pointer = privateKey.data.withUnsafeBytes({ (p: UnsafePointer<UInt8>) in return p })
+        }
+
+        let bp = UnsafeBufferPointer(start: pointer, count: Ethereum.privateKeySize)
+        XCTAssertTrue(zip(bp, key).contains(where: { $0 != $1 }))
+    }
 }

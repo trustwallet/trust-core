@@ -7,14 +7,24 @@
 import Foundation
 
 public struct BitcoinAddress: Address, Hashable {
+    static let validAddressPrefixes = [
+        Bitcoin.MainNet.publicKeyHashAddressPrefix,
+        Bitcoin.MainNet.payToScriptHashAddressPrefix,
+        Bitcoin.TestNet.publicKeyHashAddressPrefix,
+        Bitcoin.TestNet.payToScriptHashAddressPrefix,
+    ]
+
     /// Validates that the raw data is a valid address.
     static public func isValid(data: Data) -> Bool {
         if data.count != Bitcoin.addressSize + 1 {
             return false
         }
-        if data[0] != Bitcoin.MainNet.pubKeyHash && data[0] != Bitcoin.TestNet.pubKeyHash {
+
+        // Verify address prefix
+        if !validAddressPrefixes.contains(data[0]) {
             return false
         }
+
         return true
     }
 
@@ -29,9 +39,9 @@ public struct BitcoinAddress: Address, Hashable {
             return false
         }
 
-        // Verify network ID
-        let networkID = decoded[0]
-        if networkID != Bitcoin.MainNet.pubKeyHash && networkID != Bitcoin.TestNet.pubKeyHash {
+        // Verify address prefix
+        let prefix = decoded[0]
+        if !validAddressPrefixes.contains(prefix) {
             return false
         }
 
@@ -54,19 +64,7 @@ public struct BitcoinAddress: Address, Hashable {
         guard let decoded = BitcoinCrypto.base58Decode(string, expectedSize: Bitcoin.addressSize + 1) else {
             return nil
         }
-
-        // Verify size
-        if decoded.count != 1 + Bitcoin.addressSize {
-            return nil
-        }
-
-        // Verify network ID
-        let networkID = decoded[0]
-        if networkID != Bitcoin.MainNet.pubKeyHash && networkID != Bitcoin.TestNet.pubKeyHash {
-            return nil
-        }
-
-        data = Data(decoded)
+        self.init(data: decoded)
     }
 
     public var description: String {
