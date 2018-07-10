@@ -6,8 +6,8 @@
 
 import Foundation
 
-extension Data {
+extension String {
     mutating public func clear() {
-        replaceSubrange(0 ..< count, with: repeatElement(0, count: count))
+        replaceSubrange(startIndex ..< endIndex, with: repeatElement(Character(" "), count: count))
     }
 }
