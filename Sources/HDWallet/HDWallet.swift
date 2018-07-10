@@ -18,25 +18,28 @@ public class HDWallet {
     /// Mnemonic passphrase.
     public var passphrase: String
 
-    /// Derivation path.
-    public var path: String
-
     /// Initializes a wallet from a mnemonic string and a passphrase.
-    public init(mnemonic: String, passphrase: String = "", path: String) {
+    public init(mnemonic: String, passphrase: String = "") {
         seed = Crypto.deriveSeed(mnemonic: mnemonic, passphrase: passphrase)
         self.mnemonic = mnemonic
-        self.passphrase = ""
-        self.path = path
+        self.passphrase = passphrase
     }
 
-    private func getDerivationPath(for index: Int) -> DerivationPath {
-        guard let path = DerivationPath(path.replacingOccurrences(of: "x", with: String(index))) else {
-            preconditionFailure("Invalid derivation path string")
-        }
-        return path
+    deinit {
+        seed.clear()
+        mnemonic.clear()
     }
 
-    private func getNode(for derivationPath: DerivationPath) -> HDNode {
+    /// Generates the key at the specified derivation path.
+    public func getKey(at derivationPath: DerivationPath) -> PrivateKey {
+        var node = getNode(at: derivationPath)
+        let data = Data(bytes: withUnsafeBytes(of: &node.private_key) { ptr in
+            return ptr.map({ $0 })
+        })
+        return PrivateKey(data: data)!
+    }
+
+    private func getNode(at derivationPath: DerivationPath) -> HDNode {
         var node = HDNode()
         let count = Int32(seed.count)
         _ = seed.withUnsafeBytes { seed in
@@ -47,24 +50,15 @@ public class HDWallet {
         }
         return node
     }
-
-    /// Generates the key at the specified derivation path index.
-    public func getKey(at index: Int) -> PrivateKey {
-        var node = getNode(for: getDerivationPath(for: index))
-        let data = Data(bytes: withUnsafeBytes(of: &node.private_key) { ptr in
-            return ptr.map({ $0 })
-        })
-        return PrivateKey(data: data)!
-    }
 }
 
 extension Blockchain {
-    public var defaultDerivationPath: String {
+    public var defaultDerivationPath: DerivationPath {
         switch self {
         case .bitcoin:
-            return "m/44'/0'/0'/0/x"
+            return DerivationPath("m/44'/0'/0'/0/0")!
         case .ethereum:
-            return "m/44'/60'/0'/0/x"
+            return DerivationPath("m/44'/60'/0'/0/0")!
         }
     }
 }
