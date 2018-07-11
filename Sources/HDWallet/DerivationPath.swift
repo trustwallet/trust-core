@@ -69,7 +69,7 @@ public struct DerivationPath: Codable, Hashable, CustomStringConvertible {
     }
 
     /// Creates a `DerivationPath` by components.
-    public init(purpose: Int, coinType: Int, account: Int, change: Int, address: Int) {
+    public init(purpose: Int, coinType: Int, account: Int = 0, change: Int = 0, address: Int = 0) {
         self.indices = [Index](repeating: Index(0), count: indexCount)
         self.purpose = purpose
         self.coinType = coinType
