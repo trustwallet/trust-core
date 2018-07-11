@@ -53,12 +53,21 @@ public class HDWallet {
 }
 
 extension Blockchain {
-    public var defaultDerivationPath: DerivationPath {
+    public var coinType: Int {
         switch self {
         case .bitcoin:
-            return DerivationPath("m/44'/0'/0'/0/0")!
+            return 0
         case .ethereum:
-            return DerivationPath("m/44'/60'/0'/0/0")!
+            return 60
+        }
+    }
+
+    public func derivationPath(at index: Int) -> DerivationPath {
+        switch self {
+        case .bitcoin:
+            return DerivationPath(purpose: 44, coinType: coinType, account: 0, change: 0, address: index)
+        case .ethereum:
+            return DerivationPath(purpose: 44, coinType: coinType, account: 0, change: 0, address: index)
         }
     }
 }
