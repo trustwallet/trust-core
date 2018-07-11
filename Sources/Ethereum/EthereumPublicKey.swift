@@ -15,12 +15,15 @@ public final class EthereumPublicKey: PublicKey {
         return data[0] == 4
     }
 
+    /// Blockchain this key is for.
+    public let blockchain = Blockchain.ethereum
+
     /// Raw representation of the public key.
     public let data: Data
 
     /// Address.
     public var address: Address {
-        let hash = EthereumCrypto.hash(data[1...])
+        let hash = Crypto.hash(data[1...])
         return EthereumAddress(data: hash.suffix(Ethereum.addressSize))!
     }
 

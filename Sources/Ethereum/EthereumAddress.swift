@@ -23,6 +23,9 @@ public struct EthereumAddress: Address, Hashable {
         return string == eip55String
     }
 
+    /// Blockchain this address is for.
+    public let blockchain = Blockchain.ethereum
+
     /// Raw address bytes, length 20.
     public let data: Data
 
@@ -70,7 +73,7 @@ extension EthereumAddress {
     fileprivate static func computeEIP55String(for data: Data) -> String {
         let addressString = data.hexString
         let hashInput = addressString.data(using: .ascii)!
-        let hash = EthereumCrypto.hash(hashInput).hexString
+        let hash = Crypto.hash(hashInput).hexString
 
         var string = "0x"
         for (a, h) in zip(addressString, hash) {

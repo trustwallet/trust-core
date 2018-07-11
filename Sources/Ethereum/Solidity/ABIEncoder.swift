@@ -182,7 +182,7 @@ public final class ABIEncoder {
         guard let bytes = signature.data(using: .utf8) else {
             throw ABIError.invalidUTF8String
         }
-        let hash = EthereumCrypto.hash(bytes)
+        let hash = Crypto.hash(bytes)
         return hash[0..<4]
     }
 }
