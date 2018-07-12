@@ -8,7 +8,7 @@ import Foundation
 
 extension DerivationPath {
     /// Derivation path index.
-    public struct Index: Hashable, CustomStringConvertible {
+    public struct Index: Codable, Hashable, CustomStringConvertible {
         /// Index value.
         public var value: Int
 
