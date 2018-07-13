@@ -7,7 +7,7 @@
 import Foundation
 
 /// Supported blockchains.
-public enum Blockchain {
+public enum Blockchain: String {
     case bitcoin
     case ethereum
     case poa
