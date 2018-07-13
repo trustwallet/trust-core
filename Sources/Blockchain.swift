@@ -10,4 +10,15 @@ import Foundation
 public enum Blockchain {
     case bitcoin
     case ethereum
+    case poa
+    case ethereumClassic
+    case callisto
+    case gochain
+
+    // test networks
+
+    case ethereumRopsten
+    case ethereumKovan
+    case ethereumRinkeby
+    case ethereumSokol
 }

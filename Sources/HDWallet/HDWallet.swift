@@ -55,10 +55,13 @@ public class HDWallet {
 extension Blockchain {
     public var coinType: Int {
         switch self {
-        case .bitcoin:
-            return 0
-        case .ethereum:
-            return 60
+        case .bitcoin: return 0
+        case .ethereum: return 60
+        case .ethereumKovan, .ethereumRinkeby, .ethereumRopsten, .ethereumSokol: return 60
+        case .poa: return 178
+        case .ethereumClassic: return 61
+        case .callisto: return 820
+        case .gochain: return 6060
         }
     }
 
@@ -66,7 +69,15 @@ extension Blockchain {
         switch self {
         case .bitcoin:
             return DerivationPath(purpose: 44, coinType: coinType, account: 0, change: 0, address: index)
-        case .ethereum:
+        case .ethereum,
+             .poa,
+             .ethereumClassic,
+             .callisto,
+             .gochain,
+             .ethereumKovan,
+             .ethereumRinkeby,
+             .ethereumRopsten,
+             .ethereumSokol:
             return DerivationPath(purpose: 44, coinType: coinType, account: 0, change: 0, address: index)
         }
     }
