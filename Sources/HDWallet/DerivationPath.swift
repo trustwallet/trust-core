@@ -14,52 +14,52 @@ public struct DerivationPath: Codable, Hashable, CustomStringConvertible {
     public private(set) var indices = [Index]()
 
     /// Address purpose, each blockchain will have a different value.
-    public var purpose: Int? {
+    public var purpose: Int {
         get {
             return indices[0].value
         }
         set {
-            indices[0] = Index(newValue ?? 0, hardened: true)
+            indices[0] = Index(newValue, hardened: true)
         }
     }
 
     /// Coin type distinguishes between main net, test net, and forks.
-    public var coinType: Int? {
+    public var coinType: Int {
         get {
             return indices[1].value
         }
         set {
-            indices[1] = Index(newValue ?? 0, hardened: true)
+            indices[1] = Index(newValue, hardened: true)
         }
     }
 
     /// Account number.
-    public var account: Int? {
+    public var account: Int {
         get {
             return indices[2].value
         }
         set {
-            indices[2] = Index(newValue ?? 0, hardened: true)
+            indices[2] = Index(newValue, hardened: true)
         }
     }
 
     /// Change or private addresses will set this to 1.
-    public var change: Int? {
+    public var change: Int {
         get {
             return indices[3].value
         }
         set {
-            indices[3] = Index(newValue ?? 0, hardened: false)
+            indices[3] = Index(newValue, hardened: false)
         }
     }
 
     /// Address number
-    public var address: Int? {
+    public var address: Int {
         get {
             return indices[4].value
         }
         set {
-            indices[4] = Index(newValue ?? 0, hardened: false)
+            indices[4] = Index(newValue, hardened: false)
         }
     }
 
