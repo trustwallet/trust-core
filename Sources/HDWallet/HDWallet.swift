@@ -53,32 +53,16 @@ public class HDWallet {
 }
 
 extension Blockchain {
-    public var coinType: Int {
-        switch self {
-        case .bitcoin: return 0
-        case .ethereum: return 60
-        case .ethereumKovan, .ethereumRinkeby, .ethereumRopsten, .ethereumSokol: return 60
-        case .poa: return 178
-        case .ethereumClassic: return 61
-        case .callisto: return 820
-        case .gochain: return 6060
-        }
-    }
-
     public func derivationPath(at index: Int) -> DerivationPath {
         switch self {
         case .bitcoin:
-            return DerivationPath(purpose: 44, coinType: coinType, account: 0, change: 0, address: index)
+            return DerivationPath(purpose: 44, coinType: self.rawValue, account: 0, change: 0, address: index)
         case .ethereum,
              .poa,
              .ethereumClassic,
              .callisto,
-             .gochain,
-             .ethereumKovan,
-             .ethereumRinkeby,
-             .ethereumRopsten,
-             .ethereumSokol:
-            return DerivationPath(purpose: 44, coinType: coinType, account: 0, change: 0, address: index)
+             .gochain:
+            return DerivationPath(purpose: 44, coinType: self.rawValue, account: 0, change: 0, address: index)
         }
     }
 }

@@ -7,18 +7,12 @@
 import Foundation
 
 /// Supported blockchains.
-public enum Blockchain: String {
-    case bitcoin
-    case ethereum
-    case poa
-    case ethereumClassic
-    case callisto
-    case gochain
-
-    // test networks
-
-    case ethereumRopsten
-    case ethereumKovan
-    case ethereumRinkeby
-    case ethereumSokol
+/// Index based on https://github.com/satoshilabs/slips/blob/master/slip-0044.md
+public enum Blockchain: Int {
+    case bitcoin = 0
+    case ethereum = 60
+    case ethereumClassic = 61
+    case poa = 172
+    case callisto = 820
+    case gochain = 6060
 }
