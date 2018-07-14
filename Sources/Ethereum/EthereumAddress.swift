@@ -52,9 +52,6 @@ public struct EthereumAddress: Address, Hashable {
         self.data = data
         self.blockchain = blockchain
         eip55String = EthereumAddress.computeEIP55String(for: data)
-        if eip55String != string {
-            return nil
-        }
     }
 
     public init?(string: String) {
