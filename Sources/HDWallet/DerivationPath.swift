@@ -13,7 +13,7 @@ public struct DerivationPath: Codable, Hashable, CustomStringConvertible {
     /// List of indices in the derivation path.
     public private(set) var indices = [Index]()
 
-    /// Address purpose, each blockchain will have a different value.
+    /// Address purpose, each coin will have a different value.
     public var purpose: Int {
         get {
             return indices[0].value

@@ -6,9 +6,9 @@
 
 import Foundation
 
-/// Supported blockchains.
+/// Supported coins.
 /// Index based on https://github.com/satoshilabs/slips/blob/master/slip-0044.md
-public enum Blockchain: Int {
+public enum Coin: Int {
     case bitcoin = 0
     case ethereum = 60
     case ethereumClassic = 61

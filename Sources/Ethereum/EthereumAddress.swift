@@ -23,8 +23,8 @@ public struct EthereumAddress: Address, Hashable {
         return string == eip55String
     }
 
-    /// Blockchain this address is for.
-    public let blockchain: Blockchain
+    /// Coin this address is for.
+    public let coin: Coin
 
     /// Raw address bytes, length 20.
     public let data: Data
@@ -35,31 +35,31 @@ public struct EthereumAddress: Address, Hashable {
     /// Creates an address with `Data`.
     ///
     /// - Precondition: data contains exactly 20 bytes
-    public init?(data: Data, blockchain: Blockchain) {
+    public init?(data: Data, coin: Coin) {
         if !EthereumAddress.isValid(data: data) {
             return nil
         }
         self.data = data
-        self.blockchain = blockchain
+        self.coin = coin
         eip55String = EthereumAddress.computeEIP55String(for: data)
     }
 
     /// Creates an address with an hexadecimal string representation.
-    public init?(string: String, blockchain: Blockchain) {
+    public init?(string: String, coin: Coin) {
         guard let data = Data(hexString: string), data.count == Ethereum.addressSize else {
             return nil
         }
         self.data = data
-        self.blockchain = blockchain
+        self.coin = coin
         eip55String = EthereumAddress.computeEIP55String(for: data)
     }
 
     public init?(string: String) {
-        self.init(string: string, blockchain: .ethereum)
+        self.init(string: string, coin: .ethereum)
     }
 
     public init?(data: Data) {
-        self.init(data: data, blockchain: .ethereum)
+        self.init(data: data, coin: .ethereum)
     }
 
     public var description: String {

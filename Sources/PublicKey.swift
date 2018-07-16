@@ -10,8 +10,8 @@ public protocol PublicKey: CustomStringConvertible {
     /// Validates that raw data is a valid public key.
     static func isValid(data: Data) -> Bool
 
-    /// Blockchain this public key is for.
-    var blockchain: Blockchain { get }
+    /// Coin this public key is for.
+    var coin: Coin { get }
 
     /// Raw representation of the public key.
     var data: Data { get }

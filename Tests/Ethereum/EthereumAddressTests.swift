@@ -10,7 +10,7 @@ import XCTest
 class EthereumAddressTests: XCTestCase {
     func testInvalid() {
         XCTAssertNil(EthereumAddress(string: "abc"))
-        XCTAssertNil(EthereumAddress(string: "5aaeb6053f3e94c9b9a09f33669435e7ef1beaed"))
+        XCTAssertNil(EthereumAddress(string: "aaeb60f3e94c9b9a09f33669435e7ef1beaed"))
     }
 
     func testEIP55() {

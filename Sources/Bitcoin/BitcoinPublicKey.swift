@@ -15,8 +15,8 @@ public final class BitcoinPublicKey: PublicKey {
         return true
     }
 
-    /// Blockchain this key is for.
-    public let blockchain = Blockchain.bitcoin
+    /// Coin this key is for.
+    public let coin = Coin.bitcoin
 
     /// Raw representation of the public key.
     public let data: Data

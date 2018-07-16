@@ -15,8 +15,8 @@ public final class EthereumPublicKey: PublicKey {
         return data[0] == 4
     }
 
-    /// Blockchain this key is for.
-    public let blockchain = Blockchain.ethereum
+    /// Coin this key is for.
+    public let coin = Coin.ethereum
 
     /// Raw representation of the public key.
     public let data: Data

@@ -52,7 +52,7 @@ public class HDWallet {
     }
 }
 
-extension Blockchain {
+extension Coin {
     public func derivationPath(at index: Int) -> DerivationPath {
         switch self {
         case .bitcoin:
