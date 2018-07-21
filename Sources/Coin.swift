@@ -12,7 +12,7 @@ public enum Coin: Int {
     case bitcoin = 0
     case ethereum = 60
     case ethereumClassic = 61
-    case poa = 172
+    case poa = 178
     case callisto = 820
     case gochain = 6060
 }
