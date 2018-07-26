@@ -8,6 +8,6 @@ import Foundation
 
 extension Data {
     mutating public func clear() {
-        replaceSubrange(0 ..< count, with: repeatElement(0, count: count))
+        resetBytes(in: 0 ..< count)
     }
 }
