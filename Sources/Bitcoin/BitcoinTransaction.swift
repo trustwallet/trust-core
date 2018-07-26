@@ -65,7 +65,7 @@ public struct BitcoinTransaction: BinaryEncoding {
 
 public struct BitcoinTransactionInput: BinaryEncoding {
     /// Setting `sequence` to this value for every input in a transaction disables `lockTime`.
-    public static let sequenceFinal = 0xffffffff
+    public static let sequenceFinal = 0xffffffff as UInt32
 
     /// The previous output transaction reference, as an OutPoint structure
     public var previousOutput: BitcoinOutPoint
