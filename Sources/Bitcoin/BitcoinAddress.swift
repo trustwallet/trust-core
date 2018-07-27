@@ -48,9 +48,6 @@ public struct BitcoinAddress: Address, Hashable {
         return true
     }
 
-    /// Coin this address is for.
-    public let coin = Coin.bitcoin
-
     /// Raw representation of the address.
     public let data: Data
 

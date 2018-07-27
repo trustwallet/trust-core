@@ -54,6 +54,6 @@ public class HDWallet {
 
 extension Coin {
     public func derivationPath(at index: Int) -> DerivationPath {
-        return DerivationPath(purpose: 44, coinType: self.rawValue, account: 0, change: 0, address: index)
+        return DerivationPath(purpose: 44, coinType: self.coinType, account: 0, change: 0, address: index)
     }
 }
