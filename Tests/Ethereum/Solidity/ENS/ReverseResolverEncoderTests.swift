@@ -32,6 +32,8 @@ class ReverseResolverEncoderTests: XCTestCase {
         let node = namehash(reverse_name)
         XCTAssertEqual(node.hexString, "2103fd044150f573e47fcb48a7eedec6afd0911f9af1b0ff9167014ff22edd24")
         let result = ReverseResolverEncoder.encodeSetName(node, name: ens_name)
+
+        // swiftlint:disable:next line_length
         XCTAssertEqual(result.hexString, "773722132103fd044150f573e47fcb48a7eedec6afd0911f9af1b0ff9167014ff22edd2400000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000007666f6f2e65746800000000000000000000000000000000000000000000000000")
     }
 }

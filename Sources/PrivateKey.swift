@@ -66,11 +66,7 @@ public final class PrivateKey: Hashable, CustomStringConvertible {
         switch coin {
         case .bitcoin:
             return BitcoinPublicKey(data: Crypto.getPublicKey(from: data))!
-        case .ethereum,
-             .poa,
-             .ethereumClassic,
-             .callisto,
-             .gochain:
+        default:
             return EthereumPublicKey(data: Crypto.getPublicKey(from: data))!
         }
     }
