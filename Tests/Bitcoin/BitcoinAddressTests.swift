@@ -26,7 +26,7 @@ class BitcoinAddressTests: XCTestCase {
         let privateKey = PrivateKey(data: data.dropFirst())!
         let address = privateKey.publicKey(for: .bitcoin).address
 
-        XCTAssertEqual(address.description, "1AC4gh14wwZPULVPCdxUkgqbtPvC92PQPN")
+        XCTAssertEqual(address.description, "1E8MPAxithEi8UfizJtXAkt3yWFLUQQ4ab")
     }
 
     func testIsValid() {
