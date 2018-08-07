@@ -23,7 +23,12 @@ public final class BitcoinPublicKey: PublicKey {
 
     /// Address.
     public var address: Address {
-        let hash = Data([Bitcoin.MainNet.publicKeyHashAddressPrefix]) + Crypto.sha256ripemd160(data)
+        return address(prefix: Bitcoin.MainNet.payToScriptHashAddressPrefix)
+    }
+
+    /// Returns the public key address with the given prefix.
+    public func address(prefix: UInt8) -> BitcoinAddress {
+        let hash = Data([prefix]) + Crypto.sha256ripemd160(data)
         return BitcoinAddress(data: hash)!
     }
 
