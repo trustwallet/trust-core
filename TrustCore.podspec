@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'TrustCore'
-  s.version      = '0.0.7'
+  s.version      = '0.1.2'
   s.summary      = 'Core Ethereum data structures and algorithms.'
   s.homepage     = 'https://github.com/TrustWallet/trust-core'
   s.license      = 'MIT'
@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   s.public_header_files = 'Sources/TrustCore.h', 'Sources/Crypto.h'
 
   s.dependency 'BigInt'
-  s.dependency 'TrezorCrypto', '~> 0.0.6'
+  s.dependency 'TrezorCrypto', '~> 0.0.7'
 
   s.pod_target_xcconfig = { 'SWIFT_OPTIMIZATION_LEVEL' => '-Owholemodule' }
 end
