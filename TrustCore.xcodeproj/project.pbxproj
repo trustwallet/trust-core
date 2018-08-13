@@ -64,6 +64,9 @@
 		BB3864C3209569CE00CBF773 /* ReverseResolverEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3864C2209569CE00CBF773 /* ReverseResolverEncoder.swift */; };
 		BB3864C720956F8B00CBF773 /* ReverseResolverEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3864C620956F8B00CBF773 /* ReverseResolverEncoderTests.swift */; };
 		BB3864C92095C80D00CBF773 /* Namehash.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3864C82095C80D00CBF773 /* Namehash.swift */; };
+		BB636D3B2121528D0071AE07 /* GenericJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB636D392121528C0071AE07 /* GenericJSON.swift */; };
+		BB636D3C2121528D0071AE07 /* EIP712TypedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB636D3A2121528C0071AE07 /* EIP712TypedData.swift */; };
+		BB636D3E212154270071AE07 /* EIP712TypedDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB636D36212151EA0071AE07 /* EIP712TypedDataTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -140,6 +143,9 @@
 		BB3864C2209569CE00CBF773 /* ReverseResolverEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReverseResolverEncoder.swift; sourceTree = "<group>"; };
 		BB3864C620956F8B00CBF773 /* ReverseResolverEncoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReverseResolverEncoderTests.swift; sourceTree = "<group>"; };
 		BB3864C82095C80D00CBF773 /* Namehash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Namehash.swift; sourceTree = "<group>"; };
+		BB636D36212151EA0071AE07 /* EIP712TypedDataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EIP712TypedDataTests.swift; sourceTree = "<group>"; };
+		BB636D392121528C0071AE07 /* GenericJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericJSON.swift; sourceTree = "<group>"; };
+		BB636D3A2121528C0071AE07 /* EIP712TypedData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EIP712TypedData.swift; sourceTree = "<group>"; };
 		D2663E7275439A0F14129090 /* Pods-TrustCore-TrustCoreTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrustCore-TrustCoreTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TrustCore-TrustCoreTests/Pods-TrustCore-TrustCoreTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D64B0D7FFB6053D483E3DE8D /* Pods-TrustCore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrustCore.release.xcconfig"; path = "Pods/Target Support Files/Pods-TrustCore/Pods-TrustCore.release.xcconfig"; sourceTree = "<group>"; };
 		DA1EEB65EA0444554E8E20B2 /* Pods-TrustCore-TrustCoreTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrustCore-TrustCoreTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TrustCore-TrustCoreTests/Pods-TrustCore-TrustCoreTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -291,6 +297,7 @@
 				6167556D207ABE6700018DC8 /* ABIValue.swift */,
 				61675587207C745700018DC8 /* ERC20Encoder.swift */,
 				6167556F207AD81E00018DC8 /* Function.swift */,
+				BB636D382121528C0071AE07 /* EIP712 */,
 				BB3864C1209569B500CBF773 /* ENS */,
 			);
 			path = Solidity;
@@ -302,6 +309,7 @@
 				616B06402098CAE800FE7942 /* ABIDecoderTests.swift */,
 				61D0BA2C2075EF53004F71E1 /* ABIEncoderTests.swift */,
 				61675589207C7A1500018DC8 /* ERC20EncoderTests.swift */,
+				BB636D35212151EA0071AE07 /* EIP712 */,
 				BB3864C520956F2100CBF773 /* ENS */,
 			);
 			path = Solidity;
@@ -356,6 +364,23 @@
 				BB3864AE20905ADF00CBF773 /* ens_abi.json */,
 			);
 			path = ENS;
+			sourceTree = "<group>";
+		};
+		BB636D35212151EA0071AE07 /* EIP712 */ = {
+			isa = PBXGroup;
+			children = (
+				BB636D36212151EA0071AE07 /* EIP712TypedDataTests.swift */,
+			);
+			path = EIP712;
+			sourceTree = "<group>";
+		};
+		BB636D382121528C0071AE07 /* EIP712 */ = {
+			isa = PBXGroup;
+			children = (
+				BB636D392121528C0071AE07 /* GenericJSON.swift */,
+				BB636D3A2121528C0071AE07 /* EIP712TypedData.swift */,
+			);
+			path = EIP712;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -552,8 +577,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				61675570207AD81F00018DC8 /* Function.swift in Sources */,
+				BB636D3B2121528D0071AE07 /* GenericJSON.swift in Sources */,
 				615AE1DC20F1D6DE00A5A0ED /* BitcoinPublicKey.swift in Sources */,
 				615AE1D320F1D1DF00A5A0ED /* BitcoinAddress.swift in Sources */,
+				BB636D3C2121528D0071AE07 /* EIP712TypedData.swift in Sources */,
 				610C52BD20F44CAC004A602C /* Data+Clear.swift in Sources */,
 				61A728D320F46ECF0005045D /* String+Clear.swift in Sources */,
 				61DAB58A210AED1200BBB826 /* Blockchain.swift in Sources */,
@@ -595,6 +622,7 @@
 				61555865208ED04F00FB241E /* TransactionSigningTests.swift in Sources */,
 				6149A6D0201E4B6B00A2F35C /* EthereumAddressTests.swift in Sources */,
 				BB3864AD20904C3900CBF773 /* NamehashTests.swift in Sources */,
+				BB636D3E212154270071AE07 /* EIP712TypedDataTests.swift in Sources */,
 				61675573207ADB9B00018DC8 /* FunctionTests.swift in Sources */,
 				BB3864A92090145600CBF773 /* ENSEncoderTests.swift in Sources */,
 				61DAB58C210AF3DD00BBB826 /* CoinTests.swift in Sources */,
