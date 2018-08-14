@@ -4,9 +4,13 @@
 // terms governing use, modification, and redistribution, is contained in the
 // file LICENSE at the root of the source code distribution tree.
 
-//https://github.com/zoul/generic-json-swift
+/// https://github.com/zoul/generic-json-swift
 import Foundation
 
+/// A JSON value representation. This is a bit more useful than the naïve `[String:Any]` type
+/// for JSON values, since it makes sure only valid JSON values are present & supports `Equatable`
+/// and `Codable`, so that you can compare values for equality and code and decode them into data
+/// or strings.
 public enum JSON: Equatable {
     case string(String)
     case number(Float)

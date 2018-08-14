@@ -4,14 +4,16 @@
 // terms governing use, modification, and redistribution, is contained in the
 // file LICENSE at the root of the source code distribution tree.
 
-//https://github.com/ethereum/EIPs/blob/master/EIPS/eip-712.md
+/// https://github.com/ethereum/EIPs/blob/master/EIPS/eip-712.md
 import Foundation
 
+/// A struct represents EIP712 type tuple
 public struct EIP712Type: Codable {
     let name: String
     let type: String
 }
 
+/// A struct represents EIP712 Domain
 public struct EIP712Domain: Codable {
     let name: String
     let version: String
@@ -19,6 +21,7 @@ public struct EIP712Domain: Codable {
     let verifyingContract: String
 }
 
+/// A struct represents EIP712 TypedData
 public struct EIP712TypedData: Codable {
     public let types: [String: [EIP712Type]]
     public let primaryType: String
@@ -27,12 +30,13 @@ public struct EIP712TypedData: Codable {
 }
 
 extension EIP712TypedData {
-
+    /// Type hash for the primaryType of an `EIP712TypedData`
     public var typeHash: Data {
         let data = encodeType(primaryType: primaryType)
         return Crypto.hash(data)
     }
 
+    /// Sign-able hash for an `EIP712TypedData`
     public var signHash: Data {
         let data = Data(bytes: [0x19, 0x01]) +
             Crypto.hash(encodeData(data: domain, type: "EIP712Domain")) +
@@ -40,6 +44,7 @@ extension EIP712TypedData {
         return Crypto.hash(data)
     }
 
+    /// Recursively finds all the dependencies of a type
     func findDependencies(primaryType: String, dependencies: Set<String> = Set<String>()) -> Set<String> {
         var found = dependencies
         guard !found.contains(primaryType),
@@ -54,6 +59,7 @@ extension EIP712TypedData {
         return found
     }
 
+    /// Encode a type of struct
     public func encodeType(primaryType: String) -> Data {
         var depSet = findDependencies(primaryType: primaryType)
         depSet.remove(primaryType)
@@ -65,6 +71,9 @@ extension EIP712TypedData {
         return encoded.data(using: .utf8) ?? Data()
     }
 
+    /// Encode an instance of struct
+    ///
+    /// Implemented with `ABIEncoder` and `ABIValue`
     public func encodeData(data: JSON, type: String) -> Data {
         let encoder = ABIEncoder()
         var values: [ABIValue] = []
@@ -90,6 +99,7 @@ extension EIP712TypedData {
         return encoder.data
     }
 
+    /// Helper func for `encodeData`
     private func makeABIValue(data: JSON?, type: String) -> ABIValue? {
         if (type == "string" || type == "bytes"),
             let value = data?.stringValue,
@@ -127,6 +137,7 @@ extension EIP712TypedData {
         return nil
     }
 
+    /// Helper func for encoding uint / int types
     private func parseIntSize(type: String, prefix: String) -> Int {
         guard type.starts(with: prefix) else {
             return -1
