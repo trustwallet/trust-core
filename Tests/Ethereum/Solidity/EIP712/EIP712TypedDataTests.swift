@@ -55,10 +55,87 @@ class EIP712TypedDataTests: XCTestCase {
         let decoder = JSONDecoder()
 
         typedData = try? decoder.decode(EIP712TypedData.self, from: data)
+        XCTAssertNotNil(typedData)
     }
 
     func testDecodeJSONModel() {
-        XCTAssertNotNil(typedData)
+        let jsonString = """
+{
+  "types": {
+      "EIP712Domain": [
+          {"name": "name", "type": "string"},
+          {"name": "version", "type": "string"},
+          {"name": "chainId", "type": "uint256"},
+          {"name": "verifyingContract", "type": "address"}
+      ],
+      "Person": [
+          {"name": "name", "type": "string"},
+          {"name": "wallet", "type": "bytes32"},
+          {"name": "age", "type": "int256"},
+          {"name": "paid", "type": "bool"}
+      ]
+  },
+  "primaryType": "Person",
+  "domain": {
+      "name": "Person",
+      "version": "1",
+      "chainId": 1,
+      "verifyingContract": "0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC"
+  },
+  "message": {
+      "name": "alice",
+      "wallet": "0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB",
+      "age": 40,
+      "paid": true
+    }
+}
+"""
+        let jsonTypedData = try! JSONDecoder().decode(EIP712TypedData.self, from: jsonString.data(using: .utf8)!)
+        // swiftlint:disable:next line_length
+        let result = "432c2e85cd4fb1991e30556bafe6d78422c6eeb812929bc1d2d4c7053998a4099c0257114eb9399a2985f8e75dad7600c5d89fe3824ffa99ec1c3eb8bf3b0501bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb00000000000000000000000000000000000000000000000000000000000000000000000000000000000000280000000000000000000000000000000000000000000000000000000000000001"
+        let data = jsonTypedData.encodeData(data: jsonTypedData.message, type: jsonTypedData.primaryType)
+        XCTAssertEqual(data.hexString, result)
+    }
+
+    func testGenericJSON() {
+        let jsonString = """
+{
+  "number": 123456,
+  "string": "this is a string",
+  "null": null,
+  "bytes": "0x1234",
+  "array": [{
+      "name": "bob",
+      "address": "0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB",
+      "age": 22,
+      "paid": false
+  }],
+  "object": {
+      "name": "alice",
+      "address": "0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB",
+      "age": 40,
+      "paid": true
+    }
+}
+"""
+        let data = jsonString.data(using: .utf8)!
+        let message = try! JSONDecoder().decode(JSON.self, from: data)
+        XCTAssertNil(try? JSONDecoder().decode(EIP712TypedData.self, from: data))
+        XCTAssertNotNil(message["object"]?.objectValue)
+        XCTAssertNotNil(message["array"]!.arrayValue)
+        XCTAssertNotNil(message["array"]?[0]?.objectValue)
+
+        XCTAssertTrue(message["object"]!["paid"]!.boolValue!)
+        XCTAssertTrue(message["null"]!.isNull)
+        XCTAssertFalse(message["bytes"]!.isNull)
+
+        XCTAssertNil(message["number"]!.stringValue)
+        XCTAssertNil(message["string"]!.floatValue)
+        XCTAssertNil(message["bytes"]!.boolValue)
+        XCTAssertNil(message["object"]!.arrayValue)
+        XCTAssertNil(message["array"]!.objectValue)
+        XCTAssertNil(message["foo"])
+        XCTAssertNil(message["array"]?[2])
     }
 
     func testEncodeType() {

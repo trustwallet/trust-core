@@ -139,13 +139,8 @@ extension EIP712TypedData {
 
     /// Helper func for encoding uint / int types
     private func parseIntSize(type: String, prefix: String) -> Int {
-        guard type.starts(with: prefix) else {
-            return -1
-        }
-        guard let size = Int(type.dropFirst(prefix.count)) else {
-            if type == prefix {
-                return 256
-            }
+        guard type.starts(with: prefix),
+            let size = Int(type.dropFirst(prefix.count)) else {
             return -1
         }
 
