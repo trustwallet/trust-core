@@ -139,8 +139,12 @@ public indirect enum ABIValue: Equatable {
             self = .fixed(bits: bits, scale, value)
         case (.ufixed(let bits, let scale), let value as BigUInt):
             self = .ufixed(bits: bits, scale, value)
-        case (.bytes, let data as Data):
-            self = .bytes(data)
+        case (.bytes(let size), let data as Data):
+            if data.count > size {
+                self = .bytes(data[..<size])
+            } else {
+                self = .bytes(data)
+            }
         case (.function(let f), let args as [Any]):
             self = .function(f, try f.castArguments(args))
         case (.array(let type, _), let array as [Any]):
