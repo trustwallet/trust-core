@@ -140,6 +140,9 @@ public indirect enum ABIValue: Equatable {
         case (.ufixed(let bits, let scale), let value as BigUInt):
             self = .ufixed(bits: bits, scale, value)
         case (.bytes(let size), let data as Data):
+            if data.count < size {
+                throw ABIError.invalidArgumentType
+            }
             self = .bytes(data[..<size])
         case (.function(let f), let args as [Any]):
             self = .function(f, try f.castArguments(args))

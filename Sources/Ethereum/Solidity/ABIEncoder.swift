@@ -150,8 +150,9 @@ public final class ABIEncoder {
         if !`static` {
             try encode(bytes.count)
         }
-        let padding = ((bytes.count + 31) / 32) * 32 - bytes.count
-        data.append(bytes)
+        let count = min(32, bytes.count)
+        let padding = ((count + 31) / 32) * 32 - count
+        data.append(bytes[0..<count])
         data.append(Data(repeating: 0, count: padding))
     }
 
