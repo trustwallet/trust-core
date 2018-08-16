@@ -104,4 +104,14 @@ class ABIEncoderTests: XCTestCase {
         XCTAssertEqual(encoder.data[228..<260].hexString, "000000000000000000000000000000000000000000000000000000000000000d")
         XCTAssertEqual(encoder.data[260..<292].hexString, "48656c6c6f2c20776f726c642100000000000000000000000000000000000000")
     }
+
+    func testTruncateData() throws {
+        /// Input is larger than specified size, should be truncated
+        let input = "bBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB"
+        let expected = "6242624242424262624242426262624262624262626262424262426262626242"
+
+        let data = input.data(using: .utf8)!
+        try encoder.encode(ABIValue(data, type: .bytes(32)))
+        XCTAssertEqual(encoder.data.hexString, expected)
+    }
 }
