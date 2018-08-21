@@ -11,5 +11,6 @@ class CoinTests: XCTestCase {
     func testCreateWithIDOnly() {
         XCTAssertEqual(Coin(coinType: 0).blockchain, .bitcoin)
         XCTAssertEqual(Coin(coinType: 60).blockchain, .ethereum)
+        XCTAssertEqual(Coin(coinType: 5718350).blockchain, .wanchain)
     }
 }
