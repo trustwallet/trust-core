@@ -44,4 +44,5 @@ extension Coin {
     public static let poa = Coin(coinType: 178, blockchain: .ethereum)
     public static let callisto = Coin(coinType: 820, blockchain: .ethereum)
     public static let gochain = Coin(coinType: 6060, blockchain: .ethereum)
+    public static let wahchain = Coin(coinType: 5718350, blockchain: .ethereum)
 }
