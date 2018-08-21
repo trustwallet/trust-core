@@ -10,6 +10,7 @@ import Foundation
 public enum BlockchainType {
     case bitcoin
     case ethereum
+    case wanchain
 }
 
 /// Blockchains
@@ -34,5 +35,5 @@ extension Blockchain {
     public static let go = Blockchain(chainID: 60, type: .ethereum)
     public static let ethereumClassic = Blockchain(chainID: 61, type: .ethereum)
     public static let ethereumClassicTestnet = Blockchain(chainID: 62, type: .ethereum)
-    public static let wanchain = Blockchain(chainID: 5718350, type: .ethereum)
+    public static let wanchain = Blockchain(chainID: 5718350, type: .wanchain)
 }
