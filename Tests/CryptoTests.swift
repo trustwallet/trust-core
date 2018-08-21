@@ -19,6 +19,14 @@ class CryptoTests: XCTestCase {
         XCTAssertTrue(Crypto.verify(signature: signature, message: hash, publicKey: publicKey))
     }
 
+    func testSignDER() {
+        let hash = Data(hexString: "52204d20fd0131ae1afd173fd80a3a746d2dcc0cddced8c9dc3d61cc7ab6e966")!
+        let privateKey = Data(hexString: "16f243e962c59e71e54189e67e66cf2440a1334514c09c00ddcc21632bac9808")!
+        let signature = Crypto.signAsDER(hash: hash, privateKey: privateKey)
+
+        XCTAssertEqual(signature.hexString, "3044022055f4b20035cbb2e85b7a04a0874c80d5822758f4e47a9a69db04b29f8b218f920220491e6a13296cfe2186da3a3ca565a179def3808b12d184553a8e3acfe1467273")
+    }
+
     func testGetPublicKey() {
         let privateKey = Data(hexString: "7a28b5ba57c53603b0b07b56bba752f7784bf506fa95edc395f5cf6c7514fe9d")!
         XCTAssertEqual(Crypto.getPublicKey(from: privateKey).hexString, "0432d87c5cd4b31d81c5b010af42a2e413af253dc3a91bd3d53c6b2c45291c3de71633bf7793447a0d3ddde601f8d21668fca5b33324f14ebe7516eab0da8bab8f")
