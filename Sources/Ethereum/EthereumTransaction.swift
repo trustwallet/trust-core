@@ -7,11 +7,11 @@
 import BigInt
 
 /// Ethereum transaction.
-public struct Transaction {
+public struct EthereumTransaction {
     public var nonce: UInt64
     public var gasPrice: BigInt
     public var gasLimit: UInt64
-    public var to: EthereumAddress
+    public var to: EthereumAddress?
     public var amount: BigInt
     public var payload: Data?
 
@@ -21,12 +21,20 @@ public struct Transaction {
     public var s = BigInt()
 
     /// Creates a `Transaction`.
-    public init(gasPrice: BigInt, gasLimit: UInt64, to: EthereumAddress) {
-        nonce = 0
+    public init(
+        nonce: UInt64,
+        gasPrice: BigInt,
+        gasLimit: UInt64,
+        to: EthereumAddress?,
+        amount: BigInt,
+        payload: Data?
+    ) {
+        self.nonce = nonce
         self.gasPrice = gasPrice
         self.gasLimit = gasLimit
         self.to = to
-        amount = BigInt()
+        self.amount = amount
+        self.payload = payload
     }
 
     /// Signs this transaction by filling in the `v`, `r`, and `s` values.
