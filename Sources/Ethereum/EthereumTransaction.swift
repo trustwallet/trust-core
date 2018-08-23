@@ -8,9 +8,9 @@ import BigInt
 
 /// Ethereum transaction.
 public struct EthereumTransaction {
-    public var nonce: UInt64
+    public var nonce: BigInt
     public var gasPrice: BigInt
-    public var gasLimit: UInt64
+    public var gasLimit: BigInt
     public var to: EthereumAddress?
     public var amount: BigInt
     public var payload: Data?
@@ -22,9 +22,9 @@ public struct EthereumTransaction {
 
     /// Creates a `Transaction`.
     public init(
-        nonce: UInt64,
+        nonce: BigInt,
         gasPrice: BigInt,
-        gasLimit: UInt64,
+        gasLimit: BigInt,
         to: EthereumAddress?,
         amount: BigInt,
         payload: Data?
