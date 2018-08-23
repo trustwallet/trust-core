@@ -7,8 +7,8 @@
 import BigInt
 
 protocol Signer {
-    func hash(transaction: Transaction) -> Data
-    func values(transaction: Transaction, signature: Data) -> (r: BigInt, s: BigInt, v: BigInt)
+    func hash(transaction: EthereumTransaction) -> Data
+    func values(transaction: EthereumTransaction, signature: Data) -> (r: BigInt, s: BigInt, v: BigInt)
 }
 
 struct EIP155Signer: Signer {
@@ -18,19 +18,19 @@ struct EIP155Signer: Signer {
         self.chainID = chainID
     }
 
-    func hash(transaction: Transaction) -> Data {
+    func hash(transaction: EthereumTransaction) -> Data {
         return rlpHash([
             transaction.nonce,
             transaction.gasPrice,
             transaction.gasLimit,
-            transaction.to.data,
+            transaction.to?.data ?? Data(),
             transaction.amount,
             transaction.payload ?? Data(),
             chainID, 0, 0,
         ] as [Any])!
     }
 
-    func values(transaction: Transaction, signature: Data) -> (r: BigInt, s: BigInt, v: BigInt) {
+    func values(transaction: EthereumTransaction, signature: Data) -> (r: BigInt, s: BigInt, v: BigInt) {
         let (r, s, v) = HomesteadSigner().values(transaction: transaction, signature: signature)
         let newV: BigInt
         if chainID != 0 {
@@ -43,18 +43,18 @@ struct EIP155Signer: Signer {
 }
 
 struct HomesteadSigner: Signer {
-    func hash(transaction: Transaction) -> Data {
+    func hash(transaction: EthereumTransaction) -> Data {
         return rlpHash([
             transaction.nonce,
             transaction.gasPrice,
             transaction.gasLimit,
-            transaction.to.data,
+            transaction.to?.data ?? Data(),
             transaction.amount,
             transaction.payload ?? Data(),
         ])!
     }
 
-    func values(transaction: Transaction, signature: Data) -> (r: BigInt, s: BigInt, v: BigInt) {
+    func values(transaction: EthereumTransaction, signature: Data) -> (r: BigInt, s: BigInt, v: BigInt) {
         precondition(signature.count == 65, "Wrong size for signature")
         let r = BigInt(sign: .plus, magnitude: BigUInt(Data(signature[..<32])))
         let s = BigInt(sign: .plus, magnitude: BigUInt(Data(signature[32..<64])))
