@@ -26,7 +26,7 @@ class TransactionSigningTests: XCTestCase {
     }
 
     func testHomesteadSignHash() {
-        // Disable homestread.
+// Disable homestread.
 //        let address = EthereumAddress(string: "0x3535353535353535353535353535353535353535")!
 //        var transaction = EthereumTransaction(
 //            nonce: 9,
