@@ -13,7 +13,7 @@ public struct WanchainTransactionType {
 }
 
 public struct WanchainTransaction {
-    public let type: WanchainTransactionType
+    public let type: BigInt
     public var transaction: EthereumTransaction
 
     /// Signs this transaction by filling in the `v`, `r`, and `s` values.
