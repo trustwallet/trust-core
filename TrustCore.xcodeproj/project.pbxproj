@@ -56,6 +56,8 @@
 		61DAB58A210AED1200BBB826 /* Blockchain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DAB589210AED1200BBB826 /* Blockchain.swift */; };
 		61DAB58C210AF3DD00BBB826 /* CoinTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DAB58B210AF3DD00BBB826 /* CoinTests.swift */; };
 		77044FAD212F8E7400CC20D1 /* WanchainTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77044FAC212F8E7400CC20D1 /* WanchainTransaction.swift */; };
+		77044FAF212F9F8E00CC20D1 /* WanchainSigner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77044FAE212F9F8E00CC20D1 /* WanchainSigner.swift */; };
+		77044FB1212F9FB200CC20D1 /* SignatureSigner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77044FB0212F9FB200CC20D1 /* SignatureSigner.swift */; };
 		887FD54919AD2FA39E88EAF0 /* Pods_TrustCore_TrustCoreTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1C9DA59AE410E04E68E1F89 /* Pods_TrustCore_TrustCoreTests.framework */; };
 		BB06149A920620338B3323D1 /* Pods_TrustCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 682B6374F9856982618A8501 /* Pods_TrustCore.framework */; };
 		BB3864A72090088D00CBF773 /* ENSEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3864A62090088D00CBF773 /* ENSEncoder.swift */; };
@@ -133,6 +135,8 @@
 		61DAB58B210AF3DD00BBB826 /* CoinTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinTests.swift; sourceTree = "<group>"; };
 		682B6374F9856982618A8501 /* Pods_TrustCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TrustCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77044FAC212F8E7400CC20D1 /* WanchainTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WanchainTransaction.swift; sourceTree = "<group>"; };
+		77044FAE212F9F8E00CC20D1 /* WanchainSigner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WanchainSigner.swift; sourceTree = "<group>"; };
+		77044FB0212F9FB200CC20D1 /* SignatureSigner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignatureSigner.swift; sourceTree = "<group>"; };
 		99258028638D3902B177E80C /* Pods-TrustCore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrustCore.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TrustCore/Pods-TrustCore.debug.xcconfig"; sourceTree = "<group>"; };
 		A1C9DA59AE410E04E68E1F89 /* Pods_TrustCore_TrustCoreTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TrustCore_TrustCoreTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB3864A62090088D00CBF773 /* ENSEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ENSEncoder.swift; sourceTree = "<group>"; };
@@ -271,6 +275,7 @@
 				61645D192058C7B300411565 /* RLP.swift */,
 				61555862208ED00A00FB241E /* TransactionSigning.swift */,
 				61675571207AD82900018DC8 /* Solidity */,
+				77044FB0212F9FB200CC20D1 /* SignatureSigner.swift */,
 			);
 			path = Ethereum;
 			sourceTree = "<group>";
@@ -324,6 +329,7 @@
 			isa = PBXGroup;
 			children = (
 				77044FAC212F8E7400CC20D1 /* WanchainTransaction.swift */,
+				77044FAE212F9F8E00CC20D1 /* WanchainSigner.swift */,
 			);
 			path = Wanchain;
 			sourceTree = "<group>";
@@ -572,6 +578,7 @@
 				6149A6CA201E472000A2F35C /* EthereumTransaction.swift in Sources */,
 				615AE1E220F1D71000A5A0ED /* Address.swift in Sources */,
 				6167556E207ABE6700018DC8 /* ABIValue.swift in Sources */,
+				77044FB1212F9FB200CC20D1 /* SignatureSigner.swift in Sources */,
 				615AE1D620F1D59100A5A0ED /* PrivateKey.swift in Sources */,
 				61555863208ED00A00FB241E /* TransactionSigning.swift in Sources */,
 				61A728E520F480560005045D /* HDWallet.swift in Sources */,
@@ -583,6 +590,7 @@
 				61D0BA292075D771004F71E1 /* ABIEncoder.swift in Sources */,
 				BB3864C3209569CE00CBF773 /* ReverseResolverEncoder.swift in Sources */,
 				6167556C207ABBEF00018DC8 /* ABIType.swift in Sources */,
+				77044FAF212F9F8E00CC20D1 /* WanchainSigner.swift in Sources */,
 				61675588207C745700018DC8 /* ERC20Encoder.swift in Sources */,
 				616B063D2098196500FE7942 /* ABIDecoder.swift in Sources */,
 				6185E71721096306000B4B79 /* BinaryCoding.swift in Sources */,

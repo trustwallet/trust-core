@@ -30,40 +30,6 @@ struct EIP155Signer: Signer {
     }
 }
 
-struct WanchainSigner: Signer {
-    let chainID: BigInt
-
-    func hash(transaction: WanchainTransaction) -> Data {
-        return rlpHash([
-            transaction.type.rawValue,
-            transaction.transaction.nonce,
-            transaction.transaction.gasPrice,
-            transaction.transaction.gasLimit,
-            transaction.transaction.to?.data ?? Data(),
-            transaction.transaction.amount,
-            transaction.transaction.payload ?? Data(),
-            chainID, 0, 0,
-        ] as [Any])!
-    }
-
-    func values(signature: Data) -> (r: BigInt, s: BigInt, v: BigInt) {
-        return SignatureSigner.values(chainID: chainID, signature: signature)
-    }
-}
-
-struct SignatureSigner {
-    static func values(chainID: BigInt, signature: Data) -> (r: BigInt, s: BigInt, v: BigInt) {
-        let (r, s, v) = HomesteadSigner().values(signature: signature)
-        let newV: BigInt
-        if chainID != 0 {
-            newV = BigInt(signature[64]) + 35 + chainID + chainID
-        } else {
-            newV = v
-        }
-        return (r, s, newV)
-    }
-}
-
 struct HomesteadSigner: Signer {
     func values(signature: Data) -> (r: BigInt, s: BigInt, v: BigInt) {
         precondition(signature.count == 65, "Wrong size for signature")
