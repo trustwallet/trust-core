@@ -16,10 +16,18 @@ public struct WanchainTransaction {
     public let type: WanchainTransactionType
     public var transaction: EthereumTransaction
 
+    public init(
+        type: WanchainTransactionType,
+        transaction: EthereumTransaction
+    ) {
+        self.type = type
+        self.transaction = transaction
+    }
+
     /// Signs this transaction by filling in the `v`, `r`, and `s` values.
     ///
     /// - Parameters:
-    ///   - chainID: chain identifier, defaults to `1`
+    ///   - chainID: chain identifier
     ///   - hashSigner: function to use for signing the hash
     public mutating func sign(chainID: Int, hashSigner: (Data) throws -> Data) rethrows {
         let signer = WanchainSigner(chainID: BigInt(chainID))
