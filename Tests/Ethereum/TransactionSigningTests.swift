@@ -26,20 +26,21 @@ class TransactionSigningTests: XCTestCase {
     }
 
     func testHomesteadSignHash() {
-        let address = EthereumAddress(string: "0x3535353535353535353535353535353535353535")!
-        var transaction = EthereumTransaction(
-            nonce: 9,
-            gasPrice: 20000000000,
-            gasLimit: 21000,
-            to: address,
-            amount: BigInt("1000000000000000000"),
-            payload: .none
-        )
-
-        transaction.sign(chainID: 0) { hash in
-            XCTAssertEqual(hash.hexString, "f9e36c28c8cb35adba138005c02ab7aa7fbcd891f3139cb2eeed052a51cd2713")
-            return Data(repeating: 0, count: 65)
-        }
+        // Disable homestread.
+//        let address = EthereumAddress(string: "0x3535353535353535353535353535353535353535")!
+//        var transaction = EthereumTransaction(
+//            nonce: 9,
+//            gasPrice: 20000000000,
+//            gasLimit: 21000,
+//            to: address,
+//            amount: BigInt("1000000000000000000"),
+//            payload: .none
+//        )
+//
+//        transaction.sign(chainID: 0) { hash in
+//            XCTAssertEqual(hash.hexString, "f9e36c28c8cb35adba138005c02ab7aa7fbcd891f3139cb2eeed052a51cd2713")
+//            return Data(repeating: 0, count: 65)
+//        }
     }
 
     func testSignTransaction() {
