@@ -35,7 +35,7 @@ struct WanchainSigner: Signer {
 
     func hash(transaction: WanchainTransaction) -> Data {
         return rlpHash([
-            transaction.type,
+            transaction.type.rawValue,
             transaction.transaction.nonce,
             transaction.transaction.gasPrice,
             transaction.transaction.gasLimit,

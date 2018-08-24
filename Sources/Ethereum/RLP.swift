@@ -108,7 +108,7 @@ public struct RLP {
 
     static func encodeTransaction(_ transaction: WanchainTransaction) -> Data? {
         return encodeList([
-            transaction.type,
+            transaction.type.rawValue,
             transaction.transaction.nonce,
             transaction.transaction.gasPrice,
             transaction.transaction.gasLimit,

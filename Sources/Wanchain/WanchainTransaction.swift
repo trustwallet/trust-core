@@ -7,13 +7,13 @@
 import Foundation
 import BigInt
 
-public struct WanchainTransactionType {
-    public static let normal = BigInt(1)
-    public static let privacy = BigInt(6)
+public enum WanchainTransactionType: Int {
+    case normal = 1
+    //Implement: case privacy = 6
 }
 
 public struct WanchainTransaction {
-    public let type: BigInt
+    public let type: WanchainTransactionType
     public var transaction: EthereumTransaction
 
     /// Signs this transaction by filling in the `v`, `r`, and `s` values.
