@@ -7,14 +7,14 @@
 import Foundation
 import BigInt
 
-struct WanchainTransactionType {
-    static let normal = BigInt(1)
-    static let privacy = BigInt(6)
+public struct WanchainTransactionType {
+    public static let normal = BigInt(1)
+    public static let privacy = BigInt(6)
 }
 
 public struct WanchainTransaction {
-    let type: WanchainTransactionType
-    var transaction: EthereumTransaction
+    public let type: WanchainTransactionType
+    public var transaction: EthereumTransaction
 
     /// Signs this transaction by filling in the `v`, `r`, and `s` values.
     ///
