@@ -62,4 +62,28 @@ class TransactionSigningTests: XCTestCase {
         XCTAssertEqual(transaction.r, BigInt("18515461264373351373200002665853028612451056578545711640558177340181847433846"))
         XCTAssertEqual(transaction.s, BigInt("46948507304638947509940763649030358759909902576025900602547168820602576006531"))
     }
+
+    func testSignWanchainTransaction() {
+        let ethereumTransaction = EthereumTransaction(
+            nonce: 9,
+            gasPrice: 20000000000,
+            gasLimit: 21000,
+            to: EthereumAddress(string: "0x3535353535353535353535353535353535353535")!,
+            amount: BigInt("1000000000000000000"),
+            payload: .none
+        )
+        var transaction = WanchainTransaction(
+            type: .normal,
+            transaction: ethereumTransaction
+        )
+
+        transaction.sign(chainID: 1) { hash in
+            XCTAssertEqual(hash.hexString, "d17481c762a2e6cf81b4c5239e43821738581ec268d90ec36b427768f564fdff")
+            return Data(hexString: "28ef61340bd939bc2195fe537567866003e1a15d3c71ff63e1590620aa63627667cbe9d8997f761aecb703304b3800ccf555c9f3dc64214b297fb1966a3b6d8300")!
+        }
+
+        XCTAssertEqual(transaction.transaction.v, BigInt(37))
+        XCTAssertEqual(transaction.transaction.r, BigInt("18515461264373351373200002665853028612451056578545711640558177340181847433846"))
+        XCTAssertEqual(transaction.transaction.s, BigInt("46948507304638947509940763649030358759909902576025900602547168820602576006531"))
+    }
 }
