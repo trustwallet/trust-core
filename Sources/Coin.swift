@@ -49,9 +49,9 @@ extension Coin {
     public static let ethereumTestNet = Coin(coinType: 1, blockchain: .ropsten)
 
     public static let ethereumClassic = Coin(coinType: 61, blockchain: .ethereumClassic)
-    public static let poa = Coin(coinType: 178, blockchain: .ethereum)
-    public static let callisto = Coin(coinType: 820, blockchain: .ethereum)
-    public static let gochain = Coin(coinType: 6060, blockchain: .ethereum)
+    public static let poa = Coin(coinType: 178, blockchain: .poa)
+    public static let callisto = Coin(coinType: 820, blockchain: .callisto)
+    public static let gochain = Coin(coinType: 6060, blockchain: .go)
     public static let wanchain = Coin(coinType: 5718350, blockchain: .wanchain)
     public static let vechain = Coin(coinType: 818, blockchain: .vechain)
 }
