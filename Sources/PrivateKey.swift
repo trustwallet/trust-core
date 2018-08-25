@@ -66,7 +66,7 @@ public final class PrivateKey: Hashable, CustomStringConvertible {
         switch type {
         case .bitcoin:
             return BitcoinPublicKey(data: Crypto.getBitcoinPublicKey(from: data))!
-        case .ethereum, .wanchain:
+        case .ethereum, .wanchain, .vechain:
             return EthereumPublicKey(data: Crypto.getEthereumPublicKey(from: data))!
         }
     }
