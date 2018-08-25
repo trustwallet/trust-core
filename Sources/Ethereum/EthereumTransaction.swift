@@ -43,15 +43,9 @@ public struct EthereumTransaction {
     ///   - chainID: chain identifier, defaults to `1`
     ///   - hashSigner: function to use for signing the hash
     public mutating func sign(chainID: Int = 1, hashSigner: (Data) throws -> Data) rethrows {
-        let signer: Signer
-        if chainID == 0 {
-            signer = HomesteadSigner()
-        } else {
-            signer = EIP155Signer(chainID: BigInt(chainID))
-        }
-
+        let signer = EIP155Signer(chainID: BigInt(chainID))
         let hash = signer.hash(transaction: self)
         let signature = try hashSigner(hash)
-        (r, s, v) = signer.values(transaction: self, signature: signature)
+        (r, s, v) = signer.values(signature: signature)
     }
 }
