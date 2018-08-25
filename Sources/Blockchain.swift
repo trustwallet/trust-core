@@ -12,6 +12,7 @@ public enum BlockchainType {
     case ethereum
     case wanchain
     case vechain
+    case tron
 }
 
 /// Blockchains
@@ -35,4 +36,5 @@ extension Blockchain {
     public static let ethereumClassicTestnet = Blockchain(chainID: 62, type: .ethereum)
     public static let wanchain = Blockchain(chainID: 1, type: .wanchain)
     public static let vechain = Blockchain(chainID: 1, type: .vechain)
+    public static let tron = Blockchain(chainID: 1, type: .tron)
 }

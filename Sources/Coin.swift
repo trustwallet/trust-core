@@ -37,6 +37,8 @@ public struct Coin: Equatable {
             blockchain = .wanchain
         case Coin.vechain.coinType:
             blockchain = .vechain
+        case Coin.tron.coinType:
+            blockchain = .tron
         default:
             fatalError("Unknown coinType \(coinType)")
         }
@@ -55,4 +57,5 @@ extension Coin {
     public static let gochain = Coin(coinType: 6060, blockchain: .go)
     public static let wanchain = Coin(coinType: 5718350, blockchain: .wanchain)
     public static let vechain = Coin(coinType: 818, blockchain: .vechain)
+    public static let tron = Coin(coinType: 195, blockchain: .tron)
 }
