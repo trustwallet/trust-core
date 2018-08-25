@@ -23,12 +23,14 @@ public struct Coin: Equatable {
         switch coinType {
         case Coin.bitcoin.coinType, Coin.bitcoinTestNet.coinType:
             blockchain = .bitcoin
-        case Coin.ethereumTestNet.coinType:
-            blockchain = .ropsten
+        case Coin.ethereum.coinType:
+            blockchain = .ethereum
         case Coin.ethereumClassic.coinType:
             blockchain = .ethereumClassic
         case Coin.poa.coinType:
             blockchain = .poa
+        case Coin.callisto.coinType:
+            blockchain = .callisto
         case Coin.gochain.coinType:
             blockchain = .go
         case Coin.wanchain.coinType:
@@ -36,7 +38,7 @@ public struct Coin: Equatable {
         case Coin.vechain.coinType:
             blockchain = .vechain
         default:
-            blockchain = .ethereum
+            fatalError("Unknown coinType \(coinType)")
         }
     }
 }
@@ -46,7 +48,6 @@ extension Coin {
     public static let bitcoinTestNet = Coin(coinType: 1, blockchain: .bitcoin)
 
     public static let ethereum = Coin(coinType: 60, blockchain: .ethereum)
-    public static let ethereumTestNet = Coin(coinType: 1, blockchain: .ropsten)
 
     public static let ethereumClassic = Coin(coinType: 61, blockchain: .ethereumClassic)
     public static let poa = Coin(coinType: 178, blockchain: .poa)

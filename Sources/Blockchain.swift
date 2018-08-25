@@ -27,12 +27,7 @@ public struct Blockchain: Equatable {
 
 extension Blockchain {
     public static let bitcoin = Blockchain(chainID: 0, type: .bitcoin)
-
     public static let ethereum = Blockchain(chainID: 1, type: .ethereum)
-    public static let ropsten = Blockchain(chainID: 3, type: .ethereum)
-    public static let rinkeby = Blockchain(chainID: 4, type: .ethereum)
-    public static let eosClassic = Blockchain(chainID: 20, type: .ethereum)
-    public static let kovan = Blockchain(chainID: 42, type: .ethereum)
     public static let go = Blockchain(chainID: 60, type: .ethereum)
     public static let poa = Blockchain(chainID: 99, type: .ethereum)
     public static let callisto = Blockchain(chainID: 820, type: .ethereum)
