@@ -44,10 +44,10 @@
 
 // MARK: - Base58
 
-/// Encodes data as a base 58 string.
+/// Encodes data as a base 58 string, including the checksum.
 + (nonnull NSString *)base58Encode:(nonnull NSData *)data NS_SWIFT_NAME(base58Encode(_:));
 
-/// Decodes a base 58 string.
+/// Decodes a base 58 string verifying the checksum.
 + (nullable NSData *)base58Decode:(nonnull NSString *)string NS_SWIFT_NAME(base58Decode(_:));
 
 // MARK: - HDWallet

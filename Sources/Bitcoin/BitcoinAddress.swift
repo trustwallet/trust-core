@@ -20,11 +20,6 @@ public struct BitcoinAddress: Address, Hashable {
             return false
         }
 
-        // Verify address prefix
-        if !validAddressPrefixes.contains(data[0]) {
-            return false
-        }
-
         return true
     }
 
@@ -36,12 +31,6 @@ public struct BitcoinAddress: Address, Hashable {
 
         // Verify size
         if decoded.count != 1 + Bitcoin.addressSize {
-            return false
-        }
-
-        // Verify address prefix
-        let prefix = decoded[0]
-        if !validAddressPrefixes.contains(prefix) {
             return false
         }
 
@@ -67,8 +56,12 @@ public struct BitcoinAddress: Address, Hashable {
         self.init(data: decoded)
     }
 
-    public var description: String {
+    public var base58String: String {
         return Crypto.base58Encode(data)
+    }
+
+    public var description: String {
+        return base58String
     }
 
     public var hashValue: Int {
