@@ -76,14 +76,18 @@
     return [[NSString alloc] initWithBytesNoCopy:cstring length:size - 1 encoding:NSUTF8StringEncoding freeWhenDone:YES];
 }
 
-+ (NSData *)base58Decode:(nonnull NSString *)string expectedSize:(NSInteger)expectedSize {
++ (NSData *)base58Decode:(nonnull NSString *)string {
     const char *str = [string cStringUsingEncoding:NSUTF8StringEncoding];
 
-    NSMutableData *result = [[NSMutableData alloc] initWithLength:expectedSize];
-    if (base58_decode_check(str, HASHER_SHA2D, result.mutableBytes, (int)expectedSize) == 0) {
+    size_t capacity = 128;
+    NSMutableData *result = [[NSMutableData alloc] initWithLength:capacity];
+
+    int size = base58_decode_check(str, HASHER_SHA2D, result.mutableBytes, (int)capacity);
+    if (size == 0) {
         return nil;
     }
 
+    [result setLength:size];
     return result;
 }
 

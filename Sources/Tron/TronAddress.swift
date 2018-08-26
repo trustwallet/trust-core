@@ -36,14 +36,14 @@ public struct TronAddress: Address, Hashable {
 
     /// Creates an address with an hexadecimal string representation.
     public init?(string: String) {
-        guard let data = Data(base58Decoding: string) else {
+        guard let data = Crypto.base58Decode(string) else {
             return nil
         }
         self.data = data
     }
 
     public var description: String {
-        return String(base58Encoding: data)
+        return Crypto.base58Encode(data)
     }
 
     public var hashValue: Int {

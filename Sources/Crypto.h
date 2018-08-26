@@ -48,7 +48,7 @@
 + (nonnull NSString *)base58Encode:(nonnull NSData *)data NS_SWIFT_NAME(base58Encode(_:));
 
 /// Decodes a base 58 string.
-+ (nullable NSData *)base58Decode:(nonnull NSString *)string expectedSize:(NSInteger)expectedSize NS_SWIFT_NAME(base58Decode(_:expectedSize:));
++ (nullable NSData *)base58Decode:(nonnull NSString *)string NS_SWIFT_NAME(base58Decode(_:));
 
 // MARK: - HDWallet
 
