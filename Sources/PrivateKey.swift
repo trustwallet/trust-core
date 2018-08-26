@@ -9,6 +9,11 @@ import Foundation
 public final class PrivateKey: Hashable, CustomStringConvertible {
     /// Validates that raw data is a valid private key.
     static public func isValid(data: Data) -> Bool {
+        // Check length
+        if data.count != Ethereum.privateKeySize && data.count != Bitcoin.privateKeySize {
+            return false
+        }
+
         // Check for zero address
         guard data.contains(where: { $0 != 0 }) else {
             return false
@@ -48,7 +53,7 @@ public final class PrivateKey: Hashable, CustomStringConvertible {
         if !PrivateKey.isValid(data: data) {
             return nil
         }
-        self.data = data
+        self.data = Data(data)
     }
 
     deinit {

@@ -46,7 +46,7 @@ public extension Data {
 
         for ch in byteString.reversed() {
             if let index = alphabet.index(of: ch) {
-                answer = answer + (j * BigUInt(index))
+                answer += j * BigUInt(index)
                 j *= radix
             } else {
                 return nil
