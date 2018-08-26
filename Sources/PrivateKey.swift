@@ -9,6 +9,11 @@ import Foundation
 public final class PrivateKey: Hashable, CustomStringConvertible {
     /// Validates that raw data is a valid private key.
     static public func isValid(data: Data) -> Bool {
+        // Check length
+        if data.count != Ethereum.privateKeySize && data.count != Bitcoin.privateKeySize {
+            return false
+        }
+
         // Check for zero address
         guard data.contains(where: { $0 != 0 }) else {
             return false
@@ -48,7 +53,7 @@ public final class PrivateKey: Hashable, CustomStringConvertible {
         if !PrivateKey.isValid(data: data) {
             return nil
         }
-        self.data = data
+        self.data = Data(data)
     }
 
     deinit {
@@ -57,12 +62,19 @@ public final class PrivateKey: Hashable, CustomStringConvertible {
     }
 
     /// Public key.
-    public func publicKey(for type: BlockchainType) -> PublicKey {
+    public func publicKey(for type: BlockchainType, compressed: Bool = false) -> PublicKey {
+        let pkData: Data
+        if compressed {
+            pkData = Crypto.getCompressedPublicKey(from: data)
+        } else {
+            pkData = Crypto.getPublicKey(from: data)
+        }
+
         switch type {
-        case .bitcoin:
-            return BitcoinPublicKey(data: Crypto.getBitcoinPublicKey(from: data))!
-        case .ethereum, .wanchain, .vechain, .tron:
-            return EthereumPublicKey(data: Crypto.getEthereumPublicKey(from: data))!
+        case .bitcoin, .tron:
+            return BitcoinPublicKey(data: pkData)!
+        case .ethereum, .wanchain, .vechain:
+            return EthereumPublicKey(data: pkData)!
         }
     }
 
