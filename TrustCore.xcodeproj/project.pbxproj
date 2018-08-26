@@ -65,6 +65,7 @@
 		77044FC22131619600CC20D1 /* Base58.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77044FC12131619600CC20D1 /* Base58.swift */; };
 		77044FC52131FB5600CC20D1 /* VechainTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77044FC42131FB5600CC20D1 /* VechainTransaction.swift */; };
 		77044FC8213203A200CC20D1 /* VechainTransactionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77044FC7213203A200CC20D1 /* VechainTransactionTests.swift */; };
+		77044FCA2132265800CC20D1 /* VechainClause.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77044FC92132265800CC20D1 /* VechainClause.swift */; };
 		887FD54919AD2FA39E88EAF0 /* Pods_TrustCore_TrustCoreTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1C9DA59AE410E04E68E1F89 /* Pods_TrustCore_TrustCoreTests.framework */; };
 		BB06149A920620338B3323D1 /* Pods_TrustCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 682B6374F9856982618A8501 /* Pods_TrustCore.framework */; };
 		BB3864A72090088D00CBF773 /* ENSEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3864A62090088D00CBF773 /* ENSEncoder.swift */; };
@@ -151,6 +152,7 @@
 		77044FC12131619600CC20D1 /* Base58.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base58.swift; sourceTree = "<group>"; };
 		77044FC42131FB5600CC20D1 /* VechainTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VechainTransaction.swift; sourceTree = "<group>"; };
 		77044FC7213203A200CC20D1 /* VechainTransactionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VechainTransactionTests.swift; sourceTree = "<group>"; };
+		77044FC92132265800CC20D1 /* VechainClause.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VechainClause.swift; sourceTree = "<group>"; };
 		99258028638D3902B177E80C /* Pods-TrustCore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrustCore.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TrustCore/Pods-TrustCore.debug.xcconfig"; sourceTree = "<group>"; };
 		A1C9DA59AE410E04E68E1F89 /* Pods_TrustCore_TrustCoreTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TrustCore_TrustCoreTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB3864A62090088D00CBF773 /* ENSEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ENSEncoder.swift; sourceTree = "<group>"; };
@@ -375,6 +377,7 @@
 			isa = PBXGroup;
 			children = (
 				77044FC42131FB5600CC20D1 /* VechainTransaction.swift */,
+				77044FC92132265800CC20D1 /* VechainClause.swift */,
 			);
 			path = Vechain;
 			sourceTree = "<group>";
@@ -660,6 +663,7 @@
 				61A728E820F488080005045D /* DerivationPath.swift in Sources */,
 				615AE1E020F1D6F400A5A0ED /* EthereumPublicKey.swift in Sources */,
 				BB3864A72090088D00CBF773 /* ENSEncoder.swift in Sources */,
+				77044FCA2132265800CC20D1 /* VechainClause.swift in Sources */,
 				614A9F0320F2DBF800326188 /* Ethereum.swift in Sources */,
 				61A728E320F474A10005045D /* Coin.swift in Sources */,
 			);

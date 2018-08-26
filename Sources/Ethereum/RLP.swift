@@ -160,7 +160,7 @@ public struct RLP {
 
     static func encodeClause(_ clause: VechainClause) -> Data {
         return encodeList([
-            clause.to,
+            clause.to.data,
             clause.value,
             clause.data,
         ])!

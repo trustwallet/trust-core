@@ -15,15 +15,21 @@ class VechainTransactionTests: XCTestCase {
             chainTag: 1,
             blockRef: 1,
             expiration: 1,
-            from: EthereumAddress(string: "0x3535353535353535353535353535353535353535")!,
-            to: EthereumAddress(string: "0x3535353535353535353535353535353535353535")!,
-            value: BigInt(1000),
+            clauses: [
+                VechainClause(
+                    to: EthereumAddress(string: "0x3535353535353535353535353535353535353535")!,
+                    value: BigInt(1000),
+                    data: Data()
+                )
+            ],
             gasPriceCoef: 0,
             gas: 21000,
             dependOn: Data(),
             nonce: 1,
             reversed: []
         )
+
+        //XCTAssertEqual failed: ("e6010101dad99435353535353535353535353535353535353535358203e880808252088001c080") is not equal to ("daf5a779ae972f972197303d7b574746c7ef83eadac0f2791ad23db92e4c8e53") -
 
         transaction.sign { hash in
             XCTAssertEqual(hash.hexString, "daf5a779ae972f972197303d7b574746c7ef83eadac0f2791ad23db92e4c8e53")
@@ -33,3 +39,4 @@ class VechainTransactionTests: XCTestCase {
         XCTAssertEqual(transaction.signature, Data(hexString: "46948507304638947509940763649030358759909902576025900602547168820602576006531"))
     }
 }
+

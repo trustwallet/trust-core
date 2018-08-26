@@ -7,21 +7,12 @@
 import Foundation
 import BigInt
 
-public struct VechainClause {
-    let to: EthereumAddress
-    let value: BigInt
-    let data: Data
-}
-
 public struct VechainTransaction {
 
     public let chainTag: UInt8
     public let blockRef: UInt64
     public let expiration: UInt32
     public let clauses: [VechainClause]
-    public let from: EthereumAddress
-    public let to: EthereumAddress
-    public let value: BigInt
     public let gasPriceCoef: UInt8
     public let gas: UInt64
     public let dependOn: Data
@@ -33,9 +24,7 @@ public struct VechainTransaction {
         chainTag: UInt8,
         blockRef: UInt64,
         expiration: UInt32,
-        from: EthereumAddress,
-        to: EthereumAddress,
-        value: BigInt,
+        clauses: [VechainClause],
         gasPriceCoef: UInt8,
         gas: UInt64,
         dependOn: Data,
@@ -46,10 +35,7 @@ public struct VechainTransaction {
         self.chainTag = chainTag
         self.blockRef = blockRef
         self.expiration = expiration
-        self.clauses = [VechainClause(to: to, value: value, data: Data())]
-        self.from = from
-        self.to = to
-        self.value = value
+        self.clauses = clauses
         self.gasPriceCoef = gasPriceCoef
         self.gas = gas
         self.dependOn = dependOn
