@@ -27,6 +27,11 @@ public final class BitcoinPublicKey: PublicKey {
     /// Raw representation of the public key.
     public let data: Data
 
+    /// Whether this is a compressed key.
+    public var isCompressed: Bool {
+        return data.count == 33 && data[0] == 2 || data[0] == 3
+    }
+
     /// Address.
     public var address: Address {
         return address(prefix: Bitcoin.MainNet.payToScriptHashAddressPrefix)
