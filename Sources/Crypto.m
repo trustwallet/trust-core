@@ -11,13 +11,13 @@
 
 // MARK: - Elliptic Curve Cryptography
 
-+ (nonnull NSData *)getEthereumPublicKeyFrom:(nonnull NSData *)privateKey {
++ (nonnull NSData *)getPublicKeyFrom:(nonnull NSData *)privateKey {
     NSMutableData *publicKey = [[NSMutableData alloc] initWithLength:65];
     ecdsa_get_public_key65(&secp256k1, privateKey.bytes, publicKey.mutableBytes);
     return publicKey;
 }
 
-+ (nonnull NSData *)getBitcoinPublicKeyFrom:(nonnull NSData *)privateKey {
++ (nonnull NSData *)getCompressedPublicKeyFrom:(nonnull NSData *)privateKey {
     NSMutableData *publicKey = [[NSMutableData alloc] initWithLength:33];
     ecdsa_get_public_key33(&secp256k1, privateKey.bytes, publicKey.mutableBytes);
     return publicKey;

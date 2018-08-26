@@ -44,4 +44,3 @@ public final class TronPublicKey: PublicKey {
         return data.hexString
     }
 }
-
