@@ -27,6 +27,12 @@ public struct RLP {
             return encodeInt(number)
         case let number as Int64:
             return encodeInt64(number)
+        case let number as UInt8:
+            return encodeUInt8(number)
+        case let number as UInt16:
+            return encodeUInt16(number)
+        case let number as UInt32:
+            return encodeUInt32(number)
         case let number as UInt64:
             return encodeUInt64(number)
         case let bigint as BigInt:
@@ -37,6 +43,10 @@ public struct RLP {
             return encodeTransaction(transaction)
         case let transaction as WanchainTransaction:
             return encodeTransaction(transaction)
+        case let transaction as VechainTransaction:
+            return encodeTransaction(transaction)
+        case let clause as VechainClause:
+            return encodeClause(clause)
         case let data as Data:
             return encodeData(data)
         default:
@@ -70,6 +80,18 @@ public struct RLP {
         }
         let uint = UInt64(bitPattern: number)
         return encodeUInt64(uint)
+    }
+
+    static func encodeUInt8(_ number: UInt8) -> Data? {
+        return encode(BigUInt(number))
+    }
+
+    static func encodeUInt16(_ number: UInt16) -> Data? {
+        return encode(BigUInt(number))
+    }
+
+    static func encodeUInt32(_ number: UInt32) -> Data? {
+        return encode(BigUInt(number))
     }
 
     static func encodeUInt64(_ number: UInt64) -> Data? {
@@ -119,6 +141,29 @@ public struct RLP {
             transaction.transaction.r,
             transaction.transaction.s,
         ])
+    }
+
+    static func encodeTransaction(_ transaction: VechainTransaction) -> Data? {
+        return encodeList([
+            transaction.chainTag,
+            transaction.blockRef,
+            transaction.expiration,
+            transaction.clauses,
+            transaction.gasPriceCoef,
+            transaction.gas,
+            transaction.dependOn,
+            transaction.nonce,
+            transaction.reversed,
+            transaction.signature,
+        ])
+    }
+
+    static func encodeClause(_ clause: VechainClause) -> Data {
+        return encodeList([
+            clause.to.data,
+            clause.value,
+            clause.data,
+        ])!
     }
 
     static func encodeData(_ data: Data) -> Data {

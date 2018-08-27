@@ -62,6 +62,13 @@
 		77044FBB2131358D00CC20D1 /* TronPublicKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77044FBA2131358D00CC20D1 /* TronPublicKey.swift */; };
 		77044FBE2131378F00CC20D1 /* TronAddressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77044FBD2131378F00CC20D1 /* TronAddressTests.swift */; };
 		77044FC02131384F00CC20D1 /* Tron.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77044FBF2131384F00CC20D1 /* Tron.swift */; };
+<<<<<<< HEAD
+=======
+		77044FC22131619600CC20D1 /* Base58.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77044FC12131619600CC20D1 /* Base58.swift */; };
+>>>>>>> dd37886a7bbe21e1a158382c6475d02ef47c379f
+		77044FC52131FB5600CC20D1 /* VechainTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77044FC42131FB5600CC20D1 /* VechainTransaction.swift */; };
+		77044FC8213203A200CC20D1 /* VechainTransactionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77044FC7213203A200CC20D1 /* VechainTransactionTests.swift */; };
+		77044FCA2132265800CC20D1 /* VechainClause.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77044FC92132265800CC20D1 /* VechainClause.swift */; };
 		887FD54919AD2FA39E88EAF0 /* Pods_TrustCore_TrustCoreTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1C9DA59AE410E04E68E1F89 /* Pods_TrustCore_TrustCoreTests.framework */; };
 		BB06149A920620338B3323D1 /* Pods_TrustCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 682B6374F9856982618A8501 /* Pods_TrustCore.framework */; };
 		BB3864A72090088D00CBF773 /* ENSEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3864A62090088D00CBF773 /* ENSEncoder.swift */; };
@@ -145,6 +152,13 @@
 		77044FBA2131358D00CC20D1 /* TronPublicKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TronPublicKey.swift; sourceTree = "<group>"; };
 		77044FBD2131378F00CC20D1 /* TronAddressTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TronAddressTests.swift; sourceTree = "<group>"; };
 		77044FBF2131384F00CC20D1 /* Tron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tron.swift; sourceTree = "<group>"; };
+<<<<<<< HEAD
+=======
+		77044FC12131619600CC20D1 /* Base58.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base58.swift; sourceTree = "<group>"; };
+>>>>>>> dd37886a7bbe21e1a158382c6475d02ef47c379f
+		77044FC42131FB5600CC20D1 /* VechainTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VechainTransaction.swift; sourceTree = "<group>"; };
+		77044FC7213203A200CC20D1 /* VechainTransactionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VechainTransactionTests.swift; sourceTree = "<group>"; };
+		77044FC92132265800CC20D1 /* VechainClause.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VechainClause.swift; sourceTree = "<group>"; };
 		99258028638D3902B177E80C /* Pods-TrustCore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrustCore.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TrustCore/Pods-TrustCore.debug.xcconfig"; sourceTree = "<group>"; };
 		A1C9DA59AE410E04E68E1F89 /* Pods_TrustCore_TrustCoreTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TrustCore_TrustCoreTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB3864A62090088D00CBF773 /* ENSEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ENSEncoder.swift; sourceTree = "<group>"; };
@@ -222,6 +236,7 @@
 				77044FAB212F8E5A00CC20D1 /* Wanchain */,
 				615AE1D420F1D56C00A5A0ED /* Ethereum */,
 				77044FB7213134DE00CC20D1 /* Tron */,
+				77044FC32131FB3800CC20D1 /* Vechain */,
 				61A728E620F487F50005045D /* HDWallet */,
 			);
 			path = Sources;
@@ -239,6 +254,8 @@
 		6149A6C3201E43E200A2F35C /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				77044FC62132038900CC20D1 /* Vechain */,
+				77044FBC2131377100CC20D1 /* Tron */,
 				61DAB58B210AF3DD00BBB826 /* CoinTests.swift */,
 				61645D132058A74E00411565 /* CryptoTests.swift */,
 				6149A6CD201E499B00A2F35C /* DataHexTests.swift */,
@@ -360,6 +377,23 @@
 				77044FBD2131378F00CC20D1 /* TronAddressTests.swift */,
 			);
 			path = Tron;
+			sourceTree = "<group>";
+		};
+		77044FC32131FB3800CC20D1 /* Vechain */ = {
+			isa = PBXGroup;
+			children = (
+				77044FC42131FB5600CC20D1 /* VechainTransaction.swift */,
+				77044FC92132265800CC20D1 /* VechainClause.swift */,
+			);
+			path = Vechain;
+			sourceTree = "<group>";
+		};
+		77044FC62132038900CC20D1 /* Vechain */ = {
+			isa = PBXGroup;
+			children = (
+				77044FC7213203A200CC20D1 /* VechainTransactionTests.swift */,
+			);
+			path = Vechain;
 			sourceTree = "<group>";
 		};
 		8088D8221423003565C764F4 /* Frameworks */ = {
@@ -607,6 +641,7 @@
 				6149A6CA201E472000A2F35C /* EthereumTransaction.swift in Sources */,
 				615AE1E220F1D71000A5A0ED /* Address.swift in Sources */,
 				6167556E207ABE6700018DC8 /* ABIValue.swift in Sources */,
+				77044FC52131FB5600CC20D1 /* VechainTransaction.swift in Sources */,
 				77044FB1212F9FB200CC20D1 /* SignatureSigner.swift in Sources */,
 				615AE1D620F1D59100A5A0ED /* PrivateKey.swift in Sources */,
 				61555863208ED00A00FB241E /* TransactionSigning.swift in Sources */,
@@ -633,6 +668,7 @@
 				61A728E820F488080005045D /* DerivationPath.swift in Sources */,
 				615AE1E020F1D6F400A5A0ED /* EthereumPublicKey.swift in Sources */,
 				BB3864A72090088D00CBF773 /* ENSEncoder.swift in Sources */,
+				77044FCA2132265800CC20D1 /* VechainClause.swift in Sources */,
 				614A9F0320F2DBF800326188 /* Ethereum.swift in Sources */,
 				61A728E320F474A10005045D /* Coin.swift in Sources */,
 			);
@@ -657,6 +693,7 @@
 				61645D1C2058C86B00411565 /* RLPTests.swift in Sources */,
 				614A9F0520F2E25F00326188 /* BitcoinAddressTests.swift in Sources */,
 				616B06412098CAE800FE7942 /* ABIDecoderTests.swift in Sources */,
+				77044FC8213203A200CC20D1 /* VechainTransactionTests.swift in Sources */,
 				611204CE21096D1300C2A28A /* BitcoinTransactionTests.swift in Sources */,
 				6161048420F2F73E000E8F37 /* PrivateKeyTests.swift in Sources */,
 				61D0BA2D2075EF53004F71E1 /* ABIEncoderTests.swift in Sources */,
