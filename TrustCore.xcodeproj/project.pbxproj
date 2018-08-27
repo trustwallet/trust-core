@@ -62,6 +62,10 @@
 		77044FBB2131358D00CC20D1 /* TronPublicKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77044FBA2131358D00CC20D1 /* TronPublicKey.swift */; };
 		77044FBE2131378F00CC20D1 /* TronAddressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77044FBD2131378F00CC20D1 /* TronAddressTests.swift */; };
 		77044FC02131384F00CC20D1 /* Tron.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77044FBF2131384F00CC20D1 /* Tron.swift */; };
+<<<<<<< HEAD
+=======
+		77044FC22131619600CC20D1 /* Base58.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77044FC12131619600CC20D1 /* Base58.swift */; };
+>>>>>>> dd37886a7bbe21e1a158382c6475d02ef47c379f
 		77044FC52131FB5600CC20D1 /* VechainTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77044FC42131FB5600CC20D1 /* VechainTransaction.swift */; };
 		77044FC8213203A200CC20D1 /* VechainTransactionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77044FC7213203A200CC20D1 /* VechainTransactionTests.swift */; };
 		77044FCA2132265800CC20D1 /* VechainClause.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77044FC92132265800CC20D1 /* VechainClause.swift */; };
@@ -148,6 +152,10 @@
 		77044FBA2131358D00CC20D1 /* TronPublicKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TronPublicKey.swift; sourceTree = "<group>"; };
 		77044FBD2131378F00CC20D1 /* TronAddressTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TronAddressTests.swift; sourceTree = "<group>"; };
 		77044FBF2131384F00CC20D1 /* Tron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tron.swift; sourceTree = "<group>"; };
+<<<<<<< HEAD
+=======
+		77044FC12131619600CC20D1 /* Base58.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base58.swift; sourceTree = "<group>"; };
+>>>>>>> dd37886a7bbe21e1a158382c6475d02ef47c379f
 		77044FC42131FB5600CC20D1 /* VechainTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VechainTransaction.swift; sourceTree = "<group>"; };
 		77044FC7213203A200CC20D1 /* VechainTransactionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VechainTransactionTests.swift; sourceTree = "<group>"; };
 		77044FC92132265800CC20D1 /* VechainClause.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VechainClause.swift; sourceTree = "<group>"; };
