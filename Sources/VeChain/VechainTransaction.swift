@@ -53,18 +53,3 @@ public struct VechainTransaction {
         (signature) = try hashSigner(hash)
     }
 }
-
-
-//chainTag : uint8, last byte of the genesis block ID.
-//blockRef : uint64 Default is best block, The BlockRef(an eight-byte array) includes two parts: the first four bytes contains the block height (number) and the rest four bytes a part of the referred block’s ID.
-//expiration : uint32 Default is 0 . Number of blocks that can be used to specify when the transaction expires[1].Specifically, Expiration+BlockRef[:4] defines the height of the latest block that the transaction can be packed into.
-//clauses : array an array of “clause” objects each of which contains fields “To”, “Value” and “Data” to enable single “from” coupling with multiple “to”
-//from : string ,20bytes, The address for the sending account.
-//to (optional) : string,20bytes, The destination address of the message, left undefined for a contract-creation transaction.
-//value(optional) :string(hex), The value transferred for the transaction in Wei, also the endowment if it’s a contract-creation transaction.
-//gasPriceCoef :uint8 , Default is 0, gasPriceCoef required range of ∈[0,255] . [2]
-//gas :uint64, The amount of gas to use for the transaction.
-//    dependsOn: string, ID of the transaction on which the current transaction depends
-//    nonce ：uint64 transaction nonce customizable by user .
-//    reserved : array Must be empty array.
-//    Signature : signature of the hash of the transaction body 𝛺, that is, 𝑠𝑖𝑔𝑛𝑎𝑡𝑢𝑟𝑒 = 𝑠𝑖𝑔𝑛(ℎ𝑎𝑠ℎ(𝛺), 𝑝𝑟𝑖𝑣𝑎𝑡𝑒_𝑘𝑒𝑦).
