@@ -7,11 +7,11 @@
 import BigInt
 
 /// Ethereum transaction.
-public struct Transaction {
-    public var nonce: UInt64
+public struct EthereumTransaction {
+    public var nonce: BigInt
     public var gasPrice: BigInt
-    public var gasLimit: UInt64
-    public var to: EthereumAddress
+    public var gasLimit: BigInt
+    public var to: EthereumAddress?
     public var amount: BigInt
     public var payload: Data?
 
@@ -21,12 +21,20 @@ public struct Transaction {
     public var s = BigInt()
 
     /// Creates a `Transaction`.
-    public init(gasPrice: BigInt, gasLimit: UInt64, to: EthereumAddress) {
-        nonce = 0
+    public init(
+        nonce: BigInt,
+        gasPrice: BigInt,
+        gasLimit: BigInt,
+        to: EthereumAddress?,
+        amount: BigInt,
+        payload: Data?
+    ) {
+        self.nonce = nonce
         self.gasPrice = gasPrice
         self.gasLimit = gasLimit
         self.to = to
-        amount = BigInt()
+        self.amount = amount
+        self.payload = payload
     }
 
     /// Signs this transaction by filling in the `v`, `r`, and `s` values.
@@ -35,15 +43,9 @@ public struct Transaction {
     ///   - chainID: chain identifier, defaults to `1`
     ///   - hashSigner: function to use for signing the hash
     public mutating func sign(chainID: Int = 1, hashSigner: (Data) throws -> Data) rethrows {
-        let signer: Signer
-        if chainID == 0 {
-            signer = HomesteadSigner()
-        } else {
-            signer = EIP155Signer(chainID: BigInt(chainID))
-        }
-
+        let signer = EIP155Signer(chainID: BigInt(chainID))
         let hash = signer.hash(transaction: self)
         let signature = try hashSigner(hash)
-        (r, s, v) = signer.values(transaction: self, signature: signature)
+        (r, s, v) = signer.values(signature: signature)
     }
 }

@@ -10,11 +10,11 @@
 
 // MARK: - Elliptic Curve Cryptography
 
-/// Extracts the public key from a Ethereum private key.
-+ (nonnull NSData *)getEthereumPublicKeyFrom:(nonnull NSData *)privateKey NS_SWIFT_NAME(getEthereumPublicKey(from:));
+/// Extracts the public key from a private key.
++ (nonnull NSData *)getPublicKeyFrom:(nonnull NSData *)privateKey NS_SWIFT_NAME(getPublicKey(from:));
 
-/// Extracts the public key from a Bitcoin private key.
-+ (nonnull NSData *)getBitcoinPublicKeyFrom:(nonnull NSData *)privateKey NS_SWIFT_NAME(getBitcoinPublicKey(from:));
+/// Extracts the compressed public key from a private key.
++ (nonnull NSData *)getCompressedPublicKeyFrom:(nonnull NSData *)privateKey NS_SWIFT_NAME(getCompressedPublicKey(from:));
 
 /// Signs a hash with a private key.
 ///
@@ -44,11 +44,11 @@
 
 // MARK: - Base58
 
-/// Encodes data as a base 58 string.
+/// Encodes data as a base 58 string, including the checksum.
 + (nonnull NSString *)base58Encode:(nonnull NSData *)data NS_SWIFT_NAME(base58Encode(_:));
 
-/// Decodes a base 58 string.
-+ (nullable NSData *)base58Decode:(nonnull NSString *)string expectedSize:(NSInteger)expectedSize NS_SWIFT_NAME(base58Decode(_:expectedSize:));
+/// Decodes a base 58 string verifying the checksum.
++ (nullable NSData *)base58Decode:(nonnull NSString *)string NS_SWIFT_NAME(base58Decode(_:));
 
 // MARK: - HDWallet
 
