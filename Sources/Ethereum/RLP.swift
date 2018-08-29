@@ -144,7 +144,7 @@ public struct RLP {
     }
 
     static func encodeTransaction(_ transaction: VechainTransaction) -> Data? {
-        return encodeList([
+        var elements: [Any] = [
             transaction.chainTag,
             transaction.blockRef,
             transaction.expiration,
@@ -154,8 +154,11 @@ public struct RLP {
             transaction.dependOn,
             transaction.nonce,
             transaction.reversed,
-            transaction.signature,
-        ])
+        ]
+        if !transaction.signature.isEmpty {
+            elements.append(transaction.signature)
+        }
+        return encodeList(elements)
     }
 
     static func encodeClause(_ clause: VechainClause) -> Data {
