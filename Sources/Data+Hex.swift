@@ -37,25 +37,13 @@ extension Data {
 
     /// Converts an ASCII byte to a hex value.
     private static func value(of nibble: UInt8) -> UInt8? {
-        switch nibble {
-        case UInt8(ascii: "0") ... UInt8(ascii: "9"):
-            return nibble - UInt8(ascii: "0")
-        case UInt8(ascii: "a") ... UInt8(ascii: "f"):
-            return 10 + nibble - UInt8(ascii: "a")
-        case UInt8(ascii: "A") ... UInt8(ascii: "F"):
-            return 10 + nibble - UInt8(ascii: "A")
-        default:
-            return nil
-        }
+        guard let letter = String(bytes: [nibble], encoding: .ascii) else { return nil }
+        return UInt8(letter, radix: 16)
     }
 
     /// Returns the hex string representation of the data.
     public var hexString: String {
-        var string = ""
-        for byte in self {
-            string.append(String(format: "%02x", byte))
-        }
-        return string
+        return map({ String(format: "%02x", $0) }).joined()
     }
 }
 
