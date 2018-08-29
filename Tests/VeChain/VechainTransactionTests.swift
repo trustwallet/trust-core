@@ -30,7 +30,7 @@ class VechainTransactionTests: XCTestCase {
         )
 
         transaction.sign { hash in
-            XCTAssertEqual(hash.hexString, "e5010101dad99435353535353535353535353535353535353535358203e880808252088001c0")
+            XCTAssertEqual(hash.hexString, "a39d0ac66fa3633ed6ab4266e1543c680b5b68155c7986fb5bfa83e2a56e6c6e")
             return Data(hexString: "28ef61340bd939bc2195fe537567866003e1a15d3c71ff63e1590620aa63627667cbe9d8997f761aecb703304b3800ccf555c9f3dc64214b297fb1966a3b6d8300")!
         }
 
