@@ -49,7 +49,8 @@ public struct VechainTransaction {
     /// - Parameters:
     ///   - hashSigner: function to use for signing the hash
     public mutating func sign(hashSigner: (Data) throws -> Data) rethrows {
-        let hash = RLP.encode(self)!
+        let rlp = RLP.encode(self)!
+        let hash = Crypto.blake2b256(rlp)
         (signature) = try hashSigner(hash)
     }
 }
