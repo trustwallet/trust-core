@@ -53,4 +53,18 @@ class CryptoTests: XCTestCase {
         let mnemonic = "ship turd warfare resist kid inhale fashion captain sustain dog bitter tattoo fashion rather enter type extend grain solve arch sun ladder artefact bronze"
         XCTAssertFalse(Crypto.isValid(mnemonic: mnemonic))
     }
+
+    func testBlake2b256() {
+        let emptyData = Crypto.blake2b256(Data())
+
+        XCTAssertEqual("0e5751c026e543b2e8ab2eb06099daa1d1e5df47778f7787faab45cdf12fe3a8", emptyData.hexString)
+
+        let fill1Data = Crypto.blake2b256(Data(hexString: "616263")!)
+
+        XCTAssertEqual("bddd813c634239723171ef3fee98579b94964e3bb1cb3e427262c8c068d52319", fill1Data.hexString)
+
+        let fill2Data = Crypto.blake2b256(Data(hexString: "31")!)
+
+        XCTAssertEqual("92cdf578c47085a5992256f0dcf97d0b19f1f1c9de4d5fe30c3ace6191b6e5db", fill2Data.hexString)
+    }
 }

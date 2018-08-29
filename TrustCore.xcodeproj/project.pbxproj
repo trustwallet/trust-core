@@ -31,7 +31,6 @@
 		615AE1E820F1DC1F00A5A0ED /* Crypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 615AE1E620F1DC1F00A5A0ED /* Crypto.m */; };
 		615AE1EA20F1E43100A5A0ED /* Bitcoin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615AE1E920F1E43100A5A0ED /* Bitcoin.swift */; };
 		6161048420F2F73E000E8F37 /* PrivateKeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6161048320F2F73E000E8F37 /* PrivateKeyTests.swift */; };
-		61645D142058A74E00411565 /* CryptoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61645D132058A74E00411565 /* CryptoTests.swift */; };
 		61645D1A2058C7B300411565 /* RLP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61645D192058C7B300411565 /* RLP.swift */; };
 		61645D1C2058C86B00411565 /* RLPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61645D1B2058C86B00411565 /* RLPTests.swift */; };
 		6167556C207ABBEF00018DC8 /* ABIType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6167556B207ABBEF00018DC8 /* ABIType.swift */; };
@@ -65,6 +64,7 @@
 		77F80A842134A4E00011D949 /* VechainClause.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F80A832134A4E00011D949 /* VechainClause.swift */; };
 		77F80A862134A4F60011D949 /* VechainTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F80A852134A4F60011D949 /* VechainTransaction.swift */; };
 		77F80A892134A5220011D949 /* VechainTransactionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F80A882134A5220011D949 /* VechainTransactionTests.swift */; };
+		77F80A9421363D5C0011D949 /* CryptoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F80A9321363D5C0011D949 /* CryptoTests.swift */; };
 		887FD54919AD2FA39E88EAF0 /* Pods_TrustCore_TrustCoreTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1C9DA59AE410E04E68E1F89 /* Pods_TrustCore_TrustCoreTests.framework */; };
 		BB06149A920620338B3323D1 /* Pods_TrustCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 682B6374F9856982618A8501 /* Pods_TrustCore.framework */; };
 		BB3864A72090088D00CBF773 /* ENSEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3864A62090088D00CBF773 /* ENSEncoder.swift */; };
@@ -116,7 +116,6 @@
 		615AE1E920F1E43100A5A0ED /* Bitcoin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bitcoin.swift; sourceTree = "<group>"; };
 		6161048320F2F73E000E8F37 /* PrivateKeyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateKeyTests.swift; sourceTree = "<group>"; };
 		61645D0D2058A06700411565 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		61645D132058A74E00411565 /* CryptoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoTests.swift; sourceTree = "<group>"; };
 		61645D192058C7B300411565 /* RLP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RLP.swift; sourceTree = "<group>"; };
 		61645D1B2058C86B00411565 /* RLPTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RLPTests.swift; sourceTree = "<group>"; };
 		6167556B207ABBEF00018DC8 /* ABIType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABIType.swift; sourceTree = "<group>"; };
@@ -151,6 +150,7 @@
 		77F80A832134A4E00011D949 /* VechainClause.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VechainClause.swift; sourceTree = "<group>"; };
 		77F80A852134A4F60011D949 /* VechainTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VechainTransaction.swift; sourceTree = "<group>"; };
 		77F80A882134A5220011D949 /* VechainTransactionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VechainTransactionTests.swift; sourceTree = "<group>"; };
+		77F80A9321363D5C0011D949 /* CryptoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoTests.swift; sourceTree = "<group>"; };
 		99258028638D3902B177E80C /* Pods-TrustCore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrustCore.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TrustCore/Pods-TrustCore.debug.xcconfig"; sourceTree = "<group>"; };
 		A1C9DA59AE410E04E68E1F89 /* Pods_TrustCore_TrustCoreTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TrustCore_TrustCoreTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB3864A62090088D00CBF773 /* ENSEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ENSEncoder.swift; sourceTree = "<group>"; };
@@ -247,7 +247,6 @@
 			isa = PBXGroup;
 			children = (
 				61DAB58B210AF3DD00BBB826 /* CoinTests.swift */,
-				61645D132058A74E00411565 /* CryptoTests.swift */,
 				6149A6CD201E499B00A2F35C /* DataHexTests.swift */,
 				611EFEC420F5BD8700A00E53 /* DerivationPathTests.swift */,
 				61675572207ADB9B00018DC8 /* FunctionTests.swift */,
@@ -257,6 +256,7 @@
 				614A9F0120F2DB7900326188 /* Ethereum */,
 				77F80A872134A50A0011D949 /* VeChain */,
 				77044FBC2131377100CC20D1 /* Tron */,
+				77F80A9321363D5C0011D949 /* CryptoTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -673,12 +673,12 @@
 				BB3864C720956F8B00CBF773 /* ReverseResolverEncoderTests.swift in Sources */,
 				61555865208ED04F00FB241E /* TransactionSigningTests.swift in Sources */,
 				6149A6D0201E4B6B00A2F35C /* EthereumAddressTests.swift in Sources */,
+				77F80A9421363D5C0011D949 /* CryptoTests.swift in Sources */,
 				BB3864AD20904C3900CBF773 /* NamehashTests.swift in Sources */,
 				61675573207ADB9B00018DC8 /* FunctionTests.swift in Sources */,
 				BB3864A92090145600CBF773 /* ENSEncoderTests.swift in Sources */,
 				61DAB58C210AF3DD00BBB826 /* CoinTests.swift in Sources */,
 				61A728EC20F48A580005045D /* HDWalletTests.swift in Sources */,
-				61645D142058A74E00411565 /* CryptoTests.swift in Sources */,
 				6167558A207C7A1500018DC8 /* ERC20EncoderTests.swift in Sources */,
 				611EFEC520F5BD8700A00E53 /* DerivationPathTests.swift in Sources */,
 				61645D1C2058C86B00411565 /* RLPTests.swift in Sources */,

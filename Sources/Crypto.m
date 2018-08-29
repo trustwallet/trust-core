@@ -49,6 +49,12 @@
     return result;
 }
 
++ (nonnull NSData *)blake2b256:(nonnull NSData *)hash {
+    NSMutableData *output = [[NSMutableData alloc] initWithLength:32];
+    blake2b(hash.bytes, (uint32_t)hash.length, output.mutableBytes, output.length);
+    return output;
+}
+
 + (nonnull NSData *)ripemd160:(nonnull NSData *)data {
     NSMutableData *result = [[NSMutableData alloc] initWithLength:RIPEMD160_DIGEST_LENGTH];
     ripemd160(data.bytes, (uint32_t)data.length, result.mutableBytes);
