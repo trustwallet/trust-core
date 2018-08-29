@@ -35,6 +35,6 @@ extension Blockchain {
     public static let ethereumClassic = Blockchain(chainID: 61, type: .ethereum)
     public static let ethereumClassicTestnet = Blockchain(chainID: 62, type: .ethereum)
     public static let wanchain = Blockchain(chainID: 1, type: .wanchain)
-    public static let vechain = Blockchain(chainID: 39, type: .vechain)
+    public static let vechain = Blockchain(chainID: 74, type: .vechain)
     public static let tron = Blockchain(chainID: 1, type: .tron)
 }
