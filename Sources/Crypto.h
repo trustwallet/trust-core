@@ -23,6 +23,13 @@
 /// @return signature is in the 65-byte [R || S || V] format where V is 0 or 1.
 + (nonnull NSData *)signHash:(nonnull NSData *)hash privateKey:(nonnull NSData *)privateKey NS_SWIFT_NAME(sign(hash:privateKey:));
 
+/// Signs a hash with a private key, encodes the result as DER.
+///
+/// @param hash hash to sign
+/// @param privateKey private key to use for signing
+/// @return signature in the DER format.
++ (nonnull NSData *)signAsDERHash:(nonnull NSData *)hash privateKey:(nonnull NSData *)privateKey NS_SWIFT_NAME(signAsDER(hash:privateKey:));;
+
 /// Verifies a hash signature.
 ///
 /// @param signature signature to verify

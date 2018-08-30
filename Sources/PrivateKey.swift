@@ -56,6 +56,17 @@ public final class PrivateKey: Hashable, CustomStringConvertible {
         self.data = Data(data)
     }
 
+    /// Creates a `PrivateKey` from a Bitcoin WIF (wallet import format) string.
+    public init?(wif: String) {
+        guard let decoded = Crypto.base58Decode(wif) else {
+            return nil
+        }
+        if decoded[0] != 0x80 || decoded.last != 0x01 {
+            return nil
+        }
+        data = Data(decoded[1 ..< 33])
+    }
+
     deinit {
         // Clear memory
         data.clear()
@@ -76,6 +87,16 @@ public final class PrivateKey: Hashable, CustomStringConvertible {
         case .ethereum, .wanchain, .vechain:
             return EthereumPublicKey(data: pkData)!
         }
+    }
+
+    /// Signs a hash.
+    public func sign(hash: Data) -> Data {
+        return Crypto.sign(hash: hash, privateKey: data)
+    }
+
+    /// Signs a hash, encodes the result using DER.
+    public func signAsDER(hash: Data) -> Data {
+        return Crypto.signAsDER(hash: hash, privateKey: data)
     }
 
     public var description: String {
