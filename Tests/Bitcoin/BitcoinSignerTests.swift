@@ -10,6 +10,17 @@ import XCTest
 // swiftlint:disable line_length
 
 class BitcoinSignerTests: XCTestCase {
+    func testSignHash() {
+        let toAddress = BitcoinAddress(string: "1Bp9U1ogV3A14FMvKbRJms7ctyso4Z4Tcx")!
+        let changeAddress = BitcoinAddress(string: "1FQc5LdgGHMHEN9nwkjmz6tWkxhPpxBvBU")!
+        let unspentOutput = BitcoinTransactionOutput(value: 5151, script: BitcoinScript(data: Data(hexString: "76a914aff1e0789e5fe316b729577665aa0a04d5b0f8c788ac")!))
+        let unspentOutpoint = BitcoinOutPoint(hash: Data(hexString: "e28c2b955293159898e34c6840d99bf4d390e2ee1c6f606939f18ee1e2000d05")!, index: 2)
+        let utxo = BitcoinUnspentTransaction(output: unspentOutput, outpoint: unspentOutpoint)
+        let tx = createUnsignedTx(toAddress: toAddress, amount: 600, changeAddress: changeAddress, utxos: [utxo])
+        let sighash = tx.getSignatureHash(scriptCode: utxo.output.script, index: 0, hashType: [.all, .fork], amount: utxo.output.value)
+        XCTAssertEqual(sighash.hexString, "1136d4975aee4ff6ccf0b8a9c640532f563b48d9856fdc9682c37a071702937c")
+    }
+
     func testSignTransaction() throws {
         let toAddress = BitcoinAddress(string: "1Bp9U1ogV3A14FMvKbRJms7ctyso4Z4Tcx")!
         let changeAddress = BitcoinAddress(string: "1FQc5LdgGHMHEN9nwkjmz6tWkxhPpxBvBU")!
@@ -37,8 +48,8 @@ class BitcoinSignerTests: XCTestCase {
         let toPubKeyHash = toAddress.data.dropFirst()
         let changePubkeyHash = changeAddress.data.dropFirst()
 
-        let lockingScriptTo = BitcoinScript.buildPayToPublicKeyHash(toPubKeyHash)
-        let lockingScriptChange = BitcoinScript.buildPayToPublicKeyHash(changePubkeyHash)
+        let lockingScriptTo = BitcoinScript.buildPayToPublicKeyHash(Data(toPubKeyHash))
+        let lockingScriptChange = BitcoinScript.buildPayToPublicKeyHash(Data(changePubkeyHash))
 
         let toOutput = BitcoinTransactionOutput(value: amount, script: lockingScriptTo)
         let changeOutput = BitcoinTransactionOutput(value: change, script: lockingScriptChange)
