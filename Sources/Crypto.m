@@ -31,6 +31,15 @@
     return signature;
 }
 
++ (nonnull NSData *)signAsDERHash:(nonnull NSData *)hash privateKey:(nonnull NSData *)privateKey {
+    NSMutableData *signature = [[NSMutableData alloc] initWithLength:64];
+    NSMutableData *der = [[NSMutableData alloc] initWithLength:72];
+    ecdsa_sign_digest(&secp256k1, privateKey.bytes, hash.bytes, signature.mutableBytes, nil, nil);
+    int len = ecdsa_sig_to_der(signature.bytes, der.mutableBytes);
+    [der setLength:len];
+    return der;
+}
+
 + (BOOL)verifySignature:(nonnull NSData *)signature message:(nonnull NSData *)message publicKey:(nonnull NSData *)publicKey {
     return ecdsa_verify_digest(&secp256k1, publicKey.bytes, signature.bytes, message.bytes) == 0;
 }
@@ -47,6 +56,12 @@
     NSMutableData *result = [[NSMutableData alloc] initWithLength:SHA256_DIGEST_LENGTH];
     sha256_Raw(data.bytes, data.length, result.mutableBytes);
     return result;
+}
+
++ (nonnull NSData *)blake2b256:(nonnull NSData *)hash {
+    NSMutableData *output = [[NSMutableData alloc] initWithLength:32];
+    blake2b(hash.bytes, (uint32_t)hash.length, output.mutableBytes, output.length);
+    return output;
 }
 
 + (nonnull NSData *)ripemd160:(nonnull NSData *)data {

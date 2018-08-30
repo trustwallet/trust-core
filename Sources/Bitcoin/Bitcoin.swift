@@ -8,6 +8,8 @@ import Foundation
 
 public enum Bitcoin {
     public static let privateKeySize = 32
+    public static let publicKeySize = 65
+    public static let compressedPublicKeySize = 33
     public static let addressSize = 20
 
     public enum MainNet {

@@ -31,7 +31,7 @@ extension Array: BinaryEncoding where Iterator.Element: BinaryEncoding {
     }
 }
 
-private func writeCompactSize(_ size: Int, into data: inout Data) {
+public func writeCompactSize(_ size: Int, into data: inout Data) {
     if size < 253 {
         data.append(UInt8(size))
     } else if size <= UInt16.max {
