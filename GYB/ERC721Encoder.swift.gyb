@@ -1,0 +1,51 @@
+// Copyright © 2017-2018 Trust.
+//
+// This file is part of Trust. The full Trust copyright notice, including
+// terms governing use, modification, and redistribution, is contained in the
+// file LICENSE at the root of the source code distribution tree.
+
+import Foundation
+import BigInt
+import TrustCore
+
+public final class ERC721Encoder {
+%{
+    import json
+    typesMapping = {}
+    paramsMapping = {}
+    with open('./types.json') as file:
+        types = json.load(file)
+        typesMapping = types['types']
+        paramsMapping = types['abi_types']
+}%
+% with open('./erc721.json') as file:
+    % for item in json.load(file):
+%{
+    raw_func_name = item.get('name', '')
+    func_name = 'encode' + raw_func_name[:1].upper() + raw_func_name[1:]
+    _type = item['type']
+}%
+    % if _type == 'function':
+%{
+    raw_args = ', '.join(['{} {}'.format(x['type'], x['name']) for x in item['inputs']])
+    raw_returns = ', '.join([x['type'] for x in item['outputs']])
+    returns = ''
+    if raw_returns:
+        returns = ' returns ({});'.format(raw_returns)
+    args = ', '.join(['{}: {}'.format(x['name'].lstrip('_'), typesMapping[x['type']]) for x in item['inputs']])
+    parameters = ', '.join([paramsMapping[x['type']] for x in item['inputs']])
+    arguments = ', '.join([x['name'].lstrip('_') for x in item['inputs']])
+}%
+    /// Encodes a function call to `${raw_func_name}`
+    ///
+    /// Solidity function: `function ${raw_func_name}(${raw_args})${returns}`
+    public static func ${func_name}(${args}) -> Data {
+        let function = Function(name: "${raw_func_name}", parameters: [${parameters}])
+        let encoder = ABIEncoder()
+        try! encoder.encode(function: function, arguments: [${arguments}])
+        return encoder.data
+    }
+    % end
+    % end
+% end
+}
