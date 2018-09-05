@@ -44,6 +44,20 @@
     return ecdsa_verify_digest(&secp256k1, publicKey.bytes, signature.bytes, message.bytes) == 0;
 }
 
++ (nullable NSData *)recoverPubkeyFrom:(nonnull NSData *)signature message:(nonnull NSData *)message
+{
+    uint8_t pubkey[65];
+    const uint8_t* bytes = (const uint8_t*)[signature bytes];
+    uint8_t v = bytes[64];
+    if (v >= 27) {
+        v -= 27;
+    }
+    if (ecdsa_verify_digest_recover(&secp256k1, pubkey, bytes, message.bytes, v) != 0) {
+        return nil;
+    }
+    return [NSData dataWithBytes:pubkey length:65];
+}
+
 // MARK: - Hash functions
 
 + (nonnull NSData *)hash:(nonnull NSData *)hash {

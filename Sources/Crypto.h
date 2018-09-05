@@ -38,6 +38,13 @@
 /// @return whether the signature is valid
 + (BOOL)verifySignature:(nonnull NSData *)signature message:(nonnull NSData *)message publicKey:(nonnull NSData *)publicKey NS_SWIFT_NAME(verify(signature:message:publicKey:));
 
+/// Recovers the public key from a signature and a message hash.
+///
+/// @param signature signature of a signed message
+/// @param message hashed message
+/// @return public key or nil if the signature is not valid.
++ (nullable NSData *)recoverPubkeyFrom:(nonnull NSData *)signature message:(nonnull NSData *)message;
+
 // MARK: - Hash functions
 
 /// Computes the Ethereum hash of a block of data (SHA3 Keccak 256 version).
