@@ -30,6 +30,19 @@ class CryptoTests: XCTestCase {
         XCTAssertEqual(pubkey?.address.description.lowercased(), "0x3994c38d3738e9d1be0e31483b8f56ba5546a640")
     }
 
+    func testPersonalMessageRecoverPubkey() {
+        let sig = Data(hexString: "2237bed7053f13935abf3c89841bc6baf28d880be6512a555a3745fec811497153871388e6a57f333c3bad0bd966861dbfb0d10d2fa068b1c6e5e54d7e5516671c")!
+
+        let msg = "hello!".data(using: .utf8)!
+        let prefix = "\u{19}Ethereum Signed Message:\n\(msg.count)".data(using: .utf8)!
+
+        let hash = Crypto.hash(prefix + msg)
+        let recovered = Crypto.recoverPubkey(from: sig, message: hash)!
+        let ethPubRecover = EthereumPublicKey(data: recovered)!
+
+        XCTAssertEqual(ethPubRecover.address.description.lowercased(), "0x94f227a17b669c4e469a5523e87601fce0addd61")
+    }
+
     func testSignDER() {
         let hash = Data(hexString: "52204d20fd0131ae1afd173fd80a3a746d2dcc0cddced8c9dc3d61cc7ab6e966")!
         let privateKey = Data(hexString: "16f243e962c59e71e54189e67e66cf2440a1334514c09c00ddcc21632bac9808")!
