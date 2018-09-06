@@ -11,8 +11,8 @@ open class Blockchain: Hashable {
     /// Coin type for Level 2 of BIP44.
     ///
     /// - SeeAlso: https://github.com/satoshilabs/slips/blob/master/slip-0044.md
-    open var coinType: Int {
-        return 0
+    open var coinType: Slip {
+        fatalError("Use a specific Blockchain subclass")
     }
 
     public init() {}
@@ -45,6 +45,6 @@ open class Blockchain: Hashable {
 
 public extension Blockchain {
     func derivationPath(at index: Int) -> DerivationPath {
-        return DerivationPath(purpose: 44, coinType: self.coinType, account: 0, change: 0, address: index)
+        return DerivationPath(purpose: 44, coinType: self.coinType.rawValue, account: 0, change: 0, address: index)
     }
 }

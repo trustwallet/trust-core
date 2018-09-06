@@ -7,29 +7,27 @@
 import Foundation
 
 /// Creates a blockchain for a specific SLIP-0044 coin type.
-public func blockchain(coin: Int) -> Blockchain? {
+public func blockchain(coin: Slip) -> Blockchain? {
     switch coin {
-    case 0:
+    case .bitcoin:
         return Bitcoin()
-    case 2:
+    case .litecoin:
         return Litecoin()
-    case 60:
+    case .ethereum:
         return Ethereum()
-    case 61:
+    case .ethereumClassic:
         return EthereumClassic()
-    case 6060:
+    case .go:
         return Go()
-    case 178:
+    case .poa:
         return POA()
-    case 195:
+    case .tron:
         return Tron()
-    case 818:
+    case .vechain:
         return Vechain()
-    case 820:
+    case .callisto:
         return Callisto()
-    case 5718350:
+    case .wanchain:
         return Wanchain()
-    default:
-        return nil
     }
 }

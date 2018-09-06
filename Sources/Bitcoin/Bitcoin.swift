@@ -11,8 +11,8 @@ import Foundation
 /// Bitcoin-based blockchains should inherit from this class.
 open class Bitcoin: Blockchain {
     /// SLIP-044 coin type.
-    override open var coinType: Int {
-        return 0
+    override open var coinType: Slip {
+        return .bitcoin
     }
 
     /// Public key hash address prefix.
@@ -42,8 +42,8 @@ open class Bitcoin: Blockchain {
 }
 
 public final class Litecoin: Bitcoin {
-    public override var coinType: Int {
-        return 2
+    public override var coinType: Slip {
+        return .litecoin
     }
 
     public override var payToScriptHashAddressPrefix: UInt8 {
@@ -52,8 +52,8 @@ public final class Litecoin: Bitcoin {
 }
 
 public final class Tron: Bitcoin {
-    public override var coinType: Int {
-        return 195
+    public override var coinType: Slip {
+        return .tron
     }
     public override var payToScriptHashAddressPrefix: UInt8 {
         return 0x41

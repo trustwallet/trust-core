@@ -16,8 +16,8 @@ open class Ethereum: Blockchain {
     }
 
     /// SLIP-044 coin type.
-    open override var coinType: Int {
-        return 60
+    open override var coinType: Slip {
+        return .ethereum
     }
 
     open override func address(for publicKey: PublicKey) -> Address {
@@ -38,8 +38,8 @@ public final class Go: Ethereum {
         return 60
     }
 
-    public override var coinType: Int {
-        return 6060
+    public override var coinType: Slip {
+        return .go
     }
 }
 
@@ -48,8 +48,8 @@ public final class POA: Ethereum {
         return 99
     }
 
-    public override var coinType: Int {
-        return 178
+    public override var coinType: Slip {
+        return .poa
     }
 }
 
@@ -58,8 +58,8 @@ public final class Callisto: Ethereum {
         return 820
     }
 
-    public override var coinType: Int {
-        return 820
+    public override var coinType: Slip {
+        return .callisto
     }
 }
 
@@ -68,8 +68,8 @@ public final class EthereumClassic: Ethereum {
         return 61
     }
 
-    public override var coinType: Int {
-        return 61
+    public override var coinType: Slip {
+        return .ethereumClassic
     }
 }
 
@@ -78,8 +78,8 @@ public final class Wanchain: Ethereum {
         return 1
     }
 
-    public override var coinType: Int {
-        return 5718350
+    public override var coinType: Slip {
+        return .wanchain
     }
 }
 
@@ -88,7 +88,7 @@ public final class Vechain: Ethereum {
         return 74
     }
 
-    public override var coinType: Int {
-        return 818
+    public override var coinType: Slip {
+        return .vechain
     }
 }
