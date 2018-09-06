@@ -8,7 +8,7 @@ import XCTest
 import TrustCore
 
 class SlipTests: XCTestCase {
-    
+
     func testCoinType() {
         XCTAssertEqual(Slip.bitcoin.rawValue, 0)
         XCTAssertEqual(Slip.litecoin.rawValue, 2)
