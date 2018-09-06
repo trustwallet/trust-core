@@ -16,7 +16,7 @@ public enum Slip: Int {
     case ethereum = 60
     case ethereumClassic = 61
     case go = 6060
-    case poa = 1278
+    case poa = 178
     case tron = 195
     case vechain = 818
     case callisto = 820

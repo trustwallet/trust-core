@@ -18,6 +18,7 @@ class SlipTests: XCTestCase {
         XCTAssertEqual(Slip.callisto.rawValue, 820)
         XCTAssertEqual(Slip.ethereumClassic.rawValue, 61)
         XCTAssertEqual(Slip.go.rawValue, 6060)
+        XCTAssertEqual(Slip.poa.rawValue, 178)
         XCTAssertEqual(Slip.vechain.rawValue, 818)
     }
 }
