@@ -29,5 +29,7 @@ public func blockchain(coin: Slip) -> Blockchain {
         return Callisto()
     case .wanchain:
         return Wanchain()
+    case .dash:
+        return Dash()
     }
 }
