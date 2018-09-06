@@ -6,35 +6,45 @@
 
 import Foundation
 
-/// Blockchain types
-public enum BlockchainType {
-    case bitcoin
-    case ethereum
-    case wanchain
-    case vechain
-    case tron
-}
+/// Blockchain represents what is unique about every blockchain.
+open class Blockchain: Hashable {
+    /// Coin type for Level 2 of BIP44.
+    ///
+    /// - SeeAlso: https://github.com/satoshilabs/slips/blob/master/slip-0044.md
+    open var coinType: Int {
+        return 0
+    }
 
-/// Blockchains
-public struct Blockchain: Equatable {
-    public var chainID: Int
-    public var type: BlockchainType
+    public init() {}
 
-    public init(chainID: Int, type: BlockchainType) {
-        self.chainID = chainID
-        self.type = type
+    /// Returns the address associated with a public key.
+    open func address(for publicKey: PublicKey) -> Address {
+        fatalError("Use a specific Blockchain subclass")
+    }
+
+    /// Returns the address given its string representation.
+    open func address(string: String) -> Address? {
+        fatalError("Use a specific Blockchain subclass")
+    }
+
+    /// Returns the address given its raw representation.
+    open func address(data: Data) -> Address? {
+        fatalError("Use a specific Blockchain subclass")
+    }
+
+    // MARK: Hashable
+
+    public static func == (lhs: Blockchain, rhs: Blockchain) -> Bool {
+        return lhs.coinType == rhs.coinType
+    }
+
+    public var hashValue: Int {
+        return coinType.hashValue
     }
 }
 
-extension Blockchain {
-    public static let bitcoin = Blockchain(chainID: 0, type: .bitcoin)
-    public static let ethereum = Blockchain(chainID: 1, type: .ethereum)
-    public static let go = Blockchain(chainID: 60, type: .ethereum)
-    public static let poa = Blockchain(chainID: 99, type: .ethereum)
-    public static let callisto = Blockchain(chainID: 820, type: .ethereum)
-    public static let ethereumClassic = Blockchain(chainID: 61, type: .ethereum)
-    public static let ethereumClassicTestnet = Blockchain(chainID: 62, type: .ethereum)
-    public static let wanchain = Blockchain(chainID: 1, type: .wanchain)
-    public static let vechain = Blockchain(chainID: 74, type: .vechain)
-    public static let tron = Blockchain(chainID: 1, type: .tron)
+public extension Blockchain {
+    func derivationPath(at index: Int) -> DerivationPath {
+        return DerivationPath(purpose: 44, coinType: self.coinType, account: 0, change: 0, address: index)
+    }
 }

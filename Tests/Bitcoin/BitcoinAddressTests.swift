@@ -24,7 +24,8 @@ class BitcoinAddressTests: XCTestCase {
     func testFromPrivateKey() {
         let data = Crypto.base58Decode("5K6EwEiKWKNnWGYwbNtrXjA8KKNntvxNKvepNqNeeLpfW7FSG1v")!
         let privateKey = PrivateKey(data: data.dropFirst())!
-        let address = privateKey.publicKey(for: .bitcoin, compressed: true).address
+        let publicKey = privateKey.publicKey(compressed: true)
+        let address = Bitcoin().address(for: publicKey)
 
         XCTAssertEqual(address.description, "3EpNJiTASbZ6DeNA7QZ7bPEz82Y42W8Rd7")
     }
@@ -38,15 +39,15 @@ class BitcoinAddressTests: XCTestCase {
 
     func testCompressedPublicKey() {
         // compressed public key starting with 0x03 (greater than midpoint of curve)
-        let compressedPK = BitcoinPublicKey(data: Data(hexString: "030589ee559348bd6a7325994f9c8eff12bd5d73cc683142bd0dd1a17abc99b0dc")!)!
+        let compressedPK = PublicKey(data: Data(hexString: "030589ee559348bd6a7325994f9c8eff12bd5d73cc683142bd0dd1a17abc99b0dc")!)!
         XCTAssertTrue(compressedPK.isCompressed)
-        XCTAssertEqual(compressedPK.address(prefix: 0).description, "1KbUJ4x8epz6QqxkmZbTc4f79JbWWz6g37")
+        XCTAssertEqual(compressedPK.bitcoinAddress(prefix: 0).description, "1KbUJ4x8epz6QqxkmZbTc4f79JbWWz6g37")
     }
 
     func testUncompressedPublicKey() {
         // uncompressed public key, starting with 0x04. Contains both X and Y encoded
-        let uncompressed = BitcoinPublicKey(data: Data(hexString: "0479BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798483ADA7726A3C4655DA4FBFC0E1108A8FD17B448A68554199C47D08FFB10D4B8")!)!
+        let uncompressed = PublicKey(data: Data(hexString: "0479BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798483ADA7726A3C4655DA4FBFC0E1108A8FD17B448A68554199C47D08FFB10D4B8")!)!
         XCTAssertFalse(uncompressed.isCompressed)
-        XCTAssertEqual(uncompressed.address(prefix: 0).description, "1EHNa6Q4Jz2uvNExL497mE43ikXhwF6kZm")
+        XCTAssertEqual(uncompressed.bitcoinAddress(prefix: 0).description, "1EHNa6Q4Jz2uvNExL497mE43ikXhwF6kZm")
     }
 }

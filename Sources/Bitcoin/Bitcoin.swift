@@ -6,31 +6,56 @@
 
 import Foundation
 
-public enum Bitcoin {
-    public static let privateKeySize = 32
-    public static let publicKeySize = 65
-    public static let compressedPublicKeySize = 33
-    public static let addressSize = 20
-
-    public enum MainNet {
-        /// Public key hash address prefix.
-        public static let publicKeyHashAddressPrefix: UInt8 = 0x00
-
-        /// Private key prefix.
-        public static let privateKeyPrefix: UInt8 = 0x80
-
-        /// Pay to script hash (P2SH) address prefix.
-        public static let payToScriptHashAddressPrefix: UInt8 = 0x05
+/// Bitcoin blockchain.
+///
+/// Bitcoin-based blockchains should inherit from this class.
+open class Bitcoin: Blockchain {
+    /// SLIP-044 coin type.
+    override open var coinType: Int {
+        return 0
     }
 
-    public enum TestNet {
-        /// Public key hash address prefix.
-        public static let publicKeyHashAddressPrefix: UInt8 = 0x6f
+    /// Public key hash address prefix.
+    open var publicKeyHashAddressPrefix: UInt8 {
+        return 0x00
+    }
 
-        /// Private key prefix.
-        public static let privateKeyPrefix: UInt8 = 0xef
+    /// Private key prefix.
+    open var privateKeyPrefix: UInt8 { return 0x80 }
 
-        /// Pay to script hash (P2SH) address prefix.
-        public static let payToScriptHashAddressPrefix: UInt8 = 0x0c
+    /// Pay to script hash (P2SH) address prefix.
+    open var payToScriptHashAddressPrefix: UInt8 {
+        return 0x05
+    }
+
+    open override func address(for publicKey: PublicKey) -> Address {
+        return publicKey.bitcoinAddress(prefix: payToScriptHashAddressPrefix)
+    }
+
+    open override func address(string: String) -> Address? {
+        return BitcoinAddress(string: string)
+    }
+
+    open override func address(data: Data) -> Address? {
+        return BitcoinAddress(data: data)
+    }
+}
+
+public final class Litecoin: Bitcoin {
+    public override var coinType: Int {
+        return 2
+    }
+
+    public override var payToScriptHashAddressPrefix: UInt8 {
+        return 0x32
+    }
+}
+
+public final class Tron: Bitcoin {
+    public override var coinType: Int {
+        return 195
+    }
+    public override var payToScriptHashAddressPrefix: UInt8 {
+        return 0x41
     }
 }

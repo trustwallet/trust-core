@@ -6,19 +6,52 @@
 
 import Foundation
 
-public protocol PublicKey: CustomStringConvertible {
-    /// Validates that raw data is a valid public key.
-    static func isValid(data: Data) -> Bool
+public struct PublicKey: Hashable, CustomStringConvertible {
+    /// Compressed public key size.
+    public static let compressedSize = 33
 
-    /// Coin this public key is for.
-    var coin: Coin { get }
+    /// Uncompressed public key size.
+    public static let uncompressedSize = 65
+
+    /// Validates that raw data is a valid public key.
+    static public func isValid(data: Data) -> Bool {
+        switch data.first {
+        case 2, 3:
+            return data.count == PublicKey.compressedSize
+        case 4, 6, 7:
+            return data.count == PublicKey.uncompressedSize
+        default:
+            return false
+        }
+    }
 
     /// Raw representation of the public key.
-    var data: Data { get }
+    public let data: Data
 
-    /// Address.
-    var address: Address { get }
+    /// Whether this is a compressed key.
+    public var isCompressed: Bool {
+        return data.count == PublicKey.compressedSize && data[0] == 2 || data[0] == 3
+    }
 
     /// Creates a public key from a raw representation.
-    init?(data: Data)
+    public init?(data: Data) {
+        if !PublicKey.isValid(data: data) {
+            return nil
+        }
+        self.data = data
+    }
+
+    public var description: String {
+        return data.hexString
+    }
+
+    // MARK: Hashable
+
+    public static func == (lhs: PublicKey, rhs: PublicKey) -> Bool {
+        return lhs.data == rhs.data
+    }
+
+    public var hashValue: Int {
+        return data.hashValue
+    }
 }

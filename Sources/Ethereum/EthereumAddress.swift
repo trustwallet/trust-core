@@ -9,9 +9,11 @@ import TrezorCrypto
 
 /// Ethereum address.
 public struct EthereumAddress: Address, Hashable {
+    public static let size = 20
+
     /// Validates that the raw data is a valid address.
     static public func isValid(data: Data) -> Bool {
-        return data.count == Ethereum.addressSize
+        return data.count == EthereumAddress.size
     }
 
     /// Validates that the string is a valid address.
@@ -42,7 +44,7 @@ public struct EthereumAddress: Address, Hashable {
 
     /// Creates an address with an hexadecimal string representation.
     public init?(string: String) {
-        guard let data = Data(hexString: string), data.count == Ethereum.addressSize else {
+        guard let data = Data(hexString: string), data.count == EthereumAddress.size else {
             return nil
         }
         self.data = data
