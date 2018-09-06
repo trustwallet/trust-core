@@ -9,7 +9,7 @@ import Foundation
 public struct NeoTransaction: BinaryEncoding {
     
     /// Transaction type
-    public let type: UInt8
+    public let txType: UInt8
     
     /// Transaction data format version
     public let version: UInt8
@@ -24,13 +24,14 @@ public struct NeoTransaction: BinaryEncoding {
     
     public let scripts: [Script]
     
-    public init(type: UInt8,
+    public init(
+                txType: UInt8,
                 version: UInt8,
                 attributes: [Attribute],
                 inputs: [NeoTransactionInput],
                 outputs: [NeoTransactionOutput],
                 scripts: [Script]){
-        self.type = type
+        self.txType = txType
         self.version = version
         self.attributes = attributes
         self.inputs = inputs
@@ -39,7 +40,7 @@ public struct NeoTransaction: BinaryEncoding {
     }
     
     public func encode(into data: inout Data) {
-        type.encode(into: &data)
+        txType.encode(into: &data)
         version.encode(into: &data)
         attributes.encode(into: &data)
         inputs.encode(into: &data)
@@ -54,10 +55,10 @@ public struct NeoTransactionInput: BinaryEncoding {
     //todo - prevHash must be UInt256
     //mabe use https://github.com/hyugit/UInt256
     //or https://github.com/CryptoCoinSwift/UInt256
-    let prevHash: UInt64
+    let prevHash: Data
     let prevIndx: UInt16
     
-    public init(prevHash: UInt64, prevIndx: UInt16){
+    public init(prevHash: Data, prevIndx: UInt16){
         self.prevHash = prevHash
         self.prevIndx = prevIndx
     }
@@ -70,14 +71,14 @@ public struct NeoTransactionInput: BinaryEncoding {
 
 public struct NeoTransactionOutput: BinaryEncoding {
     //todo - assetId must be UInt256
-    let assetId: UInt64
+    let assetId: Data
     let value: Int64
     //Address of remittee
     //todo - scriptHash must be UInt160
-    let scriptHash: UInt64
+    let scriptHash: Data
     
     //todo - change assetId type to UInt256, scriptHash - to UInt160
-    public init(assetId: UInt64, value: Int64, scriptHash: UInt64){
+    public init(assetId: Data, value: Int64, scriptHash: Data){
         self.assetId = assetId
         self.value = value
         self.scriptHash = scriptHash
@@ -110,10 +111,10 @@ public struct Attribute: BinaryEncoding {
 }
 
 public struct Script: BinaryEncoding {
-    let stackScript: [UInt8]
-    let redeemScript: [UInt8]
+    let stackScript: [Data]
+    let redeemScript: [Data]
     
-    public init(stackScript: [UInt8], redeemScript: [UInt8]){
+    public init(stackScript: [Data], redeemScript: [Data]){
         self.stackScript = stackScript
         self.redeemScript = redeemScript
     }
