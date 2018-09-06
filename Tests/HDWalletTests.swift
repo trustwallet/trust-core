@@ -24,19 +24,19 @@ class HDWalletTests: XCTestCase {
 
     func testDerive() {
         let wallet = HDWallet(mnemonic: words, passphrase: passphrase)
-        let key0 = wallet.getKey(at: Coin.ethereum.derivationPath(at: 0))
-        let key1 = wallet.getKey(at: Coin.ethereum.derivationPath(at: 1))
-        XCTAssertEqual(key0.publicKey(for: .ethereum).address.description, "0x27Ef5cDBe01777D62438AfFeb695e33fC2335979")
-        XCTAssertEqual(key1.publicKey(for: .ethereum).address.description, "0x98f5438cDE3F0Ff6E11aE47236e93481899d1C47")
+        let key0 = wallet.getKey(at: Ethereum().derivationPath(at: 0))
+        let key1 = wallet.getKey(at: Ethereum().derivationPath(at: 1))
+        XCTAssertEqual(key0.publicKey().ethereumAddress.description, "0x27Ef5cDBe01777D62438AfFeb695e33fC2335979")
+        XCTAssertEqual(key1.publicKey().ethereumAddress.description, "0x98f5438cDE3F0Ff6E11aE47236e93481899d1C47")
     }
 
     func testSignHash() {
         let wallet = HDWallet(mnemonic: words, passphrase: passphrase)
-        let key = wallet.getKey(at: Coin.ethereum.derivationPath(at: 0))
+        let key = wallet.getKey(at: Ethereum().derivationPath(at: 0))
         let hash = Data(hexString: "3F891FDA3704F0368DAB65FA81EBE616F4AA2A0854995DA4DC0B59D2CADBD64F")!
         let result = Crypto.sign(hash: hash, privateKey: key.data)
 
-        let publicKey = key.publicKey(for: .ethereum)
+        let publicKey = key.publicKey()
         XCTAssertEqual(result.count, 65)
         XCTAssertTrue(Crypto.verify(signature: result, message: hash, publicKey: publicKey.data))
     }

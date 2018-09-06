@@ -10,8 +10,8 @@ import XCTest
 class TronAddressTests: XCTestCase {
     func testAddress() {
         let privateKey = PrivateKey()
-        let publicKey = privateKey.publicKey(for: .tron, compressed: true) as! BitcoinPublicKey
-        let address = publicKey.address(prefix: Tron.MainNet.payToScriptHashAddressPrefix)
+        let publicKey = privateKey.publicKey(compressed: true)
+        let address = Tron().address(for: publicKey)
 
         XCTAssert(address.description.hasPrefix("T"))
     }

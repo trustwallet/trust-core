@@ -309,14 +309,14 @@ public final class BitcoinScript: BinaryEncoding {
         }
     }
 
-    public func matchPayToPubkey() -> BitcoinPublicKey? {
-        if bytes.count == Bitcoin.publicKeySize + 2 && bytes[0] == Bitcoin.publicKeySize && bytes.last == OpCode.OP_CHECKSIG {
-            let pubkeyData = Data(bytes: bytes[bytes.startIndex + 1 ..< bytes.startIndex + Bitcoin.publicKeySize + 1])
-            return BitcoinPublicKey(data: pubkeyData)
+    public func matchPayToPubkey() -> PublicKey? {
+        if bytes.count == PublicKey.uncompressedSize + 2 && bytes[0] == PublicKey.uncompressedSize && bytes.last == OpCode.OP_CHECKSIG {
+            let pubkeyData = Data(bytes: bytes[bytes.startIndex + 1 ..< bytes.startIndex + PublicKey.uncompressedSize + 1])
+            return PublicKey(data: pubkeyData)
         }
-        if bytes.count == Bitcoin.compressedPublicKeySize + 2 && bytes[0] == Bitcoin.compressedPublicKeySize && bytes.last == OpCode.OP_CHECKSIG {
-            let pubkeyData = Data(bytes: bytes[bytes.startIndex + 1 ..< bytes.startIndex + Bitcoin.compressedPublicKeySize + 1])
-            return BitcoinPublicKey(data: pubkeyData)
+        if bytes.count == PublicKey.compressedSize + 2 && bytes[0] == PublicKey.compressedSize && bytes.last == OpCode.OP_CHECKSIG {
+            let pubkeyData = Data(bytes: bytes[bytes.startIndex + 1 ..< bytes.startIndex + PublicKey.compressedSize + 1])
+            return PublicKey(data: pubkeyData)
         }
         return nil
     }
@@ -328,12 +328,12 @@ public final class BitcoinScript: BinaryEncoding {
         return nil
     }
 
-    public func matchMultisig(required: inout Int) -> [BitcoinPublicKey]? {
+    public func matchMultisig(required: inout Int) -> [PublicKey]? {
         if bytes.count < 1 || bytes.last != OpCode.OP_CHECKMULTISIG {
             return []
         }
 
-        var keys = [BitcoinPublicKey]()
+        var keys = [PublicKey]()
 
         var it = bytes.startIndex
         var opcode = 0 as UInt8
@@ -342,7 +342,7 @@ public final class BitcoinScript: BinaryEncoding {
             return nil
         }
         required = BitcoinScript.decodeNumber(opcode: opcode)
-        while getScriptOp(index: &it, opcode: &opcode, contents: &contents), let key = BitcoinPublicKey(data: contents) {
+        while getScriptOp(index: &it, opcode: &opcode, contents: &contents), let key = PublicKey(data: contents) {
             keys.append(key)
         }
         if !OpCode.isSmallInteger(opcode) {

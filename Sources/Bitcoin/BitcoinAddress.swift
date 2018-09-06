@@ -7,16 +7,11 @@
 import Foundation
 
 public struct BitcoinAddress: Address, Hashable {
-    static let validAddressPrefixes = [
-        Bitcoin.MainNet.publicKeyHashAddressPrefix,
-        Bitcoin.MainNet.payToScriptHashAddressPrefix,
-        Bitcoin.TestNet.publicKeyHashAddressPrefix,
-        Bitcoin.TestNet.payToScriptHashAddressPrefix,
-    ]
+    public static let size = 20
 
     /// Validates that the raw data is a valid address.
     static public func isValid(data: Data) -> Bool {
-        if data.count != Bitcoin.addressSize + 1 {
+        if data.count != BitcoinAddress.size + 1 {
             return false
         }
 
@@ -30,7 +25,7 @@ public struct BitcoinAddress: Address, Hashable {
         }
 
         // Verify size
-        if decoded.count != 1 + Bitcoin.addressSize {
+        if decoded.count != 1 + BitcoinAddress.size {
             return false
         }
 

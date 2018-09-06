@@ -7,10 +7,13 @@
 import Foundation
 
 public final class PrivateKey: Hashable, CustomStringConvertible {
+    /// Private key size in bytes.
+    public static let size = 32
+
     /// Validates that raw data is a valid private key.
     static public func isValid(data: Data) -> Bool {
         // Check length
-        if data.count != Ethereum.privateKeySize && data.count != Bitcoin.privateKeySize {
+        if data.count != PrivateKey.size {
             return false
         }
 
@@ -32,7 +35,7 @@ public final class PrivateKey: Hashable, CustomStringConvertible {
         ]
         let parameters: [String: Any] = [
             kSecAttrKeyType as String: kSecAttrKeyTypeEC,
-            kSecAttrKeySizeInBits as String: 256,
+            kSecAttrKeySizeInBits as String: PrivateKey.size * 8,
             kSecPrivateKeyAttrs as String: privateAttributes,
         ]
 
@@ -45,7 +48,7 @@ public final class PrivateKey: Hashable, CustomStringConvertible {
         defer {
             keyRepresentation.clear()
         }
-        data = Data(keyRepresentation.suffix(32))
+        data = Data(keyRepresentation.suffix(PrivateKey.size))
     }
 
     /// Creates a private key from a raw representation.
@@ -56,24 +59,16 @@ public final class PrivateKey: Hashable, CustomStringConvertible {
         self.data = Data(data)
     }
 
-    /// Creates a `PrivateKey` from a Bitcoin WIF (wallet import format) string.
-    public init?(wif: String) {
-        guard let decoded = Crypto.base58Decode(wif) else {
-            return nil
-        }
-        if decoded[0] != 0x80 || decoded.last != 0x01 {
-            return nil
-        }
-        data = Data(decoded[1 ..< 33])
-    }
-
     deinit {
         // Clear memory
         data.clear()
     }
 
-    /// Public key.
-    public func publicKey(for type: BlockchainType, compressed: Bool = false) -> PublicKey {
+    /// Returns the public key associated with this pirvate key.
+    ///
+    /// - Parameter compressed: whether to generate a compressed public key
+    /// - Returns: the public key
+    public func publicKey(compressed: Bool = false) -> PublicKey {
         let pkData: Data
         if compressed {
             pkData = Crypto.getCompressedPublicKey(from: data)
@@ -81,12 +76,7 @@ public final class PrivateKey: Hashable, CustomStringConvertible {
             pkData = Crypto.getPublicKey(from: data)
         }
 
-        switch type {
-        case .bitcoin, .tron:
-            return BitcoinPublicKey(data: pkData)!
-        case .ethereum, .wanchain, .vechain:
-            return EthereumPublicKey(data: pkData)!
-        }
+        return PublicKey(data: pkData)!
     }
 
     /// Signs a hash.
@@ -102,6 +92,8 @@ public final class PrivateKey: Hashable, CustomStringConvertible {
     public var description: String {
         return data.hexString
     }
+
+    // MARK: Hashable
 
     public var hashValue: Int {
         return data.hashValue

@@ -26,8 +26,8 @@ class CryptoTests: XCTestCase {
         let signature = Crypto.sign(hash: hash, privateKey: privateKey)
 
         let data = Crypto.recoverPubkey(from: signature, message: hash)!
-        let pubkey = EthereumPublicKey(data: data)
-        XCTAssertEqual(pubkey?.address.description.lowercased(), "0x3994c38d3738e9d1be0e31483b8f56ba5546a640")
+        let pubkey = PublicKey(data: data)
+        XCTAssertEqual(pubkey?.ethereumAddress.description.lowercased(), "0x3994c38d3738e9d1be0e31483b8f56ba5546a640")
     }
 
     func testPersonalMessageRecoverPubkey() {
@@ -38,9 +38,9 @@ class CryptoTests: XCTestCase {
 
         let hash = Crypto.hash(prefix + msg)
         let recovered = Crypto.recoverPubkey(from: sig, message: hash)!
-        let ethPubRecover = EthereumPublicKey(data: recovered)!
+        let ethPubRecover = PublicKey(data: recovered)!
 
-        XCTAssertEqual(ethPubRecover.address.description.lowercased(), "0x94f227a17b669c4e469a5523e87601fce0addd61")
+        XCTAssertEqual(ethPubRecover.ethereumAddress.description.lowercased(), "0x94f227a17b669c4e469a5523e87601fce0addd61")
     }
 
     func testSignDER() {

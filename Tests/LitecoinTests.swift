@@ -10,8 +10,8 @@ import XCTest
 class LitecoinTests: XCTestCase {
     func testAddress() {
         let privateKey = PrivateKey()
-        let publicKey = privateKey.publicKey(for: .bitcoin, compressed: true) as! BitcoinPublicKey
-        let address = publicKey.address(prefix: Litecoin.MainNet.payToScriptHashAddressPrefix)
+        let publicKey = privateKey.publicKey(compressed: true)
+        let address = Litecoin().address(for: publicKey)
 
         XCTAssert(address.description.hasPrefix("M"))
     }
