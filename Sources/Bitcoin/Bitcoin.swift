@@ -59,3 +59,12 @@ public final class Tron: Bitcoin {
         return 0x41
     }
 }
+
+public final class Dash: Bitcoin {
+    public override var coinType: Slip {
+        return .dash
+    }
+    public override var payToScriptHashAddressPrefix: UInt8 {
+        return 0x4C
+    }
+}

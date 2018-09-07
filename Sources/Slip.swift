@@ -13,6 +13,7 @@ import Foundation
 public enum Slip: Int {
     case bitcoin = 0
     case litecoin = 2
+    case dash = 5
     case ethereum = 60
     case ethereumClassic = 61
     case go = 6060
