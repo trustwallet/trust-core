@@ -19,14 +19,22 @@ public struct BitcoinTransactionSigner {
         var inputsToSign = unsignedTx.inputs
 
         for (i, utxo) in zip(utxos.indices, utxos) {
-            guard let pubkeyHash = utxo.output.script.matchPayToPubkeyHash() else {
+            let key: PrivateKey
+            if let pubkeyHash = utxo.output.script.matchPayToPubkeyHash() {
+                guard let maybeKey = self.key(for: pubkeyHash) else {
+                    // Missing key, can't sign
+                    continue
+                }
+                key = maybeKey
+            } else if let pubkey = utxo.output.script.matchPayToPubkey() {
+                guard let maybeKey = self.key(for: pubkey) else {
+                    // Missing key, can't sign
+                    continue
+                }
+                key = maybeKey
+            } else {
                 // Only 'pay to public key hash' scripts supported
                 throw Error.invalidOutputScript
-            }
-
-            guard let key = key(for: pubkeyHash) else {
-                // Missing key, can't sign
-                continue
             }
 
             let transactionToSign = BitcoinTransaction(version: unsignedTx.version, inputs: inputsToSign, outputs: unsignedTx.outputs, lockTime: unsignedTx.lockTime)
@@ -46,6 +54,13 @@ public struct BitcoinTransactionSigner {
         return keys.first { key in
             let publicKey = key.publicKey(compressed: true)
             return publicKey.bitcoinKeyHash == pubkeyHash
+        }
+    }
+
+    private func key(for pubkey: PublicKey) -> PrivateKey? {
+        return keys.first { key in
+            let publicKey = key.publicKey(compressed: true)
+            return publicKey == pubkey
         }
     }
 
