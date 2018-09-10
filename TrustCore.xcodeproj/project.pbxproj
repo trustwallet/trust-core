@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4E50D6E52146A02700D99C96 /* Tron.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E50D6E42146A02700D99C96 /* Tron.pb.swift */; };
 		610C52BD20F44CAC004A602C /* Data+Clear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610C52BC20F44CAC004A602C /* Data+Clear.swift */; };
 		611204CE21096D1300C2A28A /* BitcoinTransactionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611204CD21096D1300C2A28A /* BitcoinTransactionTests.swift */; };
 		611EFEC520F5BD8700A00E53 /* DerivationPathTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611EFEC420F5BD8700A00E53 /* DerivationPathTests.swift */; };
@@ -100,6 +101,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4E50D6E42146A02700D99C96 /* Tron.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tron.pb.swift; sourceTree = "<group>"; };
 		610C52BC20F44CAC004A602C /* Data+Clear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Clear.swift"; sourceTree = "<group>"; };
 		611204CD21096D1300C2A28A /* BitcoinTransactionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinTransactionTests.swift; sourceTree = "<group>"; };
 		611EFEC420F5BD8700A00E53 /* DerivationPathTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DerivationPathTests.swift; sourceTree = "<group>"; };
@@ -212,6 +214,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4E50D6E1214694EF00D99C96 /* Tron */ = {
+			isa = PBXGroup;
+			children = (
+				4E50D6E42146A02700D99C96 /* Tron.pb.swift */,
+			);
+			path = Tron;
+			sourceTree = "<group>";
+		};
 		6149A696201E433A00A2F35C = {
 			isa = PBXGroup;
 			children = (
@@ -238,6 +248,7 @@
 		6149A6BB201E43E200A2F35C /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				4E50D6E1214694EF00D99C96 /* Tron */,
 				615AE1E520F1DC1F00A5A0ED /* Crypto.h */,
 				6149A6BC201E43E200A2F35C /* TrustCore.h */,
 				615AE1E620F1DC1F00A5A0ED /* Crypto.m */,
@@ -640,12 +651,14 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-TrustCore-TrustCoreTests/Pods-TrustCore-TrustCoreTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework",
 				"${BUILT_PRODUCTS_DIR}/SipHash/SipHash.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftProtobuf/SwiftProtobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/TrezorCrypto/TrezorCrypto.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BigInt.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SipHash.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftProtobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TrezorCrypto.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -672,6 +685,7 @@
 				61A728D320F46ECF0005045D /* String+Clear.swift in Sources */,
 				61DAB58A210AED1200BBB826 /* Blockchain.swift in Sources */,
 				6185E71521095789000B4B79 /* BitcoinTransaction.swift in Sources */,
+				4E50D6E52146A02700D99C96 /* Tron.pb.swift in Sources */,
 				6149A6CA201E472000A2F35C /* EthereumTransaction.swift in Sources */,
 				7749DFEF2141105800411ED8 /* Slip.swift in Sources */,
 				615AE1E220F1D71000A5A0ED /* Address.swift in Sources */,
