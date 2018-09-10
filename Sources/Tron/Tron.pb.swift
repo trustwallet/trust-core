@@ -748,20 +748,20 @@ struct Protocol_ResourceReceipt {
 
   var netFee: Int64 = 0
 
-  var result: Protocol_Transaction.Result.contractResult = .default
+  var result: TronTransaction.Result.contractResult = .default
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
 }
 
-struct Protocol_Transaction {
+public struct TronTransaction {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  var rawData: Protocol_Transaction.raw {
-    get {return _storage._rawData ?? Protocol_Transaction.raw()}
+  var rawData: TronTransaction.raw {
+    get {return _storage._rawData ?? TronTransaction.raw()}
     set {_uniqueStorage()._rawData = newValue}
   }
   /// Returns true if `rawData` has been explicitly set.
@@ -775,19 +775,19 @@ struct Protocol_Transaction {
     set {_uniqueStorage()._signature = newValue}
   }
 
-  var ret: [Protocol_Transaction.Result] {
+  var ret: [TronTransaction.Result] {
     get {return _storage._ret}
     set {_uniqueStorage()._ret = newValue}
   }
 
-  var unknownFields = SwiftProtobuf.UnknownStorage()
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
 
   struct Contract {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var type: Protocol_Transaction.Contract.ContractType {
+    var type: TronTransaction.Contract.ContractType {
       get {return _storage._type}
       set {_uniqueStorage()._type = newValue}
     }
@@ -935,9 +935,9 @@ struct Protocol_Transaction {
 
     var fee: Int64 = 0
 
-    var ret: Protocol_Transaction.Result.code = .sucess
+    var ret: TronTransaction.Result.code = .sucess
 
-    var contractRet: Protocol_Transaction.Result.contractResult = .default
+    var contractRet: TronTransaction.Result.contractResult = .default
 
     var withdrawAmount: Int64 = 0
 
@@ -1059,7 +1059,7 @@ struct Protocol_Transaction {
     var data: Data = SwiftProtobuf.Internal.emptyData
 
     ///only support size = 1,  repeated list here for extension
-    var contract: [Protocol_Transaction.Contract] = []
+    var contract: [TronTransaction.Contract] = []
 
     /// scripts not used
     var scripts: Data = SwiftProtobuf.Internal.emptyData
@@ -1073,7 +1073,7 @@ struct Protocol_Transaction {
     init() {}
   }
 
-  init() {}
+  public init() {}
 
   fileprivate var _storage = _StorageClass.defaultInstance
 }
@@ -1215,7 +1215,7 @@ struct Protocol_Transactions {
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  var transactions: [Protocol_Transaction] = []
+  var transactions: [TronTransaction] = []
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -1227,8 +1227,8 @@ struct Protocol_TransactionSign {
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  var transaction: Protocol_Transaction {
-    get {return _storage._transaction ?? Protocol_Transaction()}
+  var transaction: TronTransaction {
+    get {return _storage._transaction ?? TronTransaction()}
     set {_uniqueStorage()._transaction = newValue}
   }
   /// Returns true if `transaction` has been explicitly set.
@@ -1306,7 +1306,7 @@ struct Protocol_Block {
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  var transactions: [Protocol_Transaction] {
+  var transactions: [TronTransaction] {
     get {return _storage._transactions}
     set {_uniqueStorage()._transactions = newValue}
   }
@@ -1493,7 +1493,7 @@ struct Protocol_Items {
 
   var blockHeaders: [Protocol_BlockHeader] = []
 
-  var transactions: [Protocol_Transaction] = []
+  var transactions: [TronTransaction] = []
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -1571,78 +1571,6 @@ struct Protocol_DisconnectMessage {
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
-}
-
-struct Protocol_HelloMessage {
-  // SwiftProtobuf.Message conformance is added in an extension below. See the
-  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
-  // methods supported on all messages.
-
-  var from: Protocol_Endpoint {
-    get {return _storage._from ?? Protocol_Endpoint()}
-    set {_uniqueStorage()._from = newValue}
-  }
-  /// Returns true if `from` has been explicitly set.
-  var hasFrom: Bool {return _storage._from != nil}
-  /// Clears the value of `from`. Subsequent reads from it will return its default value.
-  mutating func clearFrom() {_uniqueStorage()._from = nil}
-
-  var version: Int32 {
-    get {return _storage._version}
-    set {_uniqueStorage()._version = newValue}
-  }
-
-  var timestamp: Int64 {
-    get {return _storage._timestamp}
-    set {_uniqueStorage()._timestamp = newValue}
-  }
-
-  var genesisBlockID: Protocol_HelloMessage.BlockId {
-    get {return _storage._genesisBlockID ?? Protocol_HelloMessage.BlockId()}
-    set {_uniqueStorage()._genesisBlockID = newValue}
-  }
-  /// Returns true if `genesisBlockID` has been explicitly set.
-  var hasGenesisBlockID: Bool {return _storage._genesisBlockID != nil}
-  /// Clears the value of `genesisBlockID`. Subsequent reads from it will return its default value.
-  mutating func clearGenesisBlockID() {_uniqueStorage()._genesisBlockID = nil}
-
-  var solidBlockID: Protocol_HelloMessage.BlockId {
-    get {return _storage._solidBlockID ?? Protocol_HelloMessage.BlockId()}
-    set {_uniqueStorage()._solidBlockID = newValue}
-  }
-  /// Returns true if `solidBlockID` has been explicitly set.
-  var hasSolidBlockID: Bool {return _storage._solidBlockID != nil}
-  /// Clears the value of `solidBlockID`. Subsequent reads from it will return its default value.
-  mutating func clearSolidBlockID() {_uniqueStorage()._solidBlockID = nil}
-
-  var headBlockID: Protocol_HelloMessage.BlockId {
-    get {return _storage._headBlockID ?? Protocol_HelloMessage.BlockId()}
-    set {_uniqueStorage()._headBlockID = newValue}
-  }
-  /// Returns true if `headBlockID` has been explicitly set.
-  var hasHeadBlockID: Bool {return _storage._headBlockID != nil}
-  /// Clears the value of `headBlockID`. Subsequent reads from it will return its default value.
-  mutating func clearHeadBlockID() {_uniqueStorage()._headBlockID = nil}
-
-  var unknownFields = SwiftProtobuf.UnknownStorage()
-
-  struct BlockId {
-    // SwiftProtobuf.Message conformance is added in an extension below. See the
-    // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
-    // methods supported on all messages.
-
-    var hash: Data = SwiftProtobuf.Internal.emptyData
-
-    var number: Int64 = 0
-
-    var unknownFields = SwiftProtobuf.UnknownStorage()
-
-    init() {}
-  }
-
-  init() {}
-
-  fileprivate var _storage = _StorageClass.defaultInstance
 }
 
 struct Protocol_SmartContract {
@@ -3015,18 +2943,18 @@ extension Protocol_ResourceReceipt: SwiftProtobuf.Message, SwiftProtobuf._Messag
   }
 }
 
-extension Protocol_Transaction: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = _protobuf_package + ".Transaction"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+extension TronTransaction: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".Transaction"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "raw_data"),
     2: .same(proto: "signature"),
     5: .same(proto: "ret"),
   ]
 
   fileprivate class _StorageClass {
-    var _rawData: Protocol_Transaction.raw? = nil
+    var _rawData: TronTransaction.raw? = nil
     var _signature: [Data] = []
-    var _ret: [Protocol_Transaction.Result] = []
+    var _ret: [TronTransaction.Result] = []
 
     static let defaultInstance = _StorageClass()
 
@@ -3046,7 +2974,7 @@ extension Protocol_Transaction: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
     return _storage
   }
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     _ = _uniqueStorage()
     try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
       while let fieldNumber = try decoder.nextFieldNumber() {
@@ -3060,7 +2988,7 @@ extension Protocol_Transaction: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
       if let v = _storage._rawData {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
@@ -3075,7 +3003,7 @@ extension Protocol_Transaction: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Protocol_Transaction, rhs: Protocol_Transaction) -> Bool {
+  public static func ==(lhs: TronTransaction, rhs: TronTransaction) -> Bool {
     if lhs._storage !== rhs._storage {
       let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
         let _storage = _args.0
@@ -3092,8 +3020,8 @@ extension Protocol_Transaction: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
   }
 }
 
-extension Protocol_Transaction.Contract: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Protocol_Transaction.protoMessageName + ".Contract"
+extension TronTransaction.Contract: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = TronTransaction.protoMessageName + ".Contract"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "type"),
     2: .same(proto: "parameter"),
@@ -3102,7 +3030,7 @@ extension Protocol_Transaction.Contract: SwiftProtobuf.Message, SwiftProtobuf._M
   ]
 
   fileprivate class _StorageClass {
-    var _type: Protocol_Transaction.Contract.ContractType = .accountCreateContract
+    var _type: TronTransaction.Contract.ContractType = .accountCreateContract
     var _parameter: SwiftProtobuf.Google_Protobuf_Any? = nil
     var _provider: Data = SwiftProtobuf.Internal.emptyData
     var _contractName: Data = SwiftProtobuf.Internal.emptyData
@@ -3159,7 +3087,7 @@ extension Protocol_Transaction.Contract: SwiftProtobuf.Message, SwiftProtobuf._M
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Protocol_Transaction.Contract, rhs: Protocol_Transaction.Contract) -> Bool {
+  static func ==(lhs: TronTransaction.Contract, rhs: TronTransaction.Contract) -> Bool {
     if lhs._storage !== rhs._storage {
       let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
         let _storage = _args.0
@@ -3177,7 +3105,7 @@ extension Protocol_Transaction.Contract: SwiftProtobuf.Message, SwiftProtobuf._M
   }
 }
 
-extension Protocol_Transaction.Contract.ContractType: SwiftProtobuf._ProtoNameProviding {
+extension TronTransaction.Contract.ContractType: SwiftProtobuf._ProtoNameProviding {
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     0: .same(proto: "AccountCreateContract"),
     1: .same(proto: "TransferContract"),
@@ -3210,8 +3138,8 @@ extension Protocol_Transaction.Contract.ContractType: SwiftProtobuf._ProtoNamePr
   ]
 }
 
-extension Protocol_Transaction.Result: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Protocol_Transaction.protoMessageName + ".Result"
+extension TronTransaction.Result: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = TronTransaction.protoMessageName + ".Result"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "fee"),
     2: .same(proto: "ret"),
@@ -3252,7 +3180,7 @@ extension Protocol_Transaction.Result: SwiftProtobuf.Message, SwiftProtobuf._Mes
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Protocol_Transaction.Result, rhs: Protocol_Transaction.Result) -> Bool {
+  static func ==(lhs: TronTransaction.Result, rhs: TronTransaction.Result) -> Bool {
     if lhs.fee != rhs.fee {return false}
     if lhs.ret != rhs.ret {return false}
     if lhs.contractRet != rhs.contractRet {return false}
@@ -3263,14 +3191,14 @@ extension Protocol_Transaction.Result: SwiftProtobuf.Message, SwiftProtobuf._Mes
   }
 }
 
-extension Protocol_Transaction.Result.code: SwiftProtobuf._ProtoNameProviding {
+extension TronTransaction.Result.code: SwiftProtobuf._ProtoNameProviding {
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     0: .same(proto: "SUCESS"),
     1: .same(proto: "FAILED"),
   ]
 }
 
-extension Protocol_Transaction.Result.contractResult: SwiftProtobuf._ProtoNameProviding {
+extension TronTransaction.Result.contractResult: SwiftProtobuf._ProtoNameProviding {
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     0: .same(proto: "DEFAULT"),
     1: .same(proto: "SUCCESS"),
@@ -3289,8 +3217,8 @@ extension Protocol_Transaction.Result.contractResult: SwiftProtobuf._ProtoNamePr
   ]
 }
 
-extension Protocol_Transaction.raw: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Protocol_Transaction.protoMessageName + ".raw"
+extension TronTransaction.raw: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = TronTransaction.protoMessageName + ".raw"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "ref_block_bytes"),
     3: .standard(proto: "ref_block_num"),
@@ -3356,7 +3284,7 @@ extension Protocol_Transaction.raw: SwiftProtobuf.Message, SwiftProtobuf._Messag
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Protocol_Transaction.raw, rhs: Protocol_Transaction.raw) -> Bool {
+  static func ==(lhs: TronTransaction.raw, rhs: TronTransaction.raw) -> Bool {
     if lhs.refBlockBytes != rhs.refBlockBytes {return false}
     if lhs.refBlockNum != rhs.refBlockNum {return false}
     if lhs.refBlockHash != rhs.refBlockHash {return false}
@@ -3606,7 +3534,7 @@ extension Protocol_TransactionSign: SwiftProtobuf.Message, SwiftProtobuf._Messag
   ]
 
   fileprivate class _StorageClass {
-    var _transaction: Protocol_Transaction? = nil
+    var _transaction: TronTransaction? = nil
     var _privateKey: Data = SwiftProtobuf.Internal.emptyData
 
     static let defaultInstance = _StorageClass()
@@ -3809,7 +3737,7 @@ extension Protocol_Block: SwiftProtobuf.Message, SwiftProtobuf._MessageImplement
   ]
 
   fileprivate class _StorageClass {
-    var _transactions: [Protocol_Transaction] = []
+    var _transactions: [TronTransaction] = []
     var _blockHeader: Protocol_BlockHeader? = nil
 
     static let defaultInstance = _StorageClass()
@@ -4169,142 +4097,6 @@ extension Protocol_DisconnectMessage: SwiftProtobuf.Message, SwiftProtobuf._Mess
 
   static func ==(lhs: Protocol_DisconnectMessage, rhs: Protocol_DisconnectMessage) -> Bool {
     if lhs.reason != rhs.reason {return false}
-    if lhs.unknownFields != rhs.unknownFields {return false}
-    return true
-  }
-}
-
-extension Protocol_HelloMessage: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = _protobuf_package + ".HelloMessage"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "from"),
-    2: .same(proto: "version"),
-    3: .same(proto: "timestamp"),
-    4: .same(proto: "genesisBlockId"),
-    5: .same(proto: "solidBlockId"),
-    6: .same(proto: "headBlockId"),
-  ]
-
-  fileprivate class _StorageClass {
-    var _from: Protocol_Endpoint? = nil
-    var _version: Int32 = 0
-    var _timestamp: Int64 = 0
-    var _genesisBlockID: Protocol_HelloMessage.BlockId? = nil
-    var _solidBlockID: Protocol_HelloMessage.BlockId? = nil
-    var _headBlockID: Protocol_HelloMessage.BlockId? = nil
-
-    static let defaultInstance = _StorageClass()
-
-    private init() {}
-
-    init(copying source: _StorageClass) {
-      _from = source._from
-      _version = source._version
-      _timestamp = source._timestamp
-      _genesisBlockID = source._genesisBlockID
-      _solidBlockID = source._solidBlockID
-      _headBlockID = source._headBlockID
-    }
-  }
-
-  fileprivate mutating func _uniqueStorage() -> _StorageClass {
-    if !isKnownUniquelyReferenced(&_storage) {
-      _storage = _StorageClass(copying: _storage)
-    }
-    return _storage
-  }
-
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
-    _ = _uniqueStorage()
-    try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
-      while let fieldNumber = try decoder.nextFieldNumber() {
-        switch fieldNumber {
-        case 1: try decoder.decodeSingularMessageField(value: &_storage._from)
-        case 2: try decoder.decodeSingularInt32Field(value: &_storage._version)
-        case 3: try decoder.decodeSingularInt64Field(value: &_storage._timestamp)
-        case 4: try decoder.decodeSingularMessageField(value: &_storage._genesisBlockID)
-        case 5: try decoder.decodeSingularMessageField(value: &_storage._solidBlockID)
-        case 6: try decoder.decodeSingularMessageField(value: &_storage._headBlockID)
-        default: break
-        }
-      }
-    }
-  }
-
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-    try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
-      if let v = _storage._from {
-        try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
-      }
-      if _storage._version != 0 {
-        try visitor.visitSingularInt32Field(value: _storage._version, fieldNumber: 2)
-      }
-      if _storage._timestamp != 0 {
-        try visitor.visitSingularInt64Field(value: _storage._timestamp, fieldNumber: 3)
-      }
-      if let v = _storage._genesisBlockID {
-        try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
-      }
-      if let v = _storage._solidBlockID {
-        try visitor.visitSingularMessageField(value: v, fieldNumber: 5)
-      }
-      if let v = _storage._headBlockID {
-        try visitor.visitSingularMessageField(value: v, fieldNumber: 6)
-      }
-    }
-    try unknownFields.traverse(visitor: &visitor)
-  }
-
-  static func ==(lhs: Protocol_HelloMessage, rhs: Protocol_HelloMessage) -> Bool {
-    if lhs._storage !== rhs._storage {
-      let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
-        let _storage = _args.0
-        let rhs_storage = _args.1
-        if _storage._from != rhs_storage._from {return false}
-        if _storage._version != rhs_storage._version {return false}
-        if _storage._timestamp != rhs_storage._timestamp {return false}
-        if _storage._genesisBlockID != rhs_storage._genesisBlockID {return false}
-        if _storage._solidBlockID != rhs_storage._solidBlockID {return false}
-        if _storage._headBlockID != rhs_storage._headBlockID {return false}
-        return true
-      }
-      if !storagesAreEqual {return false}
-    }
-    if lhs.unknownFields != rhs.unknownFields {return false}
-    return true
-  }
-}
-
-extension Protocol_HelloMessage.BlockId: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = Protocol_HelloMessage.protoMessageName + ".BlockId"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "hash"),
-    2: .same(proto: "number"),
-  ]
-
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
-    while let fieldNumber = try decoder.nextFieldNumber() {
-      switch fieldNumber {
-      case 1: try decoder.decodeSingularBytesField(value: &self.hash)
-      case 2: try decoder.decodeSingularInt64Field(value: &self.number)
-      default: break
-      }
-    }
-  }
-
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-    if !self.hash.isEmpty {
-      try visitor.visitSingularBytesField(value: self.hash, fieldNumber: 1)
-    }
-    if self.number != 0 {
-      try visitor.visitSingularInt64Field(value: self.number, fieldNumber: 2)
-    }
-    try unknownFields.traverse(visitor: &visitor)
-  }
-
-  static func ==(lhs: Protocol_HelloMessage.BlockId, rhs: Protocol_HelloMessage.BlockId) -> Bool {
-    if lhs.hash != rhs.hash {return false}
-    if lhs.number != rhs.number {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
