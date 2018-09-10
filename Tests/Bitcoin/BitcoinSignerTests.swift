@@ -4,7 +4,7 @@
 // terms governing use, modification, and redistribution, is contained in the
 // file LICENSE at the root of the source code distribution tree.
 
-import TrustCore
+@testable import TrustCore
 import XCTest
 
 // swiftlint:disable line_length
@@ -39,6 +39,19 @@ class BitcoinSignerTests: XCTestCase {
 
         XCTAssertEqual(signedTx.identifier, "96ee20002b34e468f9d3c5ee54f6a8ddaa61c118889c4f35395c2cd93ba5bbb4")
         XCTAssertEqual(serialized.hexString, "0100000001e28c2b955293159898e34c6840d99bf4d390e2ee1c6f606939f18ee1e2000d05020000006b483045022100b70d158b43cbcded60e6977e93f9a84966bc0cec6f2dfd1463d1223a90563f0d02207548d081069de570a494d0967ba388ff02641d91cadb060587ead95a98d4e3534121038eab72ec78e639d02758e7860cdec018b49498c307791f785aa3019622f4ea5bffffffff0258020000000000001976a914769bdff96a02f9135a1d19b749db6a78fe07dc9088ace5100000000000001976a9149e089b6889e032d46e3b915a3392edfd616fb1c488ac00000000")
+    }
+
+    func testRedeemScript() {
+
+        let publicKey = PublicKey(data: Data(hexString: "042de45bea3dada528eee8a1e04142d3e04fad66119d971b6019b0e3c02266b79142158aa83469db1332a880a2d5f8ce0b3bba542b3e32df0740ccbfb01c275e42")!)!
+        XCTAssertEqual(publicKey.bitcoinAddress(prefix: 0x05).description, "3LbBftXPhBmByAqgpZqx61ttiFfxjde2z7")
+
+        var redeemData = Data()
+        redeemData.append(publicKey.data)
+        let redeemHash = Crypto.sha256ripemd160(redeemData)
+        let scriptPubKey = BitcoinScript(data: publicKey.data).toP2SH()
+        XCTAssertEqual(redeemHash.hexString, "cf5007e19af3641199f21f3fa54dff2fa2627471")
+        XCTAssertEqual(scriptPubKey.data.hexString, "a914cf5007e19af3641199f21f3fa54dff2fa262747187")
     }
 
     func createUnsignedTx(toAddress: BitcoinAddress, amount: Int64, changeAddress: BitcoinAddress, utxos: [BitcoinUnspentTransaction]) -> BitcoinTransaction {

@@ -47,7 +47,6 @@ public struct BitcoinTransactionSigner {
             let signature = key.signAsDER(hash: sighash)
             let txin = inputsToSign[i]
             let pubkey = key.publicKey(compressed: true)
-            // TODO p2sh redeem script
             let script = unlockingScript(signature: signature, publicKey: pubkey, hashType: hashType)
 
             inputsToSign[i] = BitcoinTransactionInput(previousOutput: txin.previousOutput, script: script, sequence: txin.sequence)

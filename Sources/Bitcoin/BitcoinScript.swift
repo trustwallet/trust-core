@@ -226,6 +226,14 @@ public final class BitcoinScript: BinaryEncoding {
         return BitcoinScript(data: data)
     }
 
+    public func toP2SH() -> BitcoinScript {
+        var newData = Data()
+        newData.append(contentsOf: [OpCode.OP_HASH160, 0x14])
+        newData.append(Crypto.sha256ripemd160(data))
+        newData.append(OpCode.OP_EQUAL)
+        return BitcoinScript(data: newData)
+    }
+
     /// Decodes a small integer
     static func decodeNumber(opcode: UInt8) -> Int {
         if opcode == OpCode.OP_0 {
