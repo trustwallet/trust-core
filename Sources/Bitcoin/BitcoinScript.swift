@@ -328,6 +328,14 @@ public final class BitcoinScript: BinaryEncoding {
         return nil
     }
 
+    public func matchPayToScriptHash() -> String? {
+        guard isPayToScriptHash else {
+            return nil
+        }
+        let address = Crypto.getP2SHAddress(from: data)
+        return address
+    }
+
     public func matchMultisig(required: inout Int) -> [PublicKey]? {
         if bytes.count < 1 || bytes.last != OpCode.OP_CHECKMULTISIG {
             return []

@@ -120,6 +120,14 @@
     return result;
 }
 
++ (nonnull NSString *)getP2SHAddressFrom:(nonnull NSData *)script
+{
+    uint8_t *bytes = (uint8_t *)[script bytes];
+    char addr[35];
+    int rc = script_output_to_address(bytes, (int)script.length, addr, 35);
+    return [[NSString alloc] initWithUTF8String:addr];
+}
+
 // MARK: - HDWallet
 
 + (nonnull NSString *)generateMnemonicWithStrength:(NSInteger)strength {

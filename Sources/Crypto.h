@@ -64,6 +64,9 @@
 /// Encodes data as a base 58 string, including the checksum.
 + (nonnull NSString *)base58Encode:(nonnull NSData *)data NS_SWIFT_NAME(base58Encode(_:));
 
+/// Decode P2SH address from scrpit hash
++ (nonnull NSString *)getP2SHAddressFrom:(nonnull NSData *)script;
+
 /// Decodes a base 58 string verifying the checksum.
 + (nullable NSData *)base58Decode:(nonnull NSString *)string NS_SWIFT_NAME(base58Decode(_:));
 
