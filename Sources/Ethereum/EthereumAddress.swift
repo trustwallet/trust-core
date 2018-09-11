@@ -18,11 +18,10 @@ public struct EthereumAddress: Address, Hashable {
 
     /// Validates that the string is a valid address.
     static public func isValid(string: String) -> Bool {
-        guard let data = Data(hexString: string) else {
+        guard let data = Data(hexString: string), data.count == EthereumAddress.size else {
             return false
         }
-        let eip55String = EthereumAddress.computeEIP55String(for: data)
-        return string == eip55String
+        return true
     }
 
     /// Raw address bytes, length 20.
