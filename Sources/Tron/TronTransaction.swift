@@ -8,10 +8,11 @@ import Foundation
 
 extension TronTransaction {
     public func hash() -> Data {
+        //TODO: should hash the entire rawData instead of just rawData.data
         return Crypto.sha256(self.rawData.data)
     }
 
-    public func sign(key: String) -> TronTransaction {
-        return self
+    public func sign(privateKey: Data) -> Data {
+        return Crypto.sign(hash: self.hash(), privateKey: privateKey)
     }
 }
