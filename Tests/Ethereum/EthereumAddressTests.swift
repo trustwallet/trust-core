@@ -17,7 +17,6 @@ class EthereumAddressTests: XCTestCase {
         XCTAssertTrue(EthereumAddress.isValid(string: "0xfa52274dd61e1643d2205169732f29114bc240b3"))
     }
 
-
     func testInvalid() {
         XCTAssertNil(EthereumAddress(string: "abc"))
         XCTAssertNil(EthereumAddress(string: "aaeb60f3e94c9b9a09f33669435e7ef1beaed"))

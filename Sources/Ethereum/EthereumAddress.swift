@@ -18,19 +18,13 @@ public struct EthereumAddress: Address, Hashable {
 
     /// Validates that the string is a valid address.
     static public func isValid(string: String) -> Bool {
-        guard let data = Data(hexString: string) else {
-            return false
+
+        guard !isAdressWithoutChecksum(string: string) else {
+            return true
         }
 
-        let uppers = CharacterSet(charactersIn: "ABCDEF")
-        let lowers = CharacterSet(charactersIn: "abcdef")
-
-        let hasUppers = (string.rangeOfCharacter(from: uppers) != nil)
-        let hasLowers = (string.rangeOfCharacter(from: lowers) != nil)
-
-        // If all characters are uppercase or lowercase, return true
-        if (hasUppers && !hasLowers) || (!hasUppers && hasLowers) {
-            return true
+        guard let data = Data(hexString: string) else {
+            return false
         }
 
         let eip55String = EthereumAddress.computeEIP55String(for: data)
@@ -56,7 +50,7 @@ public struct EthereumAddress: Address, Hashable {
 
     /// Creates an address with an hexadecimal string representation.
     public init?(string: String) {
-        guard let data = Data(hexString: string), data.count == EthereumAddress.size else {
+        guard let data = Data(hexString: string), EthereumAddress.isValid(data: data) else {
             return nil
         }
         self.data = data
@@ -97,4 +91,29 @@ extension EthereumAddress {
 
         return string
     }
+
+    fileprivate static func isAdressWithoutChecksum(string: String) -> Bool {
+        guard string.hasPrefix("0x"), let data = Data(hexString: string), isValid(data: data) else {
+            return false
+        }
+
+        var hasUppers: Bool = false
+        var hasLowers: Bool = false
+
+        for character in string {
+            switch character {
+            case "A", "B", "C", "D", "E", "F": hasUppers = true
+            case "a", "b", "c", "d", "e", "f": hasLowers = true
+            default: break
+            }
+        }
+
+        // If all characters are uppercase or lowercase, return true
+        if (hasUppers && !hasLowers) || (!hasUppers && hasLowers) {
+            return true
+        }
+
+        return false
+    }
+
 }
