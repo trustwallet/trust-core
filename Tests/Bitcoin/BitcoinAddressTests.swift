@@ -32,7 +32,7 @@ class BitcoinAddressTests: XCTestCase {
 
     func testFromSewgitPrivateKey() {
         let data = Crypto.base58Decode("L5XECLxq1MDvBeYXjZwz5tTYsFZRWmaYziY3Wvc2bqSRAuRcBqhg")!
-        let privateKey = PrivateKey(data: data)!
+        let privateKey = PrivateKey(data: data.dropFirst())!
         let publicKey = privateKey.publicKey(compressed: true)
         let address = Bitcoin().address(for: publicKey)
 
