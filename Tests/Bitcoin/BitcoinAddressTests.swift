@@ -30,6 +30,15 @@ class BitcoinAddressTests: XCTestCase {
         XCTAssertEqual(address.description, "3EpNJiTASbZ6DeNA7QZ7bPEz82Y42W8Rd7")
     }
 
+    func testFromSewgitPrivateKey() {
+        let data = Crypto.base58Decode("L5XECLxq1MDvBeYXjZwz5tTYsFZRWmaYziY3Wvc2bqSRAuRcBqhg")!
+        let privateKey = PrivateKey(data: data)!
+        let publicKey = privateKey.publicKey(compressed: true)
+        let address = Bitcoin().address(for: publicKey)
+
+        XCTAssertEqual(address.description, "3Hv6oV8BYCoocW4eqZaEXsaR5tHhCxiMSk")
+    }
+
     func testIsValid() {
         XCTAssertFalse(BitcoinAddress.isValid(string: "abc"))
         XCTAssertFalse(BitcoinAddress.isValid(string: "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed"))
