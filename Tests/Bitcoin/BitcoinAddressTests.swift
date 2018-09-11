@@ -50,4 +50,18 @@ class BitcoinAddressTests: XCTestCase {
         XCTAssertFalse(uncompressed.isCompressed)
         XCTAssertEqual(uncompressed.bitcoinAddress(prefix: 0).description, "1EHNa6Q4Jz2uvNExL497mE43ikXhwF6kZm")
     }
+
+    func testP2SHAddresses() {
+        let privateKey = PrivateKey(data: Data(hexString: "65faa535a38572a9ec5440c393808eada67835eadd6c7ea3f1f31b5c5d36c446")!)!
+        let publicKey = privateKey.publicKey()
+        let compressedPublicKey = privateKey.publicKey(compressed: true)
+        print(publicKey.data.hexString)
+        print(compressedPublicKey.data.hexString)
+
+        XCTAssertEqual(publicKey.bitcoinAddress(prefix: 0x00).base58String, "1KuAkM2x9HSot19FhUBMfPXxZjPF6rWvJ8")
+        XCTAssertEqual(publicKey.bitcoinAddress(prefix: 0x05).base58String, "3LbBftXPhBmByAqgpZqx61ttiFfxjde2z7")
+
+        XCTAssertEqual(compressedPublicKey.bitcoinAddress(prefix: 0x00).base58String, "17XqPKKXTYGHA3k38VRrL28KHicXsDBjTb")
+        XCTAssertEqual(compressedPublicKey.bitcoinAddress(prefix: 0x05).base58String, "38DrJroy1SafFDSUFb6SkeVFSEuFUjwrUR")
+    }
 }

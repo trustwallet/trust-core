@@ -54,15 +54,48 @@ class BitcoinSignerTests: XCTestCase {
         XCTAssertEqual(scriptPubKey.data.hexString, "a914cf5007e19af3641199f21f3fa54dff2fa262747187")
     }
 
-    func createUnsignedTx(toAddress: BitcoinAddress, amount: Int64, changeAddress: BitcoinAddress, utxos: [BitcoinUnspentTransaction]) -> BitcoinTransaction {
+    func testSpendP2SHTx() throws {
+        // from Trust: try account.privateKey(password: password)
+        let privateKey = PrivateKey(data: Data(hexString: "65faa535a38572a9ec5440c393808eada67835eadd6c7ea3f1f31b5c5d36c446")!)!
+        let toAddress = BitcoinAddress(string: "18eqGohuqvrZLL3LMR4Wv81qvKeDHsGpjH")!
+        let changeAddress = BitcoinAddress(string: "3LbBftXPhBmByAqgpZqx61ttiFfxjde2z7")!
+        XCTAssertEqual(privateKey.publicKey().bitcoinAddress(prefix: 0x05), changeAddress)
+
+        // UTXO info: https://btc-rpc.binancechain.io/insight-api/addr/3LbBftXPhBmByAqgpZqx61ttiFfxjde2z7/utxo
+        let unspentOutput = BitcoinTransactionOutput(value: 50000, script: BitcoinScript(data: Data(hexString: "a914cf5007e19af3641199f21f3fa54dff2fa262747187")!))
+        let unspentOutpoint = BitcoinOutPoint(hash: Data(hexString: "8c0923047ab47e449dd3f01d78bcdd4a0cb767e89a2007f70c095b40d3569c01")!, index: 1)
+        let utxo = BitcoinUnspentTransaction(output: unspentOutput, outpoint: unspentOutpoint)
+        let utxoKey = privateKey
+
+        let unsignedTx = createUnsignedTx(toAddress: toAddress, amount: 20000, changeAddress: changeAddress, utxos: [utxo], publicKey: utxoKey.publicKey(), fee: 904)
+
+        var unsignedSerialized = Data()
+        unsignedTx.encode(into: &unsignedSerialized)
+
+        let signer = BitcoinTransactionSigner(keys: [utxoKey])
+        let signedTx = try signer.sign(unsignedTx, utxos: [utxo])
+
+        var serialized = Data()
+        signedTx.encode(into: &serialized)
+
+        // get error: {"code": -25, "message": "Missing inputs"} when broadcasting this tx
+        // http://chainquery.com/bitcoin-api/sendrawtransaction
+        XCTAssertEqual(serialized.hexString, "01000000018c0923047ab47e449dd3f01d78bcdd4a0cb767e89a2007f70c095b40d3569c01010000006a473044022006931abcbf640cef0c89300362bf7567f70deda32fd0d1ced5f22c154b79728e0220015a197adb26bfde35b33b0d2b7316638e008380fd49cc07bbd4ad4f84c939044121022de45bea3dada528eee8a1e04142d3e04fad66119d971b6019b0e3c02266b791ffffffff02204e0000000000001976a91453f0912255fb6f2ea3962d5d1945963d2a8c861e88aca87100000000000017a914cf5007e19af3641199f21f3fa54dff2fa26274718700000000")
+    }
+
+    func createUnsignedTx(toAddress: BitcoinAddress, amount: Int64, changeAddress: BitcoinAddress, utxos: [BitcoinUnspentTransaction], publicKey: PublicKey? = nil, fee: Int64 = 226) -> BitcoinTransaction {
         let totalAmount: Int64 = utxos.reduce(0) { $0 + $1.output.value }
-        let change: Int64 = totalAmount - amount - 226
+        let change: Int64 = totalAmount - amount - fee
 
         let toPubKeyHash = toAddress.data.dropFirst()
         let changePubkeyHash = changeAddress.data.dropFirst()
 
         let lockingScriptTo = BitcoinScript.buildPayToPublicKeyHash(Data(toPubKeyHash))
-        let lockingScriptChange = BitcoinScript.buildPayToPublicKeyHash(Data(changePubkeyHash))
+        var lockingScriptChange = BitcoinScript.buildPayToPublicKeyHash(Data(changePubkeyHash))
+        if let publicKey = publicKey,
+            changeAddress.base58String.starts(with: "3") {
+            lockingScriptChange = BitcoinScript(data: publicKey.data).toP2SH()
+        }
 
         let toOutput = BitcoinTransactionOutput(value: amount, script: lockingScriptTo)
         let changeOutput = BitcoinTransactionOutput(value: change, script: lockingScriptChange)
