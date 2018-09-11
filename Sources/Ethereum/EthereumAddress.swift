@@ -21,6 +21,18 @@ public struct EthereumAddress: Address, Hashable {
         guard let data = Data(hexString: string) else {
             return false
         }
+
+        let uppers = CharacterSet(charactersIn: "ABCDEF")
+        let lowers = CharacterSet(charactersIn: "abcdef")
+
+        let hasUppers = (string.rangeOfCharacter(from: uppers) != nil)
+        let hasLowers = (string.rangeOfCharacter(from: lowers) != nil)
+
+        // If all characters are uppercase or lowercase, return true
+        if (hasUppers && !hasLowers) || (!hasUppers && hasLowers) {
+            return true
+        }
+
         let eip55String = EthereumAddress.computeEIP55String(for: data)
         return string == eip55String
     }
