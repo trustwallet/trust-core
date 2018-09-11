@@ -9,8 +9,11 @@ import XCTest
 
 class TronTransactionTests: XCTestCase {
     func testTransactionSigning() {
-        let rawString = "This is a test TRON transaction"
-        let rawData = TronTransaction.RawData(data: rawString.toData())
+        var rawData = TronTransaction.RawData()
+        rawData.timestamp = 123
+        rawData.refBlockNum = 456
+        rawData.refBlockHash = "refBlockHash".data(using: .utf8) ?? Data()
+
         var transactionToBeSigned = TronTransaction(rawData: rawData)
 
         let hashHexString = transactionToBeSigned.hash().hexString

@@ -570,7 +570,7 @@ struct Protocol_Account {
   fileprivate var _storage = _StorageClass.defaultInstance
 }
 
-struct Protocol_authority {
+public struct Protocol_authority {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -589,9 +589,9 @@ struct Protocol_authority {
     set {_uniqueStorage()._permissionName = newValue}
   }
 
-  var unknownFields = SwiftProtobuf.UnknownStorage()
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-  init() {}
+  public init() {}
 
   fileprivate var _storage = _StorageClass.defaultInstance
 }
@@ -782,7 +782,7 @@ public struct TronTransaction {
 
   public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-  struct Contract {
+  public struct Contract {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
@@ -811,7 +811,7 @@ public struct TronTransaction {
       set {_uniqueStorage()._contractName = newValue}
     }
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
     enum ContractType: SwiftProtobuf.Enum {
       typealias RawValue = Int
@@ -923,7 +923,7 @@ public struct TronTransaction {
 
     }
 
-    init() {}
+    public init() {}
 
     fileprivate var _storage = _StorageClass.defaultInstance
   }
@@ -1045,36 +1045,32 @@ public struct TronTransaction {
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var refBlockBytes: Data = SwiftProtobuf.Internal.emptyData
+    public var refBlockBytes: Data = SwiftProtobuf.Internal.emptyData
 
-    var refBlockNum: Int64 = 0
+    public var refBlockNum: Int64 = 0
 
-    var refBlockHash: Data = SwiftProtobuf.Internal.emptyData
+    public var refBlockHash: Data = SwiftProtobuf.Internal.emptyData
 
-    var expiration: Int64 = 0
+    public var expiration: Int64 = 0
 
-    var auths: [Protocol_authority] = []
+    public var auths: [Protocol_authority] = []
 
     /// data not used
-    var data: Data = SwiftProtobuf.Internal.emptyData
+    public var data: Data = SwiftProtobuf.Internal.emptyData
 
     ///only support size = 1,  repeated list here for extension
-    var contract: [TronTransaction.Contract] = []
+    public var contract: [TronTransaction.Contract] = []
 
     /// scripts not used
-    var scripts: Data = SwiftProtobuf.Internal.emptyData
+    public var scripts: Data = SwiftProtobuf.Internal.emptyData
 
-    var timestamp: Int64 = 0
+    public var timestamp: Int64 = 0
 
-    var feeLimit: Int64 = 0
+    public var feeLimit: Int64 = 0
 
     public var unknownFields = SwiftProtobuf.UnknownStorage()
 
     public init() {}
-
-    public init(data: Data) {
-        self.data = data
-    }
   }
 
     public init() {}
@@ -2465,8 +2461,8 @@ extension Protocol_Account.AccountResource: SwiftProtobuf.Message, SwiftProtobuf
 }
 
 extension Protocol_authority: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = _protobuf_package + ".authority"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = _protobuf_package + ".authority"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "account"),
     2: .standard(proto: "permission_name"),
   ]
@@ -2492,7 +2488,7 @@ extension Protocol_authority: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
     return _storage
   }
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     _ = _uniqueStorage()
     try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
       while let fieldNumber = try decoder.nextFieldNumber() {
@@ -2505,7 +2501,7 @@ extension Protocol_authority: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
       if let v = _storage._account {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
@@ -2517,7 +2513,7 @@ extension Protocol_authority: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Protocol_authority, rhs: Protocol_authority) -> Bool {
+  public static func ==(lhs: Protocol_authority, rhs: Protocol_authority) -> Bool {
     if lhs._storage !== rhs._storage {
       let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
         let _storage = _args.0
@@ -3029,8 +3025,8 @@ extension TronTransaction: SwiftProtobuf.Message, SwiftProtobuf._MessageImplemen
 }
 
 extension TronTransaction.Contract: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = TronTransaction.protoMessageName + ".Contract"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = TronTransaction.protoMessageName + ".Contract"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "type"),
     2: .same(proto: "parameter"),
     3: .same(proto: "provider"),
@@ -3062,7 +3058,7 @@ extension TronTransaction.Contract: SwiftProtobuf.Message, SwiftProtobuf._Messag
     return _storage
   }
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     _ = _uniqueStorage()
     try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
       while let fieldNumber = try decoder.nextFieldNumber() {
@@ -3077,7 +3073,7 @@ extension TronTransaction.Contract: SwiftProtobuf.Message, SwiftProtobuf._Messag
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
       if _storage._type != .accountCreateContract {
         try visitor.visitSingularEnumField(value: _storage._type, fieldNumber: 1)
@@ -3095,7 +3091,7 @@ extension TronTransaction.Contract: SwiftProtobuf.Message, SwiftProtobuf._Messag
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: TronTransaction.Contract, rhs: TronTransaction.Contract) -> Bool {
+  public static func ==(lhs: TronTransaction.Contract, rhs: TronTransaction.Contract) -> Bool {
     if lhs._storage !== rhs._storage {
       let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
         let _storage = _args.0
