@@ -217,7 +217,8 @@ public final class BitcoinScript: BinaryEncoding {
     }
 
     /// Builds a standard 'pay to public key hash' script.
-    public static func buildPayToPublicKeyHash(_ pubKeyHash: Data) -> BitcoinScript {
+    public static func buildPayToPublicKeyHash(address: BitcoinAddress) -> BitcoinScript {
+        let pubKeyHash = address.data.dropFirst()
         var data = Data(capacity: 5 + pubKeyHash.count)
         data.append(contentsOf: [OpCode.OP_DUP, OpCode.OP_HASH160])
         data.append(UInt8(pubKeyHash.count))
@@ -226,12 +227,19 @@ public final class BitcoinScript: BinaryEncoding {
         return BitcoinScript(data: data)
     }
 
-    public func toP2SH() -> BitcoinScript {
-        var newData = Data()
-        newData.append(contentsOf: [OpCode.OP_HASH160, 0x14])
-        newData.append(Crypto.sha256ripemd160(data))
-        newData.append(OpCode.OP_EQUAL)
-        return BitcoinScript(data: newData)
+    /// Builds a standard 'pay to script hash' script.
+    public static func buildPayToScriptHash(script: BitcoinScript) -> BitcoinScript {
+        return buildPayToScriptHash(scriptHash: Crypto.sha256ripemd160(script.data))
+    }
+
+    /// Builds a standard 'pay to script hash' script.
+    public static func buildPayToScriptHash(scriptHash: Data) -> BitcoinScript {
+        var data = Data()
+        data.append(OpCode.OP_HASH160)
+        data.append(UInt8(scriptHash.count))
+        data.append(scriptHash)
+        data.append(OpCode.OP_EQUAL)
+        return BitcoinScript(data: data)
     }
 
     /// Decodes a small integer
@@ -336,12 +344,11 @@ public final class BitcoinScript: BinaryEncoding {
         return nil
     }
 
-    public func matchPayToScriptHash() -> String? {
+    public func matchPayToScriptHash() -> Data? {
         guard isPayToScriptHash else {
             return nil
         }
-        let address = Crypto.getP2SHAddress(from: data)
-        return address
+        return Data(bytes: bytes[2 ..< 22])
     }
 
     public func matchMultisig(required: inout Int) -> [PublicKey]? {

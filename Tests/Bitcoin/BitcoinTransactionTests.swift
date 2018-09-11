@@ -40,8 +40,8 @@ class BitcoinTransactionTests: XCTestCase {
     }
 
     func testDecodeScriptHash() {
-        let scriptHash = Data(hexString: "a914cf5007e19af3641199f21f3fa54dff2fa262747187")!
-        let p2sh = Crypto.getP2SHAddress(from: scriptHash)
-        XCTAssertEqual(p2sh, "3LbBftXPhBmByAqgpZqx61ttiFfxjde2z7")
+        let script = BitcoinScript(data: Data(hexString: "a914cf5007e19af3641199f21f3fa54dff2fa262747187")!)
+        let hash = script.matchPayToScriptHash()!
+        XCTAssertEqual(Crypto.base58Encode(hash), "3LbBftXPhBmByAqgpZqx61ttiFfxjde2z7")
     }
 }

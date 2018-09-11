@@ -9,10 +9,10 @@ import Foundation
 import TrezorCrypto
 
 public struct BitcoinTransactionSigner {
-    public var keys: [PrivateKey]
+    public var keyProvider: BitcoinPrivateKeyProvider
 
-    public init(keys: [PrivateKey]) {
-        self.keys = keys
+    public init(keyProvider: BitcoinPrivateKeyProvider) {
+        self.keyProvider = keyProvider
     }
 
     public func sign(_ unsignedTx: BitcoinTransaction, utxos: [BitcoinUnspentTransaction], hashType: SignatureHashType = [.all, .fork]) throws -> BitcoinTransaction {
@@ -21,19 +21,19 @@ public struct BitcoinTransactionSigner {
         for (i, utxo) in zip(utxos.indices, utxos) {
             let key: PrivateKey
             if let pubkeyHash = utxo.output.script.matchPayToPubkeyHash() {
-                guard let maybeKey = self.key(for: pubkeyHash) else {
+                guard let maybeKey = self.keyProvider.key(forPublicKeyHash: pubkeyHash) else {
                     // Missing key, can't sign
                     continue
                 }
                 key = maybeKey
             } else if let pubkey = utxo.output.script.matchPayToPubkey() {
-                guard let maybeKey = self.key(for: pubkey) else {
+                guard let maybeKey = self.keyProvider.key(forPublicKey: pubkey) else {
                     // Missing key, can't sign
                     continue
                 }
                 key = maybeKey
-            } else if let address = utxo.output.script.matchPayToScriptHash() {
-                guard let maybeKey = self.key(for: address) else {
+            } else if let scriptHash = utxo.output.script.matchPayToScriptHash() {
+                guard let maybeKey = self.keyProvider.key(forScriptHash: scriptHash) else {
                     // Missing key, can't sign
                     continue
                 }
@@ -53,28 +53,6 @@ public struct BitcoinTransactionSigner {
         }
 
         return BitcoinTransaction(version: unsignedTx.version, inputs: inputsToSign, outputs: unsignedTx.outputs, lockTime: unsignedTx.lockTime)
-    }
-
-    private func key(for pubkeyHash: Data) -> PrivateKey? {
-        return keys.first { key in
-            let publicKey = key.publicKey(compressed: true)
-            return publicKey.bitcoinKeyHash == pubkeyHash
-        }
-    }
-
-    private func key(for pubkey: PublicKey) -> PrivateKey? {
-        return keys.first { key in
-            let publicKey = key.publicKey(compressed: true)
-            return publicKey == pubkey
-        }
-    }
-
-    private func key(for address: String) -> PrivateKey? {
-        return keys.first { key in
-            let publicKey = key.publicKey(compressed: false)
-            let publicAddress = publicKey.bitcoinAddress(prefix: 0x05)
-            return publicAddress.description == address
-        }
     }
 
     private func unlockingScript(signature: Data, publicKey: PublicKey, hashType: SignatureHashType) -> BitcoinScript {
