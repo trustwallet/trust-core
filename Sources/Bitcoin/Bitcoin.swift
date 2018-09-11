@@ -15,6 +15,10 @@ open class Bitcoin: Blockchain {
         return .bitcoin
     }
 
+    override open var coinPurpose: Purpose {
+        return .bip49
+    }
+
     /// Public key hash address prefix.
     open var publicKeyHashAddressPrefix: UInt8 {
         return 0x00
