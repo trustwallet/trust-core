@@ -8,6 +8,15 @@ import TrustCore
 import XCTest
 
 class EthereumAddressTests: XCTestCase {
+
+    func testValidUpperCaseEthAddress() {
+        XCTAssertTrue(EthereumAddress.isValid(string: "0xFA52274DD61E1643D2205169732F29114BC240B3"))
+    }
+
+    func testValidLoverCaseEthAddress() {
+        XCTAssertTrue(EthereumAddress.isValid(string: "0xfa52274dd61e1643d2205169732f29114bc240b3"))
+    }
+
     func testInvalid() {
         XCTAssertNil(EthereumAddress(string: "abc"))
         XCTAssertNil(EthereumAddress(string: "aaeb60f3e94c9b9a09f33669435e7ef1beaed"))
