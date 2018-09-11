@@ -760,8 +760,8 @@ public struct TronTransaction {
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  var rawData: TronTransaction.raw {
-    get {return _storage._rawData ?? TronTransaction.raw()}
+  var rawData: TronTransaction.RawData {
+    get {return _storage._rawData ?? TronTransaction.RawData()}
     set {_uniqueStorage()._rawData = newValue}
   }
   /// Returns true if `rawData` has been explicitly set.
@@ -1040,7 +1040,7 @@ public struct TronTransaction {
     init() {}
   }
 
-  struct raw {
+  public struct RawData {
     // SwiftProtobuf.Message conformance is added in an extension below. See the
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
@@ -1068,14 +1068,22 @@ public struct TronTransaction {
 
     var feeLimit: Int64 = 0
 
-    var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    init() {}
+    public init() {}
+
+    public init(data: Data) {
+        self.data = data
+    }
   }
 
-  public init() {}
+    public init() {}
 
-  fileprivate var _storage = _StorageClass.defaultInstance
+    public init(rawData: TronTransaction.RawData) {
+        self.rawData = rawData
+    }
+
+    fileprivate var _storage = _StorageClass.defaultInstance
 }
 
 struct Protocol_TransactionInfo {
@@ -2952,7 +2960,7 @@ extension TronTransaction: SwiftProtobuf.Message, SwiftProtobuf._MessageImplemen
   ]
 
   fileprivate class _StorageClass {
-    var _rawData: TronTransaction.raw? = nil
+    var _rawData: TronTransaction.RawData? = nil
     var _signature: [Data] = []
     var _ret: [TronTransaction.Result] = []
 
@@ -3217,9 +3225,9 @@ extension TronTransaction.Result.contractResult: SwiftProtobuf._ProtoNameProvidi
   ]
 }
 
-extension TronTransaction.raw: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = TronTransaction.protoMessageName + ".raw"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+extension TronTransaction.RawData: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = TronTransaction.protoMessageName + ".raw"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "ref_block_bytes"),
     3: .standard(proto: "ref_block_num"),
     4: .standard(proto: "ref_block_hash"),
@@ -3232,7 +3240,7 @@ extension TronTransaction.raw: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     18: .standard(proto: "fee_limit"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       switch fieldNumber {
       case 1: try decoder.decodeSingularBytesField(value: &self.refBlockBytes)
@@ -3250,7 +3258,7 @@ extension TronTransaction.raw: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.refBlockBytes.isEmpty {
       try visitor.visitSingularBytesField(value: self.refBlockBytes, fieldNumber: 1)
     }
@@ -3284,7 +3292,7 @@ extension TronTransaction.raw: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: TronTransaction.raw, rhs: TronTransaction.raw) -> Bool {
+  public static func ==(lhs: TronTransaction.RawData, rhs: TronTransaction.RawData) -> Bool {
     if lhs.refBlockBytes != rhs.refBlockBytes {return false}
     if lhs.refBlockNum != rhs.refBlockNum {return false}
     if lhs.refBlockHash != rhs.refBlockHash {return false}

@@ -11,3 +11,19 @@ extension Data {
         resetBytes(in: 0 ..< count)
     }
 }
+
+extension Data {
+    public func toString() -> String {
+        return String(data: self, encoding: .utf8) ?? ""
+    }
+}
+
+extension String {
+    public func toData() -> Data {
+        return Data(utf8)
+    }
+
+    public func toBase64Decoded() -> Data? {
+        return Data(base64Encoded: self)
+    }
+}

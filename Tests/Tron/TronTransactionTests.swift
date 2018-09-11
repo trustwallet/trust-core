@@ -8,8 +8,13 @@ import TrustCore
 import XCTest
 
 class TronTransactionTests: XCTestCase {
-    func testTransactionSigning() {
-        let transaction = TronTransaction()
-        XCTAssert(transaction.hashValue == 2166136261)
+    func testTransactionHashing() {
+        let rawData = TronTransaction.RawData(data: "This is a test TRON transaction".toData())
+        let transactionToBeSigned = TronTransaction(rawData: rawData)
+
+        XCTAssertEqual(
+            "c2e987addda2e31b30e29e50346fcafd1844a6f652f8afb17560376a1aee56eb",
+            transactionToBeSigned.hash().hexString
+        )
     }
 }

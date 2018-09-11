@@ -10,6 +10,7 @@
 		4E171C402147169A003D1AAD /* TronAddressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E171C3E2147169A003D1AAD /* TronAddressTests.swift */; };
 		4E171C412147169A003D1AAD /* TronTransactionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E171C3F2147169A003D1AAD /* TronTransactionTests.swift */; };
 		4E50D6E52146A02700D99C96 /* Tron.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E50D6E42146A02700D99C96 /* Tron.pb.swift */; };
+		4EA32F6D21472AC30001C7F0 /* TronTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EA32F6C21472AC30001C7F0 /* TronTransaction.swift */; };
 		610C52BD20F44CAC004A602C /* Data+Clear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610C52BC20F44CAC004A602C /* Data+Clear.swift */; };
 		611204CE21096D1300C2A28A /* BitcoinTransactionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611204CD21096D1300C2A28A /* BitcoinTransactionTests.swift */; };
 		611EFEC520F5BD8700A00E53 /* DerivationPathTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611EFEC420F5BD8700A00E53 /* DerivationPathTests.swift */; };
@@ -105,6 +106,7 @@
 		4E171C3E2147169A003D1AAD /* TronAddressTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TronAddressTests.swift; path = Tests/Tron/TronAddressTests.swift; sourceTree = SOURCE_ROOT; };
 		4E171C3F2147169A003D1AAD /* TronTransactionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TronTransactionTests.swift; path = Tests/Tron/TronTransactionTests.swift; sourceTree = SOURCE_ROOT; };
 		4E50D6E42146A02700D99C96 /* Tron.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tron.pb.swift; sourceTree = "<group>"; };
+		4EA32F6C21472AC30001C7F0 /* TronTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TronTransaction.swift; sourceTree = "<group>"; };
 		610C52BC20F44CAC004A602C /* Data+Clear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Clear.swift"; sourceTree = "<group>"; };
 		611204CD21096D1300C2A28A /* BitcoinTransactionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinTransactionTests.swift; sourceTree = "<group>"; };
 		611EFEC420F5BD8700A00E53 /* DerivationPathTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DerivationPathTests.swift; sourceTree = "<group>"; };
@@ -222,14 +224,14 @@
 				4E171C3E2147169A003D1AAD /* TronAddressTests.swift */,
 				4E171C3F2147169A003D1AAD /* TronTransactionTests.swift */,
 			);
-			name = Tron;
-			path = "New Group";
+			path = Tron;
 			sourceTree = "<group>";
 		};
 		4E50D6E1214694EF00D99C96 /* Tron */ = {
 			isa = PBXGroup;
 			children = (
 				4E50D6E42146A02700D99C96 /* Tron.pb.swift */,
+				4EA32F6C21472AC30001C7F0 /* TronTransaction.swift */,
 			);
 			path = Tron;
 			sourceTree = "<group>";
@@ -685,6 +687,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4EA32F6D21472AC30001C7F0 /* TronTransaction.swift in Sources */,
 				61675570207AD81F00018DC8 /* Function.swift in Sources */,
 				BB636D3B2121528D0071AE07 /* GenericJSON.swift in Sources */,
 				77F80A842134A4E00011D949 /* VechainClause.swift in Sources */,
