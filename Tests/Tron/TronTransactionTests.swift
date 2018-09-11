@@ -23,15 +23,18 @@ class TronTransactionTests: XCTestCase {
 
     func testTransactionSigning() {
         let rawData = TronTransaction.RawData(data: rawString.toData())
-        let transactionToBeSigned = TronTransaction(rawData: rawData)
         let hash = Data(hexString: rawDataHashHexString)!
-
         let privateKey = PrivateKey()
         let publicKey = privateKey.publicKey(compressed: true)
+
+        var transactionToBeSigned = TronTransaction(rawData: rawData)
+
+        XCTAssertFalse(transactionToBeSigned.hasSignature)
 
         let result = transactionToBeSigned.sign(privateKey: privateKey.data)
 
         XCTAssertEqual(result.count, 65)
         XCTAssertTrue(Crypto.verify(signature: result, message: hash, publicKey: publicKey.data))
+        XCTAssertTrue(transactionToBeSigned.hasSignature)
     }
 }

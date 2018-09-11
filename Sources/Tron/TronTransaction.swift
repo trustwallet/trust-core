@@ -12,7 +12,9 @@ extension TronTransaction {
         return Crypto.sha256(self.rawData.data)
     }
 
-    public func sign(privateKey: Data) -> Data {
-        return Crypto.sign(hash: self.hash(), privateKey: privateKey)
+    public mutating func sign(privateKey: Data) -> Data {
+        let signature = Crypto.sign(hash: self.hash(), privateKey: privateKey)
+        self.addSignature(signature)
+        return signature
     }
 }
