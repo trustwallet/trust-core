@@ -775,18 +775,6 @@ public struct TronTransaction {
     set {_uniqueStorage()._signature = newValue}
   }
 
-    public var hasSignature: Bool {
-        return signature.count == 1
-    }
-
-    public mutating func addSignature(_ signature: Data) {
-        self.signature.append(signature)
-    }
-
-    public func getSignature() -> Data {
-        return self.signature[0]
-    }
-
   var ret: [TronTransaction.Result] {
     get {return _storage._ret}
     set {_uniqueStorage()._ret = newValue}

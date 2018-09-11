@@ -7,14 +7,31 @@
 import Foundation
 
 extension TronTransaction {
-    public func hash() -> Data {
-        //TODO: should hash the entire rawData instead of just rawData.data
-        return Crypto.sha256(self.rawData.data)
+    public var hasSignature: Bool {
+        return signature.count == 1
+    }
+
+    public mutating func addSignature(_ signature: Data) {
+        self.signature.append(signature)
+    }
+
+    public func getSignature() -> Data {
+        return self.signature[0]
+    }
+
+    public mutating func hash() -> Data {
+        return Crypto.sha256(self.rawData.toData())
     }
 
     public mutating func sign(privateKey: Data) -> Data {
         let signature = Crypto.sign(hash: self.hash(), privateKey: privateKey)
         self.addSignature(signature)
         return signature
+    }
+}
+
+extension TronTransaction.RawData {
+    public mutating func toData() -> Data {
+        return Data(bytes: &self, count: MemoryLayout.size(ofValue: self))
     }
 }

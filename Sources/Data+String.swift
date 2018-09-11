@@ -7,7 +7,17 @@
 import Foundation
 
 extension Data {
-    mutating public func clear() {
-        resetBytes(in: 0 ..< count)
+    public func toString() -> String {
+        return String(data: self, encoding: .utf8) ?? ""
+    }
+}
+
+extension String {
+    public func toData() -> Data {
+        return Data(utf8)
+    }
+
+    public func toBase64Decoded() -> Data? {
+        return Data(base64Encoded: self)
     }
 }
