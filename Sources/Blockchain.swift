@@ -15,6 +15,10 @@ open class Blockchain: Hashable {
         fatalError("Use a specific Blockchain subclass")
     }
 
+    open var coinPurpose: Purpose {
+        return .bip44
+    }
+
     public init() {}
 
     /// Returns the address associated with a public key.
@@ -45,6 +49,6 @@ open class Blockchain: Hashable {
 
 public extension Blockchain {
     func derivationPath(at index: Int) -> DerivationPath {
-        return DerivationPath(purpose: 44, coinType: self.coinType.rawValue, account: 0, change: 0, address: index)
+        return DerivationPath(purpose: coinPurpose.rawValue, coinType: coinType.rawValue, account: 0, change: 0, address: index)
     }
 }

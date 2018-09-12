@@ -15,6 +15,10 @@ open class Bitcoin: Blockchain {
         return .bitcoin
     }
 
+    override open var coinPurpose: Purpose {
+        return .bip49
+    }
+
     /// Public key hash address prefix.
     open var publicKeyHashAddressPrefix: UInt8 {
         return 0x00
@@ -37,6 +41,18 @@ open class Bitcoin: Blockchain {
     }
 
     open override func address(data: Data) -> Address? {
+        return BitcoinAddress(data: data)
+    }
+
+    open func legacyAddress(for publicKey: PublicKey, prefix: UInt8) -> Address {
+        return publicKey.legacyBitcoinAddress(prefix: prefix)
+    }
+
+    open func legacyAddress(string: String) -> Address? {
+        return BitcoinAddress(string: string)
+    }
+
+    open func legacyAddress(data: Data) -> Address? {
         return BitcoinAddress(data: data)
     }
 }
