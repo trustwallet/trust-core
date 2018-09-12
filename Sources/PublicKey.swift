@@ -38,7 +38,7 @@ public struct PublicKey: Hashable, CustomStringConvertible {
         if isCompressed {
             return self
         }
-        let prefix: UInt8 = 0x02 | (data[1] & 0x01)
+        let prefix: UInt8 = 0x02 | (data[64] & 0x01)
         return PublicKey(data: Data(bytes: [prefix]) + data[1 ..< 33])!
     }
 
