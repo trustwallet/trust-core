@@ -31,7 +31,8 @@ extension TronTransaction {
 }
 
 extension TronTransaction.RawData {
-    public mutating func toData() -> Data {
-        return Data(bytes: &self, count: MemoryLayout.size(ofValue: self))
+    public func toData() -> Data {
+        var myself = self
+        return Data(bytes: &myself, count: MemoryLayout.size(ofValue: self))
     }
 }
