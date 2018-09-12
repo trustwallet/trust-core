@@ -242,6 +242,16 @@ public final class BitcoinScript: BinaryEncoding {
         return BitcoinScript(data: data)
     }
 
+    /// Builds a standard segwit script.
+    public static func buildSegWit(address: BitcoinAddress) -> BitcoinScript {
+        let pubKeyHash = address.data.dropFirst()
+        var data = Data()
+        data.append(OpCode.OP_0)
+        data.append(UInt8(pubKeyHash.count))
+        data.append(pubKeyHash)
+        return BitcoinScript(data: data)
+    }
+
     /// Decodes a small integer
     static func decodeNumber(opcode: UInt8) -> Int {
         if opcode == OpCode.OP_0 {

@@ -63,13 +63,20 @@ class BitcoinSignerTests: XCTestCase {
         let privateKey = PrivateKey(data: Data(hexString: "65faa535a38572a9ec5440c393808eada67835eadd6c7ea3f1f31b5c5d36c446")!)!
         let toAddress = BitcoinAddress(string: "18eqGohuqvrZLL3LMR4Wv81qvKeDHsGpjH")!
         let changeAddress = BitcoinAddress(string: "3LbBftXPhBmByAqgpZqx61ttiFfxjde2z7")!
+        let scriptHash = Data(hexString: "cf5007e19af3641199f21f3fa54dff2fa2627471")!
         XCTAssertEqual(privateKey.publicKey().bitcoinAddress(prefix: 0x05), changeAddress)
 
         // UTXO info: https://btc-rpc.binancechain.io/insight-api/addr/3LbBftXPhBmByAqgpZqx61ttiFfxjde2z7/utxo
-        let unspentOutput = BitcoinTransactionOutput(value: 50000, script: BitcoinScript(data: Data(hexString: "a914cf5007e19af3641199f21f3fa54dff2fa262747187")!))
+        let unspentOutput = BitcoinTransactionOutput(value: 50000, script: BitcoinScript.buildPayToScriptHash(scriptHash: scriptHash))
         let unspentOutpoint = BitcoinOutPoint(hash: Data(hexString: "8c0923047ab47e449dd3f01d78bcdd4a0cb767e89a2007f70c095b40d3569c01")!, index: 1)
         let utxo = BitcoinUnspentTransaction(output: unspentOutput, outpoint: unspentOutpoint)
-        let provider = BitcoinDefaultPrivateKeyProvider(keys: [privateKey], keysByScriptHash: [Data(hexString: "cf5007e19af3641199f21f3fa54dff2fa2627471")!: privateKey])
+        let provider = BitcoinDefaultPrivateKeyProvider(keys: [privateKey])
+        provider.keysByScriptHash = [
+            scriptHash: privateKey,
+        ]
+        provider.scriptsByScriptHash = [
+            scriptHash: BitcoinScript.buildSegWit(address: changeAddress),
+        ]
 
         let unsignedTx = createUnsignedTx(toAddress: toAddress, amount: 20000, changeAddress: changeAddress, utxos: [utxo], publicKey: privateKey.publicKey(), fee: 904)
 
@@ -84,7 +91,7 @@ class BitcoinSignerTests: XCTestCase {
 
         // get error: {"code": -25, "message": "Missing inputs"} when broadcasting this tx
         // http://chainquery.com/bitcoin-api/sendrawtransaction
-        XCTAssertEqual(serialized.hexString, "01000000018c0923047ab47e449dd3f01d78bcdd4a0cb767e89a2007f70c095b40d3569c01010000006a47304402207ac20ebe315a4254bae98aae0500c35023dd31397522aafa531313159a4a338402201114c0381e3b1e773e513d861e0665b627f237d822e7ad99d56fc9f05dda0c714121022de45bea3dada528eee8a1e04142d3e04fad66119d971b6019b0e3c02266b791ffffffff02204e0000000000001976a91453f0912255fb6f2ea3962d5d1945963d2a8c861e88aca87100000000000017a914c470d22e69a2a967f2cec0cd5a5aebb955cdd3958700000000")
+        XCTAssertEqual(serialized.hexString, "01000000018c0923047ab47e449dd3f01d78bcdd4a0cb767e89a2007f70c095b40d3569c01010000005f47304402207ac20ebe315a4254bae98aae0500c35023dd31397522aafa531313159a4a338402201114c0381e3b1e773e513d861e0665b627f237d822e7ad99d56fc9f05dda0c7141160014cf5007e19af3641199f21f3fa54dff2fa2627471ffffffff02204e0000000000001976a91453f0912255fb6f2ea3962d5d1945963d2a8c861e88aca87100000000000017a914c470d22e69a2a967f2cec0cd5a5aebb955cdd3958700000000")
     }
 
     func createUnsignedTx(toAddress: BitcoinAddress, amount: Int64, changeAddress: BitcoinAddress, utxos: [BitcoinUnspentTransaction], publicKey: PublicKey? = nil, fee: Int64 = 226) -> BitcoinTransaction {

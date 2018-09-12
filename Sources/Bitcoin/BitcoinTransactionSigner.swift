@@ -20,6 +20,7 @@ public struct BitcoinTransactionSigner {
 
         for (i, utxo) in zip(utxos.indices, utxos) {
             let key: PrivateKey
+
             if let pubkeyHash = utxo.output.script.matchPayToPubkeyHash() {
                 guard let maybeKey = self.keyProvider.key(forPublicKeyHash: pubkeyHash) else {
                     // Missing key, can't sign
@@ -47,7 +48,16 @@ public struct BitcoinTransactionSigner {
             let signature = key.signAsDER(hash: sighash)
             let txin = inputsToSign[i]
             let pubkey = key.publicKey(compressed: true)
-            let script = unlockingScript(signature: signature, publicKey: pubkey, hashType: hashType)
+
+            let script: BitcoinScript
+            if let scriptHash = utxo.output.script.matchPayToScriptHash() {
+                guard let redeemScript = keyProvider.script(forScriptHash: scriptHash) else {
+                    throw Error.missingRedeemScript
+                }
+                script = unlockingScript(signature: signature, script: redeemScript, hashType: hashType)
+            } else {
+                script = unlockingScript(signature: signature, publicKey: pubkey, hashType: hashType)
+            }
 
             inputsToSign[i] = BitcoinTransactionInput(previousOutput: txin.previousOutput, script: script, sequence: txin.sequence)
         }
@@ -65,7 +75,17 @@ public struct BitcoinTransactionSigner {
         return BitcoinScript(data: unlockingScriptData)
     }
 
+    private func unlockingScript(signature: Data, script: BitcoinScript, hashType: SignatureHashType) -> BitcoinScript {
+        var unlockingScriptData = Data()
+        unlockingScriptData.append(UInt8(signature.count + 1))
+        unlockingScriptData.append(signature)
+        unlockingScriptData.append(UInt8(hashType.rawValue))
+        script.encode(into: &unlockingScriptData)
+        return BitcoinScript(data: unlockingScriptData)
+    }
+
     public enum Error: LocalizedError {
         case invalidOutputScript
+        case missingRedeemScript
     }
 }
