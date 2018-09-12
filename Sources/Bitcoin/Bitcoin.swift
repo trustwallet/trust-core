@@ -33,7 +33,7 @@ open class Bitcoin: Blockchain {
     }
 
     open override func address(for publicKey: PublicKey) -> Address {
-        return publicKey.bitcoinAddress(prefix: payToScriptHashAddressPrefix)
+        return publicKey.compressed.bitcoinAddress(prefix: payToScriptHashAddressPrefix)
     }
 
     open override func address(string: String) -> Address? {
@@ -45,7 +45,7 @@ open class Bitcoin: Blockchain {
     }
 
     open func legacyAddress(for publicKey: PublicKey, prefix: UInt8) -> Address {
-        return publicKey.legacyBitcoinAddress(prefix: prefix)
+        return publicKey.compressed.legacyBitcoinAddress(prefix: prefix)
     }
 
     open func legacyAddress(string: String) -> Address? {
