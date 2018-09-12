@@ -31,9 +31,10 @@ class HDWalletTests: XCTestCase {
     }
 
     func testDeriveBitcoin() {
+        let blockchain = Bitcoin()
         let wallet = HDWallet(mnemonic: words, passphrase: passphrase)
-        let key = wallet.getKey(at: Bitcoin().derivationPath(at: 0))
-        let address = key.publicKey().compressed.bitcoinAddress(prefix: Bitcoin().payToScriptHashAddressPrefix)
+        let key = wallet.getKey(at: blockchain.derivationPath(at: 0))
+        let address = blockchain.address(for: key.publicKey())
         XCTAssertEqual("3FJjnZNXC6FWQ2UJAaKL3Vme2EJavfgnXe", address.description)
         XCTAssertEqual(key.publicKey().compressed.description, key.publicKey(compressed: true).description)
     }
