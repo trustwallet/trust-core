@@ -68,7 +68,7 @@ public final class PrivateKey: Hashable, CustomStringConvertible {
     ///
     /// - Parameter compressed: whether to generate a compressed public key
     /// - Returns: the public key
-    public func publicKey(compressed: Bool = false) -> PublicKey {
+    public func publicKey(compressed: Bool) -> PublicKey {
         let pkData: Data
         if compressed {
             pkData = Crypto.getCompressedPublicKey(from: data)
