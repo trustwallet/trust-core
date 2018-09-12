@@ -33,6 +33,15 @@ public struct PublicKey: Hashable, CustomStringConvertible {
         return data.count == PublicKey.compressedSize && data[0] == 2 || data[0] == 3
     }
 
+    /// Returns the compressed public key.
+    public var compressed: PublicKey {
+        if isCompressed {
+            return self
+        }
+        let prefix: UInt8 = 0x02 | (data[1] & 0x01)
+        return PublicKey(data: Data(bytes: [prefix]) + data[1 ..< 33])!
+    }
+
     /// Creates a public key from a raw representation.
     public init?(data: Data) {
         if !PublicKey.isValid(data: data) {

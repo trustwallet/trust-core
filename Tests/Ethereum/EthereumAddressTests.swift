@@ -50,8 +50,7 @@ class EthereumAddressTests: XCTestCase {
 
     func testIsValid() {
         XCTAssertFalse(EthereumAddress.isValid(string: "abc"))
-        XCTAssertFalse(EthereumAddress.isValid(string: "5aaeb6053f3e94c9b9a09f33669435e7ef1beaed"))
+        XCTAssertTrue(EthereumAddress.isValid(string: "5aaeb6053f3e94c9b9a09f33669435e7ef1beaed"))
         XCTAssertTrue(EthereumAddress.isValid(string: "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed"))
-
     }
 }
