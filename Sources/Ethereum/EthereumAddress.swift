@@ -21,8 +21,7 @@ public struct EthereumAddress: Address, Hashable {
         guard let data = Data(hexString: string) else {
             return false
         }
-        let eip55String = EthereumAddress.computeEIP55String(for: data)
-        return string == eip55String
+        return EthereumAddress.isValid(data: data)
     }
 
     /// Raw address bytes, length 20.
