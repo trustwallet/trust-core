@@ -29,6 +29,14 @@ class BitcoinAddressTests: XCTestCase {
         XCTAssertEqual(address.description, "3Hv6oV8BYCoocW4eqZaEXsaR5tHhCxiMSk")
     }
 
+    func testFromPrivateKeySegwitAddress() {
+        let privateKey = PrivateKey(wif: "KxZX6Jv3to6RWnhsffTcLLryRnNyyc8Ng2G8P9LFkbCdzGDEhNy1")!
+        let publicKey = privateKey.publicKey(compressed: true)
+        let address = Bitcoin().legacyAddress(for: publicKey, prefix: 0x0)
+
+        XCTAssertEqual(address.description, "1PeUvjuxyf31aJKX6kCXuaqxhmG78ZUdL1")
+    }
+
     func testIsValid() {
         XCTAssertFalse(BitcoinAddress.isValid(string: "abc"))
         XCTAssertFalse(BitcoinAddress.isValid(string: "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed"))
@@ -40,13 +48,13 @@ class BitcoinAddressTests: XCTestCase {
         // compressed public key starting with 0x03 (greater than midpoint of curve)
         let compressedPK = PublicKey(data: Data(hexString: "030589ee559348bd6a7325994f9c8eff12bd5d73cc683142bd0dd1a17abc99b0dc")!)!
         XCTAssertTrue(compressedPK.isCompressed)
-        XCTAssertEqual(compressedPK.bitcoinAddress(prefix: 0).description, "1KbUJ4x8epz6QqxkmZbTc4f79JbWWz6g37")
+        XCTAssertEqual(compressedPK.legacyBitcoinAddress(prefix: 0).description, "1KbUJ4x8epz6QqxkmZbTc4f79JbWWz6g37")
     }
 
     func testUncompressedPublicKey() {
         // uncompressed public key, starting with 0x04. Contains both X and Y encoded
         let uncompressed = PublicKey(data: Data(hexString: "0479BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798483ADA7726A3C4655DA4FBFC0E1108A8FD17B448A68554199C47D08FFB10D4B8")!)!
         XCTAssertFalse(uncompressed.isCompressed)
-        XCTAssertEqual(uncompressed.bitcoinAddress(prefix: 0).description, "1EHNa6Q4Jz2uvNExL497mE43ikXhwF6kZm")
+        XCTAssertEqual(uncompressed.legacyBitcoinAddress(prefix: 0).description, "1EHNa6Q4Jz2uvNExL497mE43ikXhwF6kZm")
     }
 }

@@ -8,6 +8,11 @@ import Foundation
 
 public extension PublicKey {
     /// Returns the public key address with the given prefix.
+    public func legacyBitcoinAddress(prefix: UInt8) -> BitcoinAddress {
+        let hash = Data([prefix]) + bitcoinKeyHash
+        return BitcoinAddress(data: hash)!
+    }
+
     public func bitcoinAddress(prefix: UInt8) -> BitcoinAddress {
         let witnessVersion = Data([0x00] + [0x14])
         let redeemScript = Crypto.sha256ripemd160(witnessVersion + bitcoinKeyHash)

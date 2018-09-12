@@ -43,6 +43,18 @@ open class Bitcoin: Blockchain {
     open override func address(data: Data) -> Address? {
         return BitcoinAddress(data: data)
     }
+
+    open func legacyAddress(for publicKey: PublicKey, prefix: UInt8) -> Address {
+        return publicKey.legacyBitcoinAddress(prefix: prefix)
+    }
+
+    open func legacyAddress(string: String) -> Address? {
+        return BitcoinAddress(string: string)
+    }
+
+    open func legacyAddress(data: Data) -> Address? {
+        return BitcoinAddress(data: data)
+    }
 }
 
 public final class Litecoin: Bitcoin {
