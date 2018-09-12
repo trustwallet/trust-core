@@ -20,6 +20,8 @@ opt_in_rules:
 included:
   - Sources
   - Tests
+excluded: 
+  - Sources/Tron/Tron.pb.swift
 function_parameter_count:
   warning: 20
   error: 25
