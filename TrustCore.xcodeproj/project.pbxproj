@@ -50,6 +50,7 @@
 		616B063D2098196500FE7942 /* ABIDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616B063C2098196500FE7942 /* ABIDecoder.swift */; };
 		616B06412098CAE800FE7942 /* ABIDecoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616B06402098CAE800FE7942 /* ABIDecoderTests.swift */; };
 		617F141921477AEC00619F1A /* BitcoinPrivateKeyProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617F141821477AEC00619F1A /* BitcoinPrivateKeyProvider.swift */; };
+		617F141B2148BA3300619F1A /* PublicKeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617F141A2148BA3300619F1A /* PublicKeyTests.swift */; };
 		6185E71521095789000B4B79 /* BitcoinTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6185E71421095789000B4B79 /* BitcoinTransaction.swift */; };
 		6185E71721096306000B4B79 /* BinaryCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6185E71621096306000B4B79 /* BinaryCoding.swift */; };
 		61A4B14E2140E75900D0136A /* PrivateKey+Bitcoin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A4B14D2140E75900D0136A /* PrivateKey+Bitcoin.swift */; };
@@ -151,6 +152,7 @@
 		616B063C2098196500FE7942 /* ABIDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABIDecoder.swift; sourceTree = "<group>"; };
 		616B06402098CAE800FE7942 /* ABIDecoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABIDecoderTests.swift; sourceTree = "<group>"; };
 		617F141821477AEC00619F1A /* BitcoinPrivateKeyProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinPrivateKeyProvider.swift; sourceTree = "<group>"; };
+		617F141A2148BA3300619F1A /* PublicKeyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicKeyTests.swift; sourceTree = "<group>"; };
 		6185E71421095789000B4B79 /* BitcoinTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BitcoinTransaction.swift; sourceTree = "<group>"; };
 		6185E71621096306000B4B79 /* BinaryCoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryCoding.swift; sourceTree = "<group>"; };
 		61A4B14D2140E75900D0136A /* PrivateKey+Bitcoin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PrivateKey+Bitcoin.swift"; sourceTree = "<group>"; };
@@ -281,19 +283,20 @@
 			isa = PBXGroup;
 			children = (
 				77F80A9321363D5C0011D949 /* CryptoTests.swift */,
+				77F8D3AF2141CBB900E80CD6 /* DashTests.swift */,
 				6149A6CD201E499B00A2F35C /* DataHexTests.swift */,
 				611EFEC420F5BD8700A00E53 /* DerivationPathTests.swift */,
 				61675572207ADB9B00018DC8 /* FunctionTests.swift */,
 				61A728EB20F48A580005045D /* HDWalletTests.swift */,
 				6154D98E2140D84600B2D3E2 /* LitecoinTests.swift */,
 				6161048320F2F73E000E8F37 /* PrivateKeyTests.swift */,
+				617F141A2148BA3300619F1A /* PublicKeyTests.swift */,
+				77F8D3DE2148625100E80CD6 /* PurposeTests.swift */,
+				7749DFEC21410F1B00411ED8 /* SlipTests.swift */,
 				77044FBD2131378F00CC20D1 /* TronTests.swift */,
 				615AE1EB20F1F41000A5A0ED /* Bitcoin */,
 				614A9F0120F2DB7900326188 /* Ethereum */,
 				77F80A872134A50A0011D949 /* VeChain */,
-				7749DFEC21410F1B00411ED8 /* SlipTests.swift */,
-				77F8D3AF2141CBB900E80CD6 /* DashTests.swift */,
-				77F8D3DE2148625100E80CD6 /* PurposeTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -736,6 +739,7 @@
 				BB3864AD20904C3900CBF773 /* NamehashTests.swift in Sources */,
 				BB636D3E212154270071AE07 /* EIP712TypedDataTests.swift in Sources */,
 				61675573207ADB9B00018DC8 /* FunctionTests.swift in Sources */,
+				617F141B2148BA3300619F1A /* PublicKeyTests.swift in Sources */,
 				BB3864A92090145600CBF773 /* ENSEncoderTests.swift in Sources */,
 				BB58F29C213CF787007A826C /* ERC721Encoder.swift in Sources */,
 				BB1215D021390A4D0092FC68 /* ERC721EncoderTests.swift in Sources */,

@@ -50,7 +50,7 @@ class BitcoinSignerTests: XCTestCase {
 
     func testRedeemScript() {
         let publicKey = PublicKey(data: Data(hexString: "042de45bea3dada528eee8a1e04142d3e04fad66119d971b6019b0e3c02266b79142158aa83469db1332a880a2d5f8ce0b3bba542b3e32df0740ccbfb01c275e42")!)!
-        let address = publicKey.bitcoinAddress(prefix: 0x05)
+        let address = publicKey.legacyBitcoinAddress(prefix: 0x05)
         XCTAssertEqual(address.description, "3LbBftXPhBmByAqgpZqx61ttiFfxjde2z7")
 
         let embeddedScript = BitcoinScript.buildPayToPublicKeyHash(address: address)
@@ -59,12 +59,11 @@ class BitcoinSignerTests: XCTestCase {
     }
 
     func testSpendP2SHTx() throws {
-        // from Trust: try account.privateKey(password: password)
         let privateKey = PrivateKey(data: Data(hexString: "65faa535a38572a9ec5440c393808eada67835eadd6c7ea3f1f31b5c5d36c446")!)!
         let toAddress = BitcoinAddress(string: "18eqGohuqvrZLL3LMR4Wv81qvKeDHsGpjH")!
         let changeAddress = BitcoinAddress(string: "3LbBftXPhBmByAqgpZqx61ttiFfxjde2z7")!
         let scriptHash = Data(hexString: "cf5007e19af3641199f21f3fa54dff2fa2627471")!
-        XCTAssertEqual(privateKey.publicKey().bitcoinAddress(prefix: 0x05), changeAddress)
+        XCTAssertEqual(privateKey.publicKey().legacyBitcoinAddress(prefix: 0x05), changeAddress)
 
         // UTXO info: https://btc-rpc.binancechain.io/insight-api/addr/3LbBftXPhBmByAqgpZqx61ttiFfxjde2z7/utxo
         let unspentOutput = BitcoinTransactionOutput(value: 50000, script: BitcoinScript.buildPayToScriptHash(scriptHash: scriptHash))

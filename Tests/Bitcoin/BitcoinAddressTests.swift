@@ -29,6 +29,14 @@ class BitcoinAddressTests: XCTestCase {
         XCTAssertEqual(address.description, "3Hv6oV8BYCoocW4eqZaEXsaR5tHhCxiMSk")
     }
 
+    func testFromPrivateKeyUncompressed() {
+        let privateKey = PrivateKey(wif: "L5XECLxq1MDvBeYXjZwz5tTYsFZRWmaYziY3Wvc2bqSRAuRcBqhg")!
+        let publicKey = privateKey.publicKey(compressed: false)
+        let address = Bitcoin().address(for: publicKey)
+
+        XCTAssertEqual(address.description, "3Hv6oV8BYCoocW4eqZaEXsaR5tHhCxiMSk")
+    }
+
     func testFromPrivateKeySegwitAddress() {
         let privateKey = PrivateKey(wif: "KxZX6Jv3to6RWnhsffTcLLryRnNyyc8Ng2G8P9LFkbCdzGDEhNy1")!
         let publicKey = privateKey.publicKey(compressed: true)
@@ -66,17 +74,15 @@ class BitcoinAddressTests: XCTestCase {
         XCTAssertEqual(uncompressed.legacyBitcoinAddress(prefix: 0).description, "1EHNa6Q4Jz2uvNExL497mE43ikXhwF6kZm")
     }
 
-    func testP2SHAddresses() {
-        let privateKey = PrivateKey(data: Data(hexString: "65faa535a38572a9ec5440c393808eada67835eadd6c7ea3f1f31b5c5d36c446")!)!
-        let publicKey = privateKey.publicKey()
+    func testLegacyAddresses() {
+        let privateKey = PrivateKey(wif: "KzdwksguQ3NY8u1JNkZdgRroeLa2UJP2fz47KGgL2W91CQkC3Eww")!
+        let publicKey = privateKey.publicKey(compressed: false)
         let compressedPublicKey = privateKey.publicKey(compressed: true)
-        print(publicKey.data.hexString)
-        print(compressedPublicKey.data.hexString)
 
-        XCTAssertEqual(publicKey.bitcoinAddress(prefix: 0x00).base58String, "1KuAkM2x9HSot19FhUBMfPXxZjPF6rWvJ8")
-        XCTAssertEqual(publicKey.bitcoinAddress(prefix: 0x05).base58String, "3LbBftXPhBmByAqgpZqx61ttiFfxjde2z7")
+        XCTAssertEqual(publicKey.legacyBitcoinAddress(prefix: 0x00).base58String, "1KuAkM2x9HSot19FhUBMfPXxZjPF6rWvJ8")
+        XCTAssertEqual(publicKey.legacyBitcoinAddress(prefix: 0x05).base58String, "3LbBftXPhBmByAqgpZqx61ttiFfxjde2z7")
 
-        XCTAssertEqual(compressedPublicKey.bitcoinAddress(prefix: 0x00).base58String, "17XqPKKXTYGHA3k38VRrL28KHicXsDBjTb")
-        XCTAssertEqual(compressedPublicKey.bitcoinAddress(prefix: 0x05).base58String, "38DrJroy1SafFDSUFb6SkeVFSEuFUjwrUR")
+        XCTAssertEqual(compressedPublicKey.legacyBitcoinAddress(prefix: 0x00).base58String, "17XqPKKXTYGHA3k38VRrL28KHicXsDBjTb")
+        XCTAssertEqual(compressedPublicKey.legacyBitcoinAddress(prefix: 0x05).base58String, "38DrJroy1SafFDSUFb6SkeVFSEuFUjwrUR")
     }
 }
