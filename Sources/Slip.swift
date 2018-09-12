@@ -23,3 +23,23 @@ public enum Slip: Int {
     case callisto = 820
     case wanchain = 5718350
 }
+
+extension Slip {
+    public var compressed: Bool {
+        switch self {
+        case .ethereum,
+             .ethereumClassic,
+             .go,
+             .poa,
+             .vechain,
+             .callisto,
+             .wanchain:
+            return false
+        case .bitcoin,
+             .dash,
+             .litecoin,
+             .tron:
+            return true
+        }
+    }
+}

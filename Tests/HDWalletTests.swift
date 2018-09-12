@@ -26,17 +26,18 @@ class HDWalletTests: XCTestCase {
         let wallet = HDWallet(mnemonic: words, passphrase: passphrase)
         let key0 = wallet.getKey(at: Ethereum().derivationPath(at: 0))
         let key1 = wallet.getKey(at: Ethereum().derivationPath(at: 1))
-        XCTAssertEqual(key0.publicKey().ethereumAddress.description, "0x27Ef5cDBe01777D62438AfFeb695e33fC2335979")
-        XCTAssertEqual(key1.publicKey().ethereumAddress.description, "0x98f5438cDE3F0Ff6E11aE47236e93481899d1C47")
+        XCTAssertEqual(key0.publicKey(compressed: false).ethereumAddress.description, "0x27Ef5cDBe01777D62438AfFeb695e33fC2335979")
+        XCTAssertEqual(key1.publicKey(compressed: false).ethereumAddress.description, "0x98f5438cDE3F0Ff6E11aE47236e93481899d1C47")
     }
 
     func testDeriveBitcoin() {
+        let blockchain = Bitcoin()
         let wallet = HDWallet(mnemonic: words, passphrase: passphrase)
-        let key = wallet.getKey(at: Bitcoin().derivationPath(at: 0))
-        let publicKey = key.publicKey(compressed: true)
+        let key = wallet.getKey(at: blockchain.derivationPath(at: 0))
+        let publicKey = key.publicKey(compressed: blockchain.coinType.compressed)
 
         XCTAssertEqual("026fc80db3a34e7c6bfc6d7d9a53aeba9e706b309c9cf7ee96fa9c36ff7fd92a20", publicKey.description)
-        XCTAssertEqual("3FJjnZNXC6FWQ2UJAaKL3Vme2EJavfgnXe", publicKey.bitcoinAddress(prefix: Bitcoin().payToScriptHashAddressPrefix).description)
+        XCTAssertEqual("3FJjnZNXC6FWQ2UJAaKL3Vme2EJavfgnXe", blockchain.address(for: publicKey).description)
     }
 
     func testSignHash() {
@@ -45,7 +46,7 @@ class HDWalletTests: XCTestCase {
         let hash = Data(hexString: "3F891FDA3704F0368DAB65FA81EBE616F4AA2A0854995DA4DC0B59D2CADBD64F")!
         let result = Crypto.sign(hash: hash, privateKey: key.data)
 
-        let publicKey = key.publicKey()
+        let publicKey = key.publicKey(compressed: false)
         XCTAssertEqual(result.count, 65)
         XCTAssertTrue(Crypto.verify(signature: result, message: hash, publicKey: publicKey.data))
     }
