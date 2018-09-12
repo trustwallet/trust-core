@@ -14,7 +14,7 @@ public extension PublicKey {
     }
 
     public func bitcoinAddress(prefix: UInt8) -> BitcoinAddress {
-        let witnessVersion = Data([0x00] + [0x14])
+        let witnessVersion = Data(bytes: [0x00, 0x14])
         let redeemScript = Crypto.sha256ripemd160(witnessVersion + bitcoinKeyHash)
         let address = Crypto.base58Encode([prefix] + redeemScript)
         return BitcoinAddress(string: address)!
