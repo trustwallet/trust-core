@@ -9,8 +9,10 @@ import Foundation
 public extension PublicKey {
     /// Returns the public key address with the given prefix.
     public func bitcoinAddress(prefix: UInt8) -> BitcoinAddress {
-        let hash = Data([prefix]) + Crypto.sha256ripemd160(data)
-        return BitcoinAddress(data: hash)!
+        let witnessVersion = Data([0x00] + [0x14])
+        let redeemScript = Crypto.sha256ripemd160(witnessVersion + Crypto.sha256ripemd160(data))
+        let address = Crypto.base58Encode([prefix] + redeemScript)
+        return BitcoinAddress(string: address)!
     }
 
     /// Returns the public key hash.

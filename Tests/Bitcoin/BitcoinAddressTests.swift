@@ -22,12 +22,11 @@ class BitcoinAddressTests: XCTestCase {
     }
 
     func testFromPrivateKey() {
-        let data = Crypto.base58Decode("5K6EwEiKWKNnWGYwbNtrXjA8KKNntvxNKvepNqNeeLpfW7FSG1v")!
-        let privateKey = PrivateKey(data: data.dropFirst())!
+        let privateKey = PrivateKey(wif: "L5XECLxq1MDvBeYXjZwz5tTYsFZRWmaYziY3Wvc2bqSRAuRcBqhg")!
         let publicKey = privateKey.publicKey(compressed: true)
         let address = Bitcoin().address(for: publicKey)
 
-        XCTAssertEqual(address.description, "3EpNJiTASbZ6DeNA7QZ7bPEz82Y42W8Rd7")
+        XCTAssertEqual(address.description, "3Hv6oV8BYCoocW4eqZaEXsaR5tHhCxiMSk")
     }
 
     func testIsValid() {
