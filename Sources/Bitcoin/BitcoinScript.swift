@@ -180,9 +180,9 @@ public final class BitcoinScript: BinaryEncoding {
 
     var isPayToWitnessScriptHash: Bool {
         // Extra-fast test for pay-to-witness-script-hash
-        return bytes.count == 34 &&
+        return bytes.count == 22 &&
             bytes[0] == OpCode.OP_0 &&
-            bytes[1] == 0x20
+            bytes[1] == 0x14
     }
 
     // A witness program is any valid CScript that consists of a 1-byte push opcode
