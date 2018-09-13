@@ -67,15 +67,6 @@ public final class Litecoin: Bitcoin {
     }
 }
 
-public final class Tron: Bitcoin {
-    public override var coinType: Slip {
-        return .tron
-    }
-    public override var payToScriptHashAddressPrefix: UInt8 {
-        return 0x41
-    }
-}
-
 public final class Dash: Bitcoin {
     public override var coinType: Slip {
         return .dash

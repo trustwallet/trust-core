@@ -39,6 +39,14 @@ class HDWalletTests: XCTestCase {
         XCTAssertEqual(key.publicKey().compressed.description, key.publicKey(compressed: true).description)
     }
 
+    func testDeriveTron() {
+        let blockchain = Tron()
+        let wallet = HDWallet(mnemonic: words, passphrase: passphrase)
+        let key = wallet.getKey(at: blockchain.derivationPath(at: 0))
+        let address = blockchain.address(for: key.publicKey())
+        XCTAssertEqual("TT9mdPQDRV4rQnAvtRWCCEmM7Hm1TH5aNZ", address.description)
+    }
+
     func testSignHash() {
         let wallet = HDWallet(mnemonic: words, passphrase: passphrase)
         let key = wallet.getKey(at: Ethereum().derivationPath(at: 0))

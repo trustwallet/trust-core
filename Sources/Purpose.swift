@@ -9,6 +9,7 @@ import Foundation
 // See https://github.com/bitcoin/bips/blob/master/bip-0049.mediawiki
 
 public enum Purpose: Int {
+    case bip39 = 39
     case bip44 = 44
     case bip49 = 49
 }
