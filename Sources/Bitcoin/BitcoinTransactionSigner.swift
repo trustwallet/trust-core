@@ -39,6 +39,11 @@ public struct BitcoinTransactionSigner {
                     continue
                 }
                 key = maybeKey
+            } else if let hash = utxo.output.script.matchPayToWitnessProgram() {
+                guard let maybeKey = self.keyProvider.key(forScriptHash: hash) else {
+                    continue
+                }
+                key = maybeKey
             } else {
                 throw Error.invalidOutputScript
             }

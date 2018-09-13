@@ -361,6 +361,13 @@ public final class BitcoinScript: BinaryEncoding {
         return Data(bytes: bytes[2 ..< 22])
     }
 
+    public func matchPayToWitnessProgram() -> Data? {
+        if bytes.count == 22 && bytes[0] == OpCode.OP_0 && bytes[1] == 20 {
+            return Data(bytes: bytes[2 ..< 22])
+        }
+        return nil
+    }
+
     public func matchMultisig(required: inout Int) -> [PublicKey]? {
         if bytes.count < 1 || bytes.last != OpCode.OP_CHECKMULTISIG {
             return []
