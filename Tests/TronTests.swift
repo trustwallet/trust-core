@@ -10,7 +10,7 @@ import XCTest
 class TronAddressTests: XCTestCase {
     func testAddress() {
         let privateKey = PrivateKey(data: Data(hexString: "BE88DF1D0BF30A923CB39C3BB953178BAAF3726E8D3CE81E7C8462E046E0D835")!)!
-        let publicKey = privateKey.publicKey()
-        XCTAssertEqual("THRF3GuPnvvPzKoaT8pJex5XHmo8NNbCb3", publicKey.tronAddress().description)
+        let blockchain = Tron()
+        XCTAssertEqual("THRF3GuPnvvPzKoaT8pJex5XHmo8NNbCb3", blockchain.address(for: privateKey.publicKey()).description)
     }
 }

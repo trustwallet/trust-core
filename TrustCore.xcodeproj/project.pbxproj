@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		29EDBD2A214AEF6F00C86992 /* Tron.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29EDBD29214AEF6F00C86992 /* Tron.swift */; };
 		610C52BD20F44CAC004A602C /* Data+Clear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610C52BC20F44CAC004A602C /* Data+Clear.swift */; };
 		611204CE21096D1300C2A28A /* BitcoinTransactionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611204CD21096D1300C2A28A /* BitcoinTransactionTests.swift */; };
 		611EFEC520F5BD8700A00E53 /* DerivationPathTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611EFEC420F5BD8700A00E53 /* DerivationPathTests.swift */; };
@@ -103,6 +104,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		29EDBD29214AEF6F00C86992 /* Tron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tron.swift; sourceTree = "<group>"; };
 		610C52BC20F44CAC004A602C /* Data+Clear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Clear.swift"; sourceTree = "<group>"; };
 		611204CD21096D1300C2A28A /* BitcoinTransactionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinTransactionTests.swift; sourceTree = "<group>"; };
 		611EFEC420F5BD8700A00E53 /* DerivationPathTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DerivationPathTests.swift; sourceTree = "<group>"; };
@@ -218,6 +220,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		29EDBD28214AEF6100C86992 /* Tron */ = {
+			isa = PBXGroup;
+			children = (
+				29EDBD29214AEF6F00C86992 /* Tron.swift */,
+			);
+			path = Tron;
+			sourceTree = "<group>";
+		};
 		6149A696201E433A00A2F35C = {
 			isa = PBXGroup;
 			children = (
@@ -244,6 +254,7 @@
 		6149A6BB201E43E200A2F35C /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				29EDBD28214AEF6100C86992 /* Tron */,
 				615AE1E520F1DC1F00A5A0ED /* Crypto.h */,
 				6149A6BC201E43E200A2F35C /* TrustCore.h */,
 				615AE1E620F1DC1F00A5A0ED /* Crypto.m */,
@@ -683,6 +694,7 @@
 				6185E71521095789000B4B79 /* BitcoinTransaction.swift in Sources */,
 				6149A6CA201E472000A2F35C /* EthereumTransaction.swift in Sources */,
 				7749DFEF2141105800411ED8 /* Slip.swift in Sources */,
+				29EDBD2A214AEF6F00C86992 /* Tron.swift in Sources */,
 				615AE1E220F1D71000A5A0ED /* Address.swift in Sources */,
 				612B85D6212BC3A500F5BCF5 /* SignatureHashType.swift in Sources */,
 				6167556E207ABE6700018DC8 /* ABIValue.swift in Sources */,
