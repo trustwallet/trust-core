@@ -24,4 +24,9 @@ public extension PublicKey {
     public var bitcoinKeyHash: Data {
         return Crypto.sha256ripemd160(data)
     }
+
+    public func tronAddress() -> BitcoinAddress {
+        let hash = Data([Tron().payToScriptHashAddressPrefix]) + Crypto.hash(data.dropFirst()).suffix(20)
+        return BitcoinAddress(data: hash)!
+    }
 }

@@ -74,6 +74,14 @@ public final class Tron: Bitcoin {
     public override var payToScriptHashAddressPrefix: UInt8 {
         return 0x41
     }
+
+    override open var coinPurpose: Purpose {
+        return .bip39
+    }
+
+    open override func address(for publicKey: PublicKey) -> Address {
+        return publicKey.tronAddress()
+    }
 }
 
 public final class Dash: Bitcoin {
