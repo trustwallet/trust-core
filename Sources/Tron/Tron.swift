@@ -15,7 +15,7 @@ public final class Tron: Bitcoin {
     }
 
     override open var coinPurpose: Purpose {
-        return .bip39
+        return .bip44
     }
 
     open override func address(for publicKey: PublicKey) -> Address {
