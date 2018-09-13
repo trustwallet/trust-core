@@ -20,7 +20,7 @@ class VechainTransactionTests: XCTestCase {
                     to: EthereumAddress(string: "0x3535353535353535353535353535353535353535")!,
                     value: BigInt(1000),
                     data: Data()
-                )
+                ),
             ],
             gasPriceCoef: 0,
             gas: 21000,
