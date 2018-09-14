@@ -787,12 +787,12 @@ public struct TronTransaction {
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var type: TronTransaction.Contract.ContractType {
+    public var type: TronTransaction.Contract.ContractType {
       get {return _storage._type}
       set {_uniqueStorage()._type = newValue}
     }
 
-    var parameter: SwiftProtobuf.Google_Protobuf_Any {
+    public var parameter: SwiftProtobuf.Google_Protobuf_Any {
       get {return _storage._parameter ?? SwiftProtobuf.Google_Protobuf_Any()}
       set {_uniqueStorage()._parameter = newValue}
     }
@@ -813,8 +813,8 @@ public struct TronTransaction {
 
     public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-    enum ContractType: SwiftProtobuf.Enum {
-      typealias RawValue = Int
+    public enum ContractType: SwiftProtobuf.Enum {
+      public typealias RawValue = Int
       case accountCreateContract // = 0
       case transferContract // = 1
       case transferAssetContract // = 2
@@ -849,11 +849,11 @@ public struct TronTransaction {
       case exchangeTransactionContract // = 44
       case UNRECOGNIZED(Int)
 
-      init() {
+      public init() {
         self = .accountCreateContract
       }
 
-      init?(rawValue: Int) {
+      public init?(rawValue: Int) {
         switch rawValue {
         case 0: self = .accountCreateContract
         case 1: self = .transferContract
@@ -887,7 +887,7 @@ public struct TronTransaction {
         }
       }
 
-      var rawValue: Int {
+      public var rawValue: Int {
         switch self {
         case .accountCreateContract: return 0
         case .transferContract: return 1
@@ -3110,7 +3110,7 @@ extension TronTransaction.Contract: SwiftProtobuf.Message, SwiftProtobuf._Messag
 }
 
 extension TronTransaction.Contract.ContractType: SwiftProtobuf._ProtoNameProviding {
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     0: .same(proto: "AccountCreateContract"),
     1: .same(proto: "TransferContract"),
     2: .same(proto: "TransferAssetContract"),
