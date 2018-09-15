@@ -35,19 +35,9 @@ class TronAddressTests: XCTestCase {
 
         XCTAssertEqual("4157e42069ecdf9636ac3a50f31cf66e36dae5c951", addressHexString)
 
-        let tmpHash1 = Crypto.sha256(addressHexString.hexadecimal()!)
-        let tmpHash2 = Crypto.sha256(tmpHash1)
-        let checkSum = tmpHash2[0..<4]
-        var addressWithCheckSum = addressHexString.hexadecimal()!
-        addressWithCheckSum.append(checkSum)
-        let addressBase58 = Crypto.base58Encode(addressWithCheckSum)
+        let addressBase58 = Crypto.base58Encode(addressHexString.hexadecimal()!)
 
-        XCTAssertEqual("99519f45c9374e5a01c59c1c0a5324f205aab162b9c7bbc60d22706b648dee31", tmpHash1.hexString)
-        XCTAssertEqual("9ea8dee1bba6f5cfc89d73a1420c5d928397e3b17515762d32521f3dafe176c3", tmpHash2.hexString)
-        XCTAssertEqual("9ea8dee1", checkSum.hexString)
-        XCTAssertEqual("4157e42069ecdf9636ac3a50f31cf66e36dae5c9519ea8dee1", addressWithCheckSum.hexString)
         XCTAssertEqual("THyw5GEQrRFjBxjpiQrSkthzkN92BZY2sJ", addressBase58)
-
         XCTAssertEqual("THyw5GEQrRFjBxjpiQrSkthzkN92BZY2sJ", addressUncompressed.description)
 
         let publicKeyCompressed = privateKey!.publicKey(compressed: true)
@@ -59,10 +49,6 @@ class TronAddressTests: XCTestCase {
          reference:
          https://github.com/tronprotocol/Documentation/blob/master/TRX/Tron-overview.md
          https://github.com/tronprotocol/tron-demo/raw/master/TronConvertTool.zip
-
-         ToDo:
-         4157e42069ecdf9636ac3a50f31cf66e36dae5c951 Address(HexString)
-         THyw5GEQrRFjBxjpiQrSkthzkN92BZY2sJ Address(Base58Check)
          */
     }
 }
