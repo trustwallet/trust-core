@@ -71,8 +71,23 @@ public final class Tron: Bitcoin {
     public override var coinType: Slip {
         return .tron
     }
+
     public override var payToScriptHashAddressPrefix: UInt8 {
         return 0x41
+    }
+
+    open override func address(for publicKey: PublicKey) -> Address {
+        var publicKeyDataTrimed = publicKey.data
+
+        if (publicKey.data.count == 65) {
+            publicKeyDataTrimed = publicKey.data.subdata(in: 1..<publicKey.data.count)
+        }
+
+        let hashHexString = Crypto.hash(publicKeyDataTrimed).hexString
+        let addressHexString = "41" + hashHexString.dropFirst(24)
+        let addressBase58 = Crypto.base58Encode(addressHexString.hexadecimal()!)
+
+        return BitcoinAddress(string: addressBase58)!
     }
 }
 
