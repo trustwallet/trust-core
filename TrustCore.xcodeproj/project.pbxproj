@@ -317,7 +317,6 @@
 				617F141A2148BA3300619F1A /* PublicKeyTests.swift */,
 				77F8D3DE2148625100E80CD6 /* PurposeTests.swift */,
 				7749DFEC21410F1B00411ED8 /* SlipTests.swift */,
-				77044FBD2131378F00CC20D1 /* TronTests.swift */,
 				615AE1EB20F1F41000A5A0ED /* Bitcoin */,
 				614A9F0120F2DB7900326188 /* Ethereum */,
 				77F80A872134A50A0011D949 /* VeChain */,
@@ -755,7 +754,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				77044FBE2131378F00CC20D1 /* TronTests.swift in Sources */,
 				77F8D3DF2148625100E80CD6 /* PurposeTests.swift in Sources */,
 				BB3864C720956F8B00CBF773 /* ReverseResolverEncoderTests.swift in Sources */,
 				61555865208ED04F00FB241E /* TransactionSigningTests.swift in Sources */,
