@@ -39,25 +39,41 @@ class TronTransactionTests: XCTestCase {
         // https://tronscan.org/#/transaction/3d9fdb03efac1b2fa58cd92b7c283eb76a232cbc434790c8ca684255a7f212b6
         // GetTransactionById 3d9fdb03efac1b2fa58cd92b7c283eb76a232cbc434790c8ca684255a7f212b6
         /*
-         raw_data {
-             ref_block_bytes: "b238"
-             ref_block_hash: "3b15cb7e4a1c8168"
-             expiration: 1536926241000
-             data: "Test%201.1"
-             contract {
-                 type: TransferContract
-                 parameter {
-                     type_url: "type.googleapis.com/protocol.TransferContract"
-                     value: "0a1541469d067b0d0ab59ef5399cc9c9cf6ca2bc129a43121541699fefc95ac273a3b4188efc68fd4b26ca85ec5218e09143"
-                 }
+         hash:
+            8638224c089fa9671874b6caf9e0684c37d19bd199247c2091445cb1f75f0cf0
+         txid:
+            3d9fdb03efac1b2fa58cd92b7c283eb76a232cbc434790c8ca684255a7f212b6
+         raw_data:
+         {
+             ref_block_bytes: b238
+             ref_block_hash: 3b15cb7e4a1c8168
+             contract:
+             {
+                contract 0 :::
+                [
+                     contract_type: TransferContract
+                     owner_address: TGQaQoCM7LprSH4TE4FemmZhEQMZMKvAGH
+                     to_address: TKbhYo6a8nDjfVryNwh4oG5GA7kXfVSyqf
+                     amount: 1100000
+                 ]
+
              }
+             timestamp: Thu Jan 01 10:00:00 AEST 1970
+             fee_limit: 0
          }
-         signature: "e26f125d0e48e33efeb89efd616bfb7fb73e5a558f4ef8ac0094c3d7ad3a2796d5d8fc51fdaec40671bad3af21b21b4509961a8cf8b8f6b55239072d6956b40401"
+         signature:
+         {
+            signature 0 :e26f125d0e48e33efeb89efd616bfb7fb73e5a558f4ef8ac0094c3d7ad3a2796d5d8fc51fdaec40671bad3af21b21b4509961a8cf8b8f6b55239072d6956b40401
+         }
          */
 
         let contract = TronTransactionContractBuiler()
             .type(.transferContract)
-            .parameter()
+            .parameter(
+                from: Crypto.base58Decode("TGQaQoCM7LprSH4TE4FemmZhEQMZMKvAGH")!,
+                to: Crypto.base58Decode("TKbhYo6a8nDjfVryNwh4oG5GA7kXfVSyqf")!,
+                amount: 1100000
+            )
             .build()
 
         let rawData = TronTransactionRawDataBuilder()
@@ -66,28 +82,28 @@ class TronTransactionTests: XCTestCase {
             .blockBytes("b238".hexadecimal()!)
             .blockHash("3b15cb7e4a1c8168".hexadecimal()!)
             .contract(contract)
+            .data("Test 1.1".data(using: .utf8)!)
             .build()
 
-        var transactionToBeSigned = TronTransaction(rawData: rawData)
+        let rawDataHexString = "0a02b23822083b15cb7e4a1c816840e8a1c5bfdd2c520a54657374253230312e315a67080112630a2d747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e5472616e73666572436f6e747261637412320a1541469d067b0d0ab59ef5399cc9c9cf6ca2bc129a43121541699fefc95ac273a3b4188efc68fd4b26ca85ec5218e09143"
+
+        XCTAssertEqual("", try! rawData.jsonString())
+        XCTAssertEqual(rawDataHexString, rawData.toData().hexadecimal())
+
+        let privateKey = PrivateKey(data: Data(hexString: "70815e46680f0c131844b34c33ef0385b5c459820a8d091f97b646db2396e37e")!)!
+        let publicKey = privateKey.publicKey()
+
+        var transactionToBeSigned = TronTransaction()
 
         let hashHexString = transactionToBeSigned.hash().hexString
-        let hashData = Data(hexString: hashHexString)!
-
-        XCTAssertEqual(64, hashHexString.count)
-
-        let privateKey = PrivateKey(data: Data(hexString: "70815E46680F0C131844B34C33EF0385B5C459820A8D091F97B646DB2396E37E")!)!
-        let publicKey = privateKey.publicKey(compressed: true)
-        let address = Tron().address(for: publicKey)
-
-        XCTAssertEqual("TGQaQoCM7LprSH4TE4FemmZhEQMZMKvAGH", address.description)
-        XCTAssertFalse(transactionToBeSigned.hasSignature)
-
         let result = transactionToBeSigned.sign(privateKey: privateKey.data)
 
-        XCTAssertEqual("e26f125d0e48e33efeb89efd616bfb7fb73e5a558f4ef8ac0094c3d7ad3a2796d5d8fc51fdaec40671bad3af21b21b4509961a8cf8b8f6b55239072d6956b40401", result.hexString)
+        XCTAssertEqual("TGQaQoCM7LprSH4TE4FemmZhEQMZMKvAGH", Tron().address(for: publicKey).description)
+        XCTAssertEqual(64, hashHexString.count)
         XCTAssertEqual(result.count, 65)
-        XCTAssertTrue(Crypto.verify(signature: result, message: hashData, publicKey: publicKey.data))
+        XCTAssertTrue(Crypto.verify(signature: result, message: Data(hexString: hashHexString)!, publicKey: publicKey.data))
         XCTAssertTrue(transactionToBeSigned.hasSignature)
+        XCTAssertEqual("e26f125d0e48e33efeb89efd616bfb7fb73e5a558f4ef8ac0094c3d7ad3a2796d5d8fc51fdaec40671bad3af21b21b4509961a8cf8b8f6b55239072d6956b40401", result.hexString)
     }
 }
 
@@ -124,6 +140,11 @@ class TronTransactionRawDataBuilder {
         return self
     }
 
+    func data(_ data: Data) -> TronTransactionRawDataBuilder {
+        rawData.data = data
+        return self
+    }
+
     func build() -> TronTransaction.RawData {
         return rawData
     }
@@ -137,10 +158,17 @@ class TronTransactionContractBuiler {
         return self
     }
 
-    func parameter() -> TronTransactionContractBuiler {
-        var parameter = SwiftProtobuf.Google_Protobuf_Any()
-        parameter.typeURL = "TransferContract"
-        parameter.value = "0a1541469d067b0d0ab59ef5399cc9c9cf6ca2bc129a43121541699fefc95ac273a3b4188efc68fd4b26ca85ec5218e09143".hexadecimal()!
+    func parameter(from: Data, to: Data, amount: Int64) -> TronTransactionContractBuiler {
+        var transferContract = Protocol_TransferContract()
+
+        transferContract.ownerAddress = from
+        transferContract.toAddress = to
+        transferContract.amount = amount
+
+        let parameter = try! Google_Protobuf_Any.init(message: transferContract)
+
+        contract.parameter = parameter
+
         return self
     }
 
