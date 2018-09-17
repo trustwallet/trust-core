@@ -5,6 +5,7 @@
 // file LICENSE at the root of the source code distribution tree.
 
 import Foundation
+import SwiftProtobuf
 
 extension TronTransaction {
     public var hasSignature: Bool {
@@ -20,9 +21,7 @@ extension TronTransaction {
     }
 
     public mutating func hash() -> Data {
-        let rawDataHexString = "0a02b23822083b15cb7e4a1c816840e8a1c5bfdd2c520a54657374253230312e315a67080112630a2d747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e5472616e73666572436f6e747261637412320a1541469d067b0d0ab59ef5399cc9c9cf6ca2bc129a43121541699fefc95ac273a3b4188efc68fd4b26ca85ec5218e09143"
-        let data = rawDataHexString.hexadecimal()!
-        return Crypto.sha256(data)
+        return Crypto.sha256(self.rawData.toData())
     }
 
     public mutating func sign(privateKey: Data) -> Data {
@@ -34,8 +33,7 @@ extension TronTransaction {
 
 extension TronTransaction.RawData {
     public func toData() -> Data {
-        var myself = self
-        return Data(bytes: &myself, count: MemoryLayout.size(ofValue: self))
+        return try! self.serializedData()
     }
 }
 
@@ -72,5 +70,97 @@ extension Data {
     public func hexadecimal() -> String {
         return map { String(format: "%02x", $0) }
             .joined(separator: "")
+    }
+}
+
+public class TronTransactionBuilder {
+    public func build(from: String, to: String, amount: Int64, note: String) -> TronTransaction {
+        let contract = TronTransactionContractBuiler()
+            .type(.transferContract)
+            .parameter(
+                from: Crypto.base58Decode(from)!,
+                to: Crypto.base58Decode(to)!,
+                amount: amount
+            )
+            .build()
+
+        let rawData = TronTransactionRawDataBuilder()
+            .contract(contract)
+            .data(note.data(using: .utf8)!)
+            .build()
+
+        return TronTransaction(rawData: rawData)
+    }
+
+    public init() {}
+}
+
+public class TronTransactionRawDataBuilder {
+    private var rawData = TronTransaction.RawData()
+
+    public func blockHash(_ blockHash: Data) -> TronTransactionRawDataBuilder {
+        rawData.refBlockHash = blockHash
+        return self
+    }
+
+    public func blockBytes(_ blockBytes: Data) -> TronTransactionRawDataBuilder {
+        rawData.refBlockBytes = blockBytes
+        return self
+    }
+
+    public func blockNumber(_ blockNumber: Int64) -> TronTransactionRawDataBuilder {
+        rawData.refBlockNum = blockNumber
+        return self
+    }
+
+    public func expiration(_ expiration: Int64) -> TronTransactionRawDataBuilder {
+        rawData.expiration = expiration
+        return self
+    }
+
+    public func timestamp(_ timestamp: Int64) -> TronTransactionRawDataBuilder {
+        rawData.timestamp = timestamp
+        return self
+    }
+
+    public func contract(_ contract: TronTransaction.Contract) -> TronTransactionRawDataBuilder {
+        rawData.contract.append(contract)
+        return self
+    }
+
+    public func data(_ data: Data) -> TronTransactionRawDataBuilder {
+        rawData.data = data
+        return self
+    }
+
+    public func build() -> TronTransaction.RawData {
+        return rawData
+    }
+}
+
+public class TronTransactionContractBuiler {
+    private var contract = TronTransaction.Contract()
+
+    public func type(_ type: TronTransaction.Contract.ContractType) -> TronTransactionContractBuiler {
+        contract.type = type
+        return self
+    }
+
+    public func parameter(from: Data, to: Data, amount: Int64) -> TronTransactionContractBuiler {
+        var transferContract = Protocol_TransferContract()
+
+        transferContract.ownerAddress = from
+        transferContract.toAddress = to
+        transferContract.amount = amount
+
+        let parameter = try! Google_Protobuf_Any.init(message: transferContract)
+
+        contract.parameter = parameter
+
+        return self
+    }
+
+    public func build() -> TronTransaction.Contract {
+        return contract
     }
 }
