@@ -22,6 +22,7 @@ included:
   - Tests
 excluded: 
   - Sources/Tron/Tron.pb.swift
+  - Sources/Tron/Contract.pb.swift
 function_parameter_count:
   warning: 20
   error: 25
