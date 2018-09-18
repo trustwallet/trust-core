@@ -91,6 +91,7 @@
 		BB636D3B2121528D0071AE07 /* GenericJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB636D392121528C0071AE07 /* GenericJSON.swift */; };
 		BB636D3C2121528D0071AE07 /* EIP712TypedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB636D3A2121528C0071AE07 /* EIP712TypedData.swift */; };
 		BB636D3E212154270071AE07 /* EIP712TypedDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB636D36212151EA0071AE07 /* EIP712TypedDataTests.swift */; };
+		BBD1CF7C2150F5CE00B99329 /* BitcoinSegwitAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD1CF7B2150F5CE00B99329 /* BitcoinSegwitAddress.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -194,6 +195,7 @@
 		BB636D36212151EA0071AE07 /* EIP712TypedDataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EIP712TypedDataTests.swift; sourceTree = "<group>"; };
 		BB636D392121528C0071AE07 /* GenericJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericJSON.swift; sourceTree = "<group>"; };
 		BB636D3A2121528C0071AE07 /* EIP712TypedData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EIP712TypedData.swift; sourceTree = "<group>"; };
+		BBD1CF7B2150F5CE00B99329 /* BitcoinSegwitAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinSegwitAddress.swift; sourceTree = "<group>"; };
 		D2663E7275439A0F14129090 /* Pods-TrustCore-TrustCoreTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrustCore-TrustCoreTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TrustCore-TrustCoreTests/Pods-TrustCore-TrustCoreTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D64B0D7FFB6053D483E3DE8D /* Pods-TrustCore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrustCore.release.xcconfig"; path = "Pods/Target Support Files/Pods-TrustCore/Pods-TrustCore.release.xcconfig"; sourceTree = "<group>"; };
 		DA1EEB65EA0444554E8E20B2 /* Pods-TrustCore-TrustCoreTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrustCore-TrustCoreTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TrustCore-TrustCoreTests/Pods-TrustCore-TrustCoreTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -254,10 +256,9 @@
 		6149A6BB201E43E200A2F35C /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				29EDBD28214AEF6100C86992 /* Tron */,
 				615AE1E520F1DC1F00A5A0ED /* Crypto.h */,
-				6149A6BC201E43E200A2F35C /* TrustCore.h */,
 				615AE1E620F1DC1F00A5A0ED /* Crypto.m */,
+				6149A6BC201E43E200A2F35C /* TrustCore.h */,
 				615AE1E120F1D71000A5A0ED /* Address.swift */,
 				612B85CF212A422500F5BCF5 /* BigIntEncoding.swift */,
 				6185E71621096306000B4B79 /* BinaryCoding.swift */,
@@ -274,6 +275,7 @@
 				615AE1D420F1D56C00A5A0ED /* Ethereum */,
 				61A728E620F487F50005045D /* HDWallet */,
 				77F80A822134A4B50011D949 /* VeChain */,
+				29EDBD28214AEF6100C86992 /* Tron */,
 				77044FAB212F8E5A00CC20D1 /* Wanchain */,
 			);
 			path = Sources;
@@ -326,6 +328,7 @@
 			children = (
 				615AE1E920F1E43100A5A0ED /* Bitcoin.swift */,
 				615AE1D220F1D1DF00A5A0ED /* BitcoinAddress.swift */,
+				BBD1CF7B2150F5CE00B99329 /* BitcoinSegwitAddress.swift */,
 				613EA91A21289940008C4916 /* BitcoinScript.swift */,
 				6185E71421095789000B4B79 /* BitcoinTransaction.swift */,
 				612B85D3212BC35100F5BCF5 /* BitcoinTransaction+Signing.swift */,
@@ -554,11 +557,12 @@
 				TargetAttributes = {
 					6149A69F201E433A00A2F35C = {
 						CreatedOnToolsVersion = 9.2;
-						LastSwiftMigration = 0920;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Automatic;
 					};
 					6149A6A8201E433A00A2F35C = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -704,6 +708,7 @@
 				61A728E520F480560005045D /* HDWallet.swift in Sources */,
 				6149A6C8201E455D00A2F35C /* EthereumAddress.swift in Sources */,
 				615AE1D820F1D66000A5A0ED /* PublicKey.swift in Sources */,
+				BBD1CF7C2150F5CE00B99329 /* BitcoinSegwitAddress.swift in Sources */,
 				BB3864C92095C80D00CBF773 /* Namehash.swift in Sources */,
 				6149A6CC201E496A00A2F35C /* Data+Hex.swift in Sources */,
 				61645D1A2058C7B300411565 /* RLP.swift in Sources */,
@@ -918,6 +923,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -939,6 +945,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.trustwalletapp.TrustCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -952,6 +959,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.trustwalletapp.TrustCoreTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -965,6 +973,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.trustwalletapp.TrustCoreTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

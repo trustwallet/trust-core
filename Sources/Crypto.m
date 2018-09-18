@@ -120,6 +120,30 @@
     return result;
 }
 
+// MARK: - Bech32
+
++ (nonnull NSString *)bech32Encode:(nonnull NSData *)data hrp:(nonnull NSString *)hrp
+{
+    NSMutableData *result = [[NSMutableData alloc] initWithCapacity:89];
+    bech32_encode(result.mutableBytes, hrp.UTF8String, data.bytes, data.length);
+    return [NSString stringWithUTF8String:result.bytes];
+}
+
++ (nullable NSData *)bech32Decode:(nonnull NSString *)string hrp:(NSString * _Nonnull *)hrp
+{
+    NSMutableData *data = [[NSMutableData alloc] initWithCapacity:82];
+    char hrpBuffer[84];
+    size_t data_len;
+    if (1 != bech32_decode(hrpBuffer, data.mutableBytes, &data_len, string.UTF8String)) {
+        return nil;
+    };
+    if (hrp) {
+        *hrp = [NSString stringWithUTF8String:hrpBuffer];
+    }
+    [data setLength:data_len];
+    return data;
+}
+
 // MARK: - HDWallet
 
 + (nonnull NSString *)generateMnemonicWithStrength:(NSInteger)strength {

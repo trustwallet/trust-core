@@ -67,6 +67,14 @@
 /// Decodes a base 58 string verifying the checksum.
 + (nullable NSData *)base58Decode:(nonnull NSString *)string NS_SWIFT_NAME(base58Decode(_:));
 
+// MARK: - Bech32
+
+/// Encodes data as a Bech32 string with hrp
++ (nonnull NSString *)bech32Encode:(nonnull NSData *)data hrp:(nonnull NSString *)hrp NS_SWIFT_NAME(bech32Encode(_:hrp:));
+
+/// Decodes a Bech32 string as data
++ (nullable NSData *)bech32Decode:(nonnull NSString *)string hrp:(NSString * _Nonnull *)hrp NS_SWIFT_NAME(bech32Decode(_:hrp:));
+
 // MARK: - HDWallet
 
 /// Generates a mnemonic phrase with the given strength in bits.

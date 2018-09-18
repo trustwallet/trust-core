@@ -44,6 +44,10 @@ open class Bitcoin: Blockchain {
         return BitcoinAddress(data: data)
     }
 
+    open func bech32Address(for publicKey: PublicKey, mainnet: Bool = true) -> BitcoinSegwitAddress {
+        return publicKey.compressed.bitcoinBech32Address(mainnet: mainnet)
+    }
+
     open func legacyAddress(for publicKey: PublicKey, prefix: UInt8) -> Address {
         return publicKey.compressed.legacyBitcoinAddress(prefix: prefix)
     }

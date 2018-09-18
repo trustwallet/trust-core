@@ -23,3 +23,29 @@ public enum Slip: Int {
     case callisto = 820
     case wanchain = 5718350
 }
+
+///  Registered human-readable parts for BIP-0173
+///
+/// - SeeAlso: https://github.com/satoshilabs/slips/blob/master/slip-0173.md
+public extension Slip {
+    var hrp: String {
+        switch self {
+        case .bitcoin:
+            return "bc"
+        case .litecoin:
+            return "ltc"
+        default:
+            return ""
+        }
+    }
+    var hrpTestnet: String {
+        switch self {
+        case .bitcoin:
+            return "tb"
+        case .litecoin:
+            return "tltc"
+        default:
+            return ""
+        }
+    }
+}
