@@ -7,7 +7,7 @@
 import Foundation
 
 /// Creates a blockchain for a specific SLIP-0044 coin type.
-public func blockchain(coin: Slip) -> Blockchain {
+public func blockchain(coin: SLIP.CoinType) -> Blockchain {
     switch coin {
     case .bitcoin:
         return Bitcoin()

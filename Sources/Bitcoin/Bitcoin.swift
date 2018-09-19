@@ -11,7 +11,7 @@ import Foundation
 /// Bitcoin-based blockchains should inherit from this class.
 open class Bitcoin: Blockchain {
     /// SLIP-044 coin type.
-    override open var coinType: Slip {
+    override open var coinType: SLIP.CoinType {
         return .bitcoin
     }
 
@@ -44,8 +44,8 @@ open class Bitcoin: Blockchain {
         return BitcoinAddress(data: data)
     }
 
-    open func bech32Address(for publicKey: PublicKey, mainnet: Bool = true) -> BitcoinSegwitAddress {
-        return publicKey.compressed.bitcoinBech32Address(mainnet: mainnet)
+    open func bech32Address(for publicKey: PublicKey) -> BitcoinSegwitAddress {
+        return publicKey.compressed.bitcoinBech32Address()
     }
 
     open func legacyAddress(for publicKey: PublicKey, prefix: UInt8) -> Address {
@@ -62,7 +62,7 @@ open class Bitcoin: Blockchain {
 }
 
 public final class Litecoin: Bitcoin {
-    public override var coinType: Slip {
+    public override var coinType: SLIP.CoinType {
         return .litecoin
     }
 
@@ -72,7 +72,7 @@ public final class Litecoin: Bitcoin {
 }
 
 public final class Dash: Bitcoin {
-    public override var coinType: Slip {
+    public override var coinType: SLIP.CoinType {
         return .dash
     }
     public override var payToScriptHashAddressPrefix: UInt8 {

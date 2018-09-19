@@ -99,4 +99,43 @@ class CryptoTests: XCTestCase {
 
         XCTAssertEqual("92cdf578c47085a5992256f0dcf97d0b19f1f1c9de4d5fe30c3ace6191b6e5db", fill2Data.hexString)
     }
+
+    func testBech32Encoding() {
+        var hrp: NSString?
+        var data = Crypto.bech32Decode("tb1qw508d6qejxtdg4y5r3zarvary0c5xw7kxpjzsx", hrp: &hrp)!
+        XCTAssertEqual(data.hexString, "000e140f070d1a001912060b0d081504140311021d030c1d03040f1814060e1e16")
+        XCTAssertEqual(hrp!, "tb")
+
+        data = Crypto.bech32Decode("bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4", hrp: &hrp)!
+        XCTAssertEqual(data.hexString, "000e140f070d1a001912060b0d081504140311021d030c1d03040f1814060e1e16")
+        XCTAssertEqual(hrp!, "bc")
+
+        XCTAssertNotNil(Crypto.bech32Decode("bc1qrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3qccfmv3", hrp: nil))
+
+        for invalid in [
+            " 1nwldj5",
+            "de1lg7wt\u{ff}",
+            "an84characterslonghumanreadablepartthatcontainsthenumber1andtheexcludedcharactersbio1569pvx",
+        ] {
+            var hrp: NSString?
+            XCTAssertNil(Crypto.bech32Decode(invalid, hrp: &hrp))
+            XCTAssertNil(hrp)
+        }
+
+        for valid in [
+            "A12UEL5L",
+            "split1checkupstagehandshakeupstreamerranterredcaperred2y9e3w",
+            "11qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqc8247j",
+        ] {
+            let index = valid.range(of: "1", options: .backwards)!.lowerBound
+            let expected = String(valid[..<index]).lowercased()
+            var hrp: NSString?
+            let data = Crypto.bech32Decode(valid, hrp: &hrp)
+            XCTAssertNotNil(data)
+            XCTAssertEqual(expected, hrp! as String)
+
+            let rebuilt = Crypto.bech32Encode(data!, hrp: expected)
+            XCTAssertEqual(rebuilt, valid.lowercased())
+        }
+    }
 }

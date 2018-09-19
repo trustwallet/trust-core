@@ -131,17 +131,16 @@
 
 + (nullable NSData *)bech32Decode:(nonnull NSString *)string hrp:(NSString * _Nullable *)hrp
 {
-    NSMutableData *data = [[NSMutableData alloc] initWithCapacity:82];
+    uint8_t data[82];
     char hrpBuf[84];
     size_t dataLen;
-    if (1 != bech32_decode(hrpBuf, data.mutableBytes, &dataLen, string.UTF8String)) {
+    if (1 != bech32_decode(hrpBuf, data, &dataLen, string.UTF8String)) {
         return nil;
     };
     if (hrp) {
         *hrp = [NSString stringWithUTF8String:hrpBuf];
     }
-    [data setLength:dataLen];
-    return data;
+    return [NSData dataWithBytes:data length:dataLen];
 }
 
 // MARK: - HDWallet

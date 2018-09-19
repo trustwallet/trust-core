@@ -20,10 +20,9 @@ public extension PublicKey {
         return BitcoinAddress(string: address)!
     }
 
-    public func bitcoinBech32Address(mainnet: Bool = true) -> BitcoinSegwitAddress {
+    public func bitcoinBech32Address() -> BitcoinSegwitAddress {
         let witness = WitnessProgram(version: 0x00, program: bitcoinKeyHash)
-        var address = BitcoinSegwitAddress(data: witness.encoded)!
-        address.hrp = mainnet ? Slip.bitcoin.hrp : Slip.bitcoin.hrpTestnet
+        let address = BitcoinSegwitAddress(data: witness.encoded)!
         return address
     }
 
