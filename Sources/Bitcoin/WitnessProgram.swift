@@ -12,6 +12,7 @@ public struct WitnessProgram: Equatable {
     public let program: Data
 
     var encoded: Data {
+        guard valid else { return Data() }
         var data = Data(bytes: [version])
         if let bits = convertBits(program, from: 8, to: 5) {
             data.append(bits)

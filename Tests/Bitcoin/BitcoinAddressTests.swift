@@ -79,8 +79,14 @@ class BitcoinAddressTests: XCTestCase {
     func testPublicKeyToBech32Address() {
         let publicKey = PublicKey(data: Data(hexString: "0279BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798")!)!
         let bitcoin = Bitcoin()
-        XCTAssertEqual(bitcoin.bech32Address(for: publicKey).description, "bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4")
-        XCTAssertTrue(BitcoinSegwitAddress.isValid(string: "bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4"))
+        let expect = "bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4"
+        XCTAssertTrue(BitcoinSegwitAddress.isValid(string: expect))
+
+        let address = bitcoin.bech32Address(for: publicKey)
+        XCTAssertEqual(address.description, expect)
+
+        let addressFromString = BitcoinSegwitAddress(string: expect)
+        XCTAssertEqual(address, addressFromString)
     }
 
     func testInvalidBech32Addresses() {

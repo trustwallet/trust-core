@@ -6,7 +6,7 @@
 
 import Foundation
 
-public struct BitcoinSegwitAddress: Address {
+public struct BitcoinSegwitAddress: Address, Equatable {
     // WitnessProgram.encoded
     public var data: Data
 
