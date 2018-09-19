@@ -80,19 +80,27 @@ public struct BitcoinSegwitAddress: Address {
     }
 
     public static func isValid(string: String) -> Bool {
-        var hrp: NSString = ""
-        let data = Crypto.bech32Decode(string, hrp: &hrp)
-        if data != nil && (hrp as String == Slip.bitcoin.hrp || hrp as String == Slip.bitcoin.hrpTestnet) {
-            return true
+        var hrp: NSString?
+        guard Crypto.bech32Decode(string, hrp: &hrp) != nil,
+            let readable = hrp as String?,
+            BitcoinSegwitAddress.validate(hrp: readable as String) else {
+                return false
         }
-        return false
+        return true
+    }
+
+    public static func validate(hrp: String) -> Bool {
+        return hrp == Slip.bitcoin.hrp || hrp == Slip.bitcoin.hrpTestnet
     }
 
     public init?(string: String) {
-        var hrp: NSString = ""
-        guard let data = Crypto.bech32Decode(string, hrp: &hrp), (hrp as String == Slip.bitcoin.hrp || hrp as String == Slip.bitcoin.hrpTestnet) else {
+        var hrp: NSString?
+        guard let data = Crypto.bech32Decode(string, hrp: &hrp),
+            let readable = hrp as String?,
+            BitcoinSegwitAddress.validate(hrp: readable as String) else {
             return nil
         }
+        self.hrp = readable
         self.data = data
     }
 

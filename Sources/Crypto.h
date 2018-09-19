@@ -73,7 +73,11 @@
 + (nonnull NSString *)bech32Encode:(nonnull NSData *)data hrp:(nonnull NSString *)hrp NS_SWIFT_NAME(bech32Encode(_:hrp:));
 
 /// Decodes a Bech32 string as data
-+ (nullable NSData *)bech32Decode:(nonnull NSString *)string hrp:(NSString * _Nonnull *)hrp NS_SWIFT_NAME(bech32Decode(_:hrp:));
+///
+/// @param string string to decode
+/// @param hrp string pointer contains human readable part if it's not nil
+/// @return decoded data
++ (nullable NSData *)bech32Decode:(nonnull NSString *)string hrp:(NSString * _Nullable *)hrp NS_SWIFT_NAME(bech32Decode(_:hrp:));
 
 // MARK: - HDWallet
 

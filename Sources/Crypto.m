@@ -129,18 +129,18 @@
     return [NSString stringWithUTF8String:result.bytes];
 }
 
-+ (nullable NSData *)bech32Decode:(nonnull NSString *)string hrp:(NSString * _Nonnull *)hrp
++ (nullable NSData *)bech32Decode:(nonnull NSString *)string hrp:(NSString * _Nullable *)hrp
 {
     NSMutableData *data = [[NSMutableData alloc] initWithCapacity:82];
-    char hrpBuffer[84];
-    size_t data_len;
-    if (1 != bech32_decode(hrpBuffer, data.mutableBytes, &data_len, string.UTF8String)) {
+    char hrpBuf[84];
+    size_t dataLen;
+    if (1 != bech32_decode(hrpBuf, data.mutableBytes, &dataLen, string.UTF8String)) {
         return nil;
     };
     if (hrp) {
-        *hrp = [NSString stringWithUTF8String:hrpBuffer];
+        *hrp = [NSString stringWithUTF8String:hrpBuf];
     }
-    [data setLength:data_len];
+    [data setLength:dataLen];
     return data;
 }
 
