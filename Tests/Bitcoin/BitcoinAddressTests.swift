@@ -75,4 +75,36 @@ class BitcoinAddressTests: XCTestCase {
         XCTAssertEqual(uncompressed3.compressed.data.hexString, "022de45bea3dada528eee8a1e04142d3e04fad66119d971b6019b0e3c02266b791")
         XCTAssertEqual(uncompressed3.compressed.legacyBitcoinAddress(prefix: 0).description, "17XqPKKXTYGHA3k38VRrL28KHicXsDBjTb")
     }
+
+    func testPublicKeyToBech32Address() {
+        let publicKey = PublicKey(data: Data(hexString: "0279BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798")!)!
+        let bitcoin = Bitcoin()
+        let expect = "bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4"
+        XCTAssertTrue(BitcoinSegwitAddress.isValid(string: expect))
+
+        let address = bitcoin.bech32Address(for: publicKey)
+        XCTAssertEqual(address.description, expect)
+
+        let addressFromString = BitcoinSegwitAddress(string: expect)
+        XCTAssertEqual(address, addressFromString)
+    }
+
+    func testInvalidBech32Addresses() {
+        let addresses = [
+            "tc1qw508d6qejxtdg4y5r3zarvary0c5xw7kg3g4ty",
+            "bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t5",
+            "BC13W508D6QEJXTDG4Y5R3ZARVARY0C5XW7KN40WF2",
+            "bc1rw5uspcuh",
+            "bc10w508d6qejxtdg4y5r3zarvary0c5xw7kw508d6qejxtdg4y5r3zarvary0c5xw7kw5rljs90",
+            "BC1QR508D6QEJXTDG4Y5R3ZARVARYV98GJ9P",
+            "tb1qrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3q0sL5k7",
+            "bc1zw508d6qejxtdg4y5r3zarvaryvqyzf3du",
+            "tb1qrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3pjxtptv",
+            "bc1gmk9yu",
+        ]
+
+        for invalid in addresses {
+            XCTAssertFalse(BitcoinSegwitAddress.isValid(string: invalid))
+        }
+    }
 }

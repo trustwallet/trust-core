@@ -7,18 +7,18 @@
 import Foundation
 
 public final class Tron: Bitcoin {
-    public override var coinType: Slip {
+    override public var coinType: SLIP.CoinType {
         return .tron
     }
-    public override var payToScriptHashAddressPrefix: UInt8 {
+    override public var payToScriptHashAddressPrefix: UInt8 {
         return 0x41
     }
 
-    override open var coinPurpose: Purpose {
+    override public var coinPurpose: Purpose {
         return .bip44
     }
 
-    open override func address(for publicKey: PublicKey) -> Address {
+    override public func address(for publicKey: PublicKey) -> Address {
         let hash = Data([payToScriptHashAddressPrefix]) + Crypto.hash(publicKey.data.dropFirst()).suffix(20)
         return BitcoinAddress(data: hash)!
     }
