@@ -19,6 +19,8 @@ public func blockchain(coin: SLIP.CoinType) -> Blockchain {
         return EthereumClassic()
     case .go:
         return Go()
+    case .thunderToken:
+        return ThunderToken()
     case .poa:
         return POA()
     case .tron:

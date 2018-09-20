@@ -14,6 +14,7 @@ class SlipTests: XCTestCase {
         XCTAssertEqual(SLIP.CoinType.litecoin.rawValue, 2)
         XCTAssertEqual(SLIP.CoinType.tron.rawValue, 195)
         XCTAssertEqual(SLIP.CoinType.ethereum.rawValue, 60)
+        XCTAssertEqual(SLIP.CoinType.thunderToken.rawValue, 1001)
         XCTAssertEqual(SLIP.CoinType.wanchain.rawValue, 5718350)
         XCTAssertEqual(SLIP.CoinType.callisto.rawValue, 820)
         XCTAssertEqual(SLIP.CoinType.ethereumClassic.rawValue, 61)
