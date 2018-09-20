@@ -96,3 +96,13 @@ public final class Vechain: Ethereum {
         return .vechain
     }
 }
+
+public final class ThunderToken: Ethereum {
+    public override var chainID: Int {
+        return 18
+    }
+
+    public override var coinType: SLIP.CoinType {
+        return .thunderToken
+    }
+}

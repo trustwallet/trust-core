@@ -16,6 +16,7 @@ public struct SLIP {
         case dash = 5
         case ethereum = 60
         case ethereumClassic = 61
+        case thunderToken = 1001
         case go = 6060
         case poa = 178
         case tron = 195
