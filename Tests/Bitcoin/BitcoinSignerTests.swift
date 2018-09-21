@@ -43,13 +43,15 @@ class BitcoinSignerTests: XCTestCase {
     }
 
     func testSignP2WPKH() throws {
-        let unspentOutput0 = BitcoinTransactionOutput(value: 625000, script: BitcoinScript(data: Data(hexString: "2103c9f4836b9a4f77fc0d81f7bcb01b7f1b35916864b9476c241ce9fc198bd25432ac")!))
+        let script = BitcoinScript(data: Data(hexString: "76a9141d0f172a0ecb48aee1be1f2687d2963ae33f71a188ac")!)
+
+        let unspentOutput0 = BitcoinTransactionOutput(value: 625000000, script: BitcoinScript(data: Data(hexString: "2103c9f4836b9a4f77fc0d81f7bcb01b7f1b35916864b9476c241ce9fc198bd25432ac")!))
         let unspentOutpoint0 = BitcoinOutPoint(hash: Data(hexString: "fff7f7881a8099afa6940d42d1e7f6362bec38171ea3edf433541db4e4ad969f")!, index: 0)
         let utxo0 = BitcoinUnspentTransaction(output: unspentOutput0, outpoint: unspentOutpoint0)
         let utxoKey0 = PrivateKey(data: Data(hexString: "bbc27228ddcb9209d7fd6f36b02f7dfa6252af40bb2f1cbc7a557da8027ff866")!)!
         let input0 = BitcoinTransactionInput(previousOutput: unspentOutpoint0, script: BitcoinScript(), sequence: 0xffffffee)
 
-        let unspentOutput1 = BitcoinTransactionOutput(value: 600000, script: BitcoinScript(data: Data(hexString: "00141d0f172a0ecb48aee1be1f2687d2963ae33f71a1")!))
+        let unspentOutput1 = BitcoinTransactionOutput(value: 600000000, script: BitcoinScript(data: Data(hexString: "00141d0f172a0ecb48aee1be1f2687d2963ae33f71a1")!))
         let unspentOutpoint1 = BitcoinOutPoint(hash: Data(hexString: "ef51e1b804cc89d182d279655c3aa89e815b1b309fe287d9b2b55d57b90ec68a")!, index: 1)
         let utxo1 = BitcoinUnspentTransaction(output: unspentOutput1, outpoint: unspentOutpoint1)
         let utxoKey1 = PrivateKey(data: Data(hexString: "619c335025c7f4012e556c2a58b2506e30b8511b53ade95ea316fd8c3286feb9")!)!
@@ -68,6 +70,9 @@ class BitcoinSignerTests: XCTestCase {
         let provider = BitcoinDefaultPrivateKeyProvider(keys: [utxoKey0])
         provider.keysByScriptHash = [
             Data(hexString: "1d0f172a0ecb48aee1be1f2687d2963ae33f71a1")!: utxoKey1,
+        ]
+        provider.scriptsByScriptHash = [
+            Data(hexString: "1d0f172a0ecb48aee1be1f2687d2963ae33f71a1")!: script,
         ]
 
         let signer = BitcoinTransactionSigner(keyProvider: provider)

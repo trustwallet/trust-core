@@ -55,7 +55,7 @@ public struct BitcoinTransaction: BinaryEncoding {
 
         if encodeWitness {
             for input in inputs {
-                input.scriptWitness.stack.encode(into: &data)
+                input.scriptWitness.encode(into: &data)
             }
         }
 
@@ -161,8 +161,8 @@ public final class BitcoinTransactionOutput: BinaryEncoding {
     }
 }
 
-public struct BitcoinScriptWitness: CustomStringConvertible {
-    public var stack = [Data]()
+public struct BitcoinScriptWitness: CustomStringConvertible, BinaryEncoding {
+    public var stack = [BinaryEncoding]()
 
     public init() {}
 
@@ -171,6 +171,14 @@ public struct BitcoinScriptWitness: CustomStringConvertible {
     }
 
     public var description: String {
-        return "ScriptWitness(" + stack.map({ $0.hexString }).joined(separator: ", ") + ")"
+
+        return "ScriptWitness(" + stack.map({ var data = Data(); $0.encode(into: &data); return data.hexString }).joined(separator: ", ") + ")"
+    }
+
+    public func encode(into data: inout Data) {
+        writeCompactSize(stack.count, into: &data)
+        for item in stack {
+            item.encode(into: &data)
+        }
     }
 }

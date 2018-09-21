@@ -185,21 +185,20 @@ public final class BitcoinScript: BinaryEncoding {
             bytes[1] == 0x14
     }
 
-    // A witness program is any valid CScript that consists of a 1-byte push opcode
-    // followed by a data push between 2 and 40 bytes.
-    func isWitnessProgram(version: inout Int, program: inout Data) -> Bool {
+    /// Returns the version and witness programm if this is a witness script.
+    func witnessProgram() -> (version: Int, program: Data)? {
         if bytes.count < 4 || bytes.count > 42 {
-            return false
+            return nil
         }
         if bytes[0] != OpCode.OP_0 && (bytes[0] < OpCode.OP_1 || bytes[0] > OpCode.OP_16) {
-            return false
+            return nil
         }
         if bytes[1] + 2 == bytes.count {
-            version = BitcoinScript.decodeNumber(opcode: bytes[0])
-            program = Data(bytes: bytes[2...])
-            return true
+            let version = BitcoinScript.decodeNumber(opcode: bytes[0])
+            let program = Data(bytes: bytes[2...])
+            return (version: version, program: program)
         }
-        return false
+        return nil
     }
 
     func isPushOnly(at index: inout Int) -> Bool {

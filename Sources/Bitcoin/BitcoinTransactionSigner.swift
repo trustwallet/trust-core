@@ -19,55 +19,79 @@ public struct BitcoinTransactionSigner {
         var inputsToSign = unsignedTx.inputs
 
         for (i, utxo) in zip(utxos.indices, utxos) {
-            let key: PrivateKey
-
-            if let pubkeyHash = utxo.output.script.matchPayToPubkeyHash() {
-                guard let maybeKey = self.keyProvider.key(forPublicKeyHash: pubkeyHash) else {
-                    // Missing key, can't sign
-                    continue
-                }
-                key = maybeKey
-            } else if let pubkey = utxo.output.script.matchPayToPubkey() {
-                guard let maybeKey = self.keyProvider.key(forPublicKey: pubkey) else {
-                    // Missing key, can't sign
-                    continue
-                }
-                key = maybeKey
-            } else if let scriptHash = utxo.output.script.matchPayToScriptHash() {
-                guard let maybeKey = self.keyProvider.key(forScriptHash: scriptHash) else {
-                    // Missing key, can't sign
-                    continue
-                }
-                key = maybeKey
-            } else if let hash = utxo.output.script.matchPayToWitnessProgram() {
-                guard let maybeKey = self.keyProvider.key(forScriptHash: hash) else {
-                    continue
-                }
-                key = maybeKey
-            } else {
-                throw Error.invalidOutputScript
+            guard let key = try keyForScript(utxo.output.script) else {
+                // Missing key, can't sign
+                continue
+            }
+            guard let script = try scriptForScript(utxo.output.script) else {
+                // Missing script, can't sign
+                continue
             }
 
-            let transactionToSign = BitcoinTransaction(version: unsignedTx.version, inputs: inputsToSign, outputs: unsignedTx.outputs, lockTime: unsignedTx.lockTime)
-            let sighash = transactionToSign.getSignatureHash(scriptCode: utxo.output.script, index: i, hashType: hashType, amount: utxo.output.value)
-            let signature = key.signAsDER(hash: sighash)
-            let txin = inputsToSign[i]
             let pubkey = key.publicKey(compressed: true)
+            let transactionToSign = BitcoinTransaction(version: unsignedTx.version, inputs: inputsToSign, outputs: unsignedTx.outputs, lockTime: unsignedTx.lockTime)
+            let txin = inputsToSign[i]
 
-            let script: BitcoinScript
+            let unlockScript: BitcoinScript
             if let scriptHash = utxo.output.script.matchPayToScriptHash() {
                 guard let redeemScript = keyProvider.script(forScriptHash: scriptHash) else {
                     throw Error.missingRedeemScript
                 }
-                script = unlockingScript(signature: signature, script: redeemScript, hashType: hashType)
+                let sighash = transactionToSign.getSignatureHashNonWitness(scriptCode: script, index: i, hashType: hashType)
+                let signature = key.signAsDER(hash: sighash)
+                unlockScript = unlockingScript(signature: signature, script: redeemScript, hashType: hashType)
+                inputsToSign[i] = BitcoinTransactionInput(previousOutput: txin.previousOutput, script: unlockScript, sequence: txin.sequence)
+            } else if let (version, _) = utxo.output.script.witnessProgram() {
+                guard version == 0 else {
+                    throw Error.invalidOutputScript
+                }
+                let sighash = transactionToSign.getSignatureHash(scriptCode: script, index: i, hashType: hashType, amount: utxo.output.value)
+                let signature = key.signAsDER(hash: sighash)
+                inputsToSign[i] = BitcoinTransactionInput(previousOutput: txin.previousOutput, script: BitcoinScript(), sequence: txin.sequence)
+                inputsToSign[i].scriptWitness.stack.append(signature)
+                inputsToSign[i].scriptWitness.stack.append(pubkey.data)
+            } else if utxo.output.script.matchPayToPubkey() != nil {
+                let sighash = transactionToSign.getSignatureHashNonWitness(scriptCode: script, index: i, hashType: hashType)
+                let signature = key.signAsDER(hash: sighash)
+                unlockScript = unlockingScript(signature: signature, hashType: hashType)
+                inputsToSign[i] = BitcoinTransactionInput(previousOutput: txin.previousOutput, script: unlockScript, sequence: txin.sequence)
             } else {
-                script = unlockingScript(signature: signature, publicKey: pubkey, hashType: hashType)
+                let sighash = transactionToSign.getSignatureHashNonWitness(scriptCode: script, index: i, hashType: hashType)
+                let signature = key.signAsDER(hash: sighash)
+                unlockScript = unlockingScript(signature: signature, publicKey: pubkey, hashType: hashType)
+                inputsToSign[i] = BitcoinTransactionInput(previousOutput: txin.previousOutput, script: unlockScript, sequence: txin.sequence)
             }
-
-            inputsToSign[i] = BitcoinTransactionInput(previousOutput: txin.previousOutput, script: script, sequence: txin.sequence)
         }
 
         return BitcoinTransaction(version: unsignedTx.version, inputs: inputsToSign, outputs: unsignedTx.outputs, lockTime: unsignedTx.lockTime)
+    }
+
+    private func keyForScript(_ script: BitcoinScript) throws -> PrivateKey? {
+        if let pubkeyHash = script.matchPayToPubkeyHash() {
+            return keyProvider.key(forPublicKeyHash: pubkeyHash)
+        } else if let pubkey = script.matchPayToPubkey() {
+            return keyProvider.key(forPublicKey: pubkey)
+        } else if let scriptHash = script.matchPayToScriptHash() {
+            return keyProvider.key(forScriptHash: scriptHash)
+        } else if let scriptHash = script.matchPayToWitnessProgram() {
+            return keyProvider.key(forScriptHash: scriptHash)
+        } else {
+            throw Error.invalidOutputScript
+        }
+    }
+
+    private func scriptForScript(_ script: BitcoinScript) throws -> BitcoinScript? {
+        if script.matchPayToPubkeyHash() != nil {
+            return script
+        } else if script.matchPayToPubkey() != nil {
+            return script
+        } else if let scriptHash = script.matchPayToScriptHash() {
+            return keyProvider.script(forScriptHash: scriptHash)
+        } else if let scriptHash = script.matchPayToWitnessProgram() {
+            return keyProvider.script(forScriptHash: scriptHash)
+        } else {
+            throw Error.invalidOutputScript
+        }
     }
 
     private func unlockingScript(signature: Data, publicKey: PublicKey, hashType: SignatureHashType) -> BitcoinScript {
@@ -86,6 +110,14 @@ public struct BitcoinTransactionSigner {
         unlockingScriptData.append(signature)
         unlockingScriptData.append(UInt8(hashType.rawValue))
         script.encode(into: &unlockingScriptData)
+        return BitcoinScript(data: unlockingScriptData)
+    }
+
+    private func unlockingScript(signature: Data, hashType: SignatureHashType) -> BitcoinScript {
+        var unlockingScriptData = Data()
+        unlockingScriptData.append(UInt8(signature.count + 1))
+        unlockingScriptData.append(signature)
+        unlockingScriptData.append(UInt8(hashType.rawValue))
         return BitcoinScript(data: unlockingScriptData)
     }
 
