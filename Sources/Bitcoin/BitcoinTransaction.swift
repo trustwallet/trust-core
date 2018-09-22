@@ -162,7 +162,7 @@ public final class BitcoinTransactionOutput: BinaryEncoding {
 }
 
 public struct BitcoinScriptWitness: CustomStringConvertible, BinaryEncoding {
-    public var stack = [BinaryEncoding]()
+    public var stack = [Data]()
 
     public init() {}
 
@@ -178,6 +178,7 @@ public struct BitcoinScriptWitness: CustomStringConvertible, BinaryEncoding {
     public func encode(into data: inout Data) {
         writeCompactSize(stack.count, into: &data)
         for item in stack {
+            writeCompactSize(item.count, into: &data)
             item.encode(into: &data)
         }
     }

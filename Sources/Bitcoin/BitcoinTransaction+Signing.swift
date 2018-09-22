@@ -125,7 +125,7 @@ public extension BitcoinTransaction {
 
         // Serialize the script
         if subindex != index {
-            data.append(0)
+            writeCompactSize(0, into: &data)
         } else {
             scriptCode.encode(into: &data)
         }

@@ -48,7 +48,7 @@ public struct BitcoinTransactionSigner {
                 let sighash = transactionToSign.getSignatureHash(scriptCode: script, index: i, hashType: hashType, amount: utxo.output.value)
                 let signature = key.signAsDER(hash: sighash)
                 inputsToSign[i] = BitcoinTransactionInput(previousOutput: txin.previousOutput, script: BitcoinScript(), sequence: txin.sequence)
-                inputsToSign[i].scriptWitness.stack.append(signature)
+                inputsToSign[i].scriptWitness.stack.append(signature.encoded)
                 inputsToSign[i].scriptWitness.stack.append(pubkey.data)
             } else if utxo.output.script.matchPayToPubkey() != nil {
                 let sighash = transactionToSign.getSignatureHashNonWitness(scriptCode: script, index: i, hashType: hashType)

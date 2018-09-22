@@ -14,6 +14,14 @@ public protocol BinaryEncoding {
     func encode(into data: inout Data)
 }
 
+public extension BinaryEncoding {
+    var encoded: Data {
+        var data = Data()
+        encode(into: &data)
+        return data
+    }
+}
+
 public typealias BinaryCoding = BinaryDecoding & BinaryEncoding
 
 extension Data: BinaryEncoding {
