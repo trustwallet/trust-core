@@ -46,7 +46,7 @@ public struct BitcoinTransactionSigner {
                     throw Error.invalidOutputScript
                 }
                 let sighash = transactionToSign.getSignatureHash(scriptCode: script, index: i, hashType: hashType, amount: utxo.output.value)
-                let signature = key.signAsDER(hash: sighash)
+                let signature = key.signAsDER(hash: sighash) + Data(bytes: [UInt8(hashType.rawValue)])
                 inputsToSign[i] = BitcoinTransactionInput(previousOutput: txin.previousOutput, script: BitcoinScript(), sequence: txin.sequence)
                 inputsToSign[i].scriptWitness.stack.append(signature.encoded)
                 inputsToSign[i].scriptWitness.stack.append(pubkey.data)

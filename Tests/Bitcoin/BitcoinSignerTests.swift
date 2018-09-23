@@ -38,8 +38,8 @@ class BitcoinSignerTests: XCTestCase {
         var serialized = Data()
         signedTx.encode(into: &serialized)
 
-        XCTAssertEqual(signedTx.identifier, "96ee20002b34e468f9d3c5ee54f6a8ddaa61c118889c4f35395c2cd93ba5bbb4")
-        XCTAssertEqual(serialized.hexString, "0100000001e28c2b955293159898e34c6840d99bf4d390e2ee1c6f606939f18ee1e2000d05020000006b483045022100b70d158b43cbcded60e6977e93f9a84966bc0cec6f2dfd1463d1223a90563f0d02207548d081069de570a494d0967ba388ff02641d91cadb060587ead95a98d4e3534121038eab72ec78e639d02758e7860cdec018b49498c307791f785aa3019622f4ea5bffffffff0258020000000000001976a914769bdff96a02f9135a1d19b749db6a78fe07dc9088ace5100000000000001976a9149e089b6889e032d46e3b915a3392edfd616fb1c488ac00000000")
+        XCTAssertEqual(signedTx.identifier, "b07970ad5ce836d01f7d44362f32fa265bf8267ed587255a9b057e34427c2546")
+        XCTAssertEqual(serialized.hexString, "0100000001e28c2b955293159898e34c6840d99bf4d390e2ee1c6f606939f18ee1e2000d05020000006b483045022100c0c5a08d0f4382b962895c601a140143588ad700ebfee987712b6125e7c275cb02204145cb6043131c830eaf69192bc3e68e26b46131f9b6fc0fa880c29f98423b2b4121038eab72ec78e639d02758e7860cdec018b49498c307791f785aa3019622f4ea5bffffffff0258020000000000001976a914769bdff96a02f9135a1d19b749db6a78fe07dc9088ace5100000000000001976a9149e089b6889e032d46e3b915a3392edfd616fb1c488ac00000000")
     }
 
     func testSignP2WPKH() throws {
@@ -60,7 +60,7 @@ class BitcoinSignerTests: XCTestCase {
         let toOutput = BitcoinTransactionOutput(value: 112_340_000, script: BitcoinScript(data: Data(hexString: "76a9148280b37df378db99f66f85c95a783a76ac7a6d5988ac")!))
         let changeOutput = BitcoinTransactionOutput(value: 223_450_000, script: BitcoinScript(data: Data(hexString: "76a9143bde42dbee7e4dbe6a21b2d50ce2f0167faa815988ac")!))
 
-        var unsignedTx = BitcoinTransaction(version: 1, inputs: [input0, input1], outputs: [], lockTime: 0)
+        var unsignedTx = BitcoinTransaction(version: 1, inputs: [input0, input1], outputs: [toOutput, changeOutput], lockTime: 0)
         unsignedTx.lockTime = 0x11
 
         var unsignedData = Data()
@@ -76,13 +76,12 @@ class BitcoinSignerTests: XCTestCase {
         ]
 
         let signer = BitcoinTransactionSigner(keyProvider: provider)
-        var signedTx = try signer.sign(unsignedTx, utxos: [utxo0, utxo1], hashType: .all)
-        signedTx.outputs = [toOutput, changeOutput]
+        let signedTx = try signer.sign(unsignedTx, utxos: [utxo0, utxo1], hashType: .all)
 
         var serialized = Data()
         signedTx.encode(into: &serialized)
 
-        XCTAssertEqual(signedTx.identifier, "c37af31116d1b27caf68aae9e3ac82f1477929014d5b917657d0eb49478cb670")
+        XCTAssertEqual(signedTx.identifier, "c36c38370907df2324d9ce9d149d191192f338b37665a82e78e76a12c909b762")
         XCTAssertEqual(serialized.hexString, "01000000000102fff7f7881a8099afa6940d42d1e7f6362bec38171ea3edf433541db4e4ad969f00000000494830450221008b9d1dc26ba6a9cb62127b02742fa9d754cd3bebf337f7a55d114c8e5cdd30be022040529b194ba3f9281a99f2b1c0a19c0489bc22ede944ccf4ecbab4cc618ef3ed01eeffffffef51e1b804cc89d182d279655c3aa89e815b1b309fe287d9b2b55d57b90ec68a0100000000ffffffff02202cb206000000001976a9148280b37df378db99f66f85c95a783a76ac7a6d5988ac9093510d000000001976a9143bde42dbee7e4dbe6a21b2d50ce2f0167faa815988ac000247304402203609e17b84f6a7d30c80bfa610b5b4542f32a8a0d5447a12fb1366d7f01cc44a0220573a954c4518331561406f90300e8f3358f51928d43c212a8caed02de67eebee0121025476c2e83188368da1ff3e292e7acafcdb3566bb0ad253f62fc70f07aeee635711000000")
     }
 
@@ -100,41 +99,6 @@ class BitcoinSignerTests: XCTestCase {
         let embeddedScript = BitcoinScript.buildPayToPublicKeyHash(address: address)
         let script = BitcoinScript.buildPayToScriptHash(script: embeddedScript)
         XCTAssertEqual(script.data.hexString, "a914c470d22e69a2a967f2cec0cd5a5aebb955cdd39587")
-    }
-
-    func testSpendP2SHTx() throws {
-        let privateKey = PrivateKey(data: Data(hexString: "65faa535a38572a9ec5440c393808eada67835eadd6c7ea3f1f31b5c5d36c446")!)!
-        let toAddress = BitcoinAddress(string: "18eqGohuqvrZLL3LMR4Wv81qvKeDHsGpjH")!
-        let changeAddress = BitcoinAddress(string: "3LbBftXPhBmByAqgpZqx61ttiFfxjde2z7")!
-        let scriptHash = Data(hexString: "cf5007e19af3641199f21f3fa54dff2fa2627471")!
-        XCTAssertEqual(privateKey.publicKey().legacyBitcoinAddress(prefix: 0x05), changeAddress)
-
-        // UTXO info: https://btc-rpc.binancechain.io/insight-api/addr/3LbBftXPhBmByAqgpZqx61ttiFfxjde2z7/utxo
-        let unspentOutput = BitcoinTransactionOutput(value: 50000, script: BitcoinScript.buildPayToScriptHash(scriptHash: scriptHash))
-        let unspentOutpoint = BitcoinOutPoint(hash: Data(hexString: "8c0923047ab47e449dd3f01d78bcdd4a0cb767e89a2007f70c095b40d3569c01")!, index: 1)
-        let utxo = BitcoinUnspentTransaction(output: unspentOutput, outpoint: unspentOutpoint)
-        let provider = BitcoinDefaultPrivateKeyProvider(keys: [privateKey])
-        provider.keysByScriptHash = [
-            scriptHash: privateKey,
-        ]
-        provider.scriptsByScriptHash = [
-            scriptHash: BitcoinScript.buildSegWit(address: changeAddress),
-        ]
-
-        let unsignedTx = createUnsignedTx(toAddress: toAddress, amount: 20000, changeAddress: changeAddress, utxos: [utxo], publicKey: privateKey.publicKey(), fee: 904)
-
-        var unsignedSerialized = Data()
-        unsignedTx.encode(into: &unsignedSerialized)
-
-        let signer = BitcoinTransactionSigner(keyProvider: provider)
-        let signedTx = try signer.sign(unsignedTx, utxos: [utxo])
-
-        var serialized = Data()
-        signedTx.encode(into: &serialized)
-
-        // get error: {"code": -25, "message": "Missing inputs"} when broadcasting this tx
-        // http://chainquery.com/bitcoin-api/sendrawtransaction
-        XCTAssertEqual(serialized.hexString, "01000000018c0923047ab47e449dd3f01d78bcdd4a0cb767e89a2007f70c095b40d3569c01010000005f47304402207ac20ebe315a4254bae98aae0500c35023dd31397522aafa531313159a4a338402201114c0381e3b1e773e513d861e0665b627f237d822e7ad99d56fc9f05dda0c7141160014cf5007e19af3641199f21f3fa54dff2fa2627471ffffffff02204e0000000000001976a91453f0912255fb6f2ea3962d5d1945963d2a8c861e88aca87100000000000017a914c470d22e69a2a967f2cec0cd5a5aebb955cdd3958700000000")
     }
 
     func createUnsignedTx(toAddress: BitcoinAddress, amount: Int64, changeAddress: BitcoinAddress, utxos: [BitcoinUnspentTransaction], publicKey: PublicKey? = nil, fee: Int64 = 226) -> BitcoinTransaction {

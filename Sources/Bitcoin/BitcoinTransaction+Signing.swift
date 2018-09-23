@@ -110,6 +110,7 @@ public extension BitcoinTransaction {
         }
 
         lockTime.encode(into: &data)
+        hashType.rawValue.encode(into: &data)
 
         return Crypto.sha256sha256(data)
     }
