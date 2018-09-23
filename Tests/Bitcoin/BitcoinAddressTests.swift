@@ -72,6 +72,48 @@ class BitcoinAddressTests: XCTestCase {
         let uncompressed = PublicKey(data: Data(hexString: "0479BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798483ADA7726A3C4655DA4FBFC0E1108A8FD17B448A68554199C47D08FFB10D4B8")!)!
         XCTAssertFalse(uncompressed.isCompressed)
         XCTAssertEqual(uncompressed.legacyBitcoinAddress(prefix: 0).description, "1EHNa6Q4Jz2uvNExL497mE43ikXhwF6kZm")
+
+        let uncompressed2 = PublicKey(data: Data(hexString: "04f028892bad7ed57d2fb57bf33081d5cfcf6f9ed3d3d7f159c2e2fff579dc341a07cf33da18bd734c600b96a72bbc4749d5141c90ec8ac328ae52ddfe2e505bdb")!)!
+        XCTAssertFalse(uncompressed2.isCompressed)
+        XCTAssertEqual(uncompressed2.compressed.data.hexString, "03f028892bad7ed57d2fb57bf33081d5cfcf6f9ed3d3d7f159c2e2fff579dc341a")
+        XCTAssertEqual(uncompressed2.compressed.legacyBitcoinAddress(prefix: 0).description, "1J7mdg5rbQyUHENYdx39WVWK7fsLpEoXZy")
+
+        let uncompressed3 = PublicKey(data: Data(hexString: "042de45bea3dada528eee8a1e04142d3e04fad66119d971b6019b0e3c02266b79142158aa83469db1332a880a2d5f8ce0b3bba542b3e32df0740ccbfb01c275e42")!)!
+        XCTAssertFalse(uncompressed3.isCompressed)
+        XCTAssertEqual(uncompressed3.compressed.data.hexString, "022de45bea3dada528eee8a1e04142d3e04fad66119d971b6019b0e3c02266b791")
+        XCTAssertEqual(uncompressed3.compressed.legacyBitcoinAddress(prefix: 0).description, "17XqPKKXTYGHA3k38VRrL28KHicXsDBjTb")
+    }
+
+    func testPublicKeyToBech32Address() {
+        let publicKey = PublicKey(data: Data(hexString: "0279BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798")!)!
+        let bitcoin = Bitcoin()
+        let expect = "bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4"
+        XCTAssertTrue(BitcoinSegwitAddress.isValid(string: expect))
+
+        let address = bitcoin.bech32Address(for: publicKey)
+        XCTAssertEqual(address.description, expect)
+
+        let addressFromString = BitcoinSegwitAddress(string: expect)
+        XCTAssertEqual(address, addressFromString)
+    }
+
+    func testInvalidBech32Addresses() {
+        let addresses = [
+            "tc1qw508d6qejxtdg4y5r3zarvary0c5xw7kg3g4ty",
+            "bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t5",
+            "BC13W508D6QEJXTDG4Y5R3ZARVARY0C5XW7KN40WF2",
+            "bc1rw5uspcuh",
+            "bc10w508d6qejxtdg4y5r3zarvary0c5xw7kw508d6qejxtdg4y5r3zarvary0c5xw7kw5rljs90",
+            "BC1QR508D6QEJXTDG4Y5R3ZARVARYV98GJ9P",
+            "tb1qrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3q0sL5k7",
+            "bc1zw508d6qejxtdg4y5r3zarvaryvqyzf3du",
+            "tb1qrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3pjxtptv",
+            "bc1gmk9yu",
+        ]
+
+        for invalid in addresses {
+            XCTAssertFalse(BitcoinSegwitAddress.isValid(string: invalid))
+        }
     }
 
     func testLegacyAddresses() {

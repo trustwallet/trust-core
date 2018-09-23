@@ -10,15 +10,16 @@ import TrustCore
 class SlipTests: XCTestCase {
 
     func testCoinType() {
-        XCTAssertEqual(Slip.bitcoin.rawValue, 0)
-        XCTAssertEqual(Slip.litecoin.rawValue, 2)
-        XCTAssertEqual(Slip.tron.rawValue, 195)
-        XCTAssertEqual(Slip.ethereum.rawValue, 60)
-        XCTAssertEqual(Slip.wanchain.rawValue, 5718350)
-        XCTAssertEqual(Slip.callisto.rawValue, 820)
-        XCTAssertEqual(Slip.ethereumClassic.rawValue, 61)
-        XCTAssertEqual(Slip.go.rawValue, 6060)
-        XCTAssertEqual(Slip.poa.rawValue, 178)
-        XCTAssertEqual(Slip.vechain.rawValue, 818)
+        XCTAssertEqual(SLIP.CoinType.bitcoin.rawValue, 0)
+        XCTAssertEqual(SLIP.CoinType.litecoin.rawValue, 2)
+        XCTAssertEqual(SLIP.CoinType.tron.rawValue, 195)
+        XCTAssertEqual(SLIP.CoinType.ethereum.rawValue, 60)
+        XCTAssertEqual(SLIP.CoinType.thunderToken.rawValue, 1001)
+        XCTAssertEqual(SLIP.CoinType.wanchain.rawValue, 5718350)
+        XCTAssertEqual(SLIP.CoinType.callisto.rawValue, 820)
+        XCTAssertEqual(SLIP.CoinType.ethereumClassic.rawValue, 61)
+        XCTAssertEqual(SLIP.CoinType.go.rawValue, 6060)
+        XCTAssertEqual(SLIP.CoinType.poa.rawValue, 178)
+        XCTAssertEqual(SLIP.CoinType.vechain.rawValue, 818)
     }
 }

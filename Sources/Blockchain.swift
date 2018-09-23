@@ -11,7 +11,7 @@ open class Blockchain: Hashable {
     /// Coin type for Level 2 of BIP44.
     ///
     /// - SeeAlso: https://github.com/satoshilabs/slips/blob/master/slip-0044.md
-    open var coinType: Slip {
+    open var coinType: SLIP.CoinType {
         fatalError("Use a specific Blockchain subclass")
     }
 
