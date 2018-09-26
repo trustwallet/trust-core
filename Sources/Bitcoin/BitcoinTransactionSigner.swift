@@ -27,7 +27,6 @@ public struct BitcoinTransactionSigner {
                 // Missing script, can't sign
                 continue
             }
-
             let pubkey = key.publicKey(compressed: true)
             let transactionToSign = BitcoinTransaction(version: unsignedTx.version, inputs: inputsToSign, outputs: unsignedTx.outputs, lockTime: unsignedTx.lockTime)
             let txin = inputsToSign[i]
@@ -37,10 +36,25 @@ public struct BitcoinTransactionSigner {
                 guard let redeemScript = keyProvider.script(forScriptHash: scriptHash) else {
                     throw Error.missingRedeemScript
                 }
-                let sighash = transactionToSign.getSignatureHashNonWitness(scriptCode: script, index: i, hashType: hashType)
-                let signature = key.signAsDER(hash: sighash)
-                unlockScript = unlockingScript(signature: signature, script: redeemScript, hashType: hashType)
-                inputsToSign[i] = BitcoinTransactionInput(previousOutput: txin.previousOutput, script: unlockScript, sequence: txin.sequence)
+                let sighash: Data
+                // TODO: refactor this mess
+                let witnessProgram = redeemScript.witnessProgram()
+                if witnessProgram != nil {
+                    let scriptCode = BitcoinScript(data: Data(bytes: [0x76, 0xa9, 0x14]) + pubkey.bitcoinKeyHash + Data(bytes: [0x88, 0xac]))
+                    let preimage = transactionToSign.getPreImage(scriptCode: scriptCode, index: i, hashType: hashType, amount: utxo.output.value)
+                    sighash = Crypto.sha256sha256(preimage)
+                } else {
+                    sighash = transactionToSign.getSignatureHashNonWitness(scriptCode: script, index: i, hashType: hashType)
+                }
+                let signature = key.signAsDER(hash: sighash) + Data(bytes: [UInt8(hashType.rawValue)])
+                if witnessProgram != nil {
+                    inputsToSign[i] = BitcoinTransactionInput(previousOutput: txin.previousOutput, script: BitcoinScript(data: Data(bytes: [0x16]) + redeemScript.data), sequence: txin.sequence)
+                    inputsToSign[i].scriptWitness.stack.append(signature.encoded)
+                    inputsToSign[i].scriptWitness.stack.append(pubkey.data)
+                } else {
+                    unlockScript = unlockingScript(signature: signature, script: redeemScript, hashType: hashType)
+                    inputsToSign[i] = BitcoinTransactionInput(previousOutput: txin.previousOutput, script: unlockScript, sequence: txin.sequence)
+                }
             } else if let hash = utxo.output.script.matchPayToWitnessScriptHash() {
                 guard let witnessScript = keyProvider.script(forScriptHash: hash) else {
                     throw Error.missingRedeemScript

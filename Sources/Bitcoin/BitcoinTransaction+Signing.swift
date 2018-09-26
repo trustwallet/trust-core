@@ -33,8 +33,7 @@ public extension BitcoinTransaction {
         return Crypto.sha256sha256(data)
     }
 
-    /// Generates the signature hash for Witness version 0 scripts.
-    func getSignatureHash(scriptCode: BitcoinScript, index: Int, hashType: SignatureHashType, amount: Int64) -> Data {
+    func getPreImage(scriptCode: BitcoinScript, index: Int, hashType: SignatureHashType, amount: Int64) -> Data {
         assert(index < inputs.count)
 
         var hashPrevouts = Data(repeating: 0, count: 32)
@@ -82,7 +81,13 @@ public extension BitcoinTransaction {
         // Sighash type
         hashType.rawValue.encode(into: &data)
 
-        return Crypto.sha256sha256(data)
+        return data
+    }
+
+    /// Generates the signature hash for Witness version 0 scripts.
+    func getSignatureHash(scriptCode: BitcoinScript, index: Int, hashType: SignatureHashType, amount: Int64) -> Data {
+        let preimage = getPreImage(scriptCode: scriptCode, index: index, hashType: hashType, amount: amount)
+        return Crypto.sha256sha256(preimage)
     }
 
     /// Generates the signature hash for for scripts other than witness scripts.

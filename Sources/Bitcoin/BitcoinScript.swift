@@ -150,7 +150,7 @@ enum OpCode {
 }
 
 /// Serialized Bitcoin script.
-public final class BitcoinScript: BinaryEncoding {
+public final class BitcoinScript: BinaryEncoding, CustomDebugStringConvertible {
     public var bytes: [UInt8]
 
     public var data: Data {
@@ -168,6 +168,10 @@ public final class BitcoinScript: BinaryEncoding {
 
     public init(data: Data) {
         self.bytes = Array(data)
+    }
+
+    public var debugDescription: String {
+        return data.hexString
     }
 
     var isPayToScriptHash: Bool {

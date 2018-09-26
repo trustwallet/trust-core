@@ -20,6 +20,10 @@ public extension BinaryEncoding {
         encode(into: &data)
         return data
     }
+
+    var hexEncoded: String {
+        return self.encoded.hexString
+    }
 }
 
 public typealias BinaryCoding = BinaryDecoding & BinaryEncoding
