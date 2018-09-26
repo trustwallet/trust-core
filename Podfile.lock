@@ -3,11 +3,13 @@ PODS:
     - SipHash (~> 1.2)
   - SipHash (1.2.2)
   - SwiftLint (0.26.0)
+  - SwiftProtobuf (1.1.2)
   - TrezorCrypto (0.0.8)
 
 DEPENDENCIES:
   - BigInt (~> 3.0)
   - SwiftLint
+  - SwiftProtobuf
   - TrezorCrypto (~> 0.0.8)
 
 SPEC REPOS:
@@ -15,14 +17,16 @@ SPEC REPOS:
     - BigInt
     - SipHash
     - SwiftLint
+    - SwiftProtobuf
     - TrezorCrypto
 
 SPEC CHECKSUMS:
   BigInt: 76b5dfdfa3e2e478d4ffdf161aeede5502e2742f
   SipHash: fad90a4683e420c52ef28063063dbbce248ea6d4
   SwiftLint: f6b83e8d95ee1e91e11932d843af4fdcbf3fc764
+  SwiftProtobuf: 7147b8ec19c8c0694a45155d989ea9e6dedaf51f
   TrezorCrypto: 938c4b715fff7824a9c891a105e65ee0e4e81662
 
-PODFILE CHECKSUM: cd59e8034fb1a2a808b20767b04772dbf7c29138
+PODFILE CHECKSUM: 09c547557f893076efc78aca5a1a7bae2d59fb56
 
 COCOAPODS: 1.5.3

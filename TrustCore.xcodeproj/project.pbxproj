@@ -78,6 +78,11 @@
 		77F8D3DB214860D200E80CD6 /* Purpose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F8D3DA214860D200E80CD6 /* Purpose.swift */; };
 		77F8D3DF2148625100E80CD6 /* PurposeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F8D3DE2148625100E80CD6 /* PurposeTests.swift */; };
 		887FD54919AD2FA39E88EAF0 /* Pods_TrustCore_TrustCoreTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1C9DA59AE410E04E68E1F89 /* Pods_TrustCore_TrustCoreTests.framework */; };
+		8B92DFEC215BAF5E003F40AA /* Contract.proto in Resources */ = {isa = PBXBuildFile; fileRef = 8B92DFE8215BAF5E003F40AA /* Contract.proto */; };
+		8B92DFED215BAF5E003F40AA /* TronInventoryItems.proto in Resources */ = {isa = PBXBuildFile; fileRef = 8B92DFE9215BAF5E003F40AA /* TronInventoryItems.proto */; };
+		8B92DFEE215BAF5E003F40AA /* Discover.proto in Resources */ = {isa = PBXBuildFile; fileRef = 8B92DFEA215BAF5E003F40AA /* Discover.proto */; };
+		8B92DFEF215BAF5E003F40AA /* Tron.proto in Resources */ = {isa = PBXBuildFile; fileRef = 8B92DFEB215BAF5E003F40AA /* Tron.proto */; };
+		8B92DFF2215BAF63003F40AA /* api.proto in Resources */ = {isa = PBXBuildFile; fileRef = 8B92DFF1215BAF63003F40AA /* api.proto */; };
 		BB06149A920620338B3323D1 /* Pods_TrustCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 682B6374F9856982618A8501 /* Pods_TrustCore.framework */; };
 		BB1215D021390A4D0092FC68 /* ERC721EncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1215CF21390A4D0092FC68 /* ERC721EncoderTests.swift */; };
 		BB3864A72090088D00CBF773 /* ENSEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3864A62090088D00CBF773 /* ENSEncoder.swift */; };
@@ -182,6 +187,11 @@
 		77F8D3AF2141CBB900E80CD6 /* DashTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashTests.swift; sourceTree = "<group>"; };
 		77F8D3DA214860D200E80CD6 /* Purpose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Purpose.swift; sourceTree = "<group>"; };
 		77F8D3DE2148625100E80CD6 /* PurposeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurposeTests.swift; sourceTree = "<group>"; };
+		8B92DFE8215BAF5E003F40AA /* Contract.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Contract.proto; sourceTree = "<group>"; };
+		8B92DFE9215BAF5E003F40AA /* TronInventoryItems.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TronInventoryItems.proto; sourceTree = "<group>"; };
+		8B92DFEA215BAF5E003F40AA /* Discover.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Discover.proto; sourceTree = "<group>"; };
+		8B92DFEB215BAF5E003F40AA /* Tron.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Tron.proto; sourceTree = "<group>"; };
+		8B92DFF1215BAF63003F40AA /* api.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = api.proto; sourceTree = "<group>"; };
 		99258028638D3902B177E80C /* Pods-TrustCore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrustCore.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TrustCore/Pods-TrustCore.debug.xcconfig"; sourceTree = "<group>"; };
 		A1C9DA59AE410E04E68E1F89 /* Pods_TrustCore_TrustCoreTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TrustCore_TrustCoreTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB1215CF21390A4D0092FC68 /* ERC721EncoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ERC721EncoderTests.swift; sourceTree = "<group>"; };
@@ -237,6 +247,7 @@
 			children = (
 				6149A6BD201E43E200A2F35C /* README.md */,
 				61645D0D2058A06700411565 /* LICENSE */,
+				8B92DFE4215BAF1A003F40AA /* Resources */,
 				6149A6BE201E43E200A2F35C /* Metadata */,
 				6149A6BB201E43E200A2F35C /* Sources */,
 				6149A6C3201E43E200A2F35C /* Tests */,
@@ -444,6 +455,42 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		8B92DFE4215BAF1A003F40AA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8B92DFE5215BAF2E003F40AA /* Tron */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		8B92DFE5215BAF2E003F40AA /* Tron */ = {
+			isa = PBXGroup;
+			children = (
+				8B92DFF0215BAF63003F40AA /* api */,
+				8B92DFE7215BAF5E003F40AA /* core */,
+			);
+			path = Tron;
+			sourceTree = "<group>";
+		};
+		8B92DFE7215BAF5E003F40AA /* core */ = {
+			isa = PBXGroup;
+			children = (
+				8B92DFE8215BAF5E003F40AA /* Contract.proto */,
+				8B92DFE9215BAF5E003F40AA /* TronInventoryItems.proto */,
+				8B92DFEA215BAF5E003F40AA /* Discover.proto */,
+				8B92DFEB215BAF5E003F40AA /* Tron.proto */,
+			);
+			path = core;
+			sourceTree = "<group>";
+		};
+		8B92DFF0215BAF63003F40AA /* api */ = {
+			isa = PBXGroup;
+			children = (
+				8B92DFF1215BAF63003F40AA /* api.proto */,
+			);
+			path = api;
+			sourceTree = "<group>";
+		};
 		A21D6DABB34C662DA8064833 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -593,6 +640,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B92DFEC215BAF5E003F40AA /* Contract.proto in Resources */,
+				8B92DFEE215BAF5E003F40AA /* Discover.proto in Resources */,
+				8B92DFF2215BAF63003F40AA /* api.proto in Resources */,
+				8B92DFED215BAF5E003F40AA /* TronInventoryItems.proto in Resources */,
+				8B92DFEF215BAF5E003F40AA /* Tron.proto in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -667,12 +719,14 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-TrustCore-TrustCoreTests/Pods-TrustCore-TrustCoreTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework",
 				"${BUILT_PRODUCTS_DIR}/SipHash/SipHash.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftProtobuf/SwiftProtobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/TrezorCrypto/TrezorCrypto.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BigInt.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SipHash.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftProtobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TrezorCrypto.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
