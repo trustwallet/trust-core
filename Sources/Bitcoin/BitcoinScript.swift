@@ -334,6 +334,9 @@ public final class BitcoinScript: BinaryEncoding {
         }
     }
 
+    /// Matches the script to a pay-to-public-key (P2PK) script.
+    ///
+    /// - Returns: the public key.
     public func matchPayToPubkey() -> PublicKey? {
         if bytes.count == PublicKey.uncompressedSize + 2 && bytes[0] == PublicKey.uncompressedSize && bytes.last == OpCode.OP_CHECKSIG {
             let pubkeyData = Data(bytes: bytes[bytes.startIndex + 1 ..< bytes.startIndex + PublicKey.uncompressedSize + 1])
@@ -346,6 +349,9 @@ public final class BitcoinScript: BinaryEncoding {
         return nil
     }
 
+    /// Matches the script to a pay-to-public-key-hash (P2PKH).
+    ///
+    /// - Returns: the key hash.
     public func matchPayToPubkeyHash() -> Data? {
         if bytes.count == 25 && bytes[0] == OpCode.OP_DUP && bytes[1] == OpCode.OP_HASH160 && bytes[2] == 20 && bytes[23] == OpCode.OP_EQUALVERIFY && bytes[24] == OpCode.OP_CHECKSIG {
             return Data(bytes: bytes[bytes.startIndex + 3 ..< bytes.startIndex + 23])
@@ -353,6 +359,9 @@ public final class BitcoinScript: BinaryEncoding {
         return nil
     }
 
+    /// Matches the script to a pay-to-script-hash (P2SH).
+    ///
+    /// - Returns: the script hash.
     public func matchPayToScriptHash() -> Data? {
         guard isPayToScriptHash else {
             return nil
@@ -360,9 +369,22 @@ public final class BitcoinScript: BinaryEncoding {
         return Data(bytes: bytes[2 ..< 22])
     }
 
-    public func matchPayToWitnessProgram() -> Data? {
-        if bytes.count == 22 && bytes[0] == OpCode.OP_0 && bytes[1] == 20 {
-            return Data(bytes: bytes[2 ..< 22])
+    /// Matches the script to a pay-to-witness-public-key-hash (P2WPKH).
+    ///
+    /// - Returns: the key hash.
+    public func matchPayToWitnessPublicKeyHash() -> Data? {
+        if bytes.count == 22 && bytes[0] == OpCode.OP_0 && bytes[1] == 0x14 {
+            return Data(bytes: bytes[2...])
+        }
+        return nil
+    }
+
+    /// Matches the script to a pay-to-witness-script-hash (P2WSH).
+    ///
+    /// - Returns: the script hash, a SHA256 of the witness script.
+    public func matchPayToWitnessScriptHash() -> Data? {
+        if bytes.count == 34 && bytes[0] == OpCode.OP_0 && bytes[1] == 0x20 {
+            return Data(bytes: bytes[2...])
         }
         return nil
     }
