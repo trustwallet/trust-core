@@ -124,8 +124,7 @@ class BitcoinSignerTests: XCTestCase {
 
     func testSignP2SH_P2WPKH() {
         let redeemScript = BitcoinScript(data: Data(hexString: "001479091972186c449eb1ded22b78e40d009bdf0089")!)
-        let scripthash = Crypto.sha256ripemd160(redeemScript.data)
-        XCTAssertEqual(scripthash.hexString, "4733f37cf4db86fbc2efed2500b4f4e49f312023")
+        let scripthash = Data(hexString: "79091972186c449eb1ded22b78e40d009bdf0089")!
 
         let unspentOutput0 = BitcoinTransactionOutput(value: 1000_000_000, script: BitcoinScript(data: Data(hexString: "a9144733f37cf4db86fbc2efed2500b4f4e49f31202387")!))
         let unspentOutpoint0 = BitcoinOutPoint(hash: Data(hexString: "db6b1b20aa0fd7b23880be2ecbd4a98130974cf4748fb66092ac4d3ceb1a5477")!, index: 1)
