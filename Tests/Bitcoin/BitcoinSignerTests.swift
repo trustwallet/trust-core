@@ -122,6 +122,44 @@ class BitcoinSignerTests: XCTestCase {
         //XCTAssertEqual(serialized.hexString, "01000000000102fe3dc9208094f3ffd12645477b3dc56f60ec4fa8e6f5d67c565d1c6b9216b36e000000004847304402200af4e47c9b9629dbecc21f73af989bdaa911f7e6f6c2e9394588a3aa68f81e9902204f3fcf6ade7e5abb1295b6774c8e0abd94ae62217367096bc02ee5e435b67da201ffffffff0815cf020f013ed6cf91d29f4202e8a58726b1ac6c79da47c23d1bee0a6925f80000000000ffffffff0100f2052a010000001976a914a30741f8145e5acadf23f751864167f32e0963f788ac000347304402200de66acf4527789bfda55fc5459e214fa6083f936b430a762c629656216805ac0220396f550692cd347171cbc1ef1f51e15282e837bb2b30860dc77c8f78bc8501e503473044022027dc95ad6b740fe5129e7e62a75dd00f291a2aeb1200b84b09d9e3789406b6c002201a9ecd315dd6a0e632ab20bbb98948bc0c6fb204f2c286963bb48517a7058e27034721026dccc749adc2a9d0d89497ac511f760f45c47dc5ed9cf352a58ac706453880aeadab210255a9626aebf5e29c0e6538428ba0d1dcf6ca98ffdf086aa8ced5e0d0215ea465ac00000000")
     }
 
+    func testSignP2SH_P2WPKH() {
+        let redeemScript = BitcoinScript(data: Data(hexString: "001479091972186c449eb1ded22b78e40d009bdf0089")!)
+        let scripthash = Crypto.sha256ripemd160(redeemScript.data)
+        XCTAssertEqual(scripthash.hexString, "4733f37cf4db86fbc2efed2500b4f4e49f312023")
+
+        let unspentOutput0 = BitcoinTransactionOutput(value: 1000_000_000, script: BitcoinScript(data: Data(hexString: "a9144733f37cf4db86fbc2efed2500b4f4e49f31202387")!))
+        let unspentOutpoint0 = BitcoinOutPoint(hash: Data(hexString: "db6b1b20aa0fd7b23880be2ecbd4a98130974cf4748fb66092ac4d3ceb1a5477")!, index: 1)
+        let utxo0 = BitcoinUnspentTransaction(output: unspentOutput0, outpoint: unspentOutpoint0)
+        let utxoKey0 = PrivateKey(data: Data(hexString: "eb696a065ef48a2192da5b28b694f87544b30fae8327c4510137a922f32c6dcf")!)!
+        let input0 = BitcoinTransactionInput(previousOutput: unspentOutpoint0, script: BitcoinScript(), sequence: 0xfffffffe)
+
+        let toOutput = BitcoinTransactionOutput(value: 199_996_600, script: BitcoinScript(data: Data(hexString: "76a914a457b684d7f0d539a46a45bbc043f35b59d0d96388ac")!))
+        let changeOutput = BitcoinTransactionOutput(value: 800_000_000, script: BitcoinScript(data: Data(hexString: "76a914fd270b1ee6abcaea97fea7ad0402e8bd8ad6d77c88ac")!))
+
+        let unsignedTx = BitcoinTransaction(version: 1, inputs: [input0], outputs: [toOutput, changeOutput], lockTime: 0x492)
+
+        var unsignedData = Data()
+        unsignedTx.encode(into: &unsignedData)
+        XCTAssertEqual(unsignedData.hexString, "0100000001db6b1b20aa0fd7b23880be2ecbd4a98130974cf4748fb66092ac4d3ceb1a54770100000000feffffff02b8b4eb0b000000001976a914a457b684d7f0d539a46a45bbc043f35b59d0d96388ac0008af2f000000001976a914fd270b1ee6abcaea97fea7ad0402e8bd8ad6d77c88ac92040000")
+
+        let provider = BitcoinDefaultPrivateKeyProvider(keys: [utxoKey0])
+        provider.keysByScriptHash = [
+            scripthash: utxoKey0,
+        ]
+        provider.scriptsByScriptHash = [
+            scripthash: redeemScript,
+        ]
+
+        let signer = BitcoinTransactionSigner(keyProvider: provider)
+        let signedTx = try! signer.sign(unsignedTx, utxos: [utxo0], hashType: .all)
+
+        var serialized = Data()
+        signedTx.encode(into: &serialized)
+
+//        XCTAssertEqual(signedTx.identifier, "680f483b2bf6c5dcbf111e69e885ba248a41a5e92070cfb0afec3cfc49a9fabb")
+//        XCTAssertEqual(serialized.hexString, "01000000000101db6b1b20aa0fd7b23880be2ecbd4a98130974cf4748fb66092ac4d3ceb1a5477010000001716001479091972186c449eb1ded22b78e40d009bdf0089feffffff02b8b4eb0b000000001976a914a457b684d7f0d539a46a45bbc043f35b59d0d96388ac0008af2f000000001976a914fd270b1ee6abcaea97fea7ad0402e8bd8ad6d77c88ac02473044022047ac8e878352d3ebbde1c94ce3a10d057c24175747116f8288e5d794d12d482f0220217f36a485cae903c713331d877c1f64677e3622ad4010726870540656fe9dcb012103ad1d8e89212f0b92c74d23bb710c00662ad1470198ac48c43f7d6f93a2a2687392040000")
+    }
+
     func testRedeemScriptWrong() {
         let data = Data(hexString: "042de45bea3dada528eee8a1e04142d3e04fad66119d971b6019b0e3c02266b79142158aa83469db1332a880a2d5f8ce0b3bba542b3e32df0740ccbfb01c275e42")!
         let redeemHash = Crypto.sha256ripemd160(data)
