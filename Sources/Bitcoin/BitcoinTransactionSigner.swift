@@ -146,65 +146,6 @@ public final class BitcoinTransactionSigner {
         return data
     }
 
-    private func keyForScript(_ script: BitcoinScript) throws -> PrivateKey? {
-        if let pubkeyHash = script.matchPayToPubkeyHash() {
-            return keyProvider.key(forPublicKeyHash: pubkeyHash)
-        } else if let pubkey = script.matchPayToPubkey() {
-            return keyProvider.key(forPublicKey: pubkey)
-        } else if let scriptHash = script.matchPayToScriptHash() {
-            return keyProvider.key(forScriptHash: scriptHash)
-        } else if let pubkeyHash = script.matchPayToWitnessPublicKeyHash() {
-            return keyProvider.key(forPublicKeyHash: pubkeyHash)
-        } else if let scriptHash = script.matchPayToWitnessScriptHash() {
-            return keyProvider.key(forScriptHash: scriptHash)
-        } else {
-            throw Error.invalidOutputScript
-        }
-    }
-
-    private func scriptForScript(_ script: BitcoinScript) throws -> BitcoinScript? {
-        if script.matchPayToPubkeyHash() != nil {
-            return script
-        } else if script.matchPayToPubkey() != nil {
-            return script
-        } else if let scriptHash = script.matchPayToScriptHash() {
-            return keyProvider.script(forScriptHash: scriptHash)
-        } else if let pubkeyHash = script.matchPayToWitnessPublicKeyHash() {
-            return keyProvider.script(forScriptHash: pubkeyHash)
-        } else if let scriptHash = script.matchPayToWitnessScriptHash() {
-            return keyProvider.script(forScriptHash: scriptHash)
-        } else {
-            throw Error.invalidOutputScript
-        }
-    }
-
-    private func unlockingScript(signature: Data, publicKey: PublicKey, hashType: SignatureHashType) -> BitcoinScript {
-        var unlockingScriptData = Data()
-        unlockingScriptData.append(UInt8(signature.count + 1))
-        unlockingScriptData.append(signature)
-        unlockingScriptData.append(UInt8(hashType.rawValue))
-        writeCompactSize(publicKey.data.count, into: &unlockingScriptData)
-        unlockingScriptData.append(publicKey.data)
-        return BitcoinScript(data: unlockingScriptData)
-    }
-
-    private func unlockingScript(signature: Data, script: BitcoinScript, hashType: SignatureHashType) -> BitcoinScript {
-        var unlockingScriptData = Data()
-        unlockingScriptData.append(UInt8(signature.count + 1))
-        unlockingScriptData.append(signature)
-        unlockingScriptData.append(UInt8(hashType.rawValue))
-        script.encode(into: &unlockingScriptData)
-        return BitcoinScript(data: unlockingScriptData)
-    }
-
-    private func unlockingScript(signature: Data, hashType: SignatureHashType) -> BitcoinScript {
-        var unlockingScriptData = Data()
-        unlockingScriptData.append(UInt8(signature.count + 1))
-        unlockingScriptData.append(signature)
-        unlockingScriptData.append(UInt8(hashType.rawValue))
-        return BitcoinScript(data: unlockingScriptData)
-    }
-
     public enum Error: LocalizedError {
         case invalidOutputScript
         case missingRedeemScript
