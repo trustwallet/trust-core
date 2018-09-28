@@ -8,84 +8,142 @@ import BigInt
 import Foundation
 import TrezorCrypto
 
-public struct BitcoinTransactionSigner {
+public final class BitcoinTransactionSigner {
     public var keyProvider: BitcoinPrivateKeyProvider
+    public var transaction: BitcoinTransaction
+    public var hashType: SignatureHashType
+    private var signedInputs = [BitcoinTransactionInput]()
 
-    public init(keyProvider: BitcoinPrivateKeyProvider) {
+    public init(keyProvider: BitcoinPrivateKeyProvider, transaction: BitcoinTransaction, hashType: SignatureHashType = [.all, .fork]) {
         self.keyProvider = keyProvider
+        self.transaction = transaction
+        self.hashType = hashType
     }
 
-    public func sign(_ unsignedTx: BitcoinTransaction, utxos: [BitcoinUnspentTransaction], hashType: SignatureHashType = [.all, .fork]) throws -> BitcoinTransaction {
-        var inputsToSign = unsignedTx.inputs
+    public func sign(_ utxos: [BitcoinUnspentTransaction]) throws -> BitcoinTransaction {
+        signedInputs = transaction.inputs
 
         for (i, utxo) in zip(utxos.indices, utxos) {
-            guard let key = try keyForScript(utxo.output.script) else {
-                // Missing key, can't sign
+            // Only sign SIGHASH_SINGLE if there's a corresponding output
+            if hashType.contains(.single) && i >= transaction.outputs.count {
                 continue
             }
-            guard let script = try scriptForScript(utxo.output.script) else {
-                // Missing script, can't sign
-                continue
-            }
-            let pubkey = key.publicKey(compressed: true)
-            let transactionToSign = BitcoinTransaction(version: unsignedTx.version, inputs: inputsToSign, outputs: unsignedTx.outputs, lockTime: unsignedTx.lockTime)
-            let txin = inputsToSign[i]
-
-            let unlockScript: BitcoinScript
-            if let scriptHash = utxo.output.script.matchPayToScriptHash() {
-                guard let redeemScript = keyProvider.script(forScriptHash: scriptHash) else {
-                    throw Error.missingRedeemScript
-                }
-                let sighash: Data
-                // TODO: refactor this mess
-                let witnessProgram = redeemScript.witnessProgram()
-                if witnessProgram != nil {
-                    let scriptCode = BitcoinScript(data: Data(bytes: [0x76, 0xa9, 0x14]) + pubkey.bitcoinKeyHash + Data(bytes: [0x88, 0xac]))
-                    let preimage = transactionToSign.getPreImage(scriptCode: scriptCode, index: i, hashType: hashType, amount: utxo.output.value)
-                    sighash = Crypto.sha256sha256(preimage)
-                } else {
-                    sighash = transactionToSign.getSignatureHashNonWitness(scriptCode: script, index: i, hashType: hashType)
-                }
-                let signature = key.signAsDER(hash: sighash) + Data(bytes: [UInt8(hashType.rawValue)])
-                if witnessProgram != nil {
-                    inputsToSign[i] = BitcoinTransactionInput(previousOutput: txin.previousOutput, script: BitcoinScript(data: Data(bytes: [0x16]) + redeemScript.data), sequence: txin.sequence)
-                    inputsToSign[i].scriptWitness.stack.append(signature.encoded)
-                    inputsToSign[i].scriptWitness.stack.append(pubkey.data)
-                } else {
-                    unlockScript = unlockingScript(signature: signature, script: redeemScript, hashType: hashType)
-                    inputsToSign[i] = BitcoinTransactionInput(previousOutput: txin.previousOutput, script: unlockScript, sequence: txin.sequence)
-                }
-            } else if let hash = utxo.output.script.matchPayToWitnessScriptHash() {
-                guard let witnessScript = keyProvider.script(forScriptHash: hash) else {
-                    throw Error.missingRedeemScript
-                }
-                let sighash = transactionToSign.getSignatureHash(scriptCode: witnessScript, index: i, hashType: hashType, amount: utxo.output.value)
-                let signature = key.signAsDER(hash: sighash) + Data(bytes: [UInt8(hashType.rawValue)])
-                inputsToSign[i] = BitcoinTransactionInput(previousOutput: txin.previousOutput, script: BitcoinScript(), sequence: txin.sequence)
-                inputsToSign[i].scriptWitness.stack.append(signature.encoded)
-                inputsToSign[i].scriptWitness.stack.append(witnessScript.data)
-            } else if utxo.output.script.matchPayToWitnessPublicKeyHash() != nil {
-                let sighash = transactionToSign.getSignatureHash(scriptCode: script, index: i, hashType: hashType, amount: utxo.output.value)
-                let signature = key.signAsDER(hash: sighash) + Data(bytes: [UInt8(hashType.rawValue)])
-                inputsToSign[i] = BitcoinTransactionInput(previousOutput: txin.previousOutput, script: BitcoinScript(), sequence: txin.sequence)
-                inputsToSign[i].scriptWitness.stack.append(signature.encoded)
-                inputsToSign[i].scriptWitness.stack.append(pubkey.data)
-            } else if utxo.output.script.witnessProgram() != nil {
-                throw Error.invalidOutputScript
-            } else if utxo.output.script.matchPayToPubkey() != nil {
-                let sighash = transactionToSign.getSignatureHashNonWitness(scriptCode: script, index: i, hashType: hashType)
-                let signature = key.signAsDER(hash: sighash)
-                unlockScript = unlockingScript(signature: signature, hashType: hashType)
-                inputsToSign[i] = BitcoinTransactionInput(previousOutput: txin.previousOutput, script: unlockScript, sequence: txin.sequence)
-            } else {
-                let sighash = transactionToSign.getSignatureHashNonWitness(scriptCode: script, index: i, hashType: hashType)
-                let signature = key.signAsDER(hash: sighash)
-                unlockScript = unlockingScript(signature: signature, publicKey: pubkey, hashType: hashType)
-                inputsToSign[i] = BitcoinTransactionInput(previousOutput: txin.previousOutput, script: unlockScript, sequence: txin.sequence)
-            }
+            try sign(script: utxo.output.script, index: i, utxo: utxo)
         }
 
-        return BitcoinTransaction(version: unsignedTx.version, inputs: inputsToSign, outputs: unsignedTx.outputs, lockTime: unsignedTx.lockTime)
+        return BitcoinTransaction(version: transaction.version, inputs: signedInputs, outputs: transaction.outputs, lockTime: transaction.lockTime)
+    }
+
+    private func sign(script: BitcoinScript, index: Int, utxo: BitcoinUnspentTransaction) throws {
+        var script = script
+        var subScript: BitcoinScript?
+        var results = try signStep(script: script, index: index, utxo: utxo, version: .base)
+        let txin = transaction.inputs[index]
+        var witnessStack = [Data]()
+
+        if script.isPayToScriptHash {
+            script = BitcoinScript(data: results.first!)
+            results = try signStep(script: script, index: index, utxo: utxo, version: .base)
+            results.append(script.data)
+            subScript = script
+        }
+
+        if script.matchPayToWitnessPublicKeyHash() != nil {
+            var witnessScriptData = Data(bytes: [OpCode.OP_DUP, OpCode.OP_HASH160])
+            let witnessProgram = BitcoinScript(data: results[0])
+            witnessProgram.encode(into: &witnessScriptData)
+            witnessScriptData += Data(bytes: [OpCode.OP_EQUALVERIFY, OpCode.OP_CHECKSIG])
+            let witnessScript = BitcoinScript(data: witnessScriptData)
+            results = try signStep(script: witnessScript, index: index, utxo: utxo, version: .witnessV0)
+
+            witnessStack = results
+            results = []
+        } else if script.matchPayToWitnessScriptHash() != nil {
+            let witnessScript = BitcoinScript(data: results[0])
+            results = try signStep(script: witnessScript, index: index, utxo: utxo, version: .witnessV0)
+            results.append(witnessScript.data)
+
+            witnessStack = results
+            results = []
+        } else if script.witnessProgram() != nil {
+            throw Error.invalidOutputScript
+        }
+
+        if let subScript = subScript {
+            results.append(subScript.data)
+        }
+        signedInputs[index] = BitcoinTransactionInput(previousOutput: txin.previousOutput, script: BitcoinScript(data: pushAll(results)), sequence: txin.sequence)
+        signedInputs[index].scriptWitness.stack = witnessStack
+    }
+
+    private func signStep(script: BitcoinScript, index: Int, utxo: BitcoinUnspentTransaction, version: SignatureVersion) throws -> [Data] {
+        let transactionToSign = BitcoinTransaction(version: transaction.version, inputs: signedInputs, outputs: transaction.outputs, lockTime: transaction.lockTime)
+
+        if let scriptHash = script.matchPayToScriptHash() {
+            guard let redeemScript = keyProvider.script(forScriptHash: scriptHash) else {
+                throw Error.missingRedeemScript
+            }
+            return [redeemScript.data]
+        } else if let witnessScript = script.matchPayToWitnessScriptHash() {
+            let scripthash = Crypto.ripemd160(witnessScript)
+            guard let redeemScript = keyProvider.script(forScriptHash: scripthash) else {
+                throw Error.missingRedeemScript
+            }
+            return [redeemScript.data]
+        } else if let keyhash = script.matchPayToWitnessPublicKeyHash() {
+            return [keyhash]
+        } else if script.witnessProgram() != nil {
+            throw Error.invalidOutputScript
+        } else if let pubKey = script.matchPayToPubkey() {
+            guard let key = keyProvider.key(forPublicKey: pubKey) else {
+                throw Error.missingKey
+            }
+            let sighash = transactionToSign.getSignatureHash(scriptCode: script, index: index, hashType: hashType, amount: utxo.output.value, version: version)
+            let signature = key.signAsDER(hash: sighash)
+            return [signature + Data(bytes: [UInt8(hashType.rawValue)])]
+        } else if let keyHash = script.matchPayToPubkeyHash() {
+            guard let key = keyProvider.key(forPublicKeyHash: keyHash) else {
+                throw Error.missingKey
+            }
+            let pubkey = key.publicKey(compressed: true)
+            let sighash = transactionToSign.getSignatureHash(scriptCode: script, index: index, hashType: hashType, amount: utxo.output.value, version: version)
+            let signature = key.signAsDER(hash: sighash)
+            return [signature + Data(bytes: [UInt8(hashType.rawValue)]), pubkey.data]
+        } else {
+            throw Error.invalidOutputScript
+        }
+    }
+
+    private func pushAll(_ results: [Data]) -> Data {
+        var data = Data()
+        for result in results {
+            if result.isEmpty {
+                data.append(OpCode.OP_0)
+            } else if result.count == 1 && result[0] >= 1 && result[0] <= 16 {
+                data.append(BitcoinScript.encodeNumber(Int(result[0])))
+            } else if result.count < OpCode.OP_PUSHDATA1 {
+                data.append(UInt8(result.count))
+            } else if result.count <= 0xff { // swiftlint:disable:this empty_count
+                data.append(OpCode.OP_PUSHDATA1)
+                data.append(UInt8(result.count))
+            } else if result.count <= 0xffff { // swiftlint:disable:this empty_count
+                data.append(OpCode.OP_PUSHDATA2)
+                let boxed = UInt16(result.count).littleEndian
+                let boxedData = withUnsafeBytes(of: boxed) { ptr in
+                    Data(ptr.bindMemory(to: UInt8.self))
+                }
+                data.append(boxedData)
+            } else {
+                data.append(OpCode.OP_PUSHDATA4)
+                let boxed = UInt32(result.count).littleEndian
+                let boxedData = withUnsafeBytes(of: boxed) { ptr in
+                    Data(ptr.bindMemory(to: UInt8.self))
+                }
+                data.append(boxedData)
+            }
+            data.append(result)
+        }
+        return data
     }
 
     private func keyForScript(_ script: BitcoinScript) throws -> PrivateKey? {
@@ -150,5 +208,6 @@ public struct BitcoinTransactionSigner {
     public enum Error: LocalizedError {
         case invalidOutputScript
         case missingRedeemScript
+        case missingKey
     }
 }

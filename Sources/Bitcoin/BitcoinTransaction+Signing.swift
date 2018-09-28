@@ -8,6 +8,11 @@ import BigInt
 import Foundation
 import TrezorCrypto
 
+public enum SignatureVersion {
+    case base
+    case witnessV0
+}
+
 public extension BitcoinTransaction {
     func getPrevoutHash() -> Data {
         var data = Data()
@@ -84,14 +89,23 @@ public extension BitcoinTransaction {
         return data
     }
 
+    func getSignatureHash(scriptCode: BitcoinScript, index: Int, hashType: SignatureHashType, amount: Int64, version: SignatureVersion) -> Data {
+        switch version {
+        case .base:
+            return getSignatureHashBase(scriptCode: scriptCode, index: index, hashType: hashType)
+        case .witnessV0:
+            return getSignatureHashWitnessV0(scriptCode: scriptCode, index: index, hashType: hashType, amount: amount)
+        }
+    }
+
     /// Generates the signature hash for Witness version 0 scripts.
-    func getSignatureHash(scriptCode: BitcoinScript, index: Int, hashType: SignatureHashType, amount: Int64) -> Data {
+    func getSignatureHashWitnessV0(scriptCode: BitcoinScript, index: Int, hashType: SignatureHashType, amount: Int64) -> Data {
         let preimage = getPreImage(scriptCode: scriptCode, index: index, hashType: hashType, amount: amount)
         return Crypto.sha256sha256(preimage)
     }
 
     /// Generates the signature hash for for scripts other than witness scripts.
-    func getSignatureHashNonWitness(scriptCode: BitcoinScript, index: Int, hashType: SignatureHashType) -> Data {
+    func getSignatureHashBase(scriptCode: BitcoinScript, index: Int, hashType: SignatureHashType) -> Data {
         assert(index < inputs.count)
 
         var data = Data()
@@ -133,7 +147,7 @@ public extension BitcoinTransaction {
         if subindex != index {
             writeCompactSize(0, into: &data)
         } else {
-            serializeScriptCode(scriptCode, into: &data)
+            scriptCode.encode(into: &data)
         }
 
         // Serialize the nSequence
@@ -142,29 +156,5 @@ public extension BitcoinTransaction {
         } else {
             inputs[subindex].sequence.encode(into: &data)
         }
-    }
-
-    private func serializeScriptCode(_ script: BitcoinScript, into data: inout Data) {
-        var index = 0
-        var opcode = 0 as UInt8
-        var contents = Data()
-
-        var separators = 0
-        while script.getScriptOp(index: &index, opcode: &opcode, contents: &contents) {
-            if opcode == OpCode.OP_CODESEPARATOR {
-                separators += 1
-            }
-        }
-        writeCompactSize(script.data.count - separators, into: &data)
-
-        var chunkStart = 0
-        index = 0
-        while script.getScriptOp(index: &index, opcode: &opcode, contents: &contents) {
-            if opcode == OpCode.OP_CODESEPARATOR {
-                data.append(script.data[chunkStart ..< index])
-                chunkStart = index
-            }
-        }
-        data.append(script.data[chunkStart...])
     }
 }

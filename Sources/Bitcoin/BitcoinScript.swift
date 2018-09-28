@@ -207,9 +207,7 @@ public final class BitcoinScript: BinaryEncoding, CustomDebugStringConvertible {
 
     func isPushOnly(at index: inout Int) -> Bool {
         while index < bytes.endIndex {
-            var opcode = 0 as UInt8
-            var contents = Data()
-            if !getScriptOp(index: &index, opcode: &opcode, contents: &contents) {
+            guard let (opcode, _) = getScriptOp(index: &index) else {
                 return false
             }
             if opcode > OpCode.OP_16 {
@@ -271,71 +269,6 @@ public final class BitcoinScript: BinaryEncoding, CustomDebugStringConvertible {
             return OpCode.OP_0
         }
         return OpCode.OP_1 + UInt8(n - 1)
-    }
-
-    func getScriptOp(index: inout Int, opcode opcodeRet: inout UInt8, contents: inout Data) -> Bool {
-        let end = bytes.endIndex
-        opcodeRet = OpCode.OP_INVALIDOPCODE
-        contents.removeAll()
-
-        // Read instruction
-        if index >= end {
-            return false
-        }
-        let opcode = bytes[index]
-        index += 1
-
-        // Immediate operand
-        if opcode <= OpCode.OP_PUSHDATA4 {
-            var size = 0
-            if opcode < OpCode.OP_PUSHDATA1 {
-                size = Int(opcode)
-            } else if opcode == OpCode.OP_PUSHDATA1 {
-                if end - index < 1 {
-                    return false
-                }
-                size = index
-                index += 1
-            } else if opcode == OpCode.OP_PUSHDATA2 {
-                if end - index < 2 {
-                    return false
-                }
-                size = Int(readLE16(at: index))
-                index += 2
-            } else if opcode == OpCode.OP_PUSHDATA4 {
-                if end - index < 4 {
-                    return false
-                }
-                size = Int(readLE32(at: index))
-                index += 4
-            }
-            if end - index < size {
-                return false
-            }
-            contents.append(data[index ..< index + size])
-            index += size
-        }
-
-        opcodeRet = opcode
-        return true
-    }
-
-    /// Reads a little-endian `UInt16` from the script.
-    private func readLE16(at index: Int) -> UInt16 {
-        return bytes.withUnsafeBufferPointer { ptr in
-            (ptr.baseAddress! + index).withMemoryRebound(to: UInt16.self, capacity: 1) { intptr in
-                UInt16(littleEndian: intptr.pointee)
-            }
-        }
-    }
-
-    /// Reads a little-endian `UInt32` from the script.
-    private func readLE32(at index: Int) -> UInt32 {
-        return bytes.withUnsafeBufferPointer { ptr in
-            (ptr.baseAddress! + index).withMemoryRebound(to: UInt32.self, capacity: 1) { intptr in
-                UInt32(littleEndian: intptr.pointee)
-            }
-        }
     }
 
     /// Matches the script to a pay-to-public-key (P2PK) script.
@@ -401,13 +334,11 @@ public final class BitcoinScript: BinaryEncoding, CustomDebugStringConvertible {
         var keys = [PublicKey]()
 
         var it = bytes.startIndex
-        var opcode = 0 as UInt8
-        var contents = Data()
-        if !getScriptOp(index: &it, opcode: &opcode, contents: &contents) || !OpCode.isSmallInteger(opcode) {
+        guard let (opcode, _) = getScriptOp(index: &it), OpCode.isSmallInteger(opcode) else {
             return nil
         }
         required = BitcoinScript.decodeNumber(opcode: opcode)
-        while getScriptOp(index: &it, opcode: &opcode, contents: &contents), let key = PublicKey(data: contents) {
+        while case .some(_, let data?) = getScriptOp(index: &it), let key = PublicKey(data: data) {
             keys.append(key)
         }
         if !OpCode.isSmallInteger(opcode) {
