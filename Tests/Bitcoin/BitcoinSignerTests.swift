@@ -174,10 +174,7 @@ class BitcoinSignerTests: XCTestCase {
         let change: Int64 = totalAmount - amount - fee
 
         let lockingScriptTo = BitcoinScript.buildPayToPublicKeyHash(address: toAddress)
-        var lockingScriptChange = BitcoinScript.buildPayToPublicKeyHash(address: changeAddress)
-        if changeAddress.base58String.starts(with: "3") {
-            lockingScriptChange = BitcoinScript.buildPayToScriptHash(script: lockingScriptChange)
-        }
+        let lockingScriptChange = BitcoinScript.buildPayToPublicKeyHash(address: changeAddress)
 
         let toOutput = BitcoinTransactionOutput(value: amount, script: lockingScriptTo)
         let changeOutput = BitcoinTransactionOutput(value: change, script: lockingScriptChange)

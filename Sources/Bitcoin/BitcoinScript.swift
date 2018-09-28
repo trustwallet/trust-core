@@ -223,7 +223,7 @@ public final class BitcoinScript: BinaryEncoding, CustomDebugStringConvertible {
         var data = Data(capacity: 5 + pubKeyHash.count)
         data.append(contentsOf: [OpCode.OP_DUP, OpCode.OP_HASH160])
         data.append(UInt8(pubKeyHash.count))
-        data.append(pubKeyHash)
+        data.append([UInt8](pubKeyHash), count: pubKeyHash.count)
         data.append(contentsOf: [OpCode.OP_EQUALVERIFY, OpCode.OP_CHECKSIG])
         return BitcoinScript(data: data)
     }
@@ -238,7 +238,7 @@ public final class BitcoinScript: BinaryEncoding, CustomDebugStringConvertible {
         var data = Data()
         data.append(OpCode.OP_HASH160)
         data.append(UInt8(scriptHash.count))
-        data.append(scriptHash)
+        data.append([UInt8](scriptHash), count: scriptHash.count)
         data.append(OpCode.OP_EQUAL)
         return BitcoinScript(data: data)
     }
@@ -249,7 +249,7 @@ public final class BitcoinScript: BinaryEncoding, CustomDebugStringConvertible {
         var data = Data()
         data.append(OpCode.OP_0)
         data.append(UInt8(pubKeyHash.count))
-        data.append(pubKeyHash)
+        data.append([UInt8](pubKeyHash), count: pubKeyHash.count)
         return BitcoinScript(data: data)
     }
 
