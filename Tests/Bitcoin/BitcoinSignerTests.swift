@@ -25,7 +25,8 @@ class BitcoinSignerTests: XCTestCase {
         let toAddress = BitcoinAddress(string: "1Bp9U1ogV3A14FMvKbRJms7ctyso4Z4Tcx")!
         let changeAddress = BitcoinAddress(string: "1FQc5LdgGHMHEN9nwkjmz6tWkxhPpxBvBU")!
 
-        let unspentOutput = BitcoinTransactionOutput(value: 5151, script: BitcoinScript(data: Data(hexString: "76a914aff1e0789e5fe316b729577665aa0a04d5b0f8c788ac")!))
+        let address = BitcoinAddress(data: Data(hexString: "00aff1e0789e5fe316b729577665aa0a04d5b0f8c7")!)!
+        let unspentOutput = BitcoinTransactionOutput(payToPublicKeyHash: address, amount: 5151)
         let unspentOutpoint = BitcoinOutPoint(hash: Data(hexString: "e28c2b955293159898e34c6840d99bf4d390e2ee1c6f606939f18ee1e2000d05")!, index: 2)
         let utxo = BitcoinUnspentTransaction(output: unspentOutput, outpoint: unspentOutpoint)
         let utxoKey = PrivateKey(wif: "L1WFAgk5LxC5NLfuTeADvJ5nm3ooV3cKei5Yi9LJ8ENDfGMBZjdW")!
@@ -84,7 +85,8 @@ class BitcoinSignerTests: XCTestCase {
     func testSignP2WSH() throws {
         let script = BitcoinScript(data: Data(hexString: "2103596d3451025c19dbbdeb932d6bf8bfb4ad499b95b6f88db8899efac102e5fc71ac")!)
 
-        let unspentOutput0 = BitcoinTransactionOutput(value: 1000, script: BitcoinScript(data: Data(hexString: "0020ff25429251b5a84f452230a3c75fd886b7fc5a7865ce4a7bb7a9d7c5be6da3db")!))
+        let p2wsh = BitcoinScript.buildPayToWitnessScriptHash(Data(hexString: "ff25429251b5a84f452230a3c75fd886b7fc5a7865ce4a7bb7a9d7c5be6da3db")!)
+        let unspentOutput0 = BitcoinTransactionOutput(value: 1000, script: p2wsh)
         let unspentOutpoint0 = BitcoinOutPoint(hash: Data(hexString: "0001000000000000000000000000000000000000000000000000000000000000")!, index: 0)
         let utxo0 = BitcoinUnspentTransaction(output: unspentOutput0, outpoint: unspentOutpoint0)
         let utxoKey0 = PrivateKey(wif: "L5AQtV2HDm4xGsseLokK2VAT2EtYKcTm3c7HwqnJBFt9LdaQULsM")!
@@ -99,9 +101,6 @@ class BitcoinSignerTests: XCTestCase {
         XCTAssertEqual(unsignedData.hexString, "010000000100010000000000000000000000000000000000000000000000000000000000000000000000ffffffff01e8030000000000001976a9144c9c3dfac4207d5d8cb89df5722cb3d712385e3f88ac00000000")
 
         let provider = BitcoinDefaultPrivateKeyProvider(keys: [utxoKey0])
-        provider.keysByScriptHash = [
-            Data(hexString: "593128f9f90e38b706c18623151e37d2da05c229")!: utxoKey0,
-        ]
         provider.scriptsByScriptHash = [
             Data(hexString: "593128f9f90e38b706c18623151e37d2da05c229")!: script,
         ]
@@ -117,7 +116,7 @@ class BitcoinSignerTests: XCTestCase {
     }
 
     func testSignP2SH_P2WPKH() throws {
-        let redeemScript = BitcoinScript(data: Data(hexString: "001479091972186c449eb1ded22b78e40d009bdf0089")!)
+        let redeemScript = BitcoinScript.buildPayToWitnessPubkeyHash(Data(hexString: "79091972186c449eb1ded22b78e40d009bdf0089")!)
         let scripthash = Crypto.sha256ripemd160(redeemScript.data)
 
         let unspentOutput0 = BitcoinTransactionOutput(value: 1000_000_000, script: BitcoinScript(data: Data(hexString: "a9144733f37cf4db86fbc2efed2500b4f4e49f31202387")!))
@@ -136,9 +135,6 @@ class BitcoinSignerTests: XCTestCase {
         XCTAssertEqual(unsignedData.hexString, "0100000001db6b1b20aa0fd7b23880be2ecbd4a98130974cf4748fb66092ac4d3ceb1a54770100000000feffffff02b8b4eb0b000000001976a914a457b684d7f0d539a46a45bbc043f35b59d0d96388ac0008af2f000000001976a914fd270b1ee6abcaea97fea7ad0402e8bd8ad6d77c88ac92040000")
 
         let provider = BitcoinDefaultPrivateKeyProvider(keys: [utxoKey0])
-        provider.keysByScriptHash = [
-            scripthash: utxoKey0,
-        ]
         provider.scriptsByScriptHash = [
             scripthash: redeemScript,
         ]

@@ -36,16 +36,17 @@ public final class BitcoinTransactionSigner {
 
     private func sign(script: BitcoinScript, index: Int, utxo: BitcoinUnspentTransaction) throws {
         var script = script
-        var subScript: BitcoinScript?
+        var redeemScript: BitcoinScript?
+        var witnessStack = [Data]()
+
         var results = try signStep(script: script, index: index, utxo: utxo, version: .base)
         let txin = transaction.inputs[index]
-        var witnessStack = [Data]()
 
         if script.isPayToScriptHash {
             script = BitcoinScript(data: results.first!)
             results = try signStep(script: script, index: index, utxo: utxo, version: .base)
             results.append(script.data)
-            subScript = script
+            redeemScript = script
         }
 
         if script.matchPayToWitnessPublicKeyHash() != nil {
@@ -65,13 +66,15 @@ public final class BitcoinTransactionSigner {
 
             witnessStack = results
             results = []
-        } else if script.witnessProgram() != nil {
+        } else if script.isWitnessProgram {
+            // Unrecognized witness program.
             throw Error.invalidOutputScript
         }
 
-        if let subScript = subScript {
-            results.append(subScript.data)
+        if let redeemScript = redeemScript {
+            results.append(redeemScript.data)
         }
+
         signedInputs[index] = BitcoinTransactionInput(previousOutput: txin.previousOutput, script: BitcoinScript(data: pushAll(results)), sequence: txin.sequence)
         signedInputs[index].scriptWitness.stack = witnessStack
     }
@@ -92,7 +95,7 @@ public final class BitcoinTransactionSigner {
             return [redeemScript.data]
         } else if let keyhash = script.matchPayToWitnessPublicKeyHash() {
             return [keyhash]
-        } else if script.witnessProgram() != nil {
+        } else if script.isWitnessProgram {
             throw Error.invalidOutputScript
         } else if let pubKey = script.matchPayToPubkey() {
             guard let key = keyProvider.key(forPublicKey: pubKey) else {

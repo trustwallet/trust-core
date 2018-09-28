@@ -66,6 +66,8 @@
 		61D0BA2D2075EF53004F71E1 /* ABIEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D0BA2C2075EF53004F71E1 /* ABIEncoderTests.swift */; };
 		61DAB58A210AED1200BBB826 /* Blockchain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DAB589210AED1200BBB826 /* Blockchain.swift */; };
 		61F8A69E215C673E004B8CE5 /* BitcoinScript+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F8A69D215C673E004B8CE5 /* BitcoinScript+Parsing.swift */; };
+		61F8A6A2215E813B004B8CE5 /* OpCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F8A6A1215E813B004B8CE5 /* OpCode.swift */; };
+		61F8A6A4215E8204004B8CE5 /* BitcoinScript+Building.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F8A6A3215E8204004B8CE5 /* BitcoinScript+Building.swift */; };
 		77044FAD212F8E7400CC20D1 /* WanchainTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77044FAC212F8E7400CC20D1 /* WanchainTransaction.swift */; };
 		77044FAF212F9F8E00CC20D1 /* WanchainSigner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77044FAE212F9F8E00CC20D1 /* WanchainSigner.swift */; };
 		77044FB1212F9FB200CC20D1 /* SignatureSigner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77044FB0212F9FB200CC20D1 /* SignatureSigner.swift */; };
@@ -172,6 +174,8 @@
 		61D0BA2C2075EF53004F71E1 /* ABIEncoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABIEncoderTests.swift; sourceTree = "<group>"; };
 		61DAB589210AED1200BBB826 /* Blockchain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blockchain.swift; sourceTree = "<group>"; };
 		61F8A69D215C673E004B8CE5 /* BitcoinScript+Parsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BitcoinScript+Parsing.swift"; sourceTree = "<group>"; };
+		61F8A6A1215E813B004B8CE5 /* OpCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpCode.swift; sourceTree = "<group>"; };
+		61F8A6A3215E8204004B8CE5 /* BitcoinScript+Building.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BitcoinScript+Building.swift"; sourceTree = "<group>"; };
 		682B6374F9856982618A8501 /* Pods_TrustCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TrustCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77044FAC212F8E7400CC20D1 /* WanchainTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WanchainTransaction.swift; sourceTree = "<group>"; };
 		77044FAE212F9F8E00CC20D1 /* WanchainSigner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WanchainSigner.swift; sourceTree = "<group>"; };
@@ -336,12 +340,14 @@
 				615AE1D220F1D1DF00A5A0ED /* BitcoinAddress.swift */,
 				617F141821477AEC00619F1A /* BitcoinPrivateKeyProvider.swift */,
 				613EA91A21289940008C4916 /* BitcoinScript.swift */,
+				61F8A6A3215E8204004B8CE5 /* BitcoinScript+Building.swift */,
 				61F8A69D215C673E004B8CE5 /* BitcoinScript+Parsing.swift */,
 				BBD1CF7B2150F5CE00B99329 /* BitcoinSegwitAddress.swift */,
 				6185E71421095789000B4B79 /* BitcoinTransaction.swift */,
 				612B85D3212BC35100F5BCF5 /* BitcoinTransaction+Signing.swift */,
 				613EA918212896ED008C4916 /* BitcoinTransactionSigner.swift */,
 				61C87A7B2131FF0E00B01418 /* BitcoinUnspentTransaction.swift */,
+				61F8A6A1215E813B004B8CE5 /* OpCode.swift */,
 				61A4B14D2140E75900D0136A /* PrivateKey+Bitcoin.swift */,
 				615AE1DB20F1D6DE00A5A0ED /* PublicKey+Bitcoin.swift */,
 				612B85D5212BC3A500F5BCF5 /* SignatureHashType.swift */,
@@ -701,6 +707,7 @@
 				615AE1D320F1D1DF00A5A0ED /* BitcoinAddress.swift in Sources */,
 				BB636D3C2121528D0071AE07 /* EIP712TypedData.swift in Sources */,
 				610C52BD20F44CAC004A602C /* Data+Clear.swift in Sources */,
+				61F8A6A2215E813B004B8CE5 /* OpCode.swift in Sources */,
 				613EA91B21289940008C4916 /* BitcoinScript.swift in Sources */,
 				61A728D320F46ECF0005045D /* String+Clear.swift in Sources */,
 				61DAB58A210AED1200BBB826 /* Blockchain.swift in Sources */,
@@ -745,6 +752,7 @@
 				61A728E820F488080005045D /* DerivationPath.swift in Sources */,
 				615AE1E020F1D6F400A5A0ED /* PublicKey+Ethereum.swift in Sources */,
 				BB3864A72090088D00CBF773 /* ENSEncoder.swift in Sources */,
+				61F8A6A4215E8204004B8CE5 /* BitcoinScript+Building.swift in Sources */,
 				614A9F0320F2DBF800326188 /* Ethereum.swift in Sources */,
 				612B85D0212A422500F5BCF5 /* BigIntEncoding.swift in Sources */,
 			);

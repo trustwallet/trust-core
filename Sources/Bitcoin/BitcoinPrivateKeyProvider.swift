@@ -10,9 +10,6 @@ public protocol BitcoinPrivateKeyProvider {
     /// Should return the private key for a public key hash
     func key(forPublicKeyHash: Data) -> PrivateKey?
 
-    /// Should return the private key for a script hash
-    func key(forScriptHash: Data) -> PrivateKey?
-
     /// Should return the full redeem script for a script hash
     func script(forScriptHash: Data) -> BitcoinScript?
 }
@@ -24,8 +21,10 @@ extension BitcoinPrivateKeyProvider {
 }
 
 public final class BitcoinDefaultPrivateKeyProvider: BitcoinPrivateKeyProvider {
+    /// Available private keys.
     public var keys: [PrivateKey]
-    public var keysByScriptHash = [Data: PrivateKey]()
+
+    /// Redeem scripts for P2SH scripts
     public var scriptsByScriptHash = [Data: BitcoinScript]()
 
     public init(keys: [PrivateKey]) {
@@ -37,10 +36,6 @@ public final class BitcoinDefaultPrivateKeyProvider: BitcoinPrivateKeyProvider {
             let publicKey = key.publicKey(compressed: true)
             return publicKey.bitcoinKeyHash == hash
         }
-    }
-
-    public func key(forScriptHash hash: Data) -> PrivateKey? {
-        return keysByScriptHash[hash]
     }
 
     public func script(forScriptHash hash: Data) -> BitcoinScript? {

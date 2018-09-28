@@ -111,6 +111,7 @@ public struct BitcoinOutPoint: BinaryEncoding, Equatable {
     public var index: UInt32
 
     public init(hash: Data, index: UInt32) {
+        precondition(hash.count == 32)
         self.hash = hash
         self.index = index
     }
@@ -144,6 +145,12 @@ public final class BitcoinTransactionOutput: BinaryEncoding {
     public init() {
         value = -1
         script = BitcoinScript(bytes: [])
+    }
+
+    /// Builds an output with a P2PKH script.
+    public init(payToPublicKeyHash address: BitcoinAddress, amount: Int64) {
+        value = amount
+        script = BitcoinScript.buildPayToPublicKeyHash(address: address)
     }
 
     public var isNull: Bool {
