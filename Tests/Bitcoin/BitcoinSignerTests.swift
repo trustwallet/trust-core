@@ -149,6 +149,90 @@ class BitcoinSignerTests: XCTestCase {
         XCTAssertEqual(serialized.hexString, "01000000000101db6b1b20aa0fd7b23880be2ecbd4a98130974cf4748fb66092ac4d3ceb1a5477010000001716001479091972186c449eb1ded22b78e40d009bdf0089feffffff02b8b4eb0b000000001976a914a457b684d7f0d539a46a45bbc043f35b59d0d96388ac0008af2f000000001976a914fd270b1ee6abcaea97fea7ad0402e8bd8ad6d77c88ac02473044022047ac8e878352d3ebbde1c94ce3a10d057c24175747116f8288e5d794d12d482f0220217f36a485cae903c713331d877c1f64677e3622ad4010726870540656fe9dcb012103ad1d8e89212f0b92c74d23bb710c00662ad1470198ac48c43f7d6f93a2a2687392040000")
     }
 
+    func testSignP2SH_P2WSH() throws {
+        let redeemScript = BitcoinScript.buildPayToWitnessScriptHash(Data(hexString: "a16b5755f7f6f96dbd65f5f0d6ab9418b89af4b1f14a1bb8a09062c35f0dcb54")!)
+        let redeemScriptHash = Crypto.sha256ripemd160(redeemScript.data)
+        let witnessScript = BitcoinScript(data: Data(hexString: """
+            56
+              210307b8ae49ac90a048e9b53357a2354b3334e9c8bee813ecb98e99a7e07e8c3ba3
+              2103b28f0c28bfab54554ae8c658ac5c3e0ce6e79ad336331f78c428dd43eea8449b
+              21034b8113d703413d57761b8b9781957b8c0ac1dfe69f492580ca4195f50376ba4a
+              21033400f6afecb833092a9a21cfdf1ed1376e58c5d1f47de74683123987e967a8f4
+              2103a6d48b1131e94ba04d9737d61acdaa1322008af9602b3b14862c07a1789aac16
+              2102d8b661b0b3302ee2f162b09e07a55ad5dfbe673a9f01d9f0c19617681024306b
+            56ae
+            """.components(separatedBy: .whitespacesAndNewlines).joined())!)
+        let witnessScriptHash = Crypto.sha256ripemd160(witnessScript.data)
+
+        let unspentOutput0 = BitcoinTransactionOutput(value: 987654321, script: BitcoinScript(data: Data(hexString: "a9149993a429037b5d912407a71c252019287b8d27a587")!))
+        let unspentOutpoint0 = BitcoinOutPoint(hash: Data(hexString: "36641869ca081e70f394c6948e8af409e18b619df2ed74aa106c1ca29787b96e")!, index: 1)
+        let utxo0 = BitcoinUnspentTransaction(output: unspentOutput0, outpoint: unspentOutpoint0)
+        let input0 = BitcoinTransactionInput(previousOutput: unspentOutpoint0, script: BitcoinScript(), sequence: 0xffffffff)
+
+        let toOutput = BitcoinTransactionOutput(value: 0x0000000035a4e900, script: BitcoinScript(data: Data(hexString: "76a914389ffce9cd9ae88dcc0631e88a821ffdbe9bfe2688ac")!))
+        let changeOutput = BitcoinTransactionOutput(value: 0x00000000052f83c0, script: BitcoinScript(data: Data(hexString: "76a9147480a33f950689af511e6e84c138dbbd3c3ee41588ac")!))
+
+        let unsignedTx = BitcoinTransaction(version: 1, inputs: [input0], outputs: [toOutput, changeOutput], lockTime: 0)
+
+        var unsignedData = Data()
+        unsignedTx.encode(into: &unsignedData)
+        XCTAssertEqual(unsignedData.hexString, """
+            01000000
+            01
+              36641869ca081e70f394c6948e8af409e18b619df2ed74aa106c1ca29787b96e 01000000 00 ffffffff
+            02
+              00e9a43500000000 1976a914389ffce9cd9ae88dcc0631e88a821ffdbe9bfe2688ac
+              c0832f0500000000 1976a9147480a33f950689af511e6e84c138dbbd3c3ee41588ac
+            00000000
+            """.components(separatedBy: .whitespacesAndNewlines).joined())
+
+        let provider = BitcoinDefaultPrivateKeyProvider(keys: [
+            PrivateKey(data: Data(hexString: "730fff80e1413068a05b57d6a58261f07551163369787f349438ea38ca80fac6")!)!,
+            PrivateKey(data: Data(hexString: "11fa3d25a17cbc22b29c44a484ba552b5a53149d106d3d853e22fdd05a2d8bb3")!)!,
+            PrivateKey(data: Data(hexString: "77bf4141a87d55bdd7f3cd0bdccf6e9e642935fec45f2f30047be7b799120661")!)!,
+            PrivateKey(data: Data(hexString: "14af36970f5025ea3e8b5542c0f8ebe7763e674838d08808896b63c3351ffe49")!)!,
+            PrivateKey(data: Data(hexString: "fe9a95c19eef81dde2b95c1284ef39be497d128e2aa46916fb02d552485e0323")!)!,
+            PrivateKey(data: Data(hexString: "428a7aee9f0c2af0cd19af3cf1c78149951ea528726989b2e83e4778d2c3f890")!)!,
+        ])
+        provider.scriptsByScriptHash = [
+            redeemScriptHash: redeemScript,
+            witnessScriptHash: witnessScript,
+        ]
+
+        let signer = BitcoinTransactionSigner(keyProvider: provider, transaction: unsignedTx, hashType: .all)
+        let signedTx = try signer.sign([utxo0])
+
+        var serialized = Data()
+        signedTx.encode(into: &serialized)
+
+        let expected = """
+            010000000001
+            01
+              36641869ca081e70f394c6948e8af409e18b619df2ed74aa106c1ca29787b96e 01000000 23220020a16b5755f7f6f96dbd65f5f0d6ab9418b89af4b1f14a1bb8a09062c35f0dcb54 ffffffff
+            02
+              00e9a43500000000 1976a914389ffce9cd9ae88dcc0631e88a821ffdbe9bfe2688ac
+              c0832f0500000000 1976a9147480a33f950689af511e6e84c138dbbd3c3ee41588ac
+            08
+              00
+              47304402206ac44d672dac41f9b00e28f4df20c52eeb087207e8d758d76d92c6fab3b73e2b0220367750dbbe19290069cba53d096f44530e4f98acaa594810388cf7409a1870ce01
+              483045022100e9f86758f957f93c091b0cda0e34ad834a95af95e6ad5a0353c70a4e366095c602203a271f79ca9ce19d24d03f69dc182f5cbc975351377fd06fd338c8d0357c9cb201
+              483045022100f549882966c090b7f03797b0554bcc909e96a72721bb46a41a65927920e0705502203db0ef7478ed39fdce848bc7f780560512e09d70ac18ae63b310882813cb4f1f01
+              47304402207cd6069c036ec1381aea80626d46654d2d8d79e741843419f40db52b8e3f8f2602204e8e2e3b0a813a88129cac8c0c04b243a93059e0f112ace79af07f59ac890b7c01
+              4730440220073b838d03f0327668718d5d9199f6f0dbe96859a050040e6aa0083975a1b00302201ebe35c4bee7d4faf80131690b542e6b6403123cf5786422a1d656f8f47c615b01
+              473044022067cf6aa9f9882343be509eac35ab0b78b27416a2be95ff41f23f3d7384c2be6502201a586bfba827e76e2d941b4118ed147e338fa407a26e2476c9daf4f875b53fce01
+              cf56
+                210307b8ae49ac90a048e9b53357a2354b3334e9c8bee813ecb98e99a7e07e8c3ba3
+                2103b28f0c28bfab54554ae8c658ac5c3e0ce6e79ad336331f78c428dd43eea8449b
+                21034b8113d703413d57761b8b9781957b8c0ac1dfe69f492580ca4195f50376ba4a
+                21033400f6afecb833092a9a21cfdf1ed1376e58c5d1f47de74683123987e967a8f4
+                2103a6d48b1131e94ba04d9737d61acdaa1322008af9602b3b14862c07a1789aac16
+                2102d8b661b0b3302ee2f162b09e07a55ad5dfbe673a9f01d9f0c19617681024306b
+              56ae
+            00000000
+            """.components(separatedBy: .whitespacesAndNewlines).joined()
+        XCTAssertEqual(serialized.hexString, expected)
+    }
+
     func testRedeemScriptWrong() {
         let data = Data(hexString: "042de45bea3dada528eee8a1e04142d3e04fad66119d971b6019b0e3c02266b79142158aa83469db1332a880a2d5f8ce0b3bba542b3e32df0740ccbfb01c275e42")!
         let redeemHash = Crypto.sha256ripemd160(data)

@@ -123,12 +123,12 @@ public final class BitcoinScript: BinaryEncoding, CustomDebugStringConvertible {
         return nil
     }
 
-    /// Matches the script to a pay-to-witness-script-hash (P2WSH).
+    /// Matches the script to a multisig script.
     ///
-    /// - Returns: the script hash, a SHA256 of the witness script.
-    public func matchMultisig(required: inout Int) -> [PublicKey]? {
+    /// - Returns: the array of public keys and the number of required signatures.
+    public func matchMultisig() -> ([PublicKey], required: Int)? {
         if bytes.count < 1 || bytes.last != OpCode.OP_CHECKMULTISIG {
-            return []
+            return nil
         }
 
         var keys = [PublicKey]()
@@ -137,7 +137,7 @@ public final class BitcoinScript: BinaryEncoding, CustomDebugStringConvertible {
         guard let (opcode, _) = getScriptOp(index: &it), OpCode.isSmallInteger(opcode) else {
             return nil
         }
-        required = BitcoinScript.decodeNumber(opcode: opcode)
+        let required = BitcoinScript.decodeNumber(opcode: opcode)
         while case .some(_, let data?) = getScriptOp(index: &it), let key = PublicKey(data: data) {
             keys.append(key)
         }
@@ -153,7 +153,7 @@ public final class BitcoinScript: BinaryEncoding, CustomDebugStringConvertible {
             return nil
         }
 
-        return keys
+        return (keys, required)
     }
 
     // MARK: Binary Coding

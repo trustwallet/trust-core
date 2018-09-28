@@ -51,9 +51,10 @@ public extension BitcoinScript {
         if bytes.endIndex - index < size {
             return nil
         }
+        let operand = data[index ..< index + size]
         index += size
 
-        return (opcode: opcode, operand: data[index ..< index + size])
+        return (opcode: opcode, operand: operand)
     }
 
     /// Reads a little-endian `UInt16` from the script.

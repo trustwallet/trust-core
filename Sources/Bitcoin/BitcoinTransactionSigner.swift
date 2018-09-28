@@ -97,24 +97,41 @@ public final class BitcoinTransactionSigner {
             return [keyhash]
         } else if script.isWitnessProgram {
             throw Error.invalidOutputScript
+        } else if let (keys, required) = script.matchMultisig() {
+            var results = [Data()] // workaround CHECKMULTISIG bug
+            for pubKey in keys {
+                if results.count >= required + 1 {
+                    break
+                }
+                guard let key = keyProvider.key(forPublicKey: pubKey) else {
+                    throw Error.missingKey
+                }
+                let signature = createSignature(transaction: transactionToSign, script: script, key: key, index: index, amount: utxo.output.value, version: version)
+                results.append(signature)
+            }
+            results.append(contentsOf: Array(repeating: Data(), count: required + 1 - results.count))
+            return results
         } else if let pubKey = script.matchPayToPubkey() {
             guard let key = keyProvider.key(forPublicKey: pubKey) else {
                 throw Error.missingKey
             }
-            let sighash = transactionToSign.getSignatureHash(scriptCode: script, index: index, hashType: hashType, amount: utxo.output.value, version: version)
-            let signature = key.signAsDER(hash: sighash)
-            return [signature + Data(bytes: [UInt8(hashType.rawValue)])]
+            let signature = createSignature(transaction: transactionToSign, script: script, key: key, index: index, amount: utxo.output.value, version: version)
+            return [signature]
         } else if let keyHash = script.matchPayToPubkeyHash() {
             guard let key = keyProvider.key(forPublicKeyHash: keyHash) else {
                 throw Error.missingKey
             }
             let pubkey = key.publicKey(compressed: true)
-            let sighash = transactionToSign.getSignatureHash(scriptCode: script, index: index, hashType: hashType, amount: utxo.output.value, version: version)
-            let signature = key.signAsDER(hash: sighash)
-            return [signature + Data(bytes: [UInt8(hashType.rawValue)]), pubkey.data]
+            let signature = createSignature(transaction: transactionToSign, script: script, key: key, index: index, amount: utxo.output.value, version: version)
+            return [signature, pubkey.data]
         } else {
             throw Error.invalidOutputScript
         }
+    }
+
+    private func createSignature(transaction: BitcoinTransaction, script: BitcoinScript, key: PrivateKey, index: Int, amount: Int64, version: SignatureVersion) -> Data {
+        let sighash = transaction.getSignatureHash(scriptCode: script, index: index, hashType: hashType, amount: amount, version: version)
+        return key.signAsDER(hash: sighash) + Data(bytes: [UInt8(hashType.rawValue)])
     }
 
     private func pushAll(_ results: [Data]) -> Data {
