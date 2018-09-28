@@ -45,6 +45,14 @@ class BitcoinAddressTests: XCTestCase {
         XCTAssertEqual(address.description, "1PeUvjuxyf31aJKX6kCXuaqxhmG78ZUdL1")
     }
 
+    func testFromSewgitPrivateKey() {
+        let privateKey = PrivateKey(wif: "L5XECLxq1MDvBeYXjZwz5tTYsFZRWmaYziY3Wvc2bqSRAuRcBqhg")!
+        let publicKey = privateKey.publicKey(compressed: true)
+        let address = Bitcoin().address(for: publicKey)
+
+        XCTAssertEqual(address.description, "3Hv6oV8BYCoocW4eqZaEXsaR5tHhCxiMSk")
+    }
+
     func testIsValid() {
         XCTAssertFalse(BitcoinAddress.isValid(string: "abc"))
         XCTAssertFalse(BitcoinAddress.isValid(string: "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed"))
@@ -106,5 +114,17 @@ class BitcoinAddressTests: XCTestCase {
         for invalid in addresses {
             XCTAssertFalse(BitcoinSegwitAddress.isValid(string: invalid))
         }
+    }
+
+    func testLegacyAddresses() {
+        let privateKey = PrivateKey(wif: "KzdwksguQ3NY8u1JNkZdgRroeLa2UJP2fz47KGgL2W91CQkC3Eww")!
+        let publicKey = privateKey.publicKey(compressed: false)
+        let compressedPublicKey = privateKey.publicKey(compressed: true)
+
+        XCTAssertEqual(publicKey.legacyBitcoinAddress(prefix: 0x00).base58String, "1KuAkM2x9HSot19FhUBMfPXxZjPF6rWvJ8")
+        XCTAssertEqual(publicKey.legacyBitcoinAddress(prefix: 0x05).base58String, "3LbBftXPhBmByAqgpZqx61ttiFfxjde2z7")
+
+        XCTAssertEqual(compressedPublicKey.legacyBitcoinAddress(prefix: 0x00).base58String, "17XqPKKXTYGHA3k38VRrL28KHicXsDBjTb")
+        XCTAssertEqual(compressedPublicKey.legacyBitcoinAddress(prefix: 0x05).base58String, "38DrJroy1SafFDSUFb6SkeVFSEuFUjwrUR")
     }
 }

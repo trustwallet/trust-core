@@ -8,7 +8,6 @@ import XCTest
 import TrustCore
 
 class PurposeTests: XCTestCase {
-
     func testPurpose() {
         XCTAssertEqual(.bip44, Tron().coinPurpose)
 

@@ -8,6 +8,11 @@ import BigInt
 import Foundation
 import TrezorCrypto
 
+public enum SignatureVersion {
+    case base
+    case witnessV0
+}
+
 public extension BitcoinTransaction {
     func getPrevoutHash() -> Data {
         var data = Data()
@@ -33,12 +38,12 @@ public extension BitcoinTransaction {
         return Crypto.sha256sha256(data)
     }
 
-    func getSignatureHash(scriptCode: BitcoinScript, index: Int, hashType: SignatureHashType, amount: Int64) -> Data {
+    func getPreImage(scriptCode: BitcoinScript, index: Int, hashType: SignatureHashType, amount: Int64) -> Data {
         assert(index < inputs.count)
 
-        var hashPrevouts = Data()
-        var hashSequence = Data()
-        var hashOutputs = Data()
+        var hashPrevouts = Data(repeating: 0, count: 32)
+        var hashSequence = Data(repeating: 0, count: 32)
+        var hashOutputs = Data(repeating: 0, count: 32)
 
         if !hashType.contains(.anyoneCanPay) {
             hashPrevouts = getPrevoutHash()
@@ -81,6 +86,75 @@ public extension BitcoinTransaction {
         // Sighash type
         hashType.rawValue.encode(into: &data)
 
+        return data
+    }
+
+    func getSignatureHash(scriptCode: BitcoinScript, index: Int, hashType: SignatureHashType, amount: Int64, version: SignatureVersion) -> Data {
+        switch version {
+        case .base:
+            return getSignatureHashBase(scriptCode: scriptCode, index: index, hashType: hashType)
+        case .witnessV0:
+            return getSignatureHashWitnessV0(scriptCode: scriptCode, index: index, hashType: hashType, amount: amount)
+        }
+    }
+
+    /// Generates the signature hash for Witness version 0 scripts.
+    func getSignatureHashWitnessV0(scriptCode: BitcoinScript, index: Int, hashType: SignatureHashType, amount: Int64) -> Data {
+        let preimage = getPreImage(scriptCode: scriptCode, index: index, hashType: hashType, amount: amount)
+        return Crypto.sha256sha256(preimage)
+    }
+
+    /// Generates the signature hash for for scripts other than witness scripts.
+    func getSignatureHashBase(scriptCode: BitcoinScript, index: Int, hashType: SignatureHashType) -> Data {
+        assert(index < inputs.count)
+
+        var data = Data()
+
+        version.encode(into: &data)
+
+        let serializedInputCount = hashType.contains(.anyoneCanPay) ? 1 : inputs.count
+        writeCompactSize(serializedInputCount, into: &data)
+        for subindex in 0 ..< serializedInputCount {
+            serializeInput(subindex, scriptCode: scriptCode, index: index, hashType: hashType, into: &data)
+        }
+
+        let serializedOutputCount = hashType.contains(.none) ? 0 : (hashType.contains(.single) ? index+1 : outputs.count)
+        writeCompactSize(serializedOutputCount, into: &data)
+        for subindex in 0 ..< serializedOutputCount {
+            if hashType.contains(.single) && subindex != index {
+                BitcoinTransactionOutput(value: -1, script: BitcoinScript(bytes: [])).encode(into: &data)
+            } else {
+                outputs[subindex].encode(into: &data)
+            }
+        }
+
+        lockTime.encode(into: &data)
+        hashType.rawValue.encode(into: &data)
+
         return Crypto.sha256sha256(data)
+    }
+
+    private func serializeInput(_ subindex: Int, scriptCode: BitcoinScript, index: Int, hashType: SignatureHashType, into data: inout Data) {
+        // In case of SIGHASH_ANYONECANPAY, only the input being signed is serialized
+        var subindex = subindex
+        if hashType.contains(.anyoneCanPay) {
+            subindex = index
+        }
+
+        inputs[subindex].previousOutput.encode(into: &data)
+
+        // Serialize the script
+        if subindex != index {
+            writeCompactSize(0, into: &data)
+        } else {
+            scriptCode.encode(into: &data)
+        }
+
+        // Serialize the nSequence
+        if subindex != index && (hashType.contains(.single) || hashType.contains(.none)) {
+            0.encode(into: &data)
+        } else {
+            inputs[subindex].sequence.encode(into: &data)
+        }
     }
 }

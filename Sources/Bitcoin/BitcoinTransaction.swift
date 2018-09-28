@@ -55,7 +55,7 @@ public struct BitcoinTransaction: BinaryEncoding {
 
         if encodeWitness {
             for input in inputs {
-                input.scriptWitness.stack.encode(into: &data)
+                input.scriptWitness.encode(into: &data)
             }
         }
 
@@ -111,6 +111,7 @@ public struct BitcoinOutPoint: BinaryEncoding, Equatable {
     public var index: UInt32
 
     public init(hash: Data, index: UInt32) {
+        precondition(hash.count == 32)
         self.hash = hash
         self.index = index
     }
@@ -146,6 +147,12 @@ public final class BitcoinTransactionOutput: BinaryEncoding {
         script = BitcoinScript(bytes: [])
     }
 
+    /// Builds an output with a P2PKH script.
+    public init(payToPublicKeyHash address: BitcoinAddress, amount: Int64) {
+        value = amount
+        script = BitcoinScript.buildPayToPublicKeyHash(address: address)
+    }
+
     public var isNull: Bool {
         return value == -1
     }
@@ -161,7 +168,7 @@ public final class BitcoinTransactionOutput: BinaryEncoding {
     }
 }
 
-public struct BitcoinScriptWitness: CustomStringConvertible {
+public struct BitcoinScriptWitness: CustomStringConvertible, BinaryEncoding {
     public var stack = [Data]()
 
     public init() {}
@@ -171,6 +178,15 @@ public struct BitcoinScriptWitness: CustomStringConvertible {
     }
 
     public var description: String {
-        return "ScriptWitness(" + stack.map({ $0.hexString }).joined(separator: ", ") + ")"
+
+        return "ScriptWitness(" + stack.map({ var data = Data(); $0.encode(into: &data); return data.hexString }).joined(separator: ", ") + ")"
+    }
+
+    public func encode(into data: inout Data) {
+        writeCompactSize(stack.count, into: &data)
+        for item in stack {
+            writeCompactSize(item.count, into: &data)
+            item.encode(into: &data)
+        }
     }
 }
