@@ -16,6 +16,8 @@
 /// Extracts the compressed public key from a private key.
 + (nonnull NSData *)getCompressedPublicKeyFrom:(nonnull NSData *)privateKey NS_SWIFT_NAME(getCompressedPublicKey(from:));
 
++ (nonnull NSData *)getED25519PublicKey:(nonnull NSData *)privateKey NS_SWIFT_NAME(getED25519PublicKey(from:));
+
 /// Signs a hash with a private key.
 ///
 /// @param hash hash to sign

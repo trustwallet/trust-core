@@ -61,6 +61,11 @@ class CryptoTests: XCTestCase {
         XCTAssertEqual(Crypto.getCompressedPublicKey(from: privateKey).hexString, "0332d87c5cd4b31d81c5b010af42a2e413af253dc3a91bd3d53c6b2c45291c3de7")
     }
 
+    func testGetED25519PublicKey() {
+        let privateKey = Data(hexString: "0xca2327b0c60dc5573825fc16ac3accdb3009d1eda6b46f78212cfad0726483dbe77ba23bc030cbca2fa5c3cee25ea4ae851e947a1d4d0e54fe9ccced9f339b19")!
+        XCTAssertEqual(Crypto.getED25519PublicKey(from: privateKey).hexString, "e77ba23bc030cbca2fa5c3cee25ea4ae851e947a1d4d0e54fe9ccced9f339b19")
+    }
+
     func testDeriveSeed() {
         let mnemonic = "often tobacco bread scare imitate song kind common bar forest yard wisdom"
         let passphrase = "testtest123"

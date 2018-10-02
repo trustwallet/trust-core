@@ -23,6 +23,12 @@
     return publicKey;
 }
 
++ (nonnull NSData *)getED25519PublicKey:(nonnull NSData *)privateKey {
+    NSMutableData *publicKey = [[NSMutableData alloc] initWithLength:32];
+    ed25519_publickey(privateKey.bytes, publicKey.mutableBytes);
+    return publicKey;
+}
+
 + (nonnull NSData *)signHash:(nonnull NSData *)hash privateKey:(nonnull NSData *)privateKey {
     NSMutableData *signature = [[NSMutableData alloc] initWithLength:65];
     uint8_t by = 0;
