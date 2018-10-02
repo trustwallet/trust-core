@@ -9,11 +9,11 @@ import SwiftProtobuf
 
 struct TransferContract: TronTransactionContract {
     
-    private let ownerAddress: Data
-    private let toAddress: Data
+    private let ownerAddress: Address
+    private let toAddress: Address
     private let amount: Int64
     
-    init(ownerAddress: Data, toAddress: Data, amount: Int64) {
+    init(ownerAddress: Address, toAddress: Address, amount: Int64) {
         self.ownerAddress = ownerAddress
         self.toAddress = toAddress
         self.amount = amount
@@ -23,8 +23,8 @@ struct TransferContract: TronTransactionContract {
         var transferContract = Contract()
         var transfer = Protocol_TransferContract()
         
-        transfer.ownerAddress = ownerAddress
-        transfer.toAddress = toAddress
+        transfer.ownerAddress = ownerAddress.data
+        transfer.toAddress = toAddress.data
         transfer.amount = amount
         
         let parameter = try Google_Protobuf_Any.init(message: transferContract)

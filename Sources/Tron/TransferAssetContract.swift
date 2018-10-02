@@ -7,14 +7,18 @@
 import UIKit
 import SwiftProtobuf
 
+enum TransferAssetContractError: LocalizedError {
+    case assetNameData
+}
+
 struct TransferAssetContract: TronTransactionContract {
     
-    private let assetName: Data
-    private let ownerAddress: Data
-    private let toAddress: Data
+    private let assetName: String
+    private let ownerAddress: Address
+    private let toAddress: Address
     private let amount: Int64
     
-    init(assetName: Data, ownerAddress: Data, toAddress: Data, amount: Int64) {
+    init(assetName: String, ownerAddress: Address, toAddress: Address, amount: Int64) {
         self.assetName = assetName
         self.ownerAddress = ownerAddress
         self.toAddress = toAddress
@@ -25,9 +29,13 @@ struct TransferAssetContract: TronTransactionContract {
         var transferContract = Contract()
         var transfer = Protocol_TransferAssetContract()
         
-        transfer.assetName = assetName
-        transfer.ownerAddress = ownerAddress
-        transfer.toAddress = toAddress
+        guard let assetNameData = assetName.data(using: .utf8) else {
+            throw TransferAssetContractError.assetNameData
+        }
+        
+        transfer.assetName = assetNameData
+        transfer.ownerAddress = ownerAddress.data
+        transfer.toAddress = toAddress.data
         transfer.amount = amount
         
         let parameter = try Google_Protobuf_Any.init(message: transferContract)
@@ -37,3 +45,5 @@ struct TransferAssetContract: TronTransactionContract {
         return transferContract
     }
 }
+
+
