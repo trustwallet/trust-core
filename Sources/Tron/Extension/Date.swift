@@ -7,9 +7,8 @@
 import UIKit
 
 extension Date {
-    var currentTimeMilliseconds: Int64 {
-        let now = timeIntervalSince1970
-        return Int64(now * 1000)
+    var milliseconds: Int64 {
+        return Int64(timeIntervalSince1970 * 1000)
     }
 }
 

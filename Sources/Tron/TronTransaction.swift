@@ -38,7 +38,7 @@ struct TronTransaction {
         
         let rawData = TronTransactionRawDataBuilder()
             .contract(contract)
-            .timestamp(Date().currentTimeMilliseconds)
+            .timestamp(Date().milliseconds)
             .expiration(blockHeader.rawData.timestamp + 10 * 60 * 60 * 1000)
             .blockBytes(refBlockNum)
             .blockHash(blockHash)

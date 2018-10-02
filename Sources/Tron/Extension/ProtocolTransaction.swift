@@ -7,12 +7,12 @@
 import UIKit
 
 extension Protocol_Transaction {
-    private func hash() -> Data {
+    private var keccak256: Data {
         return Crypto.sha256(rawData.data)
     }
     
     mutating func sign(privateKey: Data) {
-        let sign = Crypto.sign(hash: hash(), privateKey: privateKey)
+        let sign = Crypto.sign(hash: keccak256, privateKey: privateKey)
         signature.append(sign)
     }
 }
