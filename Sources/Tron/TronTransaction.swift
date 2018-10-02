@@ -7,7 +7,7 @@
 import UIKit
 import Foundation
 
-enum TronTransactionError: Error {
+enum TronTransactionError: LocalizedError {
     case blockHeaderHeight
     case blockHeaderRawData
 }
