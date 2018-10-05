@@ -33,5 +33,7 @@ public func blockchain(coin: SLIP.CoinType) -> Blockchain {
         return Wanchain()
     case .dash:
         return Dash()
+    case .icon:
+        return Icon()
     }
 }
