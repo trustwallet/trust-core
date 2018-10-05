@@ -91,6 +91,14 @@ class CryptoTests: XCTestCase {
         XCTAssertFalse(Crypto.isValid(mnemonic: mnemonic))
     }
 
+    func testSha3_256() {
+        let fill1Data = Crypto.sha3_256(Data(hexString: "0x616263")!)
+        XCTAssertEqual("3a985da74fe225b2045c172d6bd390bd855f086e3e9d525b46bfe24511431532", fill1Data.hexString)
+        
+        let fill2Data = Crypto.sha3_256(Data(hexString: "0x31")!)
+        XCTAssertEqual("67b176705b46206614219f47a05aee7ae6a3edbe850bbbe214c536b989aea4d2", fill2Data.hexString)
+    }
+    
     func testBlake2b256() {
         let emptyData = Crypto.blake2b256(Data())
 
