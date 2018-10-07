@@ -5,19 +5,24 @@
 // file LICENSE at the root of the source code distribution tree.
 
 import UIKit
-import Foundation
 
-public struct TronSigner {
-
-    typealias TronTransaction = Protocol_Transaction
+public struct TronTransaction {
     
-    var transaction: TronTransaction
+    private var transaction: Protocol_Transaction
+    
+    var getSignature: Data? {
+        return transaction.signature.first
+    }
+    
+    init(data: Data) {
+        transaction = try! Protocol_Transaction(jsonUTF8Data: data)
+    }
     
     /// Signs this transaction by filling in the signature value.
     ///
     /// - Parameters:
     ///   - key: private key to use for signing the hash
-    public mutating func sign(key: Data) {
+    mutating func sign(key: Data) {
         transaction.rawData.timestamp = Date().milliseconds
         transaction.sign(privateKey: key)
     }

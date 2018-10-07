@@ -9,7 +9,7 @@ PODS:
 DEPENDENCIES:
   - BigInt (~> 3.0)
   - SwiftLint
-  - SwiftProtobuf
+  - SwiftProtobuf (~> 1.0)
   - TrezorCrypto (~> 0.0.8)
 
 SPEC REPOS:
@@ -27,6 +27,6 @@ SPEC CHECKSUMS:
   SwiftProtobuf: 7147b8ec19c8c0694a45155d989ea9e6dedaf51f
   TrezorCrypto: 938c4b715fff7824a9c891a105e65ee0e4e81662
 
-PODFILE CHECKSUM: 09c547557f893076efc78aca5a1a7bae2d59fb56
+PODFILE CHECKSUM: 4f83c85f747da402e1ff914dc152342b03cdb487
 
 COCOAPODS: 1.5.3
