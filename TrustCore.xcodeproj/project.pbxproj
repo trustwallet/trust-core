@@ -79,9 +79,6 @@
 		77F8D3DF2148625100E80CD6 /* PurposeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F8D3DE2148625100E80CD6 /* PurposeTests.swift */; };
 		887FD54919AD2FA39E88EAF0 /* Pods_TrustCore_TrustCoreTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1C9DA59AE410E04E68E1F89 /* Pods_TrustCore_TrustCoreTests.framework */; };
 		8B8D7FE321641C25005ECCB9 /* TronSignerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8D7FE221641C25005ECCB9 /* TronSignerTest.swift */; };
-		8BE318C1215E6362000C9499 /* Tron.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE318BE215E6361000C9499 /* Tron.pb.swift */; };
-		8BE318C2215E6362000C9499 /* Discover.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE318BF215E6361000C9499 /* Discover.pb.swift */; };
-		8BE318C3215E6362000C9499 /* Contract.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE318C0215E6362000C9499 /* Contract.pb.swift */; };
 		8BE318C5215E67F1000C9499 /* TronSigner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE318C4215E67F1000C9499 /* TronSigner.swift */; };
 		8BE318C9215E7727000C9499 /* TransferContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE318C8215E7727000C9499 /* TransferContract.swift */; };
 		8BE318CC215E776B000C9499 /* TronTransactionContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE318CB215E776B000C9499 /* TronTransactionContract.swift */; };
@@ -193,9 +190,6 @@
 		77F8D3DA214860D200E80CD6 /* Purpose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Purpose.swift; sourceTree = "<group>"; };
 		77F8D3DE2148625100E80CD6 /* PurposeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurposeTests.swift; sourceTree = "<group>"; };
 		8B8D7FE221641C25005ECCB9 /* TronSignerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TronSignerTest.swift; sourceTree = "<group>"; };
-		8BE318BE215E6361000C9499 /* Tron.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tron.pb.swift; sourceTree = "<group>"; };
-		8BE318BF215E6361000C9499 /* Discover.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Discover.pb.swift; sourceTree = "<group>"; };
-		8BE318C0215E6362000C9499 /* Contract.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contract.pb.swift; sourceTree = "<group>"; };
 		8BE318C4215E67F1000C9499 /* TronSigner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TronSigner.swift; sourceTree = "<group>"; };
 		8BE318C8215E7727000C9499 /* TransferContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferContract.swift; sourceTree = "<group>"; };
 		8BE318CB215E776B000C9499 /* TronTransactionContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TronTransactionContract.swift; sourceTree = "<group>"; };
@@ -483,9 +477,6 @@
 		8B92DFF9215BC38C003F40AA /* Protobuf */ = {
 			isa = PBXGroup;
 			children = (
-				8BE318C0215E6362000C9499 /* Contract.pb.swift */,
-				8BE318BF215E6361000C9499 /* Discover.pb.swift */,
-				8BE318BE215E6361000C9499 /* Tron.pb.swift */,
 			);
 			path = Protobuf;
 			sourceTree = "<group>";
@@ -769,7 +760,6 @@
 				6149A6CA201E472000A2F35C /* EthereumTransaction.swift in Sources */,
 				7749DFEF2141105800411ED8 /* SLIP.swift in Sources */,
 				29EDBD2A214AEF6F00C86992 /* Tron.swift in Sources */,
-				8BE318C1215E6362000C9499 /* Tron.pb.swift in Sources */,
 				615AE1E220F1D71000A5A0ED /* Address.swift in Sources */,
 				612B85D6212BC3A500F5BCF5 /* SignatureHashType.swift in Sources */,
 				6167556E207ABE6700018DC8 /* ABIValue.swift in Sources */,
@@ -790,11 +780,9 @@
 				BB3864C3209569CE00CBF773 /* ReverseResolverEncoder.swift in Sources */,
 				77F8D3DB214860D200E80CD6 /* Purpose.swift in Sources */,
 				BBD1CF7E2151EA1700B99329 /* WitnessProgram.swift in Sources */,
-				8BE318C2215E6362000C9499 /* Discover.pb.swift in Sources */,
 				6167556C207ABBEF00018DC8 /* ABIType.swift in Sources */,
 				77044FAF212F9F8E00CC20D1 /* WanchainSigner.swift in Sources */,
 				61675588207C745700018DC8 /* ERC20Encoder.swift in Sources */,
-				8BE318C3215E6362000C9499 /* Contract.pb.swift in Sources */,
 				616B063D2098196500FE7942 /* ABIDecoder.swift in Sources */,
 				6185E71721096306000B4B79 /* BinaryCoding.swift in Sources */,
 				61A728EA20F488200005045D /* DerivationPath.Index.swift in Sources */,
