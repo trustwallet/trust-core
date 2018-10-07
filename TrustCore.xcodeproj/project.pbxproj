@@ -8,7 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		29EDBD2A214AEF6F00C86992 /* Tron.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29EDBD29214AEF6F00C86992 /* Tron.swift */; };
+		5D0296C0216A485B00A94661 /* IconTransactionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0296BF216A485B00A94661 /* IconTransactionTests.swift */; };
 		5D119A0C21676B18003E5D78 /* IconAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D119A0B21676B18003E5D78 /* IconAddress.swift */; };
+		5D119A0E2169D701003E5D78 /* IconTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D119A0D2169D701003E5D78 /* IconTransaction.swift */; };
 		5DFB5454216656E60041AE73 /* Icon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFB5453216656E60041AE73 /* Icon.swift */; };
 		5DFB545721665A980041AE73 /* IconAddressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFB545621665A980041AE73 /* IconAddressTests.swift */; };
 		5DFB5459216660B40041AE73 /* PublicKey+Icon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFB5458216660B40041AE73 /* PublicKey+Icon.swift */; };
@@ -115,7 +117,9 @@
 
 /* Begin PBXFileReference section */
 		29EDBD29214AEF6F00C86992 /* Tron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tron.swift; sourceTree = "<group>"; };
+		5D0296BF216A485B00A94661 /* IconTransactionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconTransactionTests.swift; sourceTree = "<group>"; };
 		5D119A0B21676B18003E5D78 /* IconAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconAddress.swift; sourceTree = "<group>"; };
+		5D119A0D2169D701003E5D78 /* IconTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconTransaction.swift; sourceTree = "<group>"; };
 		5DFB5453216656E60041AE73 /* Icon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icon.swift; sourceTree = "<group>"; };
 		5DFB545621665A980041AE73 /* IconAddressTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconAddressTests.swift; sourceTree = "<group>"; };
 		5DFB5458216660B40041AE73 /* PublicKey+Icon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PublicKey+Icon.swift"; sourceTree = "<group>"; };
@@ -254,6 +258,7 @@
 				5DFB5453216656E60041AE73 /* Icon.swift */,
 				5DFB5458216660B40041AE73 /* PublicKey+Icon.swift */,
 				5D119A0B21676B18003E5D78 /* IconAddress.swift */,
+				5D119A0D2169D701003E5D78 /* IconTransaction.swift */,
 			);
 			path = Icon;
 			sourceTree = "<group>";
@@ -262,6 +267,7 @@
 			isa = PBXGroup;
 			children = (
 				5DFB545621665A980041AE73 /* IconAddressTests.swift */,
+				5D0296BF216A485B00A94661 /* IconTransactionTests.swift */,
 			);
 			path = Icon;
 			sourceTree = "<group>";
@@ -762,6 +768,7 @@
 				61D0BA292075D771004F71E1 /* ABIEncoder.swift in Sources */,
 				612B85D4212BC35100F5BCF5 /* BitcoinTransaction+Signing.swift in Sources */,
 				5D119A0C21676B18003E5D78 /* IconAddress.swift in Sources */,
+				5D119A0E2169D701003E5D78 /* IconTransaction.swift in Sources */,
 				BB3864C3209569CE00CBF773 /* ReverseResolverEncoder.swift in Sources */,
 				77F8D3DB214860D200E80CD6 /* Purpose.swift in Sources */,
 				BBD1CF7E2151EA1700B99329 /* WitnessProgram.swift in Sources */,
@@ -818,6 +825,7 @@
 				77F80A892134A5220011D949 /* VechainTransactionTests.swift in Sources */,
 				611204CE21096D1300C2A28A /* BitcoinTransactionTests.swift in Sources */,
 				6161048420F2F73E000E8F37 /* PrivateKeyTests.swift in Sources */,
+				5D0296C0216A485B00A94661 /* IconTransactionTests.swift in Sources */,
 				6154D9902140D8B200B2D3E2 /* LitecoinTests.swift in Sources */,
 				612B85D8212BCBCB00F5BCF5 /* BitcoinSignerTests.swift in Sources */,
 				61D0BA2D2075EF53004F71E1 /* ABIEncoderTests.swift in Sources */,
