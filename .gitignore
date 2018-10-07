@@ -12,6 +12,3 @@ Pods/
 
 ## Swift Package Manager
 .build/
-
-## Protobuf files
-*.pb.swift

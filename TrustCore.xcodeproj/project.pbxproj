@@ -78,6 +78,9 @@
 		77F8D3DB214860D200E80CD6 /* Purpose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F8D3DA214860D200E80CD6 /* Purpose.swift */; };
 		77F8D3DF2148625100E80CD6 /* PurposeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F8D3DE2148625100E80CD6 /* PurposeTests.swift */; };
 		887FD54919AD2FA39E88EAF0 /* Pods_TrustCore_TrustCoreTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1C9DA59AE410E04E68E1F89 /* Pods_TrustCore_TrustCoreTests.framework */; };
+		8B0E12AF21699776002C529E /* Tron.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0E12AC21699776002C529E /* Tron.pb.swift */; };
+		8B0E12B021699776002C529E /* Discover.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0E12AD21699776002C529E /* Discover.pb.swift */; };
+		8B0E12B121699776002C529E /* Contract.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0E12AE21699776002C529E /* Contract.pb.swift */; };
 		8B8D7FE321641C25005ECCB9 /* TronSignerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8D7FE221641C25005ECCB9 /* TronSignerTest.swift */; };
 		8BE318C5215E67F1000C9499 /* TronSigner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE318C4215E67F1000C9499 /* TronSigner.swift */; };
 		8BE318C9215E7727000C9499 /* TransferContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE318C8215E7727000C9499 /* TransferContract.swift */; };
@@ -189,6 +192,9 @@
 		77F8D3AF2141CBB900E80CD6 /* DashTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashTests.swift; sourceTree = "<group>"; };
 		77F8D3DA214860D200E80CD6 /* Purpose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Purpose.swift; sourceTree = "<group>"; };
 		77F8D3DE2148625100E80CD6 /* PurposeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurposeTests.swift; sourceTree = "<group>"; };
+		8B0E12AC21699776002C529E /* Tron.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tron.pb.swift; sourceTree = "<group>"; };
+		8B0E12AD21699776002C529E /* Discover.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Discover.pb.swift; sourceTree = "<group>"; };
+		8B0E12AE21699776002C529E /* Contract.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contract.pb.swift; sourceTree = "<group>"; };
 		8B8D7FE221641C25005ECCB9 /* TronSignerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TronSignerTest.swift; sourceTree = "<group>"; };
 		8BE318C4215E67F1000C9499 /* TronSigner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TronSigner.swift; sourceTree = "<group>"; };
 		8BE318C8215E7727000C9499 /* TransferContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferContract.swift; sourceTree = "<group>"; };
@@ -477,6 +483,9 @@
 		8B92DFF9215BC38C003F40AA /* Protobuf */ = {
 			isa = PBXGroup;
 			children = (
+				8B0E12AE21699776002C529E /* Contract.pb.swift */,
+				8B0E12AD21699776002C529E /* Discover.pb.swift */,
+				8B0E12AC21699776002C529E /* Tron.pb.swift */,
 			);
 			path = Protobuf;
 			sourceTree = "<group>";
@@ -572,6 +581,7 @@
 				6149A69D201E433A00A2F35C /* Headers */,
 				6149A69E201E433A00A2F35C /* Resources */,
 				61645D0E2058A0A600411565 /* SwiftLint */,
+				8B0E12B921699835002C529E /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -694,6 +704,20 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		8B0E12B921699835002C529E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "protoc --swift_out=. $SRCROOT/Sources/Tron/Protobuf/Raw/Tron.proto\nprotoc --swift_out=. $SRCROOT/Sources/Tron/Protobuf/Raw/Contract.proto\nprotoc --swift_out=. $SRCROOT/Sources/Tron/Protobuf/Raw/Discover.proto";
+			showEnvVarsInLog = 0;
+		};
 		9814F0219C3936327D6DF815 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -764,6 +788,7 @@
 				612B85D6212BC3A500F5BCF5 /* SignatureHashType.swift in Sources */,
 				6167556E207ABE6700018DC8 /* ABIValue.swift in Sources */,
 				77044FB1212F9FB200CC20D1 /* SignatureSigner.swift in Sources */,
+				8B0E12B121699776002C529E /* Contract.pb.swift in Sources */,
 				615AE1D620F1D59100A5A0ED /* PrivateKey.swift in Sources */,
 				61555863208ED00A00FB241E /* TransactionSigning.swift in Sources */,
 				61A728E520F480560005045D /* HDWallet.swift in Sources */,
@@ -778,6 +803,7 @@
 				61D0BA292075D771004F71E1 /* ABIEncoder.swift in Sources */,
 				612B85D4212BC35100F5BCF5 /* BitcoinTransaction+Signing.swift in Sources */,
 				BB3864C3209569CE00CBF773 /* ReverseResolverEncoder.swift in Sources */,
+				8B0E12B021699776002C529E /* Discover.pb.swift in Sources */,
 				77F8D3DB214860D200E80CD6 /* Purpose.swift in Sources */,
 				BBD1CF7E2151EA1700B99329 /* WitnessProgram.swift in Sources */,
 				6167556C207ABBEF00018DC8 /* ABIType.swift in Sources */,
@@ -787,6 +813,7 @@
 				6185E71721096306000B4B79 /* BinaryCoding.swift in Sources */,
 				61A728EA20F488200005045D /* DerivationPath.Index.swift in Sources */,
 				613EA919212896ED008C4916 /* BitcoinTransactionSigner.swift in Sources */,
+				8B0E12AF21699776002C529E /* Tron.pb.swift in Sources */,
 				61A4B14E2140E75900D0136A /* PrivateKey+Bitcoin.swift in Sources */,
 				615AE1E820F1DC1F00A5A0ED /* Crypto.m in Sources */,
 				61675575207AE06100018DC8 /* ABIError.swift in Sources */,
