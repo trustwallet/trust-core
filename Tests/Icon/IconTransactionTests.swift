@@ -45,4 +45,3 @@ class IconTransactionTests: XCTestCase {
         XCTAssertEqual(transaction.signature.hexString, "a0a97e345281cb4c1b359ff1f62eee095632947f8b86dccc9eafbec3df9b93764988d455d2c4e7f61e3f63e13d220dbc042ce75eda49a8ff633bee4b6ac5248e01")
     }
 }
-
