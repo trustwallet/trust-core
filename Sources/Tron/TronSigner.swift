@@ -7,7 +7,7 @@
 import UIKit
 import Foundation
 
-struct TronSigner {
+public struct TronSigner {
 
     typealias TronTransaction = Protocol_Transaction
     

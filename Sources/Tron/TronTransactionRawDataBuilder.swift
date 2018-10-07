@@ -6,7 +6,7 @@
 
 import UIKit
 
-final class TronTransactionRawDataBuilder {
+public final class TronTransactionRawDataBuilder {
     private var rawData = Protocol_Transaction.raw()
     
     public func blockHash(_ blockHash: Data) -> TronTransactionRawDataBuilder {
