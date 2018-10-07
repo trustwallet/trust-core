@@ -25,6 +25,20 @@ kind and considerate human beings who learn and grow from giving and receiving
 positive, constructive feedback. We reserve the right to delete or ban any
 behavior violating this base foundation of respect.
 
+## References
+
+- Converting TRON protocol from Google Protocol Buffer to Swift
+
+1. Download TRON protocols files from [https://github.com/tronprotocol/protocol](https://github.com/tronprotocol/protocol)
+
+2. Install swift-protobuf, reference [https://github.com/apple/swift-protobuf](https://github.com/apple/swift-protobuf) 
+
+3. Run swift-protobuf to convert Tron.proto to Tron.pb.swift    
+
+```
+protoc --swift_out=. core/Tron.proto
+
+```   
 ---
 
 ## License
