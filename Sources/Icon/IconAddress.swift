@@ -10,28 +10,22 @@ import Foundation
 public struct IconAddress: Address, Hashable {
     public static let size = 20
     public static let prefix = "hx"
-    
+
     /// Validates that the raw data is a valid address.
     static public func isValid(data: Data) -> Bool {
         return data.count == IconAddress.size
     }
-    
+
     /// Validates that the string is a valid address.
     static public func isValid(string: String) -> Bool {
-        if (string.hasPrefix(IconAddress.prefix)){
-            ///Remove address prefix
-            let address = String(string.dropFirst(2))
-            guard let data = Data(hexString: address) else {
-                return false
-            }
-            return IconAddress.isValid(data: data)
-        }
-        return false
+        let pattern = "^(hx[a-zA-Z0-9]{40})$"
+        let result = NSPredicate(format: "SELF MATCHES %@", pattern)
+        return result.evaluate(with: string)
     }
-    
+
     /// Raw address bytes, length 20.
     public let data: Data
-    
+
     /// Creates an address with `Data`.
     ///
     /// - Precondition: data contains exactly 20 bytes
@@ -41,11 +35,11 @@ public struct IconAddress: Address, Hashable {
         }
         self.data = data
     }
-    
+
     /// Creates an address with an hexadecimal string representation.
     public init?(string: String) {
         var address = string
-        if (address.hasPrefix(IconAddress.prefix)){
+        if address.hasPrefix(IconAddress.prefix) {
             ///Remove prefix
             address = String(string.dropFirst(2))
         }
@@ -54,11 +48,11 @@ public struct IconAddress: Address, Hashable {
         }
         self.data = data
     }
-    
+
     public var description: String {
         return IconAddress.prefix + data.hexString
     }
-    
+
     public var hashValue: Int {
         return data.hashValue
     }

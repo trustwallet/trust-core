@@ -20,7 +20,7 @@ public final class Icon: Ethereum {
     public override func address(for publicKey: PublicKey) -> Address {
         return publicKey.iconAddress
     }
-    
+
     public override func address(string: String) -> Address? {
         return IconAddress(string: string)
     }
