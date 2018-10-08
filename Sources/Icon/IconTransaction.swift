@@ -59,4 +59,12 @@ public struct IconTransaction {
     public mutating func sign(privateKey: PrivateKey) {
         signature = Crypto.sign(hash: tx_hash, privateKey: privateKey.data)
     }
+
+    /// Verifies signature
+    public func verify(publicKey: PublicKey) -> Bool {
+        if tx_hash.isEmpty || signature.isEmpty {
+            return false
+        }
+        return Crypto.verify(signature: signature, message: tx_hash, publicKey: publicKey.data)
+    }
 }

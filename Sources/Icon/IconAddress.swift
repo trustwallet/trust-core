@@ -56,7 +56,7 @@ public struct IconAddress: Address, Hashable {
     public var hashValue: Int {
         return data.hashValue
     }
-    
+
     public static func == (lhs: IconAddress, rhs: IconAddress) -> Bool {
         return lhs.data == rhs.data
     }

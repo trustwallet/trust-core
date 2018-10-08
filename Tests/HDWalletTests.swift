@@ -46,7 +46,7 @@ class HDWalletTests: XCTestCase {
         let address = blockchain.address(for: key.publicKey())
         XCTAssertEqual("THJrqfbBhoB1vX97da6S6nXWkafCxpyCNB", address.description)
     }
-    
+
     func testDeriveIcon() {
         let blockchain = Icon()
         let wallet = HDWallet(mnemonic: words, passphrase: passphrase)
