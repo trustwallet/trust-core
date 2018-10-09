@@ -7,7 +7,7 @@
 import Foundation
 
 public struct BitcoinSegwitAddress: Address, Equatable {
-    // WitnessProgram.encoded
+    // bech32 data
     public var data: Data
 
     public static func == (lhs: BitcoinSegwitAddress, rhs: BitcoinSegwitAddress) -> Bool {
@@ -19,25 +19,28 @@ public struct BitcoinSegwitAddress: Address, Equatable {
     }
 
     public static func isValid(string: String) -> Bool {
-        var hrp: NSString?
-        guard let data = Crypto.bech32Decode(string, hrp: &hrp),
-            let readable = hrp as String?,
-            BitcoinSegwitAddress.isValid(data: data),
-            BitcoinSegwitAddress.validate(hrp: readable as String) else {
-                return false
+        guard let data = BitcoinSegwitAddress.bech32Decode(string: string) else {
+            return false
         }
-        return true
+        return BitcoinSegwitAddress.isValid(data: data)
     }
 
     public static func validate(hrp: String) -> Bool {
         return hrp == SLIP.HRP.bitcoin.rawValue
     }
 
-    public init?(string: String) {
+    public static func bech32Decode(string: String) -> Data? {
         var hrp: NSString?
         guard let data = Crypto.bech32Decode(string, hrp: &hrp),
             let readable = hrp as String?,
             BitcoinSegwitAddress.validate(hrp: readable as String) else {
+                return nil
+        }
+        return data
+    }
+
+    public init?(string: String) {
+        guard let data = BitcoinSegwitAddress.bech32Decode(string: string) else {
             return nil
         }
         self.data = data

@@ -11,7 +11,7 @@ class LitecoinTests: XCTestCase {
     func testAddress() {
         let privateKey = PrivateKey()
         let publicKey = privateKey.publicKey(compressed: true)
-        let address = Litecoin().address(for: publicKey)
+        let address = Litecoin().compatibleAddress(for: publicKey)
 
         XCTAssert(address.description.hasPrefix("M"))
     }

@@ -33,19 +33,27 @@ open class Bitcoin: Blockchain {
     }
 
     open override func address(for publicKey: PublicKey) -> Address {
-        return publicKey.compressed.bitcoinAddress(prefix: payToScriptHashAddressPrefix)
+        return publicKey.compressed.bitcoinBech32Address()
     }
 
     open override func address(string: String) -> Address? {
-        return BitcoinAddress(string: string)
+        return BitcoinSegwitAddress(string: string)
     }
 
     open override func address(data: Data) -> Address? {
-        return BitcoinAddress(data: data)
+        return BitcoinSegwitAddress(data: data)
     }
 
-    open func bech32Address(for publicKey: PublicKey) -> BitcoinSegwitAddress {
-        return publicKey.compressed.bitcoinBech32Address()
+    open func compatibleAddress(for publicKey: PublicKey) -> Address {
+        return publicKey.compressed.compatibleBitcoinAddress(prefix: payToScriptHashAddressPrefix)
+    }
+
+    open func compatibleAddress(string: String) -> Address? {
+        return BitcoinAddress(string: string)
+    }
+
+    open func compatibleAddress(data: Data) -> Address? {
+        return BitcoinAddress(data: data)
     }
 
     open func legacyAddress(for publicKey: PublicKey, prefix: UInt8) -> Address {

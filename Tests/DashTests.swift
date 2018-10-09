@@ -11,7 +11,7 @@ class DashAddressTests: XCTestCase {
     func testAddress() {
         let privateKey = PrivateKey()
         let publicKey = privateKey.publicKey(compressed: true)
-        let address = Dash().address(for: publicKey)
+        let address = Dash().compatibleAddress(for: publicKey)
 
         XCTAssert(address.description.hasPrefix("X"))
     }
