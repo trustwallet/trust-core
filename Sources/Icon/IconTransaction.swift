@@ -58,7 +58,7 @@ public struct IconTransaction {
     /// Signs this transaction by filling in the signature value.
     public mutating func sign(privateKey: PrivateKey) {
         if !tx_hash.isEmpty {
-            signature = Crypto.sign(hash: tx_hash, privateKey: privateKey.data)
+            signature = privateKey.sign(hash: tx_hash)
         }
     }
 
