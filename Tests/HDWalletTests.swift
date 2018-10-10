@@ -54,8 +54,8 @@ class HDWalletTests: XCTestCase {
         let key1 = wallet.getKey(at: blockchain.derivationPath(at: 1))
         let address0 = blockchain.address(for: key0.publicKey())
         let address1 = blockchain.address(for: key1.publicKey())
-        XCTAssertEqual("hx70648a3fc552b8a334e8edfdd16c938cc3185f93", address0.description)
-        XCTAssertEqual("hx44d92f89fa618778e4b595975e3de74e8e19aa10", address1.description)
+        XCTAssertEqual("hx78c6f744c68d48793cd64716189c181c66907b24", address0.description)
+        XCTAssertEqual("hx92373c16531761b31a7124c94718da43db8c9d89", address1.description)
     }
 
     func testSignHash() {

@@ -59,7 +59,7 @@ class IconTransactionTests: XCTestCase {
 
         transaction.hash()
         transaction.sign(privateKey: pKey0)
-        XCTAssertEqual(transaction.verify(publicKey: pKey0.publicKey()), true)
-        XCTAssertEqual(transaction.verify(publicKey: pKey1.publicKey()), false)
+        XCTAssertTrue(transaction.verify(publicKey: pKey0.publicKey()))
+        XCTAssertFalse(transaction.verify(publicKey: pKey1.publicKey()))
     }
 }
