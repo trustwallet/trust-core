@@ -16,7 +16,7 @@ open class Bitcoin: Blockchain {
     }
 
     override open var coinPurpose: Purpose {
-        return .bip49
+        return .bip84
     }
 
     /// Public key hash address prefix.
@@ -83,6 +83,11 @@ public final class Dash: Bitcoin {
     public override var coinType: SLIP.CoinType {
         return .dash
     }
+
+    override open var coinPurpose: Purpose {
+        return .bip44
+    }
+
     public override var payToScriptHashAddressPrefix: UInt8 {
         return 0x4C
     }
