@@ -18,10 +18,9 @@ public struct IconAddress: Address, Hashable {
 
     /// Validates that the string is a valid address.
     static public func isValid(string: String) -> Bool {
-        if (string.hasPrefix(IconAddress.prefix)){
+        if string.hasPrefix(IconAddress.prefix) {
             ///Remove address prefix
             let address = String(string.dropFirst(2))
-
             guard let data = Data(hexString: address) else {
                 return false
             }
@@ -29,7 +28,6 @@ public struct IconAddress: Address, Hashable {
         }
         return false
     }
-
 
     /// Raw address bytes, length 20.
     public let data: Data
