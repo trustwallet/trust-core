@@ -9,7 +9,7 @@ import Foundation
 public final class Icon: Ethereum {
     /// Chain identifier.
     public override var chainID: Int {
-        return 888888 //Temporary
+        return 74
     }
 
     /// SLIP-044 coin type.

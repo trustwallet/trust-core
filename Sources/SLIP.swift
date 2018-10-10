@@ -23,7 +23,7 @@ public struct SLIP {
         case vechain = 818
         case callisto = 820
         case wanchain = 5718350
-        case icon = 888888 //Temporary
+        case icon = 74
     }
 
     ///  Registered human-readable parts for BIP-0173
