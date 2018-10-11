@@ -20,6 +20,10 @@ opt_in_rules:
 included:
   - Sources
   - Tests
+excluded: 
+   - Sources/Tron/Protobuf/Tron.pb.swift
+   - Sources/Tron/Protobuf/Discover.pb.swift
+   - Sources/Tron/Protobuf/Contract.pb.swift
 function_parameter_count:
   warning: 20
   error: 25
