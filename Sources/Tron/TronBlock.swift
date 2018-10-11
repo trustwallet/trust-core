@@ -7,14 +7,14 @@
 import UIKit
 
 public struct TronBlock {
-    
+
     private let timestamp: Int64
     private let txTrieRoot: Data
     private let parentHash: Data
     private let number: Int64
     private let witnessAddress: Data
     private let version: Int32
-    
+
     public init(
         timestamp: Int64,
         txTrieRoot: Data,
@@ -30,7 +30,7 @@ public struct TronBlock {
         self.witnessAddress = witnessAddress
         self.version = version
     }
-    
+
     public var blockHeader: Protocol_BlockHeader {
         var blockHeader = Protocol_BlockHeader()
         var blockRaw = Protocol_BlockHeader.raw()

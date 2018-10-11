@@ -13,11 +13,11 @@ enum TronTransactionError: LocalizedError {
 }
 
 public struct TronTransaction {
-    
+
     private let tronContract: TronContract
     private let tronBlock: TronBlock
     private let timestamp: Date
-    
+
     public init(
         tronContract: TronContract,
         tronBlock: TronBlock,
@@ -27,7 +27,7 @@ public struct TronTransaction {
         self.tronBlock = tronBlock
         self.timestamp = timestamp
     }
-    
+
     public func transaction() throws -> Protocol_Transaction {
         var transaction = Protocol_Transaction()
         do {
@@ -41,29 +41,24 @@ public struct TronTransaction {
             throw TronTransactionError.transactionCreationError
         }
     }
-    
-    private func setBlockReference(for transaction: Protocol_Transaction) throws -> Protocol_Transaction  {
+
+    private func setBlockReference(for transaction: Protocol_Transaction) throws -> Protocol_Transaction {
         var transaction = transaction
         let blockHeight = tronBlock.blockHeader.rawData.number
         let blockHash = try getBlockHash()
         var refBlockNum = Data()
         blockHeight.encode(into: &refBlockNum)
- 
         guard blockHash.count >= 16 else {
             throw TronTransactionError.blockHeaderRawData
         }
-
         transaction.rawData.refBlockHash = blockHash[7...15]
-        
         guard refBlockNum.count >= 8 else {
             throw TronTransactionError.blockHeaderHeight
         }
-
         transaction.rawData.refBlockBytes = refBlockNum[5...7]
-        
         return transaction
     }
-    
+
     private func getBlockHash() throws -> Data {
         let data = try tronBlock.blockHeader.rawData.serializedData()
         return Crypto.sha256(data)

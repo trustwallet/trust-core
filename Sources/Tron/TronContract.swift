@@ -8,11 +8,11 @@ import UIKit
 import SwiftProtobuf
 
 public struct TronContract {
-    
+
     private let from: Address
     private let to: Address
     private let amount: Int64
-    
+
     public init(
         from: Address,
         to: Address,
@@ -22,7 +22,7 @@ public struct TronContract {
         self.to = to
         self.amount = amount
     }
-    
+
     public func contract() throws -> Protocol_Transaction.Contract {
         var contract = Protocol_Transaction.Contract()
         var transferContract = Protocol_TransferContract()
