@@ -15,7 +15,6 @@ class IconTransactionTests: XCTestCase {
     //fee: Fee for the transaction - Unit: 1/10^18 icx
     //timestamp: UNIX epoch time (Begin from 1970.1.1 00:00:00) - Unit: microseconds
     //nonce: Integer value increased by request to avoid ‘replay attack’
-    
     func testSignTransaction() {
         let privateKey = PrivateKey(data: Data(hexString: "a9d99d3a8d1e675e967b12e13ad5efe12d391325764bf9844a0ea48dfa663335")!)!
         var transaction: IconTransaction = IconTransaction(

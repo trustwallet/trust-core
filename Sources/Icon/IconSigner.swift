@@ -14,7 +14,6 @@ struct IconSigner {
         /// fee: Fee for the transaction - Unit: 1/10^18 icx - Format: 0x + Hex string
         /// timestamp: UNIX epoch time (Begin from 1970.1.1 00:00:00) - Unit: microseconds
         /// nonce: Integer value increased by request to avoid ‘replay attack’
-        
         let tx = "icx_sendTransaction" +
             ".fee." + "0x" + String(transaction.fee, radix: 16, uppercase: false) +
             ".from." + transaction.from.description +
