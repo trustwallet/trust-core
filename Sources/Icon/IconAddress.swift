@@ -20,8 +20,7 @@ public struct IconAddress: Address, Hashable {
     static public func isValid(string: String) -> Bool {
         if string.hasPrefix(IconAddress.prefix) {
             ///Remove address prefix
-            let address = String(string.dropFirst(2))
-            guard let data = Data(hexString: address) else {
+            guard let data = Data(hexString: String(string.dropFirst(2))) else {
                 return false
             }
             return IconAddress.isValid(data: data)

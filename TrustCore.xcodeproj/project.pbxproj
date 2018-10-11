@@ -11,6 +11,7 @@
 		5D0296C0216A485B00A94661 /* IconTransactionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0296BF216A485B00A94661 /* IconTransactionTests.swift */; };
 		5D119A0C21676B18003E5D78 /* IconAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D119A0B21676B18003E5D78 /* IconAddress.swift */; };
 		5D119A0E2169D701003E5D78 /* IconTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D119A0D2169D701003E5D78 /* IconTransaction.swift */; };
+		5DC50057216FC58F008F426A /* IconSigner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DC50056216FC58F008F426A /* IconSigner.swift */; };
 		5DFB5454216656E60041AE73 /* Icon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFB5453216656E60041AE73 /* Icon.swift */; };
 		5DFB545721665A980041AE73 /* IconAddressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFB545621665A980041AE73 /* IconAddressTests.swift */; };
 		5DFB5459216660B40041AE73 /* PublicKey+Icon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFB5458216660B40041AE73 /* PublicKey+Icon.swift */; };
@@ -120,6 +121,7 @@
 		5D0296BF216A485B00A94661 /* IconTransactionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconTransactionTests.swift; sourceTree = "<group>"; };
 		5D119A0B21676B18003E5D78 /* IconAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconAddress.swift; sourceTree = "<group>"; };
 		5D119A0D2169D701003E5D78 /* IconTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconTransaction.swift; sourceTree = "<group>"; };
+		5DC50056216FC58F008F426A /* IconSigner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconSigner.swift; sourceTree = "<group>"; };
 		5DFB5453216656E60041AE73 /* Icon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icon.swift; sourceTree = "<group>"; };
 		5DFB545621665A980041AE73 /* IconAddressTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconAddressTests.swift; sourceTree = "<group>"; };
 		5DFB5458216660B40041AE73 /* PublicKey+Icon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PublicKey+Icon.swift"; sourceTree = "<group>"; };
@@ -259,6 +261,7 @@
 				5DFB5458216660B40041AE73 /* PublicKey+Icon.swift */,
 				5D119A0B21676B18003E5D78 /* IconAddress.swift */,
 				5D119A0D2169D701003E5D78 /* IconTransaction.swift */,
+				5DC50056216FC58F008F426A /* IconSigner.swift */,
 			);
 			path = Icon;
 			sourceTree = "<group>";
@@ -735,6 +738,7 @@
 			files = (
 				61675570207AD81F00018DC8 /* Function.swift in Sources */,
 				BB636D3B2121528D0071AE07 /* GenericJSON.swift in Sources */,
+				5DC50057216FC58F008F426A /* IconSigner.swift in Sources */,
 				77F80A842134A4E00011D949 /* VechainClause.swift in Sources */,
 				615AE1DC20F1D6DE00A5A0ED /* PublicKey+Bitcoin.swift in Sources */,
 				61C87A7C2131FF0E00B01418 /* BitcoinUnspentTransaction.swift in Sources */,

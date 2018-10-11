@@ -37,36 +37,10 @@ public struct IconTransaction {
         self.signature = signature
     }
 
-    public mutating func hash() {
-        /// from: Wallet address of the sender - Format: ‘hx’ + 40 digit hex string
-        /// to: Wallet address of the recipient - Format: ‘hx’ + 40 digit hex string
-        /// value: Transfer amount (ICX) - Unit: 1/10^18 icx - Format: 0x + Hex string
-        /// fee: Fee for the transaction - Unit: 1/10^18 icx - Format: 0x + Hex string
-        /// timestamp: UNIX epoch time (Begin from 1970.1.1 00:00:00) - Unit: microseconds
-        /// nonce: Integer value increased by request to avoid ‘replay attack’
-        let txStr = "icx_sendTransaction" +
-            ".fee." + "0x" + String(fee, radix: 16, uppercase: false) +
-            ".from." + from.description +
-            ".nonce." + String(nonce) +
-            ".timestamp." + timestamp +
-            ".to." + to.description +
-            ".value." + "0x" + String(value, radix: 16, uppercase: false)
-
-        tx_hash = Crypto.sha3_256(txStr.data(using: .utf8)!)
-    }
-
     /// Signs this transaction by filling in the signature value.
     public mutating func sign(privateKey: PrivateKey) {
-        if !tx_hash.isEmpty {
-            signature = privateKey.sign(hash: tx_hash)
-        }
-    }
-
-    /// Verifies signature
-    public func verify(publicKey: PublicKey) -> Bool {
-        if tx_hash.isEmpty || signature.isEmpty {
-            return false
-        }
-        return Crypto.verify(signature: signature, message: tx_hash, publicKey: publicKey.data)
+        let signer = IconSigner()
+        tx_hash = signer.hash(transaction: self)
+        signature = signer.sign(hash: tx_hash, privateKey: privateKey)
     }
 }
