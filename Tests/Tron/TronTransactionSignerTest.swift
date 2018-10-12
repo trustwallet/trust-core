@@ -25,13 +25,13 @@ class TronContractTests: XCTestCase {
 
         let transaction = try! tronTransaction.transaction()
 
-        var sighn = TronSighn(tronTransaction: transaction)
+        var sighn = TronSign(tronTransaction: transaction)
         let privateKey =  PrivateKey(data: Data(hexString: "2d8f68944bdbfbc0769542fba8fc2d2a3de67393334471624364c7006da2aa54")!)!
 
         try! sighn.sign(hashSigner: { data in
             return Crypto.sign(hash: data, privateKey: privateKey.data)
         })
 
-        XCTAssertEqual(sighn.signature?.hexString, "a196cbb093ebb6924b939d3b6a77506f2045ef0f53b426703701937ce98e268155040b6bfcd4c6c5ddbdbced66e31e652ecedfc7d85735a14851c7f491621ae701")
+        XCTAssertEqual(sighn.signature?.hexString, "ede769f6df28aefe6a846be169958c155e23e7e5c9621d2e8dce1719b4d952b63e8a8bf9f00e41204ac1bf69b1a663dacdf764367e48e4a5afcd6b055a747fb200")
     }
 }

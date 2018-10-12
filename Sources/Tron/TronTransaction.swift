@@ -46,16 +46,16 @@ public struct TronTransaction {
         var transaction = transaction
         let blockHeight = tronBlock.blockHeader.rawData.number
         let blockHash = try getBlockHash()
-        var refBlockNum = Data()
-        blockHeight.encode(into: &refBlockNum)
-        guard blockHash.count >= 16 else {
+        guard blockHash.count > 15 else {
             throw TronTransactionError.blockHeaderRawData
         }
-        transaction.rawData.refBlockHash = blockHash[7...15]
-        guard refBlockNum.count >= 8 else {
+        transaction.rawData.refBlockHash = blockHash[8...15]
+        let header = String(blockHeight, radix: 16)
+        let index = header.index(header.startIndex, offsetBy: 2)
+        guard let hexData = Data(hexString: String(header[index...])) else {
             throw TronTransactionError.blockHeaderHeight
         }
-        transaction.rawData.refBlockBytes = refBlockNum[5...7]
+        transaction.rawData.refBlockBytes = hexData
         return transaction
     }
 
