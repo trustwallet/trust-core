@@ -10,10 +10,15 @@ public extension BitcoinScript {
     /// Builds a standard 'pay to public key hash' script.
     public static func buildPayToPublicKeyHash(address: BitcoinAddress) -> BitcoinScript {
         let pubKeyHash = address.data.dropFirst()
-        var data = Data(capacity: 5 + pubKeyHash.count)
+        return BitcoinScript.buildPayToPublicKeyHash(pubKeyHash)
+    }
+
+    /// Builds a standard 'pay to public key hash' script.
+    public static func buildPayToPublicKeyHash(_ hash: Data) -> BitcoinScript {
+        var data = Data(capacity: 5 + hash.count)
         data.append(contentsOf: [OpCode.OP_DUP, OpCode.OP_HASH160])
-        data.append(UInt8(pubKeyHash.count))
-        data.append(Data(pubKeyHash))
+        data.append(UInt8(hash.count))
+        data.append(Data(hash))
         data.append(contentsOf: [OpCode.OP_EQUALVERIFY, OpCode.OP_CHECKSIG])
         return BitcoinScript(data: data)
     }
