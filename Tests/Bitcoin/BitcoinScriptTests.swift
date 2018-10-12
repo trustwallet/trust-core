@@ -22,7 +22,7 @@ class BitcoinScriptTests: XCTestCase {
         XCTAssertEqual(scriptPub2.data.hexString, "a9144733f37cf4db86fbc2efed2500b4f4e49f31202387")
     }
 
-    func testLockScriptForP2PKHdddress() {
+    func testLockScriptForP2PKHAddress() {
         let address = BitcoinAddress(string: "1Cu32FVupVCgHkMMRJdYJugxwo2Aprgk7H")!
         let scriptPub = BitcoinScript.buildScript(for: address)
         XCTAssertEqual(scriptPub?.data.hexString, "76a9148280b37df378db99f66f85c95a783a76ac7a6d5988ac")
