@@ -16,7 +16,7 @@ class BitcoinSignerTests: XCTestCase {
         let unspentOutput = BitcoinTransactionOutput(value: 5151, script: BitcoinScript(data: Data(hexString: "76a914aff1e0789e5fe316b729577665aa0a04d5b0f8c788ac")!))
         let unspentOutpoint = BitcoinOutPoint(hash: Data(hexString: "e28c2b955293159898e34c6840d99bf4d390e2ee1c6f606939f18ee1e2000d05")!, index: 2)
         let utxo = BitcoinUnspentTransaction(output: unspentOutput, outpoint: unspentOutpoint)
-        let tx = createUnsignedTx(toAddress: toAddress, amount: 600, changeAddress: changeAddress, utxos: [utxo])
+        let tx = BitcoinTransaction.build(to: toAddress, amount: 600, estimatefee: 1, changeAddress: changeAddress, utxos: [utxo])
         let sighash = tx.getSignatureHash(scriptCode: utxo.output.script, index: 0, hashType: [.all, .fork], amount: utxo.output.value, version: .witnessV0)
         XCTAssertEqual(sighash.hexString, "1136d4975aee4ff6ccf0b8a9c640532f563b48d9856fdc9682c37a071702937c")
     }
@@ -32,7 +32,7 @@ class BitcoinSignerTests: XCTestCase {
         let utxoKey = PrivateKey(wif: "L1WFAgk5LxC5NLfuTeADvJ5nm3ooV3cKei5Yi9LJ8ENDfGMBZjdW")!
         let provider = BitcoinDefaultPrivateKeyProvider(keys: [utxoKey])
 
-        let unsignedTx = createUnsignedTx(toAddress: toAddress, amount: 600, changeAddress: changeAddress, utxos: [utxo])
+        let unsignedTx = BitcoinTransaction.build(to: toAddress, amount: 600, estimatefee: 1, changeAddress: changeAddress, utxos: [utxo])
         let signer = BitcoinTransactionSigner(keyProvider: provider, transaction: unsignedTx)
         let signedTx = try signer.sign([utxo])
 
@@ -235,39 +235,5 @@ class BitcoinSignerTests: XCTestCase {
             00000000
             """.components(separatedBy: .whitespacesAndNewlines).joined()
         XCTAssertEqual(serialized.hexString, expected)
-    }
-
-    func testRedeemScriptWrong() {
-        let data = Data(hexString: "042de45bea3dada528eee8a1e04142d3e04fad66119d971b6019b0e3c02266b79142158aa83469db1332a880a2d5f8ce0b3bba542b3e32df0740ccbfb01c275e42")!
-        let redeemHash = Crypto.sha256ripemd160(data)
-        XCTAssertEqual(redeemHash.hexString, "cf5007e19af3641199f21f3fa54dff2fa2627471")
-    }
-
-    func testRedeemScript() {
-        let publicKey = PublicKey(data: Data(hexString: "042de45bea3dada528eee8a1e04142d3e04fad66119d971b6019b0e3c02266b79142158aa83469db1332a880a2d5f8ce0b3bba542b3e32df0740ccbfb01c275e42")!)!
-        let address = publicKey.legacyBitcoinAddress(prefix: 0x05)
-        XCTAssertEqual(address.description, "3LbBftXPhBmByAqgpZqx61ttiFfxjde2z7")
-
-        let embeddedScript = BitcoinScript.buildPayToPublicKeyHash(address: address)
-        let scriptPub1 = BitcoinScript.buildPayToScriptHash(script: embeddedScript)
-        XCTAssertEqual(scriptPub1.data.hexString, "a914c470d22e69a2a967f2cec0cd5a5aebb955cdd39587")
-
-        let address2 = BitcoinAddress(string: "38BW8nqpHSWpkf5sXrQd2xYwvnPJwP59ic")!
-        let scriptPub2 = BitcoinScript.buildPayToScriptHash(address2.data.dropFirst())
-        XCTAssertEqual(scriptPub2.data.hexString, "a9144733f37cf4db86fbc2efed2500b4f4e49f31202387")
-    }
-
-    func createUnsignedTx(toAddress: BitcoinAddress, amount: Int64, changeAddress: BitcoinAddress, utxos: [BitcoinUnspentTransaction], publicKey: PublicKey? = nil, fee: Int64 = 226) -> BitcoinTransaction {
-        let totalAmount: Int64 = utxos.reduce(0) { $0 + $1.output.value }
-        let change: Int64 = totalAmount - amount - fee
-
-        let lockingScriptTo = BitcoinScript.buildPayToPublicKeyHash(address: toAddress)
-        let lockingScriptChange = BitcoinScript.buildPayToPublicKeyHash(address: changeAddress)
-
-        let toOutput = BitcoinTransactionOutput(value: amount, script: lockingScriptTo)
-        let changeOutput = BitcoinTransactionOutput(value: change, script: lockingScriptChange)
-
-        let unsignedInputs = utxos.map { BitcoinTransactionInput(previousOutput: $0.outpoint, script: BitcoinScript(), sequence: UInt32.max) }
-        return BitcoinTransaction(version: 1, inputs: unsignedInputs, outputs: [toOutput, changeOutput], lockTime: 0)
     }
 }

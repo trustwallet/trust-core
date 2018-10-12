@@ -50,10 +50,3 @@ public extension BitcoinScript {
         return nil
     }
 }
-
-public extension BitcoinUnspentTransaction {
-    static func pick(outputs: [BitcoinTransactionOutput], for amount: Int64) -> [BitcoinTransactionOutput] {
-        //TODO try to find optimal utxo
-        return outputs
-    }
-}
