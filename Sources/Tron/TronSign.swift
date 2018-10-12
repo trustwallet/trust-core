@@ -6,7 +6,7 @@
 
 import UIKit
 
-public struct TronSighn {
+public struct TronSign {
     private let tronTransaction: Protocol_Transaction
     public var signature: Data?
 
