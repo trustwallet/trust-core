@@ -24,8 +24,10 @@ class TronContractTests: XCTestCase {
 
         let block = TronBlock(timestamp: timestamp, txTrieRoot: txTrieRoot, parentHash: parentHash, number: number, witnessAddress: witnessAddress, version: version)
         let tronTransaction = TronTransaction(tronContract: contract, tronBlock: block, timestamp: Date(timeIntervalSince1970: 1539295479))
+        
+        let transaction = try! tronTransaction.transaction()
 
-        var sighn = TronSighn(tronTransaction: tronTransaction)
+        var sighn = TronSighn(tronTransaction: transaction)
         let privateKey =  PrivateKey(data: Data(hexString: "2d8f68944bdbfbc0769542fba8fc2d2a3de67393334471624364c7006da2aa54")!)!
 
         try! sighn.sign(hashSigner: { data in

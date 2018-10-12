@@ -8,19 +8,19 @@ import UIKit
 
 public struct TronSighn {
 
-    private let tronTransaction: TronTransaction
+    private let tronTransaction: Protocol_Transaction
     public var signature: Data?
-
-    public init(tronTransaction: TronTransaction) {
+    
+    public init(tronTransaction: Protocol_Transaction) {
         self.tronTransaction = tronTransaction
     }
-
+    
     /// Signs this transaction by filling in the signature value.
     ///
     /// - Parameters:
     ///   - hashSigner: function to use for signing the hash
     public mutating func sign(hashSigner: (Data) throws -> Data) throws {
-        let data = try tronTransaction.transaction().rawData.serializedData()
+        let data = try tronTransaction.rawData.serializedData()
         let hash = Crypto.sha256(data)
         (signature) = try hashSigner(hash)
     }
