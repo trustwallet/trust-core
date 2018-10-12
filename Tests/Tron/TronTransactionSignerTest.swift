@@ -12,7 +12,6 @@ class TronContractTests: XCTestCase {
         let from = BitcoinAddress(string: "TJRyWwFs9wTFGZg3JbrVriFbNfCug5tDeC")!
         let to = BitcoinAddress(string: "THTR75o8xXAgCTQqpiot2AFRAjvW1tSbVV")!
         let amount = Int64(2000000)
-
         let contract = TronContract(from: from, to: to, amount: amount)
 
         let timestamp = Int64(1539295479000)
@@ -21,10 +20,9 @@ class TronContractTests: XCTestCase {
         let number = Int64(3111739)
         let witnessAddress = Data(hexString: "415863f6091b8e71766da808b1dd3159790f61de7d")!
         let version = Int32(3)
-
         let block = TronBlock(timestamp: timestamp, txTrieRoot: txTrieRoot, parentHash: parentHash, number: number, witnessAddress: witnessAddress, version: version)
         let tronTransaction = TronTransaction(tronContract: contract, tronBlock: block, timestamp: Date(timeIntervalSince1970: 1539295479))
-        
+
         let transaction = try! tronTransaction.transaction()
 
         var sighn = TronSighn(tronTransaction: transaction)

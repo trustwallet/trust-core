@@ -7,14 +7,13 @@
 import UIKit
 
 public struct TronSighn {
-
     private let tronTransaction: Protocol_Transaction
     public var signature: Data?
-    
+
     public init(tronTransaction: Protocol_Transaction) {
         self.tronTransaction = tronTransaction
     }
-    
+
     /// Signs this transaction by filling in the signature value.
     ///
     /// - Parameters:
