@@ -37,11 +37,19 @@ open class Bitcoin: Blockchain {
     }
 
     open override func address(string: String) -> Address? {
-        return BitcoinSegwitAddress(string: string)
+        if let bech32Address = BitcoinSegwitAddress(string: string) {
+            return bech32Address
+        } else {
+            return BitcoinAddress(string: string)
+        }
     }
 
     open override func address(data: Data) -> Address? {
-        return BitcoinSegwitAddress(data: data)
+        if let bech32Address = BitcoinSegwitAddress(data: data) {
+            return bech32Address
+        } else {
+            return BitcoinAddress(data: data)
+        }
     }
 
     open func compatibleAddress(for publicKey: PublicKey) -> Address {
