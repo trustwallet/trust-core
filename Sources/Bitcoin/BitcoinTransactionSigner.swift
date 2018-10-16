@@ -164,7 +164,6 @@ public final class BitcoinTransactionSigner {
         return data
     }
 
-
     public enum Error: LocalizedError {
         case invalidOutputScript
         case missingRedeemScript
