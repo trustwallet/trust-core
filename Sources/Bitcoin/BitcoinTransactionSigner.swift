@@ -148,18 +148,16 @@ public final class BitcoinTransactionSigner {
                 data.append(UInt8(result.count))
             } else if result.count <= 0xffff { // swiftlint:disable:this empty_count
                 data.append(OpCode.OP_PUSHDATA2)
-                let boxed = UInt16(result.count).littleEndian
-                let boxedData = withUnsafeBytes(of: boxed) { ptr in
-                    Data(ptr.bindMemory(to: UInt8.self))
+                let boxed = [UInt16(result.count).littleEndian]
+                boxed.withUnsafeBytes {
+                    data.append($0.bindMemory(to: UInt8.self))
                 }
-                data.append(boxedData)
             } else {
                 data.append(OpCode.OP_PUSHDATA4)
-                let boxed = UInt32(result.count).littleEndian
-                let boxedData = withUnsafeBytes(of: boxed) { ptr in
-                    Data(ptr.bindMemory(to: UInt8.self))
+                let boxed = [UInt32(result.count).littleEndian]
+                boxed.withUnsafeBytes {
+                    data.append($0.bindMemory(to: UInt8.self))
                 }
-                data.append(boxedData)
             }
             data.append(result)
         }
