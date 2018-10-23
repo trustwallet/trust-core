@@ -14,13 +14,18 @@ public extension BitcoinTransaction {
         let change: Int64 = totalAmount - amount - fee
 
         let lockingScriptTo = BitcoinScript.buildScript(for: to)!
-        let lockingScriptChange = BitcoinScript.buildScript(for: changeAddress)!
-
         let toOutput = BitcoinTransactionOutput(value: amount, script: lockingScriptTo)
-        let changeOutput = BitcoinTransactionOutput(value: change, script: lockingScriptChange)
+
+        var outputs = [toOutput]
+
+        if change > 0 {
+            let lockingScriptChange = BitcoinScript.buildScript(for: changeAddress)!
+            let changeOutput = BitcoinTransactionOutput(value: change, script: lockingScriptChange)
+            outputs.append(changeOutput)
+        }
 
         let unsignedInputs = utxos.map { BitcoinTransactionInput(previousOutput: $0.outpoint, script: BitcoinScript(), sequence: UInt32.max) }
-        return BitcoinTransaction(version: 1, inputs: unsignedInputs, outputs: [toOutput, changeOutput], lockTime: 0)
+        return BitcoinTransaction(version: 1, inputs: unsignedInputs, outputs: outputs, lockTime: 0)
     }
 
     static func calculate(byteFee: Int64, nIn: Int, nOut: Int = 2, extraOutputSize: Int = 0) -> Int64 {
