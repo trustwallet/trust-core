@@ -13,7 +13,7 @@ public extension PublicKey {
         return BitcoinAddress(data: hash)!
     }
 
-    public func bitcoinAddress(prefix: UInt8) -> BitcoinAddress {
+    public func compatibleBitcoinAddress(prefix: UInt8) -> BitcoinAddress {
         let witnessVersion = Data(bytes: [0x00, 0x14])
         let redeemScript = Crypto.sha256ripemd160(witnessVersion + bitcoinKeyHash)
         let address = Crypto.base58Encode([prefix] + redeemScript)
@@ -22,7 +22,7 @@ public extension PublicKey {
 
     public func bitcoinBech32Address() -> BitcoinSegwitAddress {
         let witness = WitnessProgram(version: 0x00, program: bitcoinKeyHash)
-        let address = BitcoinSegwitAddress(data: witness.encoded)!
+        let address = BitcoinSegwitAddress(data: witness.bech32Data!)!
         return address
     }
 

@@ -50,13 +50,8 @@ public final class BitcoinTransactionSigner {
         }
 
         if script.matchPayToWitnessPublicKeyHash() != nil {
-            var witnessScriptData = Data(bytes: [OpCode.OP_DUP, OpCode.OP_HASH160])
-            let witnessProgram = BitcoinScript(data: results[0])
-            witnessProgram.encode(into: &witnessScriptData)
-            witnessScriptData += Data(bytes: [OpCode.OP_EQUALVERIFY, OpCode.OP_CHECKSIG])
-            let witnessScript = BitcoinScript(data: witnessScriptData)
+            let witnessScript = BitcoinScript.buildPayToPublicKeyHash(results[0])
             results = try signStep(script: witnessScript, index: index, utxo: utxo, version: .witnessV0)
-
             witnessStack = results
             results = []
         } else if script.matchPayToWitnessScriptHash() != nil {

@@ -16,7 +16,7 @@ class BitcoinSignerTests: XCTestCase {
         let unspentOutput = BitcoinTransactionOutput(value: 5151, script: BitcoinScript(data: Data(hexString: "76a914aff1e0789e5fe316b729577665aa0a04d5b0f8c788ac")!))
         let unspentOutpoint = BitcoinOutPoint(hash: Data(hexString: "e28c2b955293159898e34c6840d99bf4d390e2ee1c6f606939f18ee1e2000d05")!, index: 2)
         let utxo = BitcoinUnspentTransaction(output: unspentOutput, outpoint: unspentOutpoint)
-        let tx = createUnsignedTx(toAddress: toAddress, amount: 600, changeAddress: changeAddress, utxos: [utxo])
+        let tx = BitcoinTransaction.build(to: toAddress, amount: 600, estimatefee: 1, changeAddress: changeAddress, utxos: [utxo])
         let sighash = tx.getSignatureHash(scriptCode: utxo.output.script, index: 0, hashType: [.all, .fork], amount: utxo.output.value, version: .witnessV0)
         XCTAssertEqual(sighash.hexString, "1136d4975aee4ff6ccf0b8a9c640532f563b48d9856fdc9682c37a071702937c")
     }
@@ -32,7 +32,7 @@ class BitcoinSignerTests: XCTestCase {
         let utxoKey = PrivateKey(wif: "L1WFAgk5LxC5NLfuTeADvJ5nm3ooV3cKei5Yi9LJ8ENDfGMBZjdW")!
         let provider = BitcoinDefaultPrivateKeyProvider(keys: [utxoKey])
 
-        let unsignedTx = createUnsignedTx(toAddress: toAddress, amount: 600, changeAddress: changeAddress, utxos: [utxo])
+        let unsignedTx = BitcoinTransaction.build(to: toAddress, amount: 600, estimatefee: 1, changeAddress: changeAddress, utxos: [utxo])
         let signer = BitcoinTransactionSigner(keyProvider: provider, transaction: unsignedTx)
         let signedTx = try signer.sign([utxo])
 
@@ -44,8 +44,6 @@ class BitcoinSignerTests: XCTestCase {
     }
 
     func testSignP2WPKH() throws {
-        let script = BitcoinScript(data: Data(hexString: "76a9141d0f172a0ecb48aee1be1f2687d2963ae33f71a188ac")!)
-
         let unspentOutput0 = BitcoinTransactionOutput(value: 625_000_000, script: BitcoinScript(data: Data(hexString: "2103c9f4836b9a4f77fc0d81f7bcb01b7f1b35916864b9476c241ce9fc198bd25432ac")!))
         let unspentOutpoint0 = BitcoinOutPoint(hash: Data(hexString: "fff7f7881a8099afa6940d42d1e7f6362bec38171ea3edf433541db4e4ad969f")!, index: 0)
         let utxo0 = BitcoinUnspentTransaction(output: unspentOutput0, outpoint: unspentOutpoint0)
@@ -58,6 +56,11 @@ class BitcoinSignerTests: XCTestCase {
         let utxoKey1 = PrivateKey(data: Data(hexString: "619c335025c7f4012e556c2a58b2506e30b8511b53ade95ea316fd8c3286feb9")!)!
         let input1 = BitcoinTransactionInput(previousOutput: unspentOutpoint1, script: BitcoinScript(), sequence: UInt32.max)
 
+        let scriptPub1 = BitcoinScript(data: Data(hexString: "00141d0f172a0ecb48aee1be1f2687d2963ae33f71a1")!)
+        let scriptHash = scriptPub1.matchPayToWitnessPublicKeyHash()!
+        XCTAssertEqual(scriptHash.hexString, "1d0f172a0ecb48aee1be1f2687d2963ae33f71a1")
+
+        let redeemScript = BitcoinScript.buildPayToPublicKeyHash(scriptHash)
         let toOutput = BitcoinTransactionOutput(value: 112_340_000, script: BitcoinScript(data: Data(hexString: "76a9148280b37df378db99f66f85c95a783a76ac7a6d5988ac")!))
         let changeOutput = BitcoinTransactionOutput(value: 223_450_000, script: BitcoinScript(data: Data(hexString: "76a9143bde42dbee7e4dbe6a21b2d50ce2f0167faa815988ac")!))
 
@@ -69,7 +72,7 @@ class BitcoinSignerTests: XCTestCase {
 
         let provider = BitcoinDefaultPrivateKeyProvider(keys: [utxoKey0, utxoKey1])
         provider.scriptsByScriptHash = [
-            Data(hexString: "1d0f172a0ecb48aee1be1f2687d2963ae33f71a1")!: script,
+            scriptHash: redeemScript,
         ]
 
         let signer = BitcoinTransactionSigner(keyProvider: provider, transaction: unsignedTx, hashType: .all)
@@ -116,9 +119,6 @@ class BitcoinSignerTests: XCTestCase {
     }
 
     func testSignP2SH_P2WPKH() throws {
-        let redeemScript = BitcoinScript.buildPayToWitnessPubkeyHash(Data(hexString: "79091972186c449eb1ded22b78e40d009bdf0089")!)
-        let scripthash = Crypto.sha256ripemd160(redeemScript.data)
-
         let unspentOutput0 = BitcoinTransactionOutput(value: 1000_000_000, script: BitcoinScript(data: Data(hexString: "a9144733f37cf4db86fbc2efed2500b4f4e49f31202387")!))
         let unspentOutpoint0 = BitcoinOutPoint(hash: Data(hexString: "db6b1b20aa0fd7b23880be2ecbd4a98130974cf4748fb66092ac4d3ceb1a5477")!, index: 1)
         let utxo0 = BitcoinUnspentTransaction(output: unspentOutput0, outpoint: unspentOutpoint0)
@@ -127,6 +127,13 @@ class BitcoinSignerTests: XCTestCase {
 
         let toOutput = BitcoinTransactionOutput(value: 199_996_600, script: BitcoinScript(data: Data(hexString: "76a914a457b684d7f0d539a46a45bbc043f35b59d0d96388ac")!))
         let changeOutput = BitcoinTransactionOutput(value: 800_000_000, script: BitcoinScript(data: Data(hexString: "76a914fd270b1ee6abcaea97fea7ad0402e8bd8ad6d77c88ac")!))
+
+        let utxoPubkeyHash = Crypto.sha256ripemd160(utxoKey0.publicKey(compressed: true).data)
+        XCTAssertEqual(utxoPubkeyHash.hexString, "79091972186c449eb1ded22b78e40d009bdf0089")
+
+        let redeemScript = BitcoinScript.buildPayToWitnessPubkeyHash(utxoPubkeyHash)
+        let scripthash = Crypto.sha256ripemd160(redeemScript.data)
+        XCTAssertEqual(BitcoinScript.buildPayToScriptHash(scripthash).data.hexString, "a9144733f37cf4db86fbc2efed2500b4f4e49f31202387")
 
         let unsignedTx = BitcoinTransaction(version: 1, inputs: [input0], outputs: [toOutput, changeOutput], lockTime: 0x492)
 
@@ -231,35 +238,5 @@ class BitcoinSignerTests: XCTestCase {
             00000000
             """.components(separatedBy: .whitespacesAndNewlines).joined()
         XCTAssertEqual(serialized.hexString, expected)
-    }
-
-    func testRedeemScriptWrong() {
-        let data = Data(hexString: "042de45bea3dada528eee8a1e04142d3e04fad66119d971b6019b0e3c02266b79142158aa83469db1332a880a2d5f8ce0b3bba542b3e32df0740ccbfb01c275e42")!
-        let redeemHash = Crypto.sha256ripemd160(data)
-        XCTAssertEqual(redeemHash.hexString, "cf5007e19af3641199f21f3fa54dff2fa2627471")
-    }
-
-    func testRedeemScript() {
-        let publicKey = PublicKey(data: Data(hexString: "042de45bea3dada528eee8a1e04142d3e04fad66119d971b6019b0e3c02266b79142158aa83469db1332a880a2d5f8ce0b3bba542b3e32df0740ccbfb01c275e42")!)!
-        let address = publicKey.legacyBitcoinAddress(prefix: 0x05)
-        XCTAssertEqual(address.description, "3LbBftXPhBmByAqgpZqx61ttiFfxjde2z7")
-
-        let embeddedScript = BitcoinScript.buildPayToPublicKeyHash(address: address)
-        let script = BitcoinScript.buildPayToScriptHash(script: embeddedScript)
-        XCTAssertEqual(script.data.hexString, "a914c470d22e69a2a967f2cec0cd5a5aebb955cdd39587")
-    }
-
-    func createUnsignedTx(toAddress: BitcoinAddress, amount: Int64, changeAddress: BitcoinAddress, utxos: [BitcoinUnspentTransaction], publicKey: PublicKey? = nil, fee: Int64 = 226) -> BitcoinTransaction {
-        let totalAmount: Int64 = utxos.reduce(0) { $0 + $1.output.value }
-        let change: Int64 = totalAmount - amount - fee
-
-        let lockingScriptTo = BitcoinScript.buildPayToPublicKeyHash(address: toAddress)
-        let lockingScriptChange = BitcoinScript.buildPayToPublicKeyHash(address: changeAddress)
-
-        let toOutput = BitcoinTransactionOutput(value: amount, script: lockingScriptTo)
-        let changeOutput = BitcoinTransactionOutput(value: change, script: lockingScriptChange)
-
-        let unsignedInputs = utxos.map { BitcoinTransactionInput(previousOutput: $0.outpoint, script: BitcoinScript(), sequence: UInt32.max) }
-        return BitcoinTransaction(version: 1, inputs: unsignedInputs, outputs: [toOutput, changeOutput], lockTime: 0)
     }
 }

@@ -35,7 +35,7 @@ class HDWalletTests: XCTestCase {
         let wallet = HDWallet(mnemonic: words, passphrase: passphrase)
         let key = wallet.getKey(at: blockchain.derivationPath(at: 0))
         let address = blockchain.address(for: key.publicKey())
-        XCTAssertEqual("3FJjnZNXC6FWQ2UJAaKL3Vme2EJavfgnXe", address.description)
+        XCTAssertEqual("bc1qumwjg8danv2vm29lp5swdux4r60ezptzz7ce85", address.description)
         XCTAssertEqual(key.publicKey().compressed.description, key.publicKey(compressed: true).description)
     }
 

@@ -6,10 +6,12 @@
 
 import Foundation
 
+// See https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki
 // See https://github.com/bitcoin/bips/blob/master/bip-0049.mediawiki
+// See https://github.com/bitcoin/bips/blob/master/bip-0084.mediawiki
 
 public enum Purpose: Int {
-    case bip39 = 39
     case bip44 = 44
-    case bip49 = 49
+    case bip49 = 49 //Derivation scheme for P2WPKH-nested-in-P2SH
+    case bip84 = 84 //Derivation scheme for P2WPKH
 }
