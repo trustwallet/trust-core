@@ -21,5 +21,6 @@ class SlipTests: XCTestCase {
         XCTAssertEqual(SLIP.CoinType.go.rawValue, 6060)
         XCTAssertEqual(SLIP.CoinType.poa.rawValue, 178)
         XCTAssertEqual(SLIP.CoinType.vechain.rawValue, 818)
+        XCTAssertEqual(SLIP.CoinType.icon.rawValue, 74)
     }
 }

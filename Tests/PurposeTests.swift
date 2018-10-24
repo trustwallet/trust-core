@@ -19,5 +19,6 @@ class PurposeTests: XCTestCase {
         XCTAssertEqual(.bip44, Wanchain().coinPurpose)
         XCTAssertEqual(.bip44, Vechain().coinPurpose)
         XCTAssertEqual(.bip44, Go().coinPurpose)
+        XCTAssertEqual(.bip44, Icon().coinPurpose)
     }
 }

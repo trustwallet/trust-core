@@ -52,6 +52,9 @@
 /// Computes the Ethereum hash of a block of data (SHA3 Keccak 256 version).
 + (nonnull NSData *)hash:(nonnull NSData *)hash;
 
+/// Computes the SHA3-256 hash of the data.
++ (nonnull NSData *)sha3_256:(nonnull NSData *)hash;
+
 /// Computes the RIPEMD-160 hash of the data.
 + (nonnull NSData *)ripemd160:(nonnull NSData *)data;
     

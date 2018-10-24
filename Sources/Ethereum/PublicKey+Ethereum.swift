@@ -7,7 +7,7 @@
 import Foundation
 
 public extension PublicKey {
-    /// Ethereym address.
+    /// Ethereum address.
     public var ethereumAddress: EthereumAddress {
         let hash = Crypto.hash(data[1...])
         return EthereumAddress(data: hash.suffix(EthereumAddress.size))!

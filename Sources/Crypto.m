@@ -72,6 +72,12 @@
     return output;
 }
 
++ (nonnull NSData *)sha3_256:(nonnull NSData *)hash {
+    NSMutableData *output = [[NSMutableData alloc] initWithLength:sha3_256_hash_size];
+    sha3_256(hash.bytes, hash.length, output.mutableBytes);
+    return output;
+}
+
 + (nonnull NSData *)sha256:(nonnull NSData *)data {
     NSMutableData *result = [[NSMutableData alloc] initWithLength:SHA256_DIGEST_LENGTH];
     sha256_Raw(data.bytes, data.length, result.mutableBytes);
