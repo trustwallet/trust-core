@@ -16,7 +16,7 @@ open class Bitcoin: Blockchain {
     }
 
     override open var coinPurpose: Purpose {
-        return .bip49
+        return .bip84
     }
 
     /// Public key hash address prefix.
@@ -33,19 +33,35 @@ open class Bitcoin: Blockchain {
     }
 
     open override func address(for publicKey: PublicKey) -> Address {
-        return publicKey.compressed.bitcoinAddress(prefix: payToScriptHashAddressPrefix)
+        return publicKey.compressed.bitcoinBech32Address()
     }
 
     open override func address(string: String) -> Address? {
-        return BitcoinAddress(string: string)
+        if let bech32Address = BitcoinSegwitAddress(string: string) {
+            return bech32Address
+        } else {
+            return BitcoinAddress(string: string)
+        }
     }
 
     open override func address(data: Data) -> Address? {
-        return BitcoinAddress(data: data)
+        if let bech32Address = BitcoinSegwitAddress(data: data) {
+            return bech32Address
+        } else {
+            return BitcoinAddress(data: data)
+        }
     }
 
-    open func bech32Address(for publicKey: PublicKey) -> BitcoinSegwitAddress {
-        return publicKey.compressed.bitcoinBech32Address()
+    open func compatibleAddress(for publicKey: PublicKey) -> Address {
+        return publicKey.compressed.compatibleBitcoinAddress(prefix: payToScriptHashAddressPrefix)
+    }
+
+    open func compatibleAddress(string: String) -> Address? {
+        return BitcoinAddress(string: string)
+    }
+
+    open func compatibleAddress(data: Data) -> Address? {
+        return BitcoinAddress(data: data)
     }
 
     open func legacyAddress(for publicKey: PublicKey, prefix: UInt8) -> Address {
@@ -75,6 +91,11 @@ public final class Dash: Bitcoin {
     public override var coinType: SLIP.CoinType {
         return .dash
     }
+
+    override open var coinPurpose: Purpose {
+        return .bip44
+    }
+
     public override var payToScriptHashAddressPrefix: UInt8 {
         return 0x4C
     }

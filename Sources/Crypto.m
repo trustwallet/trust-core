@@ -58,7 +58,7 @@
     if (v >= 27) {
         v -= 27;
     }
-    if (ecdsa_verify_digest_recover(&secp256k1, pubkey, bytes, message.bytes, v) != 0) {
+    if (ecdsa_recover_pub_from_sig(&secp256k1, pubkey, bytes, message.bytes, v) != 0) {
         return nil;
     }
     return [NSData dataWithBytes:pubkey length:65];

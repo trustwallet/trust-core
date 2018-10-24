@@ -11,8 +11,8 @@ public struct WitnessProgram: Equatable {
     public let version: UInt8
     public let program: Data
 
-    var encoded: Data {
-        guard valid else { return Data() }
+    var bech32Data: Data? {
+        guard valid else { return nil }
         var data = Data(bytes: [version])
         if let bits = convertBits(program, from: 8, to: 5) {
             data.append(bits)
@@ -34,34 +34,50 @@ public struct WitnessProgram: Equatable {
         return true
     }
 
-    func convertBits(_ data: Data, from: UInt32, to: UInt32, pad: Bool = true) -> Data? {
-        var ret = Data()
-        if from > 8 || to > 8 {
+    public static func from(bech32 address: String) -> WitnessProgram? {
+        guard let data = BitcoinSegwitAddress.bech32Decode(string: address) else {
             return nil
         }
-        var acc: UInt32 = 0
-        var bits: UInt32 = 0
-        let maxv: UInt32 = (1 << to) - 1
-        for value in data {
-            let v = UInt32(value)
-            if (v >> from) != 0 {
-                // Input value exceeds `from` bit size
-                return nil
-            }
-            acc = (acc << from) | v
-            bits += from
-            while bits >= to {
-                bits -= to
-                ret.append(UInt8((acc >> bits) & maxv))
-            }
-        }
-        if pad {
-            if bits > 0 {
-                ret.append(UInt8((acc << (to - bits)) & maxv))
-            }
-        } else if bits >= from || ((acc << (to - bits)) & maxv) != 0 {
-            return nil
-        }
-        return ret
+        return WitnessProgram.from(bech32: data)
     }
+
+    public static func from(bech32 data: Data) -> WitnessProgram? {
+        guard BitcoinSegwitAddress.isValid(data: data) else {
+            return nil
+        }
+        let version = data[0]
+        let program = convertBits(data[1...], from: 5, to: 8, pad: false)!
+        return WitnessProgram(version: version, program: program)
+    }
+}
+
+public func convertBits(_ data: Data, from: UInt32, to: UInt32, pad: Bool = true) -> Data? {
+    var ret = Data()
+    if from > 8 || to > 8 {
+        return nil
+    }
+    var acc: UInt32 = 0
+    var bits: UInt32 = 0
+    let maxv: UInt32 = (1 << to) - 1
+    for value in data {
+        let v = UInt32(value)
+        if (v >> from) != 0 {
+            // Input value exceeds `from` bit size
+            return nil
+        }
+        acc = (acc << from) | v
+        bits += from
+        while bits >= to {
+            bits -= to
+            ret.append(UInt8((acc >> bits) & maxv))
+        }
+    }
+    if pad {
+        if bits > 0 {
+            ret.append(UInt8((acc << (to - bits)) & maxv))
+        }
+    } else if bits >= from || ((acc << (to - bits)) & maxv) != 0 {
+        return nil
+    }
+    return ret
 }

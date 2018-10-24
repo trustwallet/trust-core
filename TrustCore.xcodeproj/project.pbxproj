@@ -99,6 +99,7 @@
 		8B6CF653216F6E9A00DDD488 /* TronSign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6CF652216F6E9A00DDD488 /* TronSign.swift */; };
 		8B6CF659216F70DC00DDD488 /* TronTransactionSignerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6CF658216F70DC00DDD488 /* TronTransactionSignerTest.swift */; };
 		BB06149A920620338B3323D1 /* Pods_TrustCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 682B6374F9856982618A8501 /* Pods_TrustCore.framework */; };
+		BB116822217034A2007C8DC9 /* BitcoinScriptTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB116821217034A2007C8DC9 /* BitcoinScriptTests.swift */; };
 		BB1215D021390A4D0092FC68 /* ERC721EncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1215CF21390A4D0092FC68 /* ERC721EncoderTests.swift */; };
 		BB3864A72090088D00CBF773 /* ENSEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3864A62090088D00CBF773 /* ENSEncoder.swift */; };
 		BB3864A92090145600CBF773 /* ENSEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3864A82090145600CBF773 /* ENSEncoderTests.swift */; };
@@ -111,6 +112,7 @@
 		BB636D3B2121528D0071AE07 /* GenericJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB636D392121528C0071AE07 /* GenericJSON.swift */; };
 		BB636D3C2121528D0071AE07 /* EIP712TypedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB636D3A2121528C0071AE07 /* EIP712TypedData.swift */; };
 		BB636D3E212154270071AE07 /* EIP712TypedDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB636D36212151EA0071AE07 /* EIP712TypedDataTests.swift */; };
+		BB9C2B9D216F363E0096321A /* BitcoinTransaction+Building.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9C2B9C216F363E0096321A /* BitcoinTransaction+Building.swift */; };
 		BBD1CF7C2150F5CE00B99329 /* BitcoinSegwitAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD1CF7B2150F5CE00B99329 /* BitcoinSegwitAddress.swift */; };
 		BBD1CF7E2151EA1700B99329 /* WitnessProgram.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD1CF7D2151EA1700B99329 /* WitnessProgram.swift */; };
 /* End PBXBuildFile section */
@@ -224,6 +226,7 @@
 		8B6CF658216F70DC00DDD488 /* TronTransactionSignerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TronTransactionSignerTest.swift; sourceTree = "<group>"; };
 		99258028638D3902B177E80C /* Pods-TrustCore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrustCore.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TrustCore/Pods-TrustCore.debug.xcconfig"; sourceTree = "<group>"; };
 		A1C9DA59AE410E04E68E1F89 /* Pods_TrustCore_TrustCoreTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TrustCore_TrustCoreTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BB116821217034A2007C8DC9 /* BitcoinScriptTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinScriptTests.swift; sourceTree = "<group>"; };
 		BB1215CF21390A4D0092FC68 /* ERC721EncoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ERC721EncoderTests.swift; sourceTree = "<group>"; };
 		BB3864A62090088D00CBF773 /* ENSEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ENSEncoder.swift; sourceTree = "<group>"; };
 		BB3864A82090145600CBF773 /* ENSEncoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ENSEncoderTests.swift; sourceTree = "<group>"; };
@@ -236,6 +239,7 @@
 		BB636D36212151EA0071AE07 /* EIP712TypedDataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EIP712TypedDataTests.swift; sourceTree = "<group>"; };
 		BB636D392121528C0071AE07 /* GenericJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericJSON.swift; sourceTree = "<group>"; };
 		BB636D3A2121528C0071AE07 /* EIP712TypedData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EIP712TypedData.swift; sourceTree = "<group>"; };
+		BB9C2B9C216F363E0096321A /* BitcoinTransaction+Building.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BitcoinTransaction+Building.swift"; sourceTree = "<group>"; };
 		BBD1CF7B2150F5CE00B99329 /* BitcoinSegwitAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinSegwitAddress.swift; sourceTree = "<group>"; };
 		BBD1CF7D2151EA1700B99329 /* WitnessProgram.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WitnessProgram.swift; sourceTree = "<group>"; };
 		D2663E7275439A0F14129090 /* Pods-TrustCore-TrustCoreTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrustCore-TrustCoreTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TrustCore-TrustCoreTests/Pods-TrustCore-TrustCoreTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -413,6 +417,7 @@
 				615AE1DB20F1D6DE00A5A0ED /* PublicKey+Bitcoin.swift */,
 				612B85D5212BC3A500F5BCF5 /* SignatureHashType.swift */,
 				BBD1CF7D2151EA1700B99329 /* WitnessProgram.swift */,
+				BB9C2B9C216F363E0096321A /* BitcoinTransaction+Building.swift */,
 			);
 			path = Bitcoin;
 			sourceTree = "<group>";
@@ -438,6 +443,7 @@
 				614A9F0420F2E25F00326188 /* BitcoinAddressTests.swift */,
 				611204CD21096D1300C2A28A /* BitcoinTransactionTests.swift */,
 				612B85D7212BCBCB00F5BCF5 /* BitcoinSignerTests.swift */,
+				BB116821217034A2007C8DC9 /* BitcoinScriptTests.swift */,
 			);
 			path = Bitcoin;
 			sourceTree = "<group>";
@@ -837,6 +843,7 @@
 				613EA919212896ED008C4916 /* BitcoinTransactionSigner.swift in Sources */,
 				61A4B14E2140E75900D0136A /* PrivateKey+Bitcoin.swift in Sources */,
 				615AE1E820F1DC1F00A5A0ED /* Crypto.m in Sources */,
+				BB9C2B9D216F363E0096321A /* BitcoinTransaction+Building.swift in Sources */,
 				61675575207AE06100018DC8 /* ABIError.swift in Sources */,
 				5DFB5459216660B40041AE73 /* PublicKey+Icon.swift in Sources */,
 				77F80A862134A4F60011D949 /* VechainTransaction.swift in Sources */,
@@ -885,6 +892,7 @@
 				6161048420F2F73E000E8F37 /* PrivateKeyTests.swift in Sources */,
 				5D0296C0216A485B00A94661 /* IconTransactionTests.swift in Sources */,
 				6154D9902140D8B200B2D3E2 /* LitecoinTests.swift in Sources */,
+				BB116822217034A2007C8DC9 /* BitcoinScriptTests.swift in Sources */,
 				612B85D8212BCBCB00F5BCF5 /* BitcoinSignerTests.swift in Sources */,
 				61D0BA2D2075EF53004F71E1 /* ABIEncoderTests.swift in Sources */,
 				6149A6CE201E499B00A2F35C /* DataHexTests.swift in Sources */,
