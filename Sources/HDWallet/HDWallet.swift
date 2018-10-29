@@ -41,16 +41,19 @@ public class HDWallet {
 
     public func getExtendedPrivateKey(for purpose: Purpose) -> String {
         var node = getNode(for: purpose)
-        let fingerprint = hdnode_fingerprint(&node)
         let buffer = [Int8](repeating: 0, count: 128)
+        let fingerprint = hdnode_fingerprint(&node)
+        hdnode_private_ckd(&node, DerivationPath.Index(0, hardened: true).derivationIndex)
         hdnode_serialize_private(&node, fingerprint, purpose.xprvVersion, UnsafeMutablePointer<Int8>(mutating: buffer), 128)
         return String(cString: buffer)
     }
 
     public func getExtendedPubKey(for purpose: Purpose) -> String {
         var node = getNode(for: purpose)
-        let fingerprint = hdnode_fingerprint(&node)
         let buffer = [Int8](repeating: 0, count: 128)
+        let fingerprint = hdnode_fingerprint(&node)
+        hdnode_private_ckd(&node, DerivationPath.Index(0, hardened: true).derivationIndex)
+        hdnode_fill_public_key(&node)
         hdnode_serialize_public(&node, fingerprint, purpose.xpubVersion, UnsafeMutablePointer<Int8>(mutating: buffer), 128)
         return String(cString: buffer)
     }
@@ -65,8 +68,8 @@ public class HDWallet {
         let indices = [
             DerivationPath.Index(purpose.rawValue, hardened: true),
             DerivationPath.Index(0, hardened: true),
-            DerivationPath.Index(0, hardened: true),
             ]
+
         for index in indices {
             hdnode_private_ckd(&node, index.derivationIndex)
         }
