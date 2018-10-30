@@ -59,12 +59,7 @@ public class HDWallet {
     }
 
     private func getNode(for purpose: Purpose) -> HDNode {
-        var node = HDNode()
-        let count = Int32(seed.count)
-        _ = seed.withUnsafeBytes { seed in
-            hdnode_from_seed(seed, count, "secp256k1", &node)
-        }
-
+        var node = getMasterNode()
         let indices = [
             DerivationPath.Index(purpose.rawValue, hardened: true),
             DerivationPath.Index(0, hardened: true),
@@ -77,13 +72,18 @@ public class HDWallet {
     }
 
     private func getNode(at derivationPath: DerivationPath) -> HDNode {
+        var node = getMasterNode()
+        for index in derivationPath.indices {
+            hdnode_private_ckd(&node, index.derivationIndex)
+        }
+        return node
+    }
+
+    private func getMasterNode() -> HDNode {
         var node = HDNode()
         let count = Int32(seed.count)
         _ = seed.withUnsafeBytes { seed in
             hdnode_from_seed(seed, count, "secp256k1", &node)
-        }
-        for index in derivationPath.indices {
-            hdnode_private_ckd(&node, index.derivationIndex)
         }
         return node
     }
