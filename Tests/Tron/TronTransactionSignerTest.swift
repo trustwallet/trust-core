@@ -14,7 +14,7 @@ class TronContractTests: XCTestCase {
         let amount = Int64(2000000)
         let contract = TronContract(from: from, to: to, amount: amount)
 
-        let timestamp = Int64(1539295479000)
+        let timestamp: Int64 = 1539295479000
         let txTrieRoot = Data(hexString: "64288c2db0641316762a99dbb02ef7c90f968b60f9f2e410835980614332f86d")!
         let parentHash =  Data(hexString: "00000000002f7b3af4f5f8b9e23a30c530f719f165b742e7358536b280eead2d")!
         let number = Int64(3111739)

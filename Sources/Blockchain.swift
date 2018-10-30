@@ -49,6 +49,6 @@ open class Blockchain: Hashable {
 
 public extension Blockchain {
     func derivationPath(account: Int = 0, change: Int = 0, at index: Int) -> DerivationPath {
-        return DerivationPath(purpose: coinPurpose.rawValue, coinType: coinType.rawValue, account: 0, change: 0, address: index)
+        return DerivationPath(purpose: coinPurpose.rawValue, coinType: coinType.rawValue, account: account, change: change, address: index)
     }
 }
