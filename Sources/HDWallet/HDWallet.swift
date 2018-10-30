@@ -39,14 +39,51 @@ public class HDWallet {
         return PrivateKey(data: data)!
     }
 
+    public func getExtendedPrivateKey(for purpose: Purpose) -> String {
+        var node = getNode(for: purpose)
+        let buffer = [Int8](repeating: 0, count: 128)
+        let fingerprint = hdnode_fingerprint(&node)
+        hdnode_private_ckd(&node, DerivationPath.Index(0, hardened: true).derivationIndex)
+        hdnode_serialize_private(&node, fingerprint, purpose.xprvVersion, UnsafeMutablePointer<Int8>(mutating: buffer), 128)
+        return String(cString: buffer)
+    }
+
+    public func getExtendedPubKey(for purpose: Purpose) -> String {
+        var node = getNode(for: purpose)
+        let buffer = [Int8](repeating: 0, count: 128)
+        let fingerprint = hdnode_fingerprint(&node)
+        hdnode_private_ckd(&node, DerivationPath.Index(0, hardened: true).derivationIndex)
+        hdnode_fill_public_key(&node)
+        hdnode_serialize_public(&node, fingerprint, purpose.xpubVersion, UnsafeMutablePointer<Int8>(mutating: buffer), 128)
+        return String(cString: buffer)
+    }
+
+    private func getNode(for purpose: Purpose) -> HDNode {
+        var node = getMasterNode()
+        let indices = [
+            DerivationPath.Index(purpose.rawValue, hardened: true),
+            DerivationPath.Index(0, hardened: true),
+            ]
+
+        for index in indices {
+            hdnode_private_ckd(&node, index.derivationIndex)
+        }
+        return node
+    }
+
     private func getNode(at derivationPath: DerivationPath) -> HDNode {
+        var node = getMasterNode()
+        for index in derivationPath.indices {
+            hdnode_private_ckd(&node, index.derivationIndex)
+        }
+        return node
+    }
+
+    private func getMasterNode() -> HDNode {
         var node = HDNode()
         let count = Int32(seed.count)
         _ = seed.withUnsafeBytes { seed in
             hdnode_from_seed(seed, count, "secp256k1", &node)
-        }
-        for index in derivationPath.indices {
-            hdnode_private_ckd(&node, index.derivationIndex)
         }
         return node
     }
