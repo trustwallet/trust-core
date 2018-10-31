@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		297A910E21899BA400728946 /* EOSAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297A910D21899BA400728946 /* EOSAddress.swift */; };
+		297A91132189A28200728946 /* EOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297A91122189A28200728946 /* EOSTests.swift */; };
 		29EDBD2A214AEF6F00C86992 /* Tron.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29EDBD29214AEF6F00C86992 /* Tron.swift */; };
 		5D0296C0216A485B00A94661 /* IconTransactionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0296BF216A485B00A94661 /* IconTransactionTests.swift */; };
 		5D119A0C21676B18003E5D78 /* IconAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D119A0B21676B18003E5D78 /* IconAddress.swift */; };
@@ -128,6 +130,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		297A910D21899BA400728946 /* EOSAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EOSAddress.swift; sourceTree = "<group>"; };
+		297A91122189A28200728946 /* EOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EOSTests.swift; sourceTree = "<group>"; };
 		29EDBD29214AEF6F00C86992 /* Tron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tron.swift; sourceTree = "<group>"; };
 		5D0296BF216A485B00A94661 /* IconTransactionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconTransactionTests.swift; sourceTree = "<group>"; };
 		5D119A0B21676B18003E5D78 /* IconAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconAddress.swift; sourceTree = "<group>"; };
@@ -268,6 +272,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		297A910C21899B8500728946 /* EOS */ = {
+			isa = PBXGroup;
+			children = (
+				297A910D21899BA400728946 /* EOSAddress.swift */,
+			);
+			path = EOS;
+			sourceTree = "<group>";
+		};
+		297A91112189A27600728946 /* EOS */ = {
+			isa = PBXGroup;
+			children = (
+				297A91122189A28200728946 /* EOSTests.swift */,
+			);
+			path = EOS;
+			sourceTree = "<group>";
+		};
 		29EDBD28214AEF6100C86992 /* Tron */ = {
 			isa = PBXGroup;
 			children = (
@@ -350,6 +370,7 @@
 				5DFB5452216656A80041AE73 /* Icon */,
 				29EDBD28214AEF6100C86992 /* Tron */,
 				77F80A822134A4B50011D949 /* VeChain */,
+				297A910C21899B8500728946 /* EOS */,
 				77044FAB212F8E5A00CC20D1 /* Wanchain */,
 			);
 			path = Sources;
@@ -367,6 +388,7 @@
 		6149A6C3201E43E200A2F35C /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				297A91112189A27600728946 /* EOS */,
 				8B6CF655216F706300DDD488 /* Tron */,
 				77F80A9321363D5C0011D949 /* CryptoTests.swift */,
 				77F8D3AF2141CBB900E80CD6 /* DashTests.swift */,
@@ -846,6 +868,7 @@
 				BB9C2B9D216F363E0096321A /* BitcoinTransaction+Building.swift in Sources */,
 				61675575207AE06100018DC8 /* ABIError.swift in Sources */,
 				5DFB5459216660B40041AE73 /* PublicKey+Icon.swift in Sources */,
+				297A910E21899BA400728946 /* EOSAddress.swift in Sources */,
 				77F80A862134A4F60011D949 /* VechainTransaction.swift in Sources */,
 				77044FAD212F8E7400CC20D1 /* WanchainTransaction.swift in Sources */,
 				8B1A2FA9216FB25A009874E0 /* Tron.pb.swift in Sources */,
@@ -866,6 +889,7 @@
 			files = (
 				77F8D3DF2148625100E80CD6 /* PurposeTests.swift in Sources */,
 				5DFB545721665A980041AE73 /* IconAddressTests.swift in Sources */,
+				297A91132189A28200728946 /* EOSTests.swift in Sources */,
 				BB3864C720956F8B00CBF773 /* ReverseResolverEncoderTests.swift in Sources */,
 				61555865208ED04F00FB241E /* TransactionSigningTests.swift in Sources */,
 				6149A6D0201E4B6B00A2F35C /* EthereumAddressTests.swift in Sources */,
@@ -1045,9 +1069,25 @@
 				INFOPLIST_FILE = Metadata/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-iquote",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/BigInt/BigInt.framework/Headers\"",
+					"-iquote",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SipHash/SipHash.framework/Headers\"",
+					"-iquote",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SwiftProtobuf/SwiftProtobuf.framework/Headers\"",
+					"-iquote",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/TrezorCrypto/TrezorCrypto.framework/Headers\"",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					USE_GRAPHENE,
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.trustwalletapp.TrustCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";

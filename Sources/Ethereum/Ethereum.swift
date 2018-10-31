@@ -106,3 +106,32 @@ public final class ThunderToken: Ethereum {
         return .thunderToken
     }
 }
+
+public final class EOS: Blockchain {
+    public var chainIDString: String {
+        return "aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906"
+    }
+
+    public override var coinType: SLIP.CoinType {
+        return .eos
+    }
+
+    public override var coinPurpose: Purpose {
+        return .bip44
+    }
+
+    public override func address(for publicKey: PublicKey) -> Address {
+        let compressed = publicKey.compressed
+        let check = Crypto.ripemd160(compressed.data)[0..<4]
+        let base58 = Crypto.base58Encode(compressed.data + check)
+        return EOSAddress(string: base58)!
+    }
+
+    public override func address(string: String) -> Address? {
+        return EOSAddress(string: string)
+    }
+
+    public override func address(data: Data) -> Address? {
+        return EOSAddress(data: data)
+    }
+}
