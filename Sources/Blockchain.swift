@@ -5,6 +5,7 @@
 // file LICENSE at the root of the source code distribution tree.
 
 import Foundation
+import TrezorCrypto
 
 /// Blockchain represents what is unique about every blockchain.
 open class Blockchain: Hashable {
@@ -15,11 +16,19 @@ open class Blockchain: Hashable {
         fatalError("Use a specific Blockchain subclass")
     }
 
-    open var coinPurpose: Purpose {
-        return .bip44
+    open var coinPurpose: Purpose
+
+    open var xpubVersion: UInt32 {
+        fatalError("Use a specific Blockchain subclass")
     }
 
-    public init() {}
+    open var xprvVersion: UInt32 {
+        fatalError("Use a specific Blockchain subclass")
+    }
+
+    public init(purpose: Purpose = .bip44) {
+        self.coinPurpose = purpose
+    }
 
     /// Returns the address associated with a public key.
     open func address(for publicKey: PublicKey) -> Address {
@@ -50,5 +59,21 @@ open class Blockchain: Hashable {
 public extension Blockchain {
     func derivationPath(account: Int = 0, change: Int = 0, at index: Int) -> DerivationPath {
         return DerivationPath(purpose: coinPurpose.rawValue, coinType: coinType.rawValue, account: account, change: change, address: index)
+    }
+
+    func derive(from extendedPubkey: String, at path: DerivationPath) -> Address {
+        var node = HDNode()
+        var fingerprint: UInt32 = 0
+
+        hdnode_deserialize(extendedPubkey, xpubVersion, xprvVersion, "secp256k1", &node, &fingerprint)
+        hdnode_public_ckd(&node, UInt32(path.change))
+        hdnode_public_ckd(&node, UInt32(path.address))
+        hdnode_fill_public_key(&node)
+
+        var data = Data()
+        withUnsafeBytes(of: &node.public_key) {
+            data.append($0.bindMemory(to: UInt8.self))
+        }
+        return self.address(for: PublicKey(data: data)!)
     }
 }

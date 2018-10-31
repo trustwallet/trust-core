@@ -10,16 +10,16 @@ public final class Tron: Bitcoin {
     override public var coinType: SLIP.CoinType {
         return .tron
     }
-    override public var payToScriptHashAddressPrefix: UInt8 {
+    override public var p2shPrefix: UInt8 {
         return 0x41
     }
 
-    override public var coinPurpose: Purpose {
-        return .bip44
+    override public func address(for publicKey: PublicKey) -> Address {
+        let hash = Data([p2shPrefix]) + Crypto.hash(publicKey.data.dropFirst()).suffix(20)
+        return BitcoinAddress(data: hash)!
     }
 
-    override public func address(for publicKey: PublicKey) -> Address {
-        let hash = Data([payToScriptHashAddressPrefix]) + Crypto.hash(publicKey.data.dropFirst()).suffix(20)
-        return BitcoinAddress(data: hash)!
+    override public init(purpose: Purpose = .bip44) {
+        super.init(purpose: purpose)
     }
 }
