@@ -18,12 +18,12 @@ open class Blockchain: Hashable {
 
     open var coinPurpose: Purpose
 
-    open var xpubVersion: UInt32 {
-        fatalError("Use a specific Blockchain subclass")
+    open var xpubVersion: SLIP.HDVersion? {
+        return nil
     }
 
-    open var xprvVersion: UInt32 {
-        fatalError("Use a specific Blockchain subclass")
+    open var xprvVersion: SLIP.HDVersion? {
+        return nil
     }
 
     public init(purpose: Purpose = .bip44) {
@@ -61,11 +61,16 @@ public extension Blockchain {
         return DerivationPath(purpose: coinPurpose.rawValue, coinType: coinType.rawValue, account: account, change: change, address: index)
     }
 
-    func derive(from extendedPubkey: String, at path: DerivationPath) -> Address {
+    func derive(from extendedPubkey: String, at path: DerivationPath) -> Address? {
+        guard let xpubV = xpubVersion,
+            let xprvV = xprvVersion else {
+            return nil
+        }
+
         var node = HDNode()
         var fingerprint: UInt32 = 0
 
-        hdnode_deserialize(extendedPubkey, xpubVersion, xprvVersion, "secp256k1", &node, &fingerprint)
+        hdnode_deserialize(extendedPubkey, xpubV.rawValue, xprvV.rawValue, "secp256k1", &node, &fingerprint)
         hdnode_public_ckd(&node, UInt32(path.change))
         hdnode_public_ckd(&node, UInt32(path.address))
         hdnode_fill_public_key(&node)

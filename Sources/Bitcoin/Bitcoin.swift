@@ -15,25 +15,25 @@ open class Bitcoin: Blockchain {
         return .bitcoin
     }
 
-    override open var xpubVersion: UInt32 {
+    override open var xpubVersion: SLIP.HDVersion? {
         switch self.coinPurpose {
         case .bip44:
-            return SLIP.HDVersion.xpub.rawValue
+            return SLIP.HDVersion.xpub
         case .bip49:
-            return SLIP.HDVersion.ypub.rawValue
+            return SLIP.HDVersion.ypub
         case .bip84:
-            return SLIP.HDVersion.zpub.rawValue
+            return SLIP.HDVersion.zpub
         }
     }
 
-    override open var xprvVersion: UInt32 {
+    override open var xprvVersion: SLIP.HDVersion? {
         switch self.coinPurpose {
         case .bip44:
-            return SLIP.HDVersion.xprv.rawValue
+            return SLIP.HDVersion.xprv
         case .bip49:
-            return SLIP.HDVersion.yprv.rawValue
+            return SLIP.HDVersion.yprv
         case .bip84:
-            return SLIP.HDVersion.zprv.rawValue
+            return SLIP.HDVersion.zprv
         }
     }
 
