@@ -6,28 +6,24 @@
 
 import Foundation
 
-public class EOSAddress: Address {
+public struct EOSAddress: Address {
 
     static let prefix: String = "EOS"
 
     public let data: Data
 
     public static func isValid(data: Data) -> Bool {
-        return true
+        return data.count == 37
     }
 
     public static func isValid(string: String) -> Bool {
-        return true
-    }
-
-    public required init?(data: Data) {
-        if !EOSAddress.isValid(data: data) {
-            return nil
+        guard let decoded = EOSAddress.decode(string: string) else {
+            return false
         }
-        self.data = data
+        return EOSAddress.isValid(data: decoded)
     }
 
-    public required convenience init?(string: String) {
+    public static func decode(string: String) -> Data? {
         guard string.starts(with: EOSAddress.prefix) else {
             return nil
         }
@@ -35,7 +31,21 @@ public class EOSAddress: Address {
         guard let decoded = Crypto.base58DecodeRaw(sub) else {
             return nil
         }
-        self.init(data: decoded)
+        return decoded
+    }
+
+    public init?(data: Data) {
+        if !EOSAddress.isValid(data: data) {
+            return nil
+        }
+        self.data = data
+    }
+
+    public init?(string: String) {
+        guard let decoded = EOSAddress.decode(string: string) else {
+            return nil
+        }
+        self.data = decoded
     }
 
     public var description: String {

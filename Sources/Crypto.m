@@ -119,9 +119,11 @@
 
 + (nonnull NSString *)base58EncodeRaw:(nonnull NSData *)data {
     size_t size = 0;
-    bool success = b58enc(nil, &size, data.bytes, data.length);
+    b58enc(nil, &size, data.bytes, data.length);
     char *cstring = malloc(size);
-    success = b58enc(cstring, &size, data.bytes, data.length);
+    if (!b58enc(cstring, &size, data.bytes, data.length)) {
+        return @"";
+    };
     return [[NSString alloc] initWithBytesNoCopy:cstring length:size - 1 encoding:NSUTF8StringEncoding freeWhenDone:YES];
 }
 
@@ -143,13 +145,13 @@
 + (nullable NSData *)base58DecodeRaw:(nonnull NSString *)string
 {
     const char *str = [string cStringUsingEncoding:NSUTF8StringEncoding];
-    size_t len = string.length + 4;
-    NSMutableData *data = [[NSMutableData alloc] initWithCapacity:len];
-    if (b58tobin(data.mutableBytes, &len, str) != true) {
+    size_t len = 128;
+    size_t res = len;
+    uint8_t buff[len];
+    if (b58tobin(buff, &res, str) != true) {
         return nil;
     }
-    [data setLength:len];
-    return data;
+    return [[NSData alloc] initWithBytes:buff + len - res length:res];
 }
 
 // MARK: - Bech32

@@ -13,7 +13,9 @@ class EOSTests: XCTestCase {
         let publicKey = privateKey.publicKey()
 
         let address = EOS().address(for: publicKey)
-
-        XCTAssertEqual(address.description, "EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV")
+        let string = "EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV"
+        XCTAssertEqual(address.description, string)
+        XCTAssertTrue(EOSAddress.isValid(string: string))
+        XCTAssertEqual(EOSAddress(string: string)?.description, string)
     }
 }
