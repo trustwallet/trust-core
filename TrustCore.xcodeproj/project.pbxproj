@@ -110,6 +110,7 @@
 		BB3864C3209569CE00CBF773 /* ReverseResolverEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3864C2209569CE00CBF773 /* ReverseResolverEncoder.swift */; };
 		BB3864C720956F8B00CBF773 /* ReverseResolverEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3864C620956F8B00CBF773 /* ReverseResolverEncoderTests.swift */; };
 		BB3864C92095C80D00CBF773 /* Namehash.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3864C82095C80D00CBF773 /* Namehash.swift */; };
+		BB48ECB52189D45300F12709 /* EOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB48ECB42189D45300F12709 /* EOS.swift */; };
 		BB58F29C213CF787007A826C /* ERC721Encoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB58F29B213CF787007A826C /* ERC721Encoder.swift */; };
 		BB636D3B2121528D0071AE07 /* GenericJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB636D392121528C0071AE07 /* GenericJSON.swift */; };
 		BB636D3C2121528D0071AE07 /* EIP712TypedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB636D3A2121528C0071AE07 /* EIP712TypedData.swift */; };
@@ -239,6 +240,7 @@
 		BB3864C2209569CE00CBF773 /* ReverseResolverEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReverseResolverEncoder.swift; sourceTree = "<group>"; };
 		BB3864C620956F8B00CBF773 /* ReverseResolverEncoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReverseResolverEncoderTests.swift; sourceTree = "<group>"; };
 		BB3864C82095C80D00CBF773 /* Namehash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Namehash.swift; sourceTree = "<group>"; };
+		BB48ECB42189D45300F12709 /* EOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EOS.swift; sourceTree = "<group>"; };
 		BB58F29B213CF787007A826C /* ERC721Encoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ERC721Encoder.swift; sourceTree = "<group>"; };
 		BB636D36212151EA0071AE07 /* EIP712TypedDataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EIP712TypedDataTests.swift; sourceTree = "<group>"; };
 		BB636D392121528C0071AE07 /* GenericJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericJSON.swift; sourceTree = "<group>"; };
@@ -276,6 +278,7 @@
 			isa = PBXGroup;
 			children = (
 				297A910D21899BA400728946 /* EOSAddress.swift */,
+				BB48ECB42189D45300F12709 /* EOS.swift */,
 			);
 			path = EOS;
 			sourceTree = "<group>";
@@ -828,6 +831,7 @@
 				61F8A69E215C673E004B8CE5 /* BitcoinScript+Parsing.swift in Sources */,
 				6149A6CA201E472000A2F35C /* EthereumTransaction.swift in Sources */,
 				8B1A2FA8216FB25A009874E0 /* Contract.pb.swift in Sources */,
+				BB48ECB52189D45300F12709 /* EOS.swift in Sources */,
 				7749DFEF2141105800411ED8 /* SLIP.swift in Sources */,
 				29EDBD2A214AEF6F00C86992 /* Tron.swift in Sources */,
 				615AE1E220F1D71000A5A0ED /* Address.swift in Sources */,

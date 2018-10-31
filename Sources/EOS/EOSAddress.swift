@@ -8,6 +8,8 @@ import Foundation
 
 public class EOSAddress: Address {
 
+    static let prefix: String = "EOS"
+
     public let data: Data
 
     public static func isValid(data: Data) -> Bool {
@@ -26,13 +28,17 @@ public class EOSAddress: Address {
     }
 
     public required convenience init?(string: String) {
-        guard let decoded = Crypto.base58Decode(string) else {
+        guard string.starts(with: EOSAddress.prefix) else {
+            return nil
+        }
+        let sub = String(string.dropFirst(EOSAddress.prefix.count))
+        guard let decoded = Crypto.base58DecodeRaw(sub) else {
             return nil
         }
         self.init(data: decoded)
     }
 
     public var description: String {
-        return "EOS" + Crypto.base58Encode(data)
+        return EOSAddress.prefix + Crypto.base58EncodeRaw(data)
     }
 }

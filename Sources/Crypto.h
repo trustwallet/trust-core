@@ -75,8 +75,14 @@
 /// Encodes data as a base 58 string, including the checksum.
 + (nonnull NSString *)base58Encode:(nonnull NSData *)data NS_SWIFT_NAME(base58Encode(_:));
 
+/// Encodes data as a base 58 string, without checksum.
++ (nonnull NSString *)base58EncodeRaw:(nonnull NSData *)data NS_SWIFT_NAME(base58EncodeRaw(_:));
+
 /// Decodes a base 58 string verifying the checksum.
 + (nullable NSData *)base58Decode:(nonnull NSString *)string NS_SWIFT_NAME(base58Decode(_:));
+
+/// Decodes a base 58 string, without verifying the checksum
++ (nullable NSData *)base58DecodeRaw:(nonnull NSString *)string NS_SWIFT_NAME(base58DecodeRaw(_:));
 
 // MARK: - Bech32
 
