@@ -1069,21 +1069,7 @@
 				INFOPLIST_FILE = Metadata/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-iquote",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/BigInt/BigInt.framework/Headers\"",
-					"-iquote",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/SipHash/SipHash.framework/Headers\"",
-					"-iquote",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/SwiftProtobuf/SwiftProtobuf.framework/Headers\"",
-					"-iquote",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/TrezorCrypto/TrezorCrypto.framework/Headers\"",
-				);
-				OTHER_CPLUSPLUSFLAGS = (
-					"$(OTHER_CFLAGS)",
-					USE_GRAPHENE,
-				);
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.trustwalletapp.TrustCore;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
