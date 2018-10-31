@@ -12,9 +12,9 @@ extension PrivateKey {
         guard let decoded = Crypto.base58Decode(wif) else {
             return nil
         }
-        if decoded[0] != 0x80 || decoded.last != 0x01 {
-            return nil
-        }
+        //if decoded[0] != 0x80 || decoded.last != 0x01 {
+        //    return nil
+        //}
         self.init(data: Data(decoded[1 ..< 33]))
     }
 }
