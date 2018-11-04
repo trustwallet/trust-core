@@ -24,6 +24,7 @@ public struct SLIP {
         case callisto = 820
         case wanchain = 5718350
         case icon = 74
+        case eos = 194
     }
 
     ///  Registered HD version bytes
