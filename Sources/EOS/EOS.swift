@@ -15,10 +15,6 @@ public final class EOS: Blockchain {
         return .eos
     }
 
-    public override var coinPurpose: Purpose {
-        return .bip44
-    }
-
     public override func address(for publicKey: PublicKey) -> Address {
         let compressed = publicKey.compressed
         let check = Crypto.ripemd160(compressed.data)[0..<4]
