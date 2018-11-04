@@ -20,10 +20,6 @@ open class Ethereum: Blockchain {
         return .ethereum
     }
 
-    open override var coinPurpose: Purpose {
-        return .bip44
-    }
-
     open override func address(for publicKey: PublicKey) -> Address {
         return publicKey.ethereumAddress
     }

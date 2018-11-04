@@ -26,6 +26,21 @@ public struct SLIP {
         case icon = 74
     }
 
+    ///  Registered HD version bytes
+    ///
+    /// - SeeAlso: https://github.com/satoshilabs/slips/blob/master/slip-0132.md
+
+    public enum HDVersion: UInt32 {
+        // Bitcoin
+        case xpub = 0x0488b21e
+        case xprv = 0x0488ade4
+        case ypub = 0x049d7cb2
+        case yprv = 0x049d7878
+        case zpub = 0x04b24746
+        case zprv = 0x04b2430c
+        // Litecoin
+    }
+
     ///  Registered human-readable parts for BIP-0173
     ///
     /// - SeeAlso: https://github.com/satoshilabs/slips/blob/master/slip-0173.md

@@ -72,20 +72,50 @@ class HDWalletTests: XCTestCase {
     func testExtendedKeys() {
         let wallet = HDWallet(mnemonic: "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about", passphrase: "")
 
-        let xprv = wallet.getExtendedPrivateKey(for: .bip44)
-        let xpub = wallet.getExtendedPubKey(for: .bip44)
+        let xprv = wallet.getExtendedPrivateKey(for: .bip44, version: .xprv)
+        let xpub = wallet.getExtendedPubKey(for: .bip44, version: .xpub)
 
         XCTAssertEqual(xprv, "xprv9xpXFhFpqdQK3TmytPBqXtGSwS3DLjojFhTGht8gwAAii8py5X6pxeBnQ6ehJiyJ6nDjWGJfZ95WxByFXVkDxHXrqu53WCRGypk2ttuqncb")
         XCTAssertEqual(xpub, "xpub6BosfCnifzxcFwrSzQiqu2DBVTshkCXacvNsWGYJVVhhawA7d4R5WSWGFNbi8Aw6ZRc1brxMyWMzG3DSSSSoekkudhUd9yLb6qx39T9nMdj")
 
-        let yprv = wallet.getExtendedPrivateKey(for: .bip49)
-        let ypub = wallet.getExtendedPubKey(for: .bip49)
+        let yprv = wallet.getExtendedPrivateKey(for: .bip49, version: .yprv)
+        let ypub = wallet.getExtendedPubKey(for: .bip49, version: .ypub)
         XCTAssertEqual(yprv, "yprvAHwhK6RbpuS3dgCYHM5jc2ZvEKd7Bi61u9FVhYMpgMSuZS613T1xxQeKTffhrHY79hZ5PsskBjcc6C2V7DrnsMsNaGDaWev3GLRQRgV7hxF")
         XCTAssertEqual(ypub, "ypub6Ww3ibxVfGzLrAH1PNcjyAWenMTbbAosGNB6VvmSEgytSER9azLDWCxoJwW7Ke7icmizBMXrzBx9979FfaHxHcrArf3zbeJJJUZPf663zsP")
 
-        let zprv = wallet.getExtendedPrivateKey(for: .bip84)
-        let zpub = wallet.getExtendedPubKey(for: .bip84)
+        let zprv = wallet.getExtendedPrivateKey(for: .bip84, version: .zprv)
+        let zpub = wallet.getExtendedPubKey(for: .bip84, version: .zpub)
         XCTAssertEqual(zprv, "zprvAdG4iTXWBoARxkkzNpNh8r6Qag3irQB8PzEMkAFeTRXxHpbF9z4QgEvBRmfvqWvGp42t42nvgGpNgYSJA9iefm1yYNZKEm7z6qUWCroSQnE")
         XCTAssertEqual(zpub, "zpub6rFR7y4Q2AijBEqTUquhVz398htDFrtymD9xYYfG1m4wAcvPhXNfE3EfH1r1ADqtfSdVCToUG868RvUUkgDKf31mGDtKsAYz2oz2AGutZYs")
+    }
+
+    func testDeriveFromXPub() {
+        let xpub = "xpub6BosfCnifzxcFwrSzQiqu2DBVTshkCXacvNsWGYJVVhhawA7d4R5WSWGFNbi8Aw6ZRc1brxMyWMzG3DSSSSoekkudhUd9yLb6qx39T9nMdj"
+        let bc = Bitcoin(purpose: .bip44)
+        let xpubAddr2 = bc.derive(from: xpub, at: bc.derivationPath(at: 2))!
+        let xpubAddr9 = bc.derive(from: xpub, at: bc.derivationPath(at: 9))!
+
+        XCTAssertEqual(xpubAddr2.description, "1MNF5RSaabFwcbtJirJwKnDytsXXEsVsNb")
+        XCTAssertEqual(xpubAddr9.description, "1DUrqK4hj6vNNUTWXADpbqyjVWUYFD7xTZ")
+    }
+
+    func testDeriveFromYPub() {
+        let ypub = "ypub6Ww3ibxVfGzLrAH1PNcjyAWenMTbbAosGNB6VvmSEgytSER9azLDWCxoJwW7Ke7icmizBMXrzBx9979FfaHxHcrArf3zbeJJJUZPf663zsP"
+        let bc = Bitcoin(purpose: .bip49)
+        let ypubAddr3 = bc.derive(from: ypub, at: bc.derivationPath(at: 3))!
+        let ypubAddr10 = bc.derive(from: ypub, at: bc.derivationPath(at: 10))!
+
+        XCTAssertEqual(ypubAddr3.description, "38CahkVftQneLonbWtfWxiiaT2fdnzsEAN")
+        XCTAssertEqual(ypubAddr10.description, "38mWd5D48ShYPJMZngtmxPQVYhQR5DGgfF")
+    }
+
+    func testDeriveFromZPub() {
+        let zpub = "zpub6rFR7y4Q2AijBEqTUquhVz398htDFrtymD9xYYfG1m4wAcvPhXNfE3EfH1r1ADqtfSdVCToUG868RvUUkgDKf31mGDtKsAYz2oz2AGutZYs"
+        let bc = Bitcoin()
+        let zpubAddr4 = bc.derive(from: zpub, at: bc.derivationPath(at: 4))!
+        let zpubAddr11 = bc.derive(from: zpub, at: bc.derivationPath(at: 11))!
+
+        XCTAssertEqual(zpubAddr4.description, "bc1qm97vqzgj934vnaq9s53ynkyf9dgr05rargr04n")
+        XCTAssertEqual(zpubAddr11.description, "bc1qxr4fjkvnxjqphuyaw5a08za9g6qqh65t8qwgum")
     }
 }

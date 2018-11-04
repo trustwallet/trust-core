@@ -40,10 +40,10 @@ public extension BitcoinScript {
     static func buildScript(for address: Address) -> BitcoinScript? {
         let bitcoin = Bitcoin()
         if let bitcoinAddress = address as? BitcoinAddress {
-            if bitcoinAddress.data[0] == bitcoin.publicKeyHashAddressPrefix {
+            if bitcoinAddress.data[0] == bitcoin.p2pkhPrefix {
                 // address starts with 1
                 return BitcoinScript.buildPayToPublicKeyHash(address: bitcoinAddress)
-            } else if bitcoinAddress.data[0] == bitcoin.payToScriptHashAddressPrefix {
+            } else if bitcoinAddress.data[0] == bitcoin.p2shPrefix {
                 // address starts with 3
                 return BitcoinScript.buildPayToScriptHash(bitcoinAddress.data.dropFirst())
             }
