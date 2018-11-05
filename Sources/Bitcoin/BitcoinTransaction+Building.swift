@@ -7,9 +7,8 @@
 import Foundation
 
 public extension BitcoinTransaction {
-    static func build(to: Address, amount: Int64, estimatefee: Int64, changeAddress: Address, utxos: [BitcoinUnspentTransaction]) -> BitcoinTransaction {
+    static func build(to: Address, amount: Int64, fee: Int64, changeAddress: Address, utxos: [BitcoinUnspentTransaction]) -> BitcoinTransaction {
 
-        let fee = calculate(byteFee: estimatefee, nIn: utxos.count)
         let totalAmount: Int64 = utxos.reduce(0) { $0 + $1.output.value }
         let change: Int64 = totalAmount - amount - fee
 
@@ -26,13 +25,6 @@ public extension BitcoinTransaction {
 
         let unsignedInputs = utxos.map { BitcoinTransactionInput(previousOutput: $0.outpoint, script: BitcoinScript(), sequence: UInt32.max) }
         return BitcoinTransaction(version: 1, inputs: unsignedInputs, outputs: outputs, lockTime: 0)
-    }
-
-    static func calculate(byteFee: Int64, nIn: Int, nOut: Int = 2, extraOutputSize: Int = 0) -> Int64 {
-        var txsize: Int {
-            return ((148 * nIn) + (34 * nOut) + 10) + extraOutputSize
-        }
-        return Int64(txsize) * byteFee
     }
 }
 
