@@ -98,7 +98,8 @@ public final class BitcoinTransactionSigner {
                     break
                 }
                 guard let key = keyProvider.key(forPublicKey: pubKey) else {
-                    throw Error.missingKey
+                    //if can not find privateKey, jump to next publicKey
+                    continue
                 }
                 let signature = createSignature(transaction: transactionToSign, script: script, key: key, index: index, amount: utxo.output.value, version: version)
                 results.append(signature)
@@ -107,8 +108,7 @@ public final class BitcoinTransactionSigner {
             return results
         } else if let pubKey = script.matchPayToPubkey() {
             guard let key = keyProvider.key(forPublicKey: pubKey) else {
-                //if can not find privateKey, jump to next publicKey
-                continue
+                throw Error.missingKey
             }
             let signature = createSignature(transaction: transactionToSign, script: script, key: key, index: index, amount: utxo.output.value, version: version)
             return [signature]

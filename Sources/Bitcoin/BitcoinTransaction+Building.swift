@@ -43,7 +43,7 @@ public extension BitcoinScript {
             }
         } else if let segwitAddress = address as? BitcoinSegwitAddress {
             // address starts with bc
-            let program = WitnessProgram.from(bech32: segwitAddress.data)!
+            let witness = WitnessProgram.from(bech32: segwitAddress.data)!
             if witness.program.count == 20 {
                 return BitcoinScript.buildPayToWitnessPubkeyHash(witness.program)
             }else if witness.program.count == 32 {

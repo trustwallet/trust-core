@@ -106,30 +106,32 @@ open class Bitcoin: Blockchain {
     }
     
     /// Address for multiple sig. P2SH Address
-    public class func multiSigAddress(_ multi: ([PublicKey] , Int)) -> Address{
+    public func multiSigAddress(_ multi: ([PublicKey] , Int)) -> Address?{
         let redeemScript = BitcoinScript.buildPayToMultiSigHash(multi)
-        let redeemscriptHash = Crypto.sha256ripemd160(redeemscript.data)
-        let address = Crypto.base58Encode([payToScriptHashAddressPrefix] + scirptHash)
-        return BitcoinAddress(string: address)!
+        let redeemScriptHash = Crypto.sha256ripemd160(redeemScript.data)
+        let address = Crypto.base58Encode([p2shPrefix] + redeemScriptHash)
+        return BitcoinAddress(string: address)
     }
     
     /// Address for P2WSH Address
-    public class func multiP2WSHAddress(_ multi: ([PublicKey] , Int)) -> Address{
+    public func multiP2WSHAddress(_ multi: ([PublicKey] , Int)) -> Address?{
         let witnessScript = BitcoinScript.buildPayToMultiSigHash(multi)
         let program = Crypto.sha256(witnessScript.data)
-        let witness = WitnessProgram(version: 0x00, program: scirptHash)
-        let address = BitcoinSegwitAddress(data: witness.bech32Data!)!
-        return address
+        let witness = WitnessProgram(version: 0x00, program: program)
+        guard let data = witness.bech32Data else {
+            return nil
+        }
+        return BitcoinSegwitAddress(data: data)
     }
     
     /// Address for P2WSH-IN-P2SH Address
-    public class func multiP2WSHNestedInP2SHAddress(_ multi: ([PublicKey] , Int)) -> Address{
+    public func multiP2WSHNestedInP2SHAddress(_ multi: ([PublicKey] , Int)) -> Address?{
         let witnessScript = BitcoinScript.buildPayToMultiSigHash(multi)
         let witnessScriptHash = Crypto.sha256(witnessScript.data)
         let redeemScript = BitcoinScript.buildPayToWitnessScriptHash(witnessScriptHash)
         let redeemScriptHash = Crypto.sha256ripemd160(redeemScript.data)
-        let address = Crypto.base58Encode([payToScriptHashAddressPrefix] + redeemScriptHash)
-        return BitcoinAddress(string: address)!
+        let address = Crypto.base58Encode([p2shPrefix] + redeemScriptHash)
+        return BitcoinAddress(string: address)
     }
 }
 
@@ -188,13 +190,15 @@ public final class BitcoinTestNet: Bitcoin {
     }
     
     /// Address for P2WSH Address
-    public override class func multiP2WSHAddress(_ multi: ([PublicKey] , Int)) -> Address {
+    public override func multiP2WSHAddress(_ multi: ([PublicKey] , Int)) -> Address? {
         let multiScript = BitcoinScript.buildPayToMultiSigHash(multi)
         let reemdscript = multiScript.data
         let scirptHash = Crypto.sha256(reemdscript)
         let witness = WitnessProgram(version: 0x00, program: scirptHash)
-        let address = BitcoinTestNetSegwitAddress(data: witness.bech32Data!)!
-        return address
+        guard let data = witness.bech32Data else {
+            return nil
+        }
+        return BitcoinTestNetSegwitAddress(data: data)
     }
     
 }
