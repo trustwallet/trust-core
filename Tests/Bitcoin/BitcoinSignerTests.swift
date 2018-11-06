@@ -16,7 +16,12 @@ class BitcoinSignerTests: XCTestCase {
         let unspentOutput = BitcoinTransactionOutput(value: 5151, script: BitcoinScript(data: Data(hexString: "76a914aff1e0789e5fe316b729577665aa0a04d5b0f8c788ac")!))
         let unspentOutpoint = BitcoinOutPoint(hash: Data(hexString: "e28c2b955293159898e34c6840d99bf4d390e2ee1c6f606939f18ee1e2000d05")!, index: 2)
         let utxo = BitcoinUnspentTransaction(output: unspentOutput, outpoint: unspentOutpoint)
-        let tx = BitcoinTransaction.build(to: toAddress, amount: 600, estimatefee: 1, changeAddress: changeAddress, utxos: [utxo])
+
+        let amount: Int64 = 600
+        let selector = BitcoinUnspentSelector()
+        let result = try! selector.select(from: [utxo], targetValue: amount)
+
+        let tx = BitcoinTransaction.build(to: toAddress, amount: amount, fee: result.fee, changeAddress: changeAddress, utxos: [utxo])
         let sighash = tx.getSignatureHash(scriptCode: utxo.output.script, index: 0, hashType: [.all, .fork], amount: utxo.output.value, version: .witnessV0)
         XCTAssertEqual(sighash.hexString, "1136d4975aee4ff6ccf0b8a9c640532f563b48d9856fdc9682c37a071702937c")
     }
@@ -32,7 +37,11 @@ class BitcoinSignerTests: XCTestCase {
         let utxoKey = PrivateKey(wif: "L1WFAgk5LxC5NLfuTeADvJ5nm3ooV3cKei5Yi9LJ8ENDfGMBZjdW")!
         let provider = BitcoinDefaultPrivateKeyProvider(keys: [utxoKey])
 
-        let unsignedTx = BitcoinTransaction.build(to: toAddress, amount: 600, estimatefee: 1, changeAddress: changeAddress, utxos: [utxo])
+        let amount: Int64 = 600
+        let selector = BitcoinUnspentSelector()
+        let result = try! selector.select(from: [utxo], targetValue: amount)
+
+        let unsignedTx = BitcoinTransaction.build(to: toAddress, amount: amount, fee: Int64(result.fee), changeAddress: changeAddress, utxos: [utxo])
         let signer = BitcoinTransactionSigner(keyProvider: provider, transaction: unsignedTx)
         let signedTx = try signer.sign([utxo])
 
