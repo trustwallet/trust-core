@@ -15,7 +15,7 @@ public struct BitcoinUnspentSelector {
     public let byteFee: Int64
     public let dustThreshold: Int64
 
-    public init(byteFee: Int64 = 1, dustThreshold: Int64 = 3 * 182 + 1000) {
+    public init(byteFee: Int64 = 1, dustThreshold: Int64 = 3 * 182) {
         self.byteFee = byteFee
         self.dustThreshold = dustThreshold
     }
@@ -48,8 +48,7 @@ public struct BitcoinUnspentSelector {
         //    (2) closer to 2x the amount,
         //    (3) and does not produce dust change.
         do {
-            for numTx in (1...sortedUtxos.count) {
-                numInputs = numTx
+            for numInputs in (1...sortedUtxos.count) {
                 let fee = calculateFee(nIn: numInputs, nOut: numOutputs)
                 let targetWithFeeAndDust = targetValue + fee + dustThreshold
                 let nOutputsSlices = sortedUtxos.eachSlices(numInputs)
@@ -63,8 +62,7 @@ public struct BitcoinUnspentSelector {
 
         // 2. If not, find a combination of outputs that may produce dust change.
         do {
-            for numTx in (1...sortedUtxos.count) {
-                numInputs = numTx
+            for numInputs in (1...sortedUtxos.count) {
                 let fee = calculateFee(nIn: numInputs, nOut: numOutputs)
                 let targetWithFee = targetValue + fee
                 let nOutputsSlices = sortedUtxos.eachSlices(numInputs)
@@ -80,7 +78,7 @@ public struct BitcoinUnspentSelector {
         throw BitcoinUnspentSelectorError.insufficientFunds
     }
 
-    private func calculateFee(nIn: Int, nOut: Int = 2) -> Int64 {
+    internal func calculateFee(nIn: Int, nOut: Int = 2) -> Int64 {
         var txsize: Int {
             return ((148 * nIn) + (34 * nOut) + 10)
         }
