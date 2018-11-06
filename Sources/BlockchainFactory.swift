@@ -11,6 +11,8 @@ public func blockchain(coin: SLIP.CoinType) -> Blockchain {
     switch coin {
     case .bitcoin:
         return Bitcoin()
+    case .bitcoinTestNet:
+        return BitcoinTestNet()
     case .litecoin:
         return Litecoin()
     case .ethereum:

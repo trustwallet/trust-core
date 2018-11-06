@@ -130,29 +130,30 @@ public final class BitcoinScript: BinaryEncoding, CustomDebugStringConvertible {
         if bytes.count < 1 || bytes.last != OpCode.OP_CHECKMULTISIG {
             return nil
         }
-
+        
         var keys = [PublicKey]()
-
+        
         var it = bytes.startIndex
-        guard let (opcode, _) = getScriptOp(index: &it), OpCode.isSmallInteger(opcode) else {
+        guard let (opcode_M, _) = getScriptOp(index: &it), OpCode.isSmallInteger(opcode_M) else {
             return nil
         }
-        let required = BitcoinScript.decodeNumber(opcode: opcode)
+        let required = BitcoinScript.decodeNumber(opcode: opcode_M)
         while case .some(_, let data?) = getScriptOp(index: &it), let key = PublicKey(data: data) {
             keys.append(key)
         }
-        if !OpCode.isSmallInteger(opcode) {
+        it -= 1
+        guard let (opcode_N, _) = getScriptOp(index: &it), OpCode.isSmallInteger(opcode_N) else {
             return nil
         }
-
-        let expectedCount = BitcoinScript.decodeNumber(opcode: opcode)
+        
+        let expectedCount = BitcoinScript.decodeNumber(opcode: opcode_N)
         if keys.count != expectedCount || expectedCount < required {
             return nil
         }
         if it + 1 != bytes.endIndex {
             return nil
         }
-
+        
         return (keys, required)
     }
 
