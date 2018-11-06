@@ -395,6 +395,7 @@
 		6149A6C3201E43E200A2F35C /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				91FCA2C921919D3700ED02B9 /* BitcoinTestNet */,
 				297A91112189A27600728946 /* EOS */,
 				8B6CF655216F706300DDD488 /* Tron */,
 				77F80A9321363D5C0011D949 /* CryptoTests.swift */,
@@ -571,6 +572,13 @@
 				8B469DD7217485060038A049 /* TronAddressTests.swift */,
 			);
 			path = Tron;
+			sourceTree = "<group>";
+		};
+		91FCA2C921919D3700ED02B9 /* BitcoinTestNet */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = BitcoinTestNet;
 			sourceTree = "<group>";
 		};
 		A21D6DABB34C662DA8064833 /* Pods */ = {

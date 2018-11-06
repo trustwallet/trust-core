@@ -12,6 +12,7 @@ public struct SLIP {
     /// - SeeAlso: https://github.com/satoshilabs/slips/blob/master/slip-0044.md
     public enum CoinType: Int {
         case bitcoin = 0
+        case bitcoinTestNet = 1
         case litecoin = 2
         case dash = 5
         case ethereum = 60
@@ -47,6 +48,7 @@ public struct SLIP {
     /// - SeeAlso: https://github.com/satoshilabs/slips/blob/master/slip-0173.md
     public enum HRP: String {
         case bitcoin = "bc"
+        case bitcoinTestNet = "tb"
         case litecoin = "ltc"
     }
 }
