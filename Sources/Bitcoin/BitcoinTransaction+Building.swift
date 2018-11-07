@@ -37,27 +37,19 @@ public extension BitcoinScript {
             if bitcoinAddress.data[0] == bitcoin.p2pkhPrefix || bitcoinAddress.data[0] == bitcoinTestNet.p2pkhPrefix {
                 // address starts with 1(main net) or m (test net)
                 return BitcoinScript.buildPayToPublicKeyHash(address: bitcoinAddress)
-            } else if bitcoinAddress.data[0] == bitcoin.p2shPrefix || bitcoinAddress.data[0] == bitcoinTestNet.p2shPrefix{
+            } else if bitcoinAddress.data[0] == bitcoin.p2shPrefix || bitcoinAddress.data[0] == bitcoinTestNet.p2shPrefix {
                 // address starts with 3(main net) or 2(test net)
                 return BitcoinScript.buildPayToScriptHash(bitcoinAddress.data.dropFirst())
             }
         } else if let segwitAddress = address as? BitcoinSegwitAddress {
-            // address starts with bc
+            // address starts with bc or tb
             let witness = WitnessProgram.from(bech32: segwitAddress.data)!
             if witness.program.count == 20 {
                 return BitcoinScript.buildPayToWitnessPubkeyHash(witness.program)
-            }else if witness.program.count == 32 {
+            } else if witness.program.count == 32 {
                 return BitcoinScript.buildPayToWitnessScriptHash(witness.program)
             }
-        } else if let segwitAddress = address as? BitcoinTestNetSegwitAddress {
-            // address starts with tb
-            let witness = WitnessProgram.from(bech32: segwitAddress.data)!
-            if witness.program.count == 20 {
-                return BitcoinScript.buildPayToWitnessPubkeyHash(witness.program)
-            }else if witness.program.count == 32 {
-                return BitcoinScript.buildPayToWitnessScriptHash(witness.program)
-            }
-        }
+        } 
         return nil
     }
 }
