@@ -49,7 +49,7 @@ public extension BitcoinScript {
             } else if witness.program.count == 32 {
                 return BitcoinScript.buildPayToWitnessScriptHash(witness.program)
             }
-        } 
+        }
         return nil
     }
 }

@@ -183,8 +183,11 @@ public final class BitcoinTestNet: Bitcoin {
 
     /// Address for P2WSH Address
     public override func multiP2WSHAddress(_ multi: ([PublicKey], Int)) -> Address? {
-        var address = super.multiP2WSHAddress(multi) as! BitcoinSegwitAddress
-        address.hrp = .bitcoinTestNet
-        return address
+        guard let address = super.multiP2WSHAddress(multi) as? BitcoinSegwitAddress else {
+            return nil
+        }
+        var bitcointestAddress = address
+        bitcointestAddress.hrp = .bitcoinTestNet
+        return bitcointestAddress
     }
 }
