@@ -78,7 +78,7 @@ public struct BitcoinUnspentSelector {
         throw BitcoinUnspentSelectorError.insufficientFunds
     }
 
-    internal func calculateFee(nIn: Int, nOut: Int = 2) -> Int64 {
+    public func calculateFee(nIn: Int, nOut: Int = 2) -> Int64 {
         var txsize: Int {
             return ((148 * nIn) + (34 * nOut) + 10)
         }
