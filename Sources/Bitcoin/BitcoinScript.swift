@@ -130,9 +130,9 @@ public final class BitcoinScript: BinaryEncoding, CustomDebugStringConvertible {
         if bytes.count < 1 || bytes.last != OpCode.OP_CHECKMULTISIG {
             return nil
         }
-        
+
         var keys = [PublicKey]()
-        
+
         var it = bytes.startIndex
         guard let (opcode_M, _) = getScriptOp(index: &it), OpCode.isSmallInteger(opcode_M) else {
             return nil
@@ -145,7 +145,7 @@ public final class BitcoinScript: BinaryEncoding, CustomDebugStringConvertible {
         guard let (opcode_N, _) = getScriptOp(index: &it), OpCode.isSmallInteger(opcode_N) else {
             return nil
         }
-        
+
         let expectedCount = BitcoinScript.decodeNumber(opcode: opcode_N)
         if keys.count != expectedCount || expectedCount < required {
             return nil
@@ -153,7 +153,7 @@ public final class BitcoinScript: BinaryEncoding, CustomDebugStringConvertible {
         if it + 1 != bytes.endIndex {
             return nil
         }
-        
+
         return (keys, required)
     }
 

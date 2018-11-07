@@ -104,17 +104,17 @@ open class Bitcoin: Blockchain {
     open func legacyAddress(data: Data) -> Address? {
         return BitcoinAddress(data: data)
     }
-    
+
     /// Address for multiple sig. P2SH Address
-    public func multiSigAddress(_ multi: ([PublicKey] , Int)) -> Address?{
+    public func multiSigAddress(_ multi: ([PublicKey], Int)) -> Address? {
         let redeemScript = BitcoinScript.buildPayToMultiSigHash(multi)
         let redeemScriptHash = Crypto.sha256ripemd160(redeemScript.data)
         let address = Crypto.base58Encode([p2shPrefix] + redeemScriptHash)
         return BitcoinAddress(string: address)
     }
-    
+
     /// Address for P2WSH Address
-    public func multiP2WSHAddress(_ multi: ([PublicKey] , Int)) -> Address?{
+    public func multiP2WSHAddress(_ multi: ([PublicKey], Int)) -> Address? {
         let witnessScript = BitcoinScript.buildPayToMultiSigHash(multi)
         let program = Crypto.sha256(witnessScript.data)
         let witness = WitnessProgram(version: 0x00, program: program)
@@ -123,9 +123,9 @@ open class Bitcoin: Blockchain {
         }
         return BitcoinSegwitAddress(data: data)
     }
-    
+
     /// Address for P2WSH-IN-P2SH Address
-    public func multiP2WSHNestedInP2SHAddress(_ multi: ([PublicKey] , Int)) -> Address?{
+    public func multiP2WSHNestedInP2SHAddress(_ multi: ([PublicKey], Int)) -> Address? {
         let witnessScript = BitcoinScript.buildPayToMultiSigHash(multi)
         let witnessScriptHash = Crypto.sha256(witnessScript.data)
         let redeemScript = BitcoinScript.buildPayToWitnessScriptHash(witnessScriptHash)
@@ -160,45 +160,31 @@ public final class Dash: Bitcoin {
 }
 
 public final class BitcoinTestNet: Bitcoin {
-    
+
     public override var coinType: SLIP.CoinType {
         return .bitcoinTestNet
     }
-    
+
     open override var p2pkhPrefix: UInt8 {
         return 0x6F
     }
-    
+
     public override var p2shPrefix: UInt8 {
         return 0xC4
     }
-    
+
     open override func address(data: Data) -> Address? {
-        if let bech32Address = BitcoinTestNetSegwitAddress(data: data) {
+        if let bech32Address = BitcoinSegwitAddress(data: data, hrp: .bitcoinTestNet) {
             return bech32Address
         } else {
             return BitcoinAddress(data: data)
         }
     }
-    
-    open override func address(string: String) -> Address? {
-        if let bech32Address = BitcoinTestNetSegwitAddress(string: string) {
-            return bech32Address
-        } else {
-            return BitcoinAddress(string: string)
-        }
-    }
-    
+
     /// Address for P2WSH Address
-    public override func multiP2WSHAddress(_ multi: ([PublicKey] , Int)) -> Address? {
-        let multiScript = BitcoinScript.buildPayToMultiSigHash(multi)
-        let reemdscript = multiScript.data
-        let scirptHash = Crypto.sha256(reemdscript)
-        let witness = WitnessProgram(version: 0x00, program: scirptHash)
-        guard let data = witness.bech32Data else {
-            return nil
-        }
-        return BitcoinTestNetSegwitAddress(data: data)
+    public override func multiP2WSHAddress(_ multi: ([PublicKey], Int)) -> Address? {
+        var address = super.multiP2WSHAddress(multi) as! BitcoinSegwitAddress
+        address.hrp = .bitcoinTestNet
+        return address
     }
-    
 }

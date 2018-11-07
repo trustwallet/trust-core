@@ -36,7 +36,7 @@ public struct WitnessProgram: Equatable {
     }
 
     public static func from(bech32 address: String) -> WitnessProgram? {
-        guard let data = bech32Decode(string: address) else {
+        guard let (data, _) = BitcoinSegwitAddress.bech32Decode(string: address) else {
             return nil
         }
         return WitnessProgram.from(bech32: data)
@@ -51,18 +51,6 @@ public struct WitnessProgram: Equatable {
         let program = convertBits(data[1...], from: 5, to: 8, pad: false)!
         return WitnessProgram(version: version, program: program)
     }
-    
-    //Decode for witness address for main or test net
-    public static func bech32Decode(string: String) -> Data? {
-        var hrp: NSString?
-        guard let data = Crypto.bech32Decode(string, hrp: &hrp),
-            let readable = hrp as String?,
-            readable == SLIP.HRP.bitcoin.rawValue || readable == SLIP.HRP.bitcoinTestNet.rawValue else {
-                return nil
-        }
-        return data
-    }
-    
 }
 
 public func convertBits(_ data: Data, from: UInt32, to: UInt32, pad: Bool = true) -> Data? {
