@@ -12,15 +12,18 @@ public struct TronContract {
     private let from: Address
     private let to: Address
     private let amount: Int64
+    private let assetName: String
 
     public init(
         from: Address,
         to: Address,
-        amount: Int64
+        amount: Int64,
+        assetName: String = ""
     ) {
         self.from = from
         self.to = to
         self.amount = amount
+        self.assetName = assetName
     }
 
     public func contract() throws -> Protocol_Transaction.Contract {
@@ -30,6 +33,18 @@ public struct TronContract {
         transferContract.toAddress = Crypto.base58Decode(to.description)!
         transferContract.amount = amount
         contract.type = .transferContract
+        contract.parameter = try Google_Protobuf_Any.init(message: transferContract)
+        return contract
+    }
+
+    public func assetContract() throws -> Protocol_Transaction.Contract {
+        var contract = Protocol_Transaction.Contract()
+        var transferContract = Protocol_TransferAssetContract()
+        transferContract.ownerAddress = Crypto.base58Decode(from.description)!
+        transferContract.toAddress = Crypto.base58Decode(to.description)!
+        transferContract.assetName = Data(assetName.utf8)
+        transferContract.amount = amount
+        contract.type = .transferAssetContract
         contract.parameter = try Google_Protobuf_Any.init(message: transferContract)
         return contract
     }
