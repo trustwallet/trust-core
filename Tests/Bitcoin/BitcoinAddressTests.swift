@@ -116,7 +116,6 @@ class BitcoinAddressTests: XCTestCase {
             "tb1qrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3pjxtptv",
             "bc1gmk9yu",
         ]
-
         for invalid in addresses {
             XCTAssertFalse(BitcoinSegwitAddress.isValid(string: invalid))
         }
