@@ -52,7 +52,7 @@ extension PrivateKey {
                        KeySuffix.p2wpkh.rawValue,
                        KeySuffix.p2wpkh_p2sh.rawValue]
 
-        if !prefixs.contains(decoded[0]) || !suffixs.contains(decoded.last!) {
+        if !prefixs.contains(decoded[0]) || (decoded.count == 34) && !suffixs.contains(decoded.last!) {
             return nil
         }
 
