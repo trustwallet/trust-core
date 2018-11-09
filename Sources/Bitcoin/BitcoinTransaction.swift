@@ -135,12 +135,16 @@ public struct BitcoinOutPoint: BinaryEncoding, Equatable {
     }
 }
 
-public final class BitcoinTransactionOutput: BinaryEncoding {
+public final class BitcoinTransactionOutput: BinaryEncoding, Equatable {
     /// Transaction Value
     public var value: Int64
 
     /// Usually contains the public key as a Bitcoin script setting up conditions to claim this output.
     public var script: BitcoinScript
+
+    public static func == (lhs: BitcoinTransactionOutput, rhs: BitcoinTransactionOutput) -> Bool {
+        return lhs.value == rhs.value && lhs.script.bytes == rhs.script.bytes
+    }
 
     public init() {
         value = -1

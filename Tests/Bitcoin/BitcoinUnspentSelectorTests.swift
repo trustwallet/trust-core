@@ -194,16 +194,16 @@ class BitcoinUnspentSelectorTests: XCTestCase {
 
     func testCalculateFee() {
         // 1. default nOut and byteFee
-        XCTAssertEqual(selector.calculateFee(nIn: 1), 226)
-        XCTAssertEqual(selector.calculateFee(nIn: 2), 374)
-        XCTAssertEqual(selector.calculateFee(nIn: 3), 522)
+        XCTAssertEqual(selector.calculateFee(input: 1), 226)
+        XCTAssertEqual(selector.calculateFee(input: 2), 374)
+        XCTAssertEqual(selector.calculateFee(input: 3), 522)
 
         // 2. default byteFee
-        XCTAssertEqual(selector.calculateFee(nIn: 1, nOut: 1), 192)
-        XCTAssertEqual(selector.calculateFee(nIn: 1, nOut: 2), 226)
-        XCTAssertEqual(selector.calculateFee(nIn: 2, nOut: 1), 340)
-        XCTAssertEqual(selector.calculateFee(nIn: 2, nOut: 2), 374)
-        XCTAssertEqual(selector.calculateFee(nIn: 3, nOut: 1), 488)
-        XCTAssertEqual(selector.calculateFee(nIn: 3, nOut: 2), 522)
+        XCTAssertEqual(selector.calculateFee(input: 1, output: 1), 192)
+        XCTAssertEqual(selector.calculateFee(input: 1, output: 2), 226)
+        XCTAssertEqual(selector.calculateFee(input: 2, output: 1), 340)
+        XCTAssertEqual(selector.calculateFee(input: 2, output: 2), 374)
+        XCTAssertEqual(selector.calculateFee(input: 3, output: 1), 488)
+        XCTAssertEqual(selector.calculateFee(input: 3, output: 2), 522)
     }
 }
