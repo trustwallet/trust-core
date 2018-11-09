@@ -156,8 +156,8 @@ class BitcoinTestNetSignerTest: XCTestCase {
 
     }
 
-    // 普通交易
-    func testCommonSignTransaction() throws {
+    // regular transaction
+    func testRegularTransaction() throws {
         let toAddress = BitcoinAddress(string: "2NFU79Kzp4NV6YzZgei7MpMYJC2CamRgXHn")!
         let changeAddress = BitcoinAddress(string: "miyV5UgyEyG8kiueMvxX3NnLug7vbtoCtA")!
 

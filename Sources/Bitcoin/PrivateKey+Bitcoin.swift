@@ -60,11 +60,14 @@ extension PrivateKey {
     }
 
     public var wif: String {
-        return wif(prefix: .main, suffix: .p2pkh_compressed)
+        return wif(prefix: .main)
     }
 
-    public func wif(prefix: KeyPrefix, suffix: KeySuffix) -> String {
-        let extentedData = Data(bytes: [prefix.rawValue]) + self.data + Data(bytes: [suffix.rawValue])
+    public func wif(prefix: KeyPrefix, suffix: KeySuffix? = nil) -> String {
+        var extentedData = Data(bytes: [prefix.rawValue]) + self.data
+        if let someSuffix = suffix {
+            extentedData += Data(bytes: [someSuffix.rawValue])
+        }
         return Crypto.base58Encode(extentedData)
     }
 
