@@ -6,9 +6,14 @@
 
 import Foundation
 
-public struct BitcoinUnspentTransaction {
+public struct BitcoinUnspentTransaction: Equatable {
     public var output: BitcoinTransactionOutput
     public var outpoint: BitcoinOutPoint
+
+    public static func == (lhs: BitcoinUnspentTransaction, rhs: BitcoinUnspentTransaction) -> Bool {
+        return lhs.outpoint == rhs.outpoint &&
+            lhs.output == rhs.output
+    }
 
     public init(output: BitcoinTransactionOutput, outpoint: BitcoinOutPoint) {
         self.output = output

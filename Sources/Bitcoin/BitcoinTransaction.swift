@@ -40,9 +40,12 @@ public struct BitcoinTransaction: BinaryEncoding {
     }
 
     public func encode(into data: inout Data) {
+        return encode(into: &data, encodeWitness: hasWitness)
+    }
+
+    public func encode(into data: inout Data, encodeWitness: Bool) {
         version.encode(into: &data)
 
-        let encodeWitness = hasWitness
         if encodeWitness {
             // Use extended format in case witnesses are to be serialized.
             let vinDummy = [BitcoinTransactionInput]()
@@ -64,12 +67,22 @@ public struct BitcoinTransaction: BinaryEncoding {
 
     public var hash: Data {
         var data = Data()
+        encode(into: &data, encodeWitness: false)
+        return Crypto.sha256sha256(data)
+    }
+
+    public var witnessHash: Data {
+        var data = Data()
         encode(into: &data)
         return Crypto.sha256sha256(data)
     }
 
-    public var identifier: String {
+    public var transactionId: String {
         return Data(hash.reversed()).hexString
+    }
+
+    public var witnessId: String {
+        return Data(witnessHash.reversed()).hexString
     }
 }
 
@@ -135,12 +148,16 @@ public struct BitcoinOutPoint: BinaryEncoding, Equatable {
     }
 }
 
-public final class BitcoinTransactionOutput: BinaryEncoding {
+public final class BitcoinTransactionOutput: BinaryEncoding, Equatable {
     /// Transaction Value
     public var value: Int64
 
     /// Usually contains the public key as a Bitcoin script setting up conditions to claim this output.
     public var script: BitcoinScript
+
+    public static func == (lhs: BitcoinTransactionOutput, rhs: BitcoinTransactionOutput) -> Bool {
+        return lhs.value == rhs.value && lhs.script.bytes == rhs.script.bytes
+    }
 
     public init() {
         value = -1
