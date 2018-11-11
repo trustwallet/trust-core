@@ -9,28 +9,31 @@ import SwiftProtobuf
 
 public struct TronContract {
 
-    private let from: Address
-    private let to: Address
-    private let amount: Int64
+    private let type: TronContractType
 
-    public init(
-        from: Address,
-        to: Address,
-        amount: Int64
-    ) {
-        self.from = from
-        self.to = to
-        self.amount = amount
+    public init(type: TronContractType) {
+        self.type = type
     }
 
     public func contract() throws -> Protocol_Transaction.Contract {
         var contract = Protocol_Transaction.Contract()
-        var transferContract = Protocol_TransferContract()
-        transferContract.ownerAddress = Crypto.base58Decode(from.description)!
-        transferContract.toAddress = Crypto.base58Decode(to.description)!
-        transferContract.amount = amount
-        contract.type = .transferContract
-        contract.parameter = try Google_Protobuf_Any.init(message: transferContract)
+        switch type {
+        case .transferContract(let from, let to,let amount):
+            var transferContract = Protocol_TransferContract()
+            transferContract.ownerAddress = Crypto.base58Decode(from.description)!
+            transferContract.toAddress = Crypto.base58Decode(to.description)!
+            transferContract.amount = amount
+            contract.type = .transferContract
+            contract.parameter = try Google_Protobuf_Any.init(message: transferContract)
+        case .transferAssetContract(let from, let to, let amount, let assetName):
+            var transferAssetContract = Protocol_TransferAssetContract()
+            transferAssetContract.ownerAddress = Crypto.base58Decode(from.description)!
+            transferAssetContract.toAddress = Crypto.base58Decode(to.description)!
+            transferAssetContract.assetName = Data(assetName.utf8)
+            transferAssetContract.amount = amount
+            contract.type = .transferAssetContract
+            contract.parameter = try Google_Protobuf_Any.init(message: transferAssetContract)
+        }
         return contract
     }
 }

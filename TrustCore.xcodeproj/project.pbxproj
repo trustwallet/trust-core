@@ -95,6 +95,8 @@
 		8B1A2FA9216FB25A009874E0 /* Tron.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1A2FA6216FB25A009874E0 /* Tron.pb.swift */; };
 		8B469DD42174295A0038A049 /* TronAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B469DD32174295A0038A049 /* TronAddress.swift */; };
 		8B469DD8217485060038A049 /* TronAddressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B469DD7217485060038A049 /* TronAddressTests.swift */; };
+		8B55FD2721978B210051D225 /* TronContractType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B55FD2621978B210051D225 /* TronContractType.swift */; };
+		8B55FD29219795970051D225 /* TronAssetContractTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B55FD28219795970051D225 /* TronAssetContractTest.swift */; };
 		8B6CF643216F5B8300DDD488 /* TronTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6CF642216F5B8300DDD488 /* TronTransaction.swift */; };
 		8B6CF64F216F5D3C00DDD488 /* TronContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6CF64E216F5D3C00DDD488 /* TronContract.swift */; };
 		8B6CF651216F5F2800DDD488 /* TronBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6CF650216F5F2800DDD488 /* TronBlock.swift */; };
@@ -226,6 +228,8 @@
 		8B1A2FA6216FB25A009874E0 /* Tron.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tron.pb.swift; sourceTree = "<group>"; };
 		8B469DD32174295A0038A049 /* TronAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TronAddress.swift; sourceTree = "<group>"; };
 		8B469DD7217485060038A049 /* TronAddressTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TronAddressTests.swift; sourceTree = "<group>"; };
+		8B55FD2621978B210051D225 /* TronContractType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TronContractType.swift; sourceTree = "<group>"; };
+		8B55FD28219795970051D225 /* TronAssetContractTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TronAssetContractTest.swift; sourceTree = "<group>"; };
 		8B6CF642216F5B8300DDD488 /* TronTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TronTransaction.swift; sourceTree = "<group>"; };
 		8B6CF64E216F5D3C00DDD488 /* TronContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TronContract.swift; sourceTree = "<group>"; };
 		8B6CF650216F5F2800DDD488 /* TronBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TronBlock.swift; sourceTree = "<group>"; };
@@ -298,6 +302,7 @@
 		29EDBD28214AEF6100C86992 /* Tron */ = {
 			isa = PBXGroup;
 			children = (
+				8B55FD2521978B0D0051D225 /* Type */,
 				8B6CF645216F5C4800DDD488 /* Protobuf */,
 				29EDBD29214AEF6F00C86992 /* Tron.swift */,
 				8B6CF642216F5B8300DDD488 /* TronTransaction.swift */,
@@ -554,6 +559,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		8B55FD2521978B0D0051D225 /* Type */ = {
+			isa = PBXGroup;
+			children = (
+				8B55FD2621978B210051D225 /* TronContractType.swift */,
+			);
+			path = Type;
+			sourceTree = "<group>";
+		};
 		8B6CF645216F5C4800DDD488 /* Protobuf */ = {
 			isa = PBXGroup;
 			children = (
@@ -569,6 +582,7 @@
 			children = (
 				8B6CF658216F70DC00DDD488 /* TronTransactionSignerTest.swift */,
 				8B469DD7217485060038A049 /* TronAddressTests.swift */,
+				8B55FD28219795970051D225 /* TronAssetContractTest.swift */,
 			);
 			path = Tron;
 			sourceTree = "<group>";
@@ -818,6 +832,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B55FD2721978B210051D225 /* TronContractType.swift in Sources */,
 				61675570207AD81F00018DC8 /* Function.swift in Sources */,
 				BB636D3B2121528D0071AE07 /* GenericJSON.swift in Sources */,
 				5DC50057216FC58F008F426A /* IconSigner.swift in Sources */,
@@ -909,6 +924,7 @@
 				BB3864AD20904C3900CBF773 /* NamehashTests.swift in Sources */,
 				BB636D3E212154270071AE07 /* EIP712TypedDataTests.swift in Sources */,
 				61675573207ADB9B00018DC8 /* FunctionTests.swift in Sources */,
+				8B55FD29219795970051D225 /* TronAssetContractTest.swift in Sources */,
 				BBC0729B2191341400A9B082 /* BitcoinUnspentSelectorTests.swift in Sources */,
 				617F141B2148BA3300619F1A /* PublicKeyTests.swift in Sources */,
 				BB3864A92090145600CBF773 /* ENSEncoderTests.swift in Sources */,
