@@ -29,4 +29,26 @@ public final class Litecoin: Bitcoin {
     override public var hrp: SLIP.HRP {
         return .litecoin
     }
+
+    override public var xpubVersion: SLIP.HDVersion? {
+        switch self.coinPurpose {
+        case .bip44:
+            return SLIP.HDVersion.ltub
+        case .bip49:
+            return SLIP.HDVersion.mtub
+        case .bip84:
+            return SLIP.HDVersion.zpub
+        }
+    }
+
+    override public var xprvVersion: SLIP.HDVersion? {
+        switch self.coinPurpose {
+        case .bip44:
+            return SLIP.HDVersion.ltpv
+        case .bip49:
+            return SLIP.HDVersion.mtpv
+        case .bip84:
+            return SLIP.HDVersion.zprv
+        }
+    }
 }
