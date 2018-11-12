@@ -40,7 +40,7 @@ class BitcoinAddressTests: XCTestCase {
     func testFromPrivateKeySegwitAddress() {
         let privateKey = PrivateKey(wif: "KxZX6Jv3to6RWnhsffTcLLryRnNyyc8Ng2G8P9LFkbCdzGDEhNy1")!
         let publicKey = privateKey.publicKey(compressed: true)
-        let address = Bitcoin().legacyAddress(for: publicKey, prefix: 0x0)
+        let address = Bitcoin().legacyAddress(for: publicKey)
 
         XCTAssertEqual(address.description, Bitcoin().address(string: "1PeUvjuxyf31aJKX6kCXuaqxhmG78ZUdL1")!.description)
     }

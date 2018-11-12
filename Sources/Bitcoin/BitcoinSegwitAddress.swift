@@ -6,12 +6,15 @@
 
 import Foundation
 
-public struct BitcoinSegwitAddress: Address, Equatable {
+public typealias BitcoinSegwitAddress = BitcoinBech32Address
+
+public struct BitcoinBech32Address: Address, Equatable {
     // bech32 data
     public var data: Data
+    public let hrp: String
 
     public static func == (lhs: BitcoinSegwitAddress, rhs: BitcoinSegwitAddress) -> Bool {
-        return lhs.data == rhs.data
+        return lhs.data == rhs.data && lhs.hrp == rhs.hrp
     }
 
     public static func isValid(data: Data) -> Bool {
@@ -19,31 +22,32 @@ public struct BitcoinSegwitAddress: Address, Equatable {
     }
 
     public static func isValid(string: String) -> Bool {
-        guard let data = BitcoinSegwitAddress.bech32Decode(string: string) else {
+        guard let (data, _) = BitcoinSegwitAddress.bech32Decode(string: string) else {
             return false
         }
         return BitcoinSegwitAddress.isValid(data: data)
     }
 
     public static func validate(hrp: String) -> Bool {
-        return hrp == SLIP.HRP.bitcoin.rawValue
+        return SLIP.HRP.allSet.contains(hrp)
     }
 
-    public static func bech32Decode(string: String) -> Data? {
+    public static func bech32Decode(string: String) -> (Data, String)? {
         var hrp: NSString?
         guard let data = Crypto.bech32Decode(string, hrp: &hrp),
             let readable = hrp as String?,
             BitcoinSegwitAddress.validate(hrp: readable as String) else {
                 return nil
         }
-        return data
+        return (data, readable)
     }
 
     public init?(string: String) {
-        guard let data = BitcoinSegwitAddress.bech32Decode(string: string) else {
+        guard let (data, hrp) = BitcoinSegwitAddress.bech32Decode(string: string) else {
             return nil
         }
         self.data = data
+        self.hrp = hrp
     }
 
     public init?(data: Data) {
@@ -51,9 +55,21 @@ public struct BitcoinSegwitAddress: Address, Equatable {
             return nil
         }
         self.data = data
+        self.hrp = SLIP.HRP.bitcoin.rawValue
+    }
+
+    public init?(data: Data, hrp: String) {
+        guard BitcoinSegwitAddress.isValid(data: data) else {
+            return nil
+        }
+        guard BitcoinSegwitAddress.validate(hrp: hrp) else {
+            return nil
+        }
+        self.data = data
+        self.hrp = hrp
     }
 
     public var description: String {
-        return Crypto.bech32Encode(data, hrp: SLIP.HRP.bitcoin.rawValue)
+        return Crypto.bech32Encode(data, hrp: hrp)
     }
 }
