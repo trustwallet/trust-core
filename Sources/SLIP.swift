@@ -40,6 +40,10 @@ public struct SLIP {
         case zpub = 0x04b24746
         case zprv = 0x04b2430c
         // Litecoin
+        case ltub = 0x019da462
+        case ltpv = 0x019d9cfe
+        case mtub = 0x01b26ef6
+        case mtpv = 0x01b26792
     }
 
     ///  Registered human-readable parts for BIP-0173
@@ -48,5 +52,12 @@ public struct SLIP {
     public enum HRP: String {
         case bitcoin = "bc"
         case litecoin = "ltc"
+
+        static var allSet: Set<String> {
+            return [
+                HRP.bitcoin.rawValue,
+                HRP.litecoin.rawValue,
+            ]
+        }
     }
 }

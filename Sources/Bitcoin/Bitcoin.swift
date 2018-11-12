@@ -43,11 +43,17 @@ open class Bitcoin: Blockchain {
     }
 
     /// Private key prefix.
-    open var privateKeyPrefix: UInt8 { return 0x80 }
+    open var privateKeyPrefix: UInt8 {
+        return 0x80
+    }
 
     /// Pay to script hash (P2SH) address prefix.
     open var p2shPrefix: UInt8 {
         return 0x05
+    }
+
+    open var hrp: SLIP.HRP {
+        return .bitcoin
     }
 
     override open func address(for publicKey: PublicKey) -> Address {
@@ -57,7 +63,7 @@ open class Bitcoin: Blockchain {
         case .bip49:
             return publicKey.compatibleBitcoinAddress(prefix: p2shPrefix)
         case .bip84:
-            return publicKey.compressed.bitcoinBech32Address()
+            return publicKey.compressed.bech32Address(hrp: hrp)
         }
     }
 
@@ -93,8 +99,8 @@ open class Bitcoin: Blockchain {
         return BitcoinAddress(data: data)
     }
 
-    open func legacyAddress(for publicKey: PublicKey, prefix: UInt8) -> Address {
-        return publicKey.compressed.legacyBitcoinAddress(prefix: prefix)
+    open func legacyAddress(for publicKey: PublicKey) -> Address {
+        return publicKey.compressed.legacyBitcoinAddress(prefix: p2pkhPrefix)
     }
 
     open func legacyAddress(string: String) -> Address? {
@@ -103,16 +109,6 @@ open class Bitcoin: Blockchain {
 
     open func legacyAddress(data: Data) -> Address? {
         return BitcoinAddress(data: data)
-    }
-}
-
-public final class Litecoin: Bitcoin {
-    override public var coinType: SLIP.CoinType {
-        return .litecoin
-    }
-
-    override public var p2shPrefix: UInt8 {
-        return 0x32
     }
 }
 

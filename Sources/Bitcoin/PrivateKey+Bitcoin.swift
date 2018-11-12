@@ -12,7 +12,8 @@ extension PrivateKey {
         guard let decoded = Crypto.base58Decode(wif) else {
             return nil
         }
-        if decoded[0] != 0x80 {
+        //FIXME
+        if decoded[0] != 0x80 && decoded[0] != 0xB0 {
             return nil
         }
         if decoded.count == 34 && decoded.last != 0x01 {
