@@ -68,7 +68,7 @@ open class Bitcoin: Blockchain {
     }
 
     override open func address(string: String) -> Address? {
-        if let bech32Address = BitcoinSegwitAddress(string: string) {
+        if let bech32Address = BitcoinBech32Address(string: string) {
             return bech32Address
         } else {
             return BitcoinAddress(string: string)
@@ -76,7 +76,7 @@ open class Bitcoin: Blockchain {
     }
 
     override open func address(data: Data) -> Address? {
-        if let bech32Address = BitcoinSegwitAddress(data: data) {
+        if let bech32Address = BitcoinBech32Address(data: data) {
             return bech32Address
         } else {
             return BitcoinAddress(data: data)

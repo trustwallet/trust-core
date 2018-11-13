@@ -13,7 +13,7 @@ public struct BitcoinBech32Address: Address, Equatable {
     public var data: Data
     public let hrp: String
 
-    public static func == (lhs: BitcoinSegwitAddress, rhs: BitcoinSegwitAddress) -> Bool {
+    public static func == (lhs: BitcoinBech32Address, rhs: BitcoinBech32Address) -> Bool {
         return lhs.data == rhs.data && lhs.hrp == rhs.hrp
     }
 
@@ -22,10 +22,10 @@ public struct BitcoinBech32Address: Address, Equatable {
     }
 
     public static func isValid(string: String) -> Bool {
-        guard let (data, _) = BitcoinSegwitAddress.bech32Decode(string: string) else {
+        guard let (data, _) = BitcoinBech32Address.bech32Decode(string: string) else {
             return false
         }
-        return BitcoinSegwitAddress.isValid(data: data)
+        return BitcoinBech32Address.isValid(data: data)
     }
 
     public static func validate(hrp: String) -> Bool {
@@ -36,14 +36,14 @@ public struct BitcoinBech32Address: Address, Equatable {
         var hrp: NSString?
         guard let data = Crypto.bech32Decode(string, hrp: &hrp),
             let readable = hrp as String?,
-            BitcoinSegwitAddress.validate(hrp: readable as String) else {
+            BitcoinBech32Address.validate(hrp: readable as String) else {
                 return nil
         }
         return (data, readable)
     }
 
     public init?(string: String) {
-        guard let (data, hrp) = BitcoinSegwitAddress.bech32Decode(string: string) else {
+        guard let (data, hrp) = BitcoinBech32Address.bech32Decode(string: string) else {
             return nil
         }
         self.data = data
@@ -51,7 +51,7 @@ public struct BitcoinBech32Address: Address, Equatable {
     }
 
     public init?(data: Data) {
-        guard BitcoinSegwitAddress.isValid(data: data) else {
+        guard BitcoinBech32Address.isValid(data: data) else {
             return nil
         }
         self.data = data
@@ -59,10 +59,10 @@ public struct BitcoinBech32Address: Address, Equatable {
     }
 
     public init?(data: Data, hrp: String) {
-        guard BitcoinSegwitAddress.isValid(data: data) else {
+        guard BitcoinBech32Address.isValid(data: data) else {
             return nil
         }
-        guard BitcoinSegwitAddress.validate(hrp: hrp) else {
+        guard BitcoinBech32Address.validate(hrp: hrp) else {
             return nil
         }
         self.data = data

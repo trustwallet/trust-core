@@ -7,7 +7,7 @@
 import Foundation
 
 public typealias LitecoinAddress = BitcoinAddress
-public typealias LitecoinBech32Address = BitcoinSegwitAddress
+public typealias LitecoinBech32Address = BitcoinBech32Address
 
 public final class Litecoin: Bitcoin {
     override public var coinType: SLIP.CoinType {

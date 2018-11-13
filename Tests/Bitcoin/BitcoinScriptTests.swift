@@ -43,11 +43,11 @@ class BitcoinScriptTests: XCTestCase {
     }
 
     func testLockScriptForP2WPKHAddress() {
-        let address = BitcoinSegwitAddress(string: "bc1q6hppaw7uld68amnnu5vpp5dd5u7k92c2vtdtkq")!
+        let address = BitcoinBech32Address(string: "bc1q6hppaw7uld68amnnu5vpp5dd5u7k92c2vtdtkq")!
         let scriptPub = BitcoinScript.buildScript(for: address)
         XCTAssertEqual(scriptPub?.data.hexString, "0014d5c21ebbdcfb747eee73e51810d1ada73d62ab0a")
 
-        let address2 = BitcoinSegwitAddress(string: "bc1qqw0jllft9pcr7r5uw0x08njkft0thd0g5yus0x")!
+        let address2 = BitcoinBech32Address(string: "bc1qqw0jllft9pcr7r5uw0x08njkft0thd0g5yus0x")!
         let scriptPub2 = BitcoinScript.buildScript(for: address2)
         XCTAssertEqual(scriptPub2?.data.hexString, "0014039f2ffd2b28703f0e9c73ccf3ce564adebbb5e8")
     }
