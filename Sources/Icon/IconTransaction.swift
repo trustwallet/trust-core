@@ -15,8 +15,6 @@ public struct IconTransaction {
     public let timestamp: String
     public let nonce: BigInt
     public let nid: BigInt
-    public var tx_hash: Data
-    public var signature: Data
 
     public init(
         from: IconAddress,
@@ -25,9 +23,7 @@ public struct IconTransaction {
         stepLimit: BigInt,
         timestamp: String,
         nonce: BigInt,
-        nid: BigInt,
-        tx_hash: Data = Data(),
-        signature: Data = Data()
+        nid: BigInt
     ) {
         self.from = from
         self.to = to
@@ -36,15 +32,5 @@ public struct IconTransaction {
         self.timestamp = timestamp
         self.nonce = nonce
         self.nid = nid
-        self.tx_hash = tx_hash
-        self.signature = signature
-    }
-
-    /// Signs this transaction by filling in the signature value.
-    public mutating func sign(hashSigner: (Data) throws -> Data) rethrows {
-        let signer = IconSigner()
-        tx_hash = signer.hash(transaction: self)
-
-        signature = try hashSigner(tx_hash)
     }
 }

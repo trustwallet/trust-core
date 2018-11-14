@@ -17,7 +17,7 @@ class IconTransactionTests: XCTestCase {
     //nonce: Integer value increased by request to avoid ‘replay attack’
     func testSignTransaction() {
         let privateKey = PrivateKey(data: Data(hexString: "a9d99d3a8d1e675e967b12e13ad5efe12d391325764bf9844a0ea48dfa663335")!)!
-        var transaction: IconTransaction = IconTransaction(
+        let transaction: IconTransaction = IconTransaction(
             from: IconAddress(string: "hx9a4aa13be9f009a7ecce87ce0b81b8e922e97266")!,
             to: IconAddress(string: "hxfc26e36379afbfc9626aac5e405bd9445bb12523")!,
             value: BigInt("400000000000000000"),
@@ -26,11 +26,13 @@ class IconTransactionTests: XCTestCase {
             nonce: 8367273,
             nid: BigInt("1"))
 
-        transaction.sign(hashSigner: { data in
-            return Crypto.sign(hash: data, privateKey: privateKey.data)
-        })
 
-        XCTAssertEqual(transaction.tx_hash.hexString, "61997b132ba3eec3a4cfc1e384805ad224f0ac66cd64561566122474f9359c93")
-        XCTAssertEqual(transaction.signature.base64EncodedString(), "1QSy9I2t0EtOrPxxc04PpDGT5yg6iBPID9UhWV5vgmoA/79ZjWyZkSomZpR4Gmrw88Crp5Xw+qTsbufpTr/IAgE=")
+        var signer = IconSigner(transaction: transaction)
+        signer.sign { (data) -> Data in
+            return Crypto.sign(hash: data, privateKey: privateKey.data)
+        }
+
+        XCTAssertEqual(signer.txHash.hexString, "61997b132ba3eec3a4cfc1e384805ad224f0ac66cd64561566122474f9359c93")
+        XCTAssertEqual(signer.signature?.base64EncodedString(), "1QSy9I2t0EtOrPxxc04PpDGT5yg6iBPID9UhWV5vgmoA/79ZjWyZkSomZpR4Gmrw88Crp5Xw+qTsbufpTr/IAgE=")
     }
 }

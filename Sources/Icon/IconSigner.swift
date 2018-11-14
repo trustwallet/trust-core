@@ -6,8 +6,15 @@
 
 import Foundation
 
-struct IconSigner {
-    func hash(transaction: IconTransaction) -> Data {
+public struct IconSigner {
+    let transaction: IconTransaction
+    public var signature: Data?
+
+    public init(transaction: IconTransaction) {
+        self.transaction = transaction
+    }
+
+    public var txHash: Data {
         /// from: Wallet address of the sender - Format: ‘hx’ + 40 digit hex string
         /// to: Wallet address of the recipient - Format: ‘hx’ + 40 digit hex string
         /// value: Transfer amount (ICX) - Unit: 1/10^18 icx - Format: 0x + Hex string
@@ -25,5 +32,10 @@ struct IconSigner {
             ".nid." + "0x" + String(transaction.nid, radix: 16, uppercase: false)
 
         return Crypto.sha3_256(tx.data(using: .utf8)!)
+    }
+
+    /// Signs this transaction by filling in the signature value.
+    public mutating func sign(hashSigner: (Data) throws -> Data) rethrows {
+        self.signature = try hashSigner(txHash)
     }
 }
