@@ -21,12 +21,15 @@ class IconTransactionTests: XCTestCase {
             from: IconAddress(string: "hx9a4aa13be9f009a7ecce87ce0b81b8e922e97266")!,
             to: IconAddress(string: "hxfc26e36379afbfc9626aac5e405bd9445bb12523")!,
             value: BigInt("400000000000000000"),
-            fee: BigInt("10000000000000000"),
+            stepLimit: BigInt("100000"),
             timestamp: "1538970344000000",
             nonce: 8367273)
 
-        transaction.sign(privateKey: privateKey)
-        XCTAssertEqual(transaction.tx_hash.hexString, "7fda8288fbcddcb28984f0579379ab05a0a7b985bdf6dd349db73d1a55c6bacf")
-        XCTAssertEqual(transaction.signature.base64EncodedString(), "NzNzKhI3fVCWKpm5F7B8vZyJnEXun/nfXmVafoHEz0dnNoSNFoHxxjXWIJi2mMb9Ub/rxVGj3x5soYtP39QpzwA=")
+        transaction.sign(hashSigner: { data in
+            return Crypto.sign(hash: data, privateKey: privateKey.data)
+        })
+
+        XCTAssertEqual(transaction.tx_hash.hexString, "f7ae911f8ec18aca5633a65ed42a980eb425935ce672f4b252a28c778e9d43e5")
+        XCTAssertEqual(transaction.signature.base64EncodedString(), "65pmfobD1vnV4aoNEirfBdWq6SveDgWBBlaDF/dAaJY85jUsEtQMq8UG4Xv+U6h0zx3EBsFiXgi1o3CxHRHv/gA=")
     }
 }
