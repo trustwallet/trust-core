@@ -23,13 +23,14 @@ class IconTransactionTests: XCTestCase {
             value: BigInt("400000000000000000"),
             stepLimit: BigInt("100000"),
             timestamp: "1538970344000000",
-            nonce: 8367273)
+            nonce: 8367273,
+            nid: BigInt("1"))
 
         transaction.sign(hashSigner: { data in
             return Crypto.sign(hash: data, privateKey: privateKey.data)
         })
 
-        XCTAssertEqual(transaction.tx_hash.hexString, "f7ae911f8ec18aca5633a65ed42a980eb425935ce672f4b252a28c778e9d43e5")
-        XCTAssertEqual(transaction.signature.base64EncodedString(), "65pmfobD1vnV4aoNEirfBdWq6SveDgWBBlaDF/dAaJY85jUsEtQMq8UG4Xv+U6h0zx3EBsFiXgi1o3CxHRHv/gA=")
+        XCTAssertEqual(transaction.tx_hash.hexString, "61997b132ba3eec3a4cfc1e384805ad224f0ac66cd64561566122474f9359c93")
+        XCTAssertEqual(transaction.signature.base64EncodedString(), "1QSy9I2t0EtOrPxxc04PpDGT5yg6iBPID9UhWV5vgmoA/79ZjWyZkSomZpR4Gmrw88Crp5Xw+qTsbufpTr/IAgE=")
     }
 }

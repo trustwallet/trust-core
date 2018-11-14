@@ -14,6 +14,7 @@ public struct IconTransaction {
     public let stepLimit: BigInt
     public let timestamp: String
     public let nonce: BigInt
+    public let nid: BigInt
     public var tx_hash: Data
     public var signature: Data
 
@@ -24,6 +25,7 @@ public struct IconTransaction {
         stepLimit: BigInt,
         timestamp: String,
         nonce: BigInt,
+        nid: BigInt,
         tx_hash: Data = Data(),
         signature: Data = Data()
     ) {
@@ -33,6 +35,7 @@ public struct IconTransaction {
         self.stepLimit = stepLimit
         self.timestamp = timestamp
         self.nonce = nonce
+        self.nid = nid
         self.tx_hash = tx_hash
         self.signature = signature
     }
