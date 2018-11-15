@@ -9,30 +9,28 @@ import TrustCore
 import BigInt
 
 class IconTransactionTests: XCTestCase {
-    //from: Wallet address of the sender - Format: ‘hx’ + 40 digit hex string
-    //to: Wallet address of the recipient - Format: ‘hx’ + 40 digit hex string
-    //value: Transfer amount (ICX) - Unit: 1/10^18 icx
-    //fee: Fee for the transaction - Unit: 1/10^18 icx
-    //timestamp: UNIX epoch time (Begin from 1970.1.1 00:00:00) - Unit: microseconds
-    //nonce: Integer value increased by request to avoid ‘replay attack’
+
     func testSignTransaction() {
-        let privateKey = PrivateKey(data: Data(hexString: "a9d99d3a8d1e675e967b12e13ad5efe12d391325764bf9844a0ea48dfa663335")!)!
+
+        let privateKey = PrivateKey(data: Data(hexString: "2d42994b2f7735bbc93a3e64381864d06747e574aa94655c516f9ad0a74eed79")!)!
         let transaction: IconTransaction = IconTransaction(
-            from: IconAddress(string: "hx9a4aa13be9f009a7ecce87ce0b81b8e922e97266")!,
-            to: IconAddress(string: "hxfc26e36379afbfc9626aac5e405bd9445bb12523")!,
-            value: BigInt("400000000000000000"),
-            stepLimit: BigInt("100000"),
-            timestamp: "1538970344000000",
-            nonce: 8367273,
-            nid: BigInt("1"))
+            from: IconAddress(string: "hxbe258ceb872e08851f1f59694dac2558708ece11")!,
+            to: IconAddress(string: "hx5bfdb090f43a808005ffc27c25b213145e80b7cd")!,
+            value: BigInt("1000000000000000000"),
+            stepLimit: BigInt("74565"),
+            timestamp: Date(timeIntervalSince1970: 1516942975.500598),
+            nonce: BigInt("1"),
+            nid: BigInt("1"),
+            version: BigInt("3"))
 
-
+        let method = "icx_sendTransaction"
         var signer = IconSigner(transaction: transaction)
-        signer.sign { (data) -> Data in
+        signer.sign(method: method) { (data) -> Data in
             return Crypto.sign(hash: data, privateKey: privateKey.data)
         }
 
-        XCTAssertEqual(signer.txHash.hexString, "61997b132ba3eec3a4cfc1e384805ad224f0ac66cd64561566122474f9359c93")
-        XCTAssertEqual(signer.signature?.base64EncodedString(), "1QSy9I2t0EtOrPxxc04PpDGT5yg6iBPID9UhWV5vgmoA/79ZjWyZkSomZpR4Gmrw88Crp5Xw+qTsbufpTr/IAgE=")
+        XCTAssertEqual(signer.txHash(for: method), "icx_sendTransaction.from.hxbe258ceb872e08851f1f59694dac2558708ece11.nid.0x1.nonce.0x1.stepLimit.0x12345.timestamp.0x563a6cf330136.to.hx5bfdb090f43a808005ffc27c25b213145e80b7cd.value.0xde0b6b3a7640000.version.0x3")
+        XCTAssertEqual(signer.signature?.base64EncodedString(), "xR6wKs+IA+7E91bT8966jFKlK5mayutXCvayuSMCrx9KB7670CsWa0B7LQzgsxU0GLXaovlAT2MLs1XuDiSaZQE=")
     }
 }
+

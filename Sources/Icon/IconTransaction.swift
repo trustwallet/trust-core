@@ -12,19 +12,25 @@ public struct IconTransaction {
     public let to: IconAddress
     public let value: BigInt
     public let stepLimit: BigInt
-    public let timestamp: String
+    public let timestamp: Date
     public let nonce: BigInt
     public let nid: BigInt
+    public let version: BigInt
+
+    var microsecondTimestamp: BigInt {
+        return BigInt(floor(timestamp.timeIntervalSince1970)*1000*1000)
+    }
 
     public init(
         from: IconAddress,
         to: IconAddress,
         value: BigInt,
         stepLimit: BigInt,
-        timestamp: String,
+        timestamp: Date,
         nonce: BigInt,
-        nid: BigInt
-    ) {
+        nid: BigInt,
+        version: BigInt
+        ) {
         self.from = from
         self.to = to
         self.value = value
@@ -32,5 +38,6 @@ public struct IconTransaction {
         self.timestamp = timestamp
         self.nonce = nonce
         self.nid = nid
+        self.version = version
     }
 }
