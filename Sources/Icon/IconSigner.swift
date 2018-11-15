@@ -14,21 +14,6 @@ public struct IconSigner {
         self.transaction = transaction
     }
 
-    public var txHashParams: [String: String] {
-        var params: [String: String] = [:]
-        params["from"] = transaction.from.description
-        params["to"] = transaction.to.description
-        let microsecondTimestamp = UInt64(transaction.timestamp.timeIntervalSince1970 * 1000 * 1000)
-        params["timestamp"] = "0x" + String(format: "%llx", microsecondTimestamp)
-        params["nonce"] = "0x" + String(transaction.nonce, radix: 16, uppercase: false)
-        params["stepLimit"] = "0x" + String(transaction.stepLimit, radix: 16, uppercase: false)
-        params["value"] = "0x" + String(transaction.value, radix: 16, uppercase: false)
-        params["nid"] = "0x" + String(transaction.nid, radix: 16, uppercase: false)
-        params["version"] = "0x" + String(transaction.version, radix: 16, uppercase: false)
-
-        return params
-    }
-
     public func txHash(for method: String) -> String {
         /// from: Wallet address of the sender - Format: ‘hx’ + 40 digit hex string
         /// to: Wallet address of the recipient - Format: ‘hx’ + 40 digit hex string
@@ -40,7 +25,7 @@ public struct IconSigner {
         /// version: Protocol version ("0x3" for V3)
 
         var txHash = method
-        let params = self.txHashParams
+        let params = transaction.paramsHex
         for key in params.keys.sorted() {
             guard let value = params[key] else { continue }
             txHash += "." + key + "." + value
