@@ -14,7 +14,7 @@ public struct IconSigner {
         self.transaction = transaction
     }
 
-    public var txHash: Data {
+    public var txHash: String {
         /// from: Wallet address of the sender - Format: ‘hx’ + 40 digit hex string
         /// to: Wallet address of the recipient - Format: ‘hx’ + 40 digit hex string
         /// value: Transfer amount (ICX) - Unit: 1/10^18 icx - Format: 0x + Hex string
@@ -22,20 +22,21 @@ public struct IconSigner {
         /// timestamp: UNIX epoch time (Begin from 1970.1.1 00:00:00) - Unit: microseconds
         /// nonce: Integer value increased by request to avoid ‘replay attack’
         /// nid: Network ID - Format: 0x + Hex string
-        let tx = "icx_sendTransaction" +
-            ".stepLimit." + "0x" + String(transaction.stepLimit, radix: 16, uppercase: false) +
-            ".from." + transaction.from.description +
-            ".nonce." + String(transaction.nonce) +
-            ".timestamp." + transaction.timestamp +
-            ".to." + transaction.to.description +
-            ".value." + "0x" + String(transaction.value, radix: 16, uppercase: false) +
-            ".nid." + "0x" + String(transaction.nid, radix: 16, uppercase: false)
+        /// version: Protocol version ("0x3" for V3)
 
-        return Crypto.sha3_256(tx.data(using: .utf8)!)
+        var txHash = "icx_sendTransaction"
+        let params = transaction.paramsHex
+        for key in params.keys.sorted() {
+            guard let value = params[key] else { continue }
+            txHash += "." + key + "." + value
+        }
+
+        return txHash
     }
 
     /// Signs this transaction by filling in the signature value.
     public mutating func sign(hashSigner: (Data) throws -> Data) rethrows {
-        self.signature = try hashSigner(txHash)
+        let data = Crypto.sha3_256(txHash.data(using: .utf8)!)
+        self.signature = try hashSigner(data)
     }
 }
