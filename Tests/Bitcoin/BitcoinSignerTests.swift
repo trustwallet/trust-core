@@ -16,7 +16,12 @@ class BitcoinSignerTests: XCTestCase {
         let unspentOutput = BitcoinTransactionOutput(value: 5151, script: BitcoinScript(data: Data(hexString: "76a914aff1e0789e5fe316b729577665aa0a04d5b0f8c788ac")!))
         let unspentOutpoint = BitcoinOutPoint(hash: Data(hexString: "e28c2b955293159898e34c6840d99bf4d390e2ee1c6f606939f18ee1e2000d05")!, index: 2)
         let utxo = BitcoinUnspentTransaction(output: unspentOutput, outpoint: unspentOutpoint)
-        let tx = BitcoinTransaction.build(to: toAddress, amount: 600, estimatefee: 1, changeAddress: changeAddress, utxos: [utxo])
+
+        let amount: Int64 = 600
+        let selector = BitcoinUnspentSelector()
+        let result = try! selector.select(from: [utxo], targetValue: amount)
+
+        let tx = BitcoinTransaction.build(to: toAddress, amount: amount, fee: result.fee, changeAddress: changeAddress, utxos: [utxo])
         let sighash = tx.getSignatureHash(scriptCode: utxo.output.script, index: 0, hashType: [.all, .fork], amount: utxo.output.value, version: .witnessV0)
         XCTAssertEqual(sighash.hexString, "1136d4975aee4ff6ccf0b8a9c640532f563b48d9856fdc9682c37a071702937c")
     }
@@ -32,14 +37,19 @@ class BitcoinSignerTests: XCTestCase {
         let utxoKey = PrivateKey(wif: "L1WFAgk5LxC5NLfuTeADvJ5nm3ooV3cKei5Yi9LJ8ENDfGMBZjdW")!
         let provider = BitcoinDefaultPrivateKeyProvider(keys: [utxoKey])
 
-        let unsignedTx = BitcoinTransaction.build(to: toAddress, amount: 600, estimatefee: 1, changeAddress: changeAddress, utxos: [utxo])
+        let amount: Int64 = 600
+        let selector = BitcoinUnspentSelector()
+        let result = try! selector.select(from: [utxo], targetValue: amount)
+
+        let unsignedTx = BitcoinTransaction.build(to: toAddress, amount: amount, fee: Int64(result.fee), changeAddress: changeAddress, utxos: [utxo])
         let signer = BitcoinTransactionSigner(keyProvider: provider, transaction: unsignedTx)
         let signedTx = try signer.sign([utxo])
 
         var serialized = Data()
         signedTx.encode(into: &serialized)
 
-        XCTAssertEqual(signedTx.identifier, "b07970ad5ce836d01f7d44362f32fa265bf8267ed587255a9b057e34427c2546")
+        XCTAssertEqual(signedTx.transactionId, "b07970ad5ce836d01f7d44362f32fa265bf8267ed587255a9b057e34427c2546")
+        XCTAssertEqual(signedTx.transactionId, signedTx.witnessId)
         XCTAssertEqual(serialized.hexString, "0100000001e28c2b955293159898e34c6840d99bf4d390e2ee1c6f606939f18ee1e2000d05020000006b483045022100c0c5a08d0f4382b962895c601a140143588ad700ebfee987712b6125e7c275cb02204145cb6043131c830eaf69192bc3e68e26b46131f9b6fc0fa880c29f98423b2b4121038eab72ec78e639d02758e7860cdec018b49498c307791f785aa3019622f4ea5bffffffff0258020000000000001976a914769bdff96a02f9135a1d19b749db6a78fe07dc9088ace5100000000000001976a9149e089b6889e032d46e3b915a3392edfd616fb1c488ac00000000")
     }
 
@@ -81,7 +91,8 @@ class BitcoinSignerTests: XCTestCase {
         var serialized = Data()
         signedTx.encode(into: &serialized)
 
-        XCTAssertEqual(signedTx.identifier, "c36c38370907df2324d9ce9d149d191192f338b37665a82e78e76a12c909b762")
+        XCTAssertEqual(signedTx.transactionId, "e8151a2af31c368a35053ddd4bdb285a8595c769a3ad83e0fa02314a602d4609")
+        XCTAssertEqual(signedTx.witnessId, "c36c38370907df2324d9ce9d149d191192f338b37665a82e78e76a12c909b762")
         XCTAssertEqual(serialized.hexString, "01000000000102fff7f7881a8099afa6940d42d1e7f6362bec38171ea3edf433541db4e4ad969f00000000494830450221008b9d1dc26ba6a9cb62127b02742fa9d754cd3bebf337f7a55d114c8e5cdd30be022040529b194ba3f9281a99f2b1c0a19c0489bc22ede944ccf4ecbab4cc618ef3ed01eeffffffef51e1b804cc89d182d279655c3aa89e815b1b309fe287d9b2b55d57b90ec68a0100000000ffffffff02202cb206000000001976a9148280b37df378db99f66f85c95a783a76ac7a6d5988ac9093510d000000001976a9143bde42dbee7e4dbe6a21b2d50ce2f0167faa815988ac000247304402203609e17b84f6a7d30c80bfa610b5b4542f32a8a0d5447a12fb1366d7f01cc44a0220573a954c4518331561406f90300e8f3358f51928d43c212a8caed02de67eebee0121025476c2e83188368da1ff3e292e7acafcdb3566bb0ad253f62fc70f07aeee635711000000")
     }
 
@@ -114,7 +125,8 @@ class BitcoinSignerTests: XCTestCase {
         var serialized = Data()
         signedTx.encode(into: &serialized)
 
-        XCTAssertEqual(signedTx.identifier, "0df178d21afc9e8a46195c7c2e328aafd8544a1dbd67cf983214cad401966cf3")
+        XCTAssertEqual(signedTx.transactionId, "b2ce556154e5ab22bec0a2f990b2b843f4f4085486c0d2cd82873685c0012004")
+        XCTAssertEqual(signedTx.witnessId, "0df178d21afc9e8a46195c7c2e328aafd8544a1dbd67cf983214cad401966cf3")
         XCTAssertEqual(serialized.hexString, "0100000000010100010000000000000000000000000000000000000000000000000000000000000000000000ffffffff01e8030000000000001976a9144c9c3dfac4207d5d8cb89df5722cb3d712385e3f88ac02483045022100aa5d8aa40a90f23ce2c3d11bc845ca4a12acd99cbea37de6b9f6d86edebba8cb022022dedc2aa0a255f74d04c0b76ece2d7c691f9dd11a64a8ac49f62a99c3a05f9d01232103596d3451025c19dbbdeb932d6bf8bfb4ad499b95b6f88db8899efac102e5fc71ac00000000")
     }
 
@@ -152,7 +164,8 @@ class BitcoinSignerTests: XCTestCase {
         var serialized = Data()
         signedTx.encode(into: &serialized)
 
-        XCTAssertEqual(signedTx.identifier, "680f483b2bf6c5dcbf111e69e885ba248a41a5e92070cfb0afec3cfc49a9fabb")
+        XCTAssertEqual(signedTx.transactionId, "ef48d9d0f595052e0f8cdcf825f7a5e50b6a388a81f206f3f4846e5ecd7a0c23")
+        XCTAssertEqual(signedTx.witnessId, "680f483b2bf6c5dcbf111e69e885ba248a41a5e92070cfb0afec3cfc49a9fabb")
         XCTAssertEqual(serialized.hexString, "01000000000101db6b1b20aa0fd7b23880be2ecbd4a98130974cf4748fb66092ac4d3ceb1a5477010000001716001479091972186c449eb1ded22b78e40d009bdf0089feffffff02b8b4eb0b000000001976a914a457b684d7f0d539a46a45bbc043f35b59d0d96388ac0008af2f000000001976a914fd270b1ee6abcaea97fea7ad0402e8bd8ad6d77c88ac02473044022047ac8e878352d3ebbde1c94ce3a10d057c24175747116f8288e5d794d12d482f0220217f36a485cae903c713331d877c1f64677e3622ad4010726870540656fe9dcb012103ad1d8e89212f0b92c74d23bb710c00662ad1470198ac48c43f7d6f93a2a2687392040000")
     }
 

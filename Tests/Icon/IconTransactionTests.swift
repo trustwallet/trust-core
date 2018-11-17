@@ -9,24 +9,27 @@ import TrustCore
 import BigInt
 
 class IconTransactionTests: XCTestCase {
-    //from: Wallet address of the sender - Format: ‘hx’ + 40 digit hex string
-    //to: Wallet address of the recipient - Format: ‘hx’ + 40 digit hex string
-    //value: Transfer amount (ICX) - Unit: 1/10^18 icx
-    //fee: Fee for the transaction - Unit: 1/10^18 icx
-    //timestamp: UNIX epoch time (Begin from 1970.1.1 00:00:00) - Unit: microseconds
-    //nonce: Integer value increased by request to avoid ‘replay attack’
-    func testSignTransaction() {
-        let privateKey = PrivateKey(data: Data(hexString: "a9d99d3a8d1e675e967b12e13ad5efe12d391325764bf9844a0ea48dfa663335")!)!
-        var transaction: IconTransaction = IconTransaction(
-            from: IconAddress(string: "hx9a4aa13be9f009a7ecce87ce0b81b8e922e97266")!,
-            to: IconAddress(string: "hxfc26e36379afbfc9626aac5e405bd9445bb12523")!,
-            value: BigInt("400000000000000000"),
-            fee: BigInt("10000000000000000"),
-            timestamp: "1538970344000000",
-            nonce: 8367273)
 
-        transaction.sign(privateKey: privateKey)
-        XCTAssertEqual(transaction.tx_hash.hexString, "7fda8288fbcddcb28984f0579379ab05a0a7b985bdf6dd349db73d1a55c6bacf")
-        XCTAssertEqual(transaction.signature.base64EncodedString(), "NzNzKhI3fVCWKpm5F7B8vZyJnEXun/nfXmVafoHEz0dnNoSNFoHxxjXWIJi2mMb9Ub/rxVGj3x5soYtP39QpzwA=")
+    func testSignTransaction() {
+
+        let privateKey = PrivateKey(data: Data(hexString: "2d42994b2f7735bbc93a3e64381864d06747e574aa94655c516f9ad0a74eed79")!)!
+        let transaction: IconTransaction = IconTransaction(
+            from: IconAddress(string: "hxbe258ceb872e08851f1f59694dac2558708ece11")!,
+            to: IconAddress(string: "hx5bfdb090f43a808005ffc27c25b213145e80b7cd")!,
+            value: BigInt("1000000000000000000"),
+            stepLimit: BigInt("74565"),
+            timestamp: Date(timeIntervalSince1970: 1516942975.500598),
+            nonce: BigInt("1"),
+            nid: BigInt("1"),
+            version: BigInt("3"))
+
+        var signer = IconSigner(transaction: transaction)
+        signer.sign() { (data) -> Data in
+            return Crypto.sign(hash: data, privateKey: privateKey.data)
+        }
+
+        XCTAssertEqual(signer.txHash, "icx_sendTransaction.from.hxbe258ceb872e08851f1f59694dac2558708ece11.nid.0x1.nonce.0x1.stepLimit.0x12345.timestamp.0x563a6cf330136.to.hx5bfdb090f43a808005ffc27c25b213145e80b7cd.value.0xde0b6b3a7640000.version.0x3")
+        XCTAssertEqual(signer.signature?.base64EncodedString(), "xR6wKs+IA+7E91bT8966jFKlK5mayutXCvayuSMCrx9KB7670CsWa0B7LQzgsxU0GLXaovlAT2MLs1XuDiSaZQE=")
     }
 }
+

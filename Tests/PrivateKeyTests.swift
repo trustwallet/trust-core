@@ -45,4 +45,15 @@ class PrivateKeyTests: XCTestCase {
         let bp = UnsafeBufferPointer(start: pointer, count: PrivateKey.size)
         XCTAssertTrue(zip(bp, key).contains(where: { $0 != $1 }))
     }
+
+    func testPrivateKeyToWIF() {
+        // taken from https://en.bitcoin.it/wiki/Wallet_import_format
+        let wif = "5HueCGU8rMjxEXxiPuD5BDku4MkFqeZyd4dZ1jvhTVqvbTLvyTJ"
+        let data = Data(hexString: "0x0C28FCA386C7A227600B2FE50B7CAE11EC86D3BF1FBE471BE89827E19D72AA1D")!
+        let key = PrivateKey(data: data)!
+        XCTAssertEqual(key.wif, wif)
+
+        let key2 = PrivateKey(wif: wif)
+        XCTAssertEqual(key, key2)
+    }
 }

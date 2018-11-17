@@ -39,22 +39,22 @@ public class HDWallet {
         return PrivateKey(data: data)!
     }
 
-    public func getExtendedPrivateKey(for purpose: Purpose) -> String {
+    public func getExtendedPrivateKey(for purpose: Purpose, version: SLIP.HDVersion) -> String {
         var node = getNode(for: purpose)
         let buffer = [Int8](repeating: 0, count: 128)
         let fingerprint = hdnode_fingerprint(&node)
         hdnode_private_ckd(&node, DerivationPath.Index(0, hardened: true).derivationIndex)
-        hdnode_serialize_private(&node, fingerprint, purpose.xprvVersion, UnsafeMutablePointer<Int8>(mutating: buffer), 128)
+        hdnode_serialize_private(&node, fingerprint, version.rawValue, UnsafeMutablePointer<Int8>(mutating: buffer), 128)
         return String(cString: buffer)
     }
 
-    public func getExtendedPubKey(for purpose: Purpose) -> String {
+    public func getExtendedPubKey(for purpose: Purpose, version: SLIP.HDVersion) -> String {
         var node = getNode(for: purpose)
         let buffer = [Int8](repeating: 0, count: 128)
         let fingerprint = hdnode_fingerprint(&node)
         hdnode_private_ckd(&node, DerivationPath.Index(0, hardened: true).derivationIndex)
         hdnode_fill_public_key(&node)
-        hdnode_serialize_public(&node, fingerprint, purpose.xpubVersion, UnsafeMutablePointer<Int8>(mutating: buffer), 128)
+        hdnode_serialize_public(&node, fingerprint, version.rawValue, UnsafeMutablePointer<Int8>(mutating: buffer), 128)
         return String(cString: buffer)
     }
 

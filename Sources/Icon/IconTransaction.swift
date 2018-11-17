@@ -11,36 +11,48 @@ public struct IconTransaction {
     public let from: IconAddress
     public let to: IconAddress
     public let value: BigInt
-    public let fee: BigInt
-    public let timestamp: String
+    public let stepLimit: BigInt
+    public let timestamp: Date
     public let nonce: BigInt
-    public var tx_hash: Data
-    public var signature: Data
+    public let nid: BigInt
+    public let version: BigInt
+
+    var microsecondTimestamp: BigInt {
+        return BigInt(floor(timestamp.timeIntervalSince1970)*1000*1000)
+    }
 
     public init(
         from: IconAddress,
         to: IconAddress,
         value: BigInt,
-        fee: BigInt,
-        timestamp: String,
+        stepLimit: BigInt,
+        timestamp: Date,
         nonce: BigInt,
-        tx_hash: Data = Data(),
-        signature: Data = Data()
-    ) {
+        nid: BigInt,
+        version: BigInt
+        ) {
         self.from = from
         self.to = to
         self.value = value
-        self.fee = fee
+        self.stepLimit = stepLimit
         self.timestamp = timestamp
         self.nonce = nonce
-        self.tx_hash = tx_hash
-        self.signature = signature
+        self.nid = nid
+        self.version = version
     }
 
-    /// Signs this transaction by filling in the signature value.
-    public mutating func sign(privateKey: PrivateKey) {
-        let signer = IconSigner()
-        tx_hash = signer.hash(transaction: self)
-        signature = signer.sign(hash: tx_hash, privateKey: privateKey)
+    public var paramsHex: [String: String] {
+        var params: [String: String] = [:]
+        params["from"] = from.description
+        params["to"] = to.description
+        let microsecondTimestamp = UInt64(timestamp.timeIntervalSince1970 * 1000 * 1000)
+        params["timestamp"] = "0x" + String(format: "%llx", microsecondTimestamp)
+        params["nonce"] = "0x" + String(nonce, radix: 16, uppercase: false)
+        params["stepLimit"] = "0x" + String(stepLimit, radix: 16, uppercase: false)
+        params["value"] = "0x" + String(value, radix: 16, uppercase: false)
+        params["nid"] = "0x" + String(nid, radix: 16, uppercase: false)
+        params["version"] = "0x" + String(version, radix: 16, uppercase: false)
+
+        return params
     }
 }

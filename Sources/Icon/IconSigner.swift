@@ -6,27 +6,37 @@
 
 import Foundation
 
-struct IconSigner {
-    func hash(transaction: IconTransaction) -> Data {
+public struct IconSigner {
+    let transaction: IconTransaction
+    public var signature: Data?
+
+    public init(transaction: IconTransaction) {
+        self.transaction = transaction
+    }
+
+    public var txHash: String {
         /// from: Wallet address of the sender - Format: ‘hx’ + 40 digit hex string
         /// to: Wallet address of the recipient - Format: ‘hx’ + 40 digit hex string
         /// value: Transfer amount (ICX) - Unit: 1/10^18 icx - Format: 0x + Hex string
-        /// fee: Fee for the transaction - Unit: 1/10^18 icx - Format: 0x + Hex string
+        /// stepLimit: stepLimit is the amount of step to send with the transaction - Format: 0x + Hex string
         /// timestamp: UNIX epoch time (Begin from 1970.1.1 00:00:00) - Unit: microseconds
         /// nonce: Integer value increased by request to avoid ‘replay attack’
-        let tx = "icx_sendTransaction" +
-            ".fee." + "0x" + String(transaction.fee, radix: 16, uppercase: false) +
-            ".from." + transaction.from.description +
-            ".nonce." + String(transaction.nonce) +
-            ".timestamp." + transaction.timestamp +
-            ".to." + transaction.to.description +
-            ".value." + "0x" + String(transaction.value, radix: 16, uppercase: false)
+        /// nid: Network ID - Format: 0x + Hex string
+        /// version: Protocol version ("0x3" for V3)
 
-        return Crypto.sha3_256(tx.data(using: .utf8)!)
+        var txHash = "icx_sendTransaction"
+        let params = transaction.paramsHex
+        for key in params.keys.sorted() {
+            guard let value = params[key] else { continue }
+            txHash += "." + key + "." + value
+        }
+
+        return txHash
     }
 
-    /// Signs the transaction hash
-    func sign(hash: Data, privateKey: PrivateKey) -> Data {
-        return privateKey.sign(hash: hash)
+    /// Signs this transaction by filling in the signature value.
+    public mutating func sign(hashSigner: (Data) throws -> Data) rethrows {
+        let data = Crypto.sha3_256(txHash.data(using: .utf8)!)
+        self.signature = try hashSigner(data)
     }
 }
