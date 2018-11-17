@@ -151,4 +151,24 @@ class CryptoTests: XCTestCase {
             XCTAssertEqual(rebuilt, valid.lowercased())
         }
     }
+
+    func testCashAddrEncoding() {
+        for valid in [
+            "prefix:x64nx6hz",
+            "p:gpf8m4h7",
+            "bitcoincash:qpzry9x8gf2tvdw0s3jn54khce6mua7lcw20ayyn",
+            "bchtest:testnetaddress4d6njnut",
+            "bchreg:555555555555555555555555555555555555555555555udxmlmrz",
+        ] {
+            let index = valid.range(of: ":", options: .backwards)!.lowerBound
+            let expected = String(valid[..<index]).lowercased()
+            var hrp: NSString?
+            let data = Crypto.cashAddrDecode(valid, hrp: &hrp)
+            XCTAssertNotNil(data)
+            XCTAssertEqual(expected, hrp! as String)
+
+            let rebuilt = Crypto.cashAddrEncode(data!, hrp: expected)
+            XCTAssertEqual(rebuilt, valid.lowercased())
+        }
+    }
 }

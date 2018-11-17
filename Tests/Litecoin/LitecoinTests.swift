@@ -56,4 +56,19 @@ class LitecoinTests: XCTestCase {
         XCTAssertEqual(zpubAddr4.description, "ltc1qcgnevr9rp7aazy62m4gen0tfzlssa52axwytt6")
         XCTAssertEqual(zpubAddr11.description, "ltc1qy072y8968nzp6mz3j292h8lp72d678fcmms6vl")
     }
+
+    func testLockScripts() {
+        let bc = Litecoin()
+        let address = LitecoinBech32Address(string: "ltc1qs32zgdhe2tpzcnz55r7d9jvhce33063sfht3q0")!
+        let scriptPub = bc.buildScript(for: address)!
+        XCTAssertEqual(scriptPub.data.hexString, "001484542436f952c22c4c54a0fcd2c997c66317ea30")
+
+        let address2 = LitecoinAddress(string: "MHhghmmCTASDnuwpgsPUNJVPTFaj61GzaG")!
+        let scrpitPub2 = bc.buildScript(for: address2)!
+        XCTAssertEqual(scrpitPub2.data.hexString, "a9146b85b3dac9340f36b9d32bbacf2ffcb0851ef17987")
+
+        let address3 = LitecoinAddress(string: "LgKiekick9Ka7gYoYzAWGrEq8rFBJzYiyf")!
+        let scrpitPub3 = bc.buildScript(for: address3)!
+        XCTAssertEqual(scrpitPub3.data.hexString, "76a914e771c6695c5dd189ccc4ef00cd0f3db3096d79bd88ac")
+    }
 }

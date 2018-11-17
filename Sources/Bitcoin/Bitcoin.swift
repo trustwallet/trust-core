@@ -56,6 +56,10 @@ open class Bitcoin: Blockchain {
         return .bitcoin
     }
 
+    open var supportSegwit: Bool {
+        return true
+    }
+
     override open func address(for publicKey: PublicKey) -> Address {
         switch coinPurpose {
         case .bip44:

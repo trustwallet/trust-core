@@ -9,16 +9,17 @@ import Foundation
 public extension BitcoinTransaction {
     static func build(to: Address, amount: Int64, fee: Int64, changeAddress: Address, utxos: [BitcoinUnspentTransaction]) -> BitcoinTransaction {
 
+        let bitcoin = Bitcoin()
         let totalAmount: Int64 = utxos.reduce(0) { $0 + $1.output.value }
         let change: Int64 = totalAmount - amount - fee
 
-        let lockingScriptTo = BitcoinScript.buildScript(for: to)!
+        let lockingScriptTo = bitcoin.buildScript(for: to)!
         let toOutput = BitcoinTransactionOutput(value: amount, script: lockingScriptTo)
 
         var outputs = [toOutput]
 
         if change > 0 {
-            let lockingScriptChange = BitcoinScript.buildScript(for: changeAddress)!
+            let lockingScriptChange = bitcoin.buildScript(for: changeAddress)!
             let changeOutput = BitcoinTransactionOutput(value: change, script: lockingScriptChange)
             outputs.append(changeOutput)
         }
@@ -28,21 +29,28 @@ public extension BitcoinTransaction {
     }
 }
 
-public extension BitcoinScript {
-    static func buildScript(for address: Address) -> BitcoinScript? {
-        let bitcoin = Bitcoin()
+public extension Bitcoin {
+    func buildScript(for address: Address) -> BitcoinScript? {
         if let bitcoinAddress = address as? BitcoinAddress {
-            if bitcoinAddress.data[0] == bitcoin.p2pkhPrefix {
-                // address starts with 1
-                return BitcoinScript.buildPayToPublicKeyHash(address: bitcoinAddress)
-            } else if bitcoinAddress.data[0] == bitcoin.p2shPrefix {
-                // address starts with 3
+            if bitcoinAddress.data[0] == self.p2pkhPrefix {
+                // address starts with 1/L
+                return BitcoinScript.buildPayToPublicKeyHash(bitcoinAddress.data.dropFirst())
+            } else if bitcoinAddress.data[0] == self.p2shPrefix {
+                // address starts with 3/M
+                guard supportSegwit else {
+                    // bch doesn't support segwit and we don't support multi sig in the app
+                    // google: bitcoin cash stuck segwit
+                    return nil
+                }
                 return BitcoinScript.buildPayToScriptHash(bitcoinAddress.data.dropFirst())
             }
-        } else if let segwitAddress = address as? BitcoinBech32Address {
-            // address starts with bc
-            let program = WitnessProgram.from(bech32: segwitAddress.data)!
+        } else if let bech32Address = address as? BitcoinBech32Address {
+            // address starts with bc/ltc
+            let program = WitnessProgram.from(bech32: bech32Address.data)!
             return BitcoinScript.buildPayToWitnessPubkeyHash(program.program)
+        } else if let cashAddress = address as? BitcoinCashAddress {
+            let bitcoinAddress = cashAddress.toBitcoinAddress()
+            return self.buildScript(for: bitcoinAddress)
         }
         return nil
     }

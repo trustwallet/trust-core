@@ -16,6 +16,10 @@ public class BitcoinCash: Bitcoin {
         return .bitcoincash
     }
 
+    override public var supportSegwit: Bool {
+        return false
+    }
+
     override public func address(for publicKey: PublicKey) -> Address {
         return publicKey.compressed.cashAddress()
     }

@@ -77,4 +77,11 @@ public struct BitcoinCashAddress: Address, Equatable {
     public var description: String {
         return Crypto.cashAddrEncode(data, hrp: hrp)
     }
+
+    public func toBitcoinAddress() -> BitcoinAddress {
+        let bc = BitcoinCash()
+        let data = convertBits(self.data, from: 5, to: 8, pad: false)!
+        let prefix = data[0] == BitcoinCashAddress.p2khVersion ? bc.p2pkhPrefix : bc.p2shPrefix
+        return BitcoinAddress(data: Data([prefix]) + data.dropFirst())!
+    }
 }
