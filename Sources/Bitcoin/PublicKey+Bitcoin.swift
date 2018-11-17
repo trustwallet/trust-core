@@ -26,6 +26,20 @@ public extension PublicKey {
         return address
     }
 
+    public func cashAddress() -> BitcoinCashAddress {
+        // slightly different from WitnessProgram.bech32Data
+        let payload = Data([BitcoinCashAddress.p2khVersion]) + bitcoinKeyHash
+        let data = convertBits(payload, from: 8, to: 5)!
+        let address = BitcoinCashAddress(data: data, hrp: SLIP.HRP.bitcoincash.rawValue)!
+        return address
+    }
+
+    public func cashAddress(redeemScript: BitcoinScript) -> BitcoinCashAddress {
+        let payload = Data([BitcoinCashAddress.p2shVersion]) + Crypto.sha256ripemd160(redeemScript.data)
+        let data = convertBits(payload, from: 8, to: 5)!
+        return BitcoinCashAddress(data: data, hrp: SLIP.HRP.bitcoincash.rawValue)!
+    }
+
     /// Returns the public key hash.
     public var bitcoinKeyHash: Data {
         return Crypto.sha256ripemd160(data)

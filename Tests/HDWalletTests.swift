@@ -74,6 +74,14 @@ class HDWalletTests: XCTestCase {
         XCTAssertEqual("EOS5LhLzbYV9jL94MYSFFnuKUX4fSB9xRp2zmXBxZ9AjmbAwZKxoq", address.description)
     }
 
+    func testDeriveBitcoinCash() {
+        let blockchain = BitcoinCash()
+        let wallet = HDWallet(mnemonic: words, passphrase: passphrase)
+        let key = wallet.getKey(at: blockchain.derivationPath(at: 0))
+        let address = blockchain.address(for: key.publicKey().compressed)
+        XCTAssertEqual("bitcoincash:qqxktqe0pzf0yepvap9rf2g8zxq8t5mqx50dwpqlxl", address.description)
+    }
+
     func testSignHash() {
         let wallet = HDWallet(mnemonic: words, passphrase: passphrase)
         let key = wallet.getKey(at: Ethereum().derivationPath(at: 0))

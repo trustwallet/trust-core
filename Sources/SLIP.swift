@@ -13,6 +13,7 @@ public struct SLIP {
     public enum CoinType: Int {
         case bitcoin = 0
         case litecoin = 2
+        case bitcoincash = 145
         case dash = 5
         case ethereum = 60
         case ethereumClassic = 61
@@ -52,11 +53,13 @@ public struct SLIP {
     public enum HRP: String {
         case bitcoin = "bc"
         case litecoin = "ltc"
+        case bitcoincash = "bitcoincash"
 
         static var allSet: Set<String> {
             return [
                 HRP.bitcoin.rawValue,
                 HRP.litecoin.rawValue,
+                HRP.bitcoincash.rawValue,
             ]
         }
     }

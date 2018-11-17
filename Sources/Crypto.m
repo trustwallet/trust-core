@@ -166,9 +166,30 @@
 + (nullable NSData *)bech32Decode:(nonnull NSString *)string hrp:(NSString * _Nullable *)hrp
 {
     uint8_t data[82];
-    char hrpBuf[84];
+    char hrpBuf[21];
     size_t dataLen;
     if (1 != bech32_decode(hrpBuf, data, &dataLen, string.UTF8String)) {
+        return nil;
+    };
+    if (hrp) {
+        *hrp = [NSString stringWithUTF8String:hrpBuf];
+    }
+    return [NSData dataWithBytes:data length:dataLen];
+}
+
++ (nonnull NSString *)cashAddrEncode:(nonnull NSData *)data hrp:(nonnull NSString *)hrp
+{
+    NSMutableData *result = [[NSMutableData alloc] initWithCapacity:104];
+    cash_encode(result.mutableBytes, hrp.UTF8String, data.bytes, data.length);
+    return [NSString stringWithUTF8String:result.bytes];
+}
+
++ (nullable NSData *)cashAddrDecode:(nonnull NSString *)string hrp:(NSString * _Nullable *)hrp
+{
+    uint8_t data[104];
+    char hrpBuf[29];
+    size_t dataLen;
+    if (1 != cash_decode(hrpBuf, data, &dataLen, string.UTF8String)) {
         return nil;
     };
     if (hrp) {

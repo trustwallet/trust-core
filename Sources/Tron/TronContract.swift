@@ -18,7 +18,7 @@ public struct TronContract {
     public func contract() throws -> Protocol_Transaction.Contract {
         var contract = Protocol_Transaction.Contract()
         switch type {
-        case .transferContract(let from, let to,let amount):
+        case .transferContract(let from, let to, let amount):
             var transferContract = Protocol_TransferContract()
             transferContract.ownerAddress = Crypto.base58Decode(from.description)!
             transferContract.toAddress = Crypto.base58Decode(to.description)!

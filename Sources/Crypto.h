@@ -96,6 +96,12 @@
 /// @return decoded data
 + (nullable NSData *)bech32Decode:(nonnull NSString *)string hrp:(NSString * _Nullable *)hrp NS_SWIFT_NAME(bech32Decode(_:hrp:));
 
+/// Encodes data as a Bech32 string with hrp
++ (nonnull NSString *)cashAddrEncode:(nonnull NSData *)data hrp:(nonnull NSString *)hrp NS_SWIFT_NAME(cashAddrEncode(_:hrp:));
+
+/// Decodes a cashAddr string as data
++ (nullable NSData *)cashAddrDecode:(nonnull NSString *)string hrp:(NSString * _Nullable *)hrp NS_SWIFT_NAME(cashAddrDecode(_:hrp:));
+
 // MARK: - HDWallet
 
 /// Generates a mnemonic phrase with the given strength in bits.

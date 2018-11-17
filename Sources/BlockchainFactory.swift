@@ -37,5 +37,7 @@ public func blockchain(coin: SLIP.CoinType) -> Blockchain {
         return Icon()
     case .eos:
         return EOS()
+    case .bitcoincash:
+        return BitcoinCash()
     }
 }
