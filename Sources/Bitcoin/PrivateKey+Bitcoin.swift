@@ -8,12 +8,17 @@ import Foundation
 
 extension PrivateKey {
     /// Creates a `PrivateKey` from a Bitcoin WIF (wallet import format) string.
+
+    static let prefixSet = Set([
+        Bitcoin().privateKeyPrefix,
+        Litecoin().privateKeyPrefix,
+    ])
+
     public convenience init?(wif: String) {
         guard let decoded = Crypto.base58Decode(wif) else {
             return nil
         }
-        //FIXME
-        if decoded[0] != 0x80 && decoded[0] != 0xB0 {
+        guard PrivateKey.prefixSet.contains(decoded[0]) else {
             return nil
         }
         if decoded.count == 34 && decoded.last != 0x01 {
