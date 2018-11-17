@@ -59,6 +59,42 @@ public extension BitcoinScript {
         return BitcoinScript(data: data)
     }
 
+    /// Builds a pay-to-multisig-hash script
+    public static func buildPayToMultiSigHash(_ multi: ([PublicKey], Int)) -> BitcoinScript {
+        let (publicKeys, requires) = multi
+
+        precondition(publicKeys.count <= 16)
+        precondition(requires <= publicKeys.count)
+
+        var data = Data()
+        data.append(encodeNumber(requires))
+
+        for publicKey in publicKeys {
+            if publicKey.data.count < OpCode.OP_PUSHDATA1 {
+                data.append(UInt8(publicKey.data.count))
+                data.append(publicKey.data)
+            } else if publicKey.data.count <= Int(0xff) {
+                data.append(OpCode.OP_PUSHDATA1)
+                data.append(UInt8(publicKey.data.count))
+                data.append(publicKey.data)
+            } else if publicKey.data.count <= Int(0xffff) {
+                data.append(OpCode.OP_PUSHDATA2)
+                UInt16(publicKey.data.count).encode(into: &data)
+                data.append(publicKey.data)
+            } else if publicKey.data.count <= Int(0xffffffff) {
+                data.append(OpCode.OP_PUSHDATA4)
+                UInt32(publicKey.data.count).encode(into: &data)
+                data.append(publicKey.data)
+            } else {
+                fatalError("Out of limit")
+            }
+        }
+
+        data.append(encodeNumber(publicKeys.count))
+        data.append(OpCode.OP_CHECKMULTISIG)
+        return BitcoinScript(data: data)
+    }
+
     /// Encodes a small integer
     static func encodeNumber(_ n: Int) -> UInt8 {
         assert(n >= 0 && n <= 16)

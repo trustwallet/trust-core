@@ -11,6 +11,7 @@ class SlipTests: XCTestCase {
 
     func testCoinType() {
         XCTAssertEqual(SLIP.CoinType.bitcoin.rawValue, 0)
+        XCTAssertEqual(SLIP.CoinType.bitcoinTestNet.rawValue, 1)
         XCTAssertEqual(SLIP.CoinType.litecoin.rawValue, 2)
         XCTAssertEqual(SLIP.CoinType.tron.rawValue, 195)
         XCTAssertEqual(SLIP.CoinType.ethereum.rawValue, 60)

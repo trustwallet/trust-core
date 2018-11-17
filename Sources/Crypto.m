@@ -168,12 +168,24 @@
     uint8_t data[82];
     char hrpBuf[84];
     size_t dataLen;
+
     if (1 != bech32_decode(hrpBuf, data, &dataLen, string.UTF8String)) {
         return nil;
     };
     if (hrp) {
         *hrp = [NSString stringWithUTF8String:hrpBuf];
+        NSArray<NSString*>* bitcoinsHRP = @[@"bc",@"tb"];
+        if ([bitcoinsHRP containsObject:*hrp]) {
+            // Need to change `TrezorCrypto` module for optimizing this code
+            uint8_t witdata[82];
+            size_t witdataLen;
+            int witVersion;
+            if (1 != segwit_addr_decode(&witVersion,witdata,&witdataLen,hrpBuf,string.UTF8String)) {
+                return nil;
+            };
+        }
     }
+
     return [NSData dataWithBytes:data length:dataLen];
 }
 

@@ -33,8 +33,7 @@ public final class BitcoinDefaultPrivateKeyProvider: BitcoinPrivateKeyProvider {
 
     public func key(forPublicKeyHash hash: Data) -> PrivateKey? {
         return keys.first { key in
-            let publicKey = key.publicKey(compressed: true)
-            return publicKey.bitcoinKeyHash == hash
+            return key.publicKey(compressed: true).bitcoinKeyHash == hash || key.publicKey(compressed: false).bitcoinKeyHash == hash
         }
     }
 

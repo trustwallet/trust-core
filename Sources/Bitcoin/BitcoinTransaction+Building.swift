@@ -31,18 +31,24 @@ public extension BitcoinTransaction {
 public extension BitcoinScript {
     static func buildScript(for address: Address) -> BitcoinScript? {
         let bitcoin = Bitcoin()
+        let bitcoinTestNet = BitcoinTestNet()
+
         if let bitcoinAddress = address as? BitcoinAddress {
-            if bitcoinAddress.data[0] == bitcoin.p2pkhPrefix {
-                // address starts with 1
+            if bitcoinAddress.data[0] == bitcoin.p2pkhPrefix || bitcoinAddress.data[0] == bitcoinTestNet.p2pkhPrefix {
+                // address starts with 1(main net) or m (test net)
                 return BitcoinScript.buildPayToPublicKeyHash(address: bitcoinAddress)
-            } else if bitcoinAddress.data[0] == bitcoin.p2shPrefix {
-                // address starts with 3
+            } else if bitcoinAddress.data[0] == bitcoin.p2shPrefix || bitcoinAddress.data[0] == bitcoinTestNet.p2shPrefix {
+                // address starts with 3(main net) or 2(test net)
                 return BitcoinScript.buildPayToScriptHash(bitcoinAddress.data.dropFirst())
             }
         } else if let segwitAddress = address as? BitcoinSegwitAddress {
-            // address starts with bc
-            let program = WitnessProgram.from(bech32: segwitAddress.data)!
-            return BitcoinScript.buildPayToWitnessPubkeyHash(program.program)
+            // address starts with bc or tb
+            let witness = WitnessProgram.from(bech32: segwitAddress.data)!
+            if witness.program.count == 20 {
+                return BitcoinScript.buildPayToWitnessPubkeyHash(witness.program)
+            } else if witness.program.count == 32 {
+                return BitcoinScript.buildPayToWitnessScriptHash(witness.program)
+            }
         }
         return nil
     }

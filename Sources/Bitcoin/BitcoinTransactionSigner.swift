@@ -45,7 +45,6 @@ public final class BitcoinTransactionSigner {
         if script.isPayToScriptHash {
             script = BitcoinScript(data: results.first!)
             results = try signStep(script: script, index: index, utxo: utxo, version: .base)
-            results.append(script.data)
             redeemScript = script
         }
 
@@ -99,7 +98,8 @@ public final class BitcoinTransactionSigner {
                     break
                 }
                 guard let key = keyProvider.key(forPublicKey: pubKey) else {
-                    throw Error.missingKey
+                    //if can not find privateKey, jump to next publicKey
+                    continue
                 }
                 let signature = createSignature(transaction: transactionToSign, script: script, key: key, index: index, amount: utxo.output.value, version: version)
                 results.append(signature)

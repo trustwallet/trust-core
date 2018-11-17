@@ -26,6 +26,12 @@ public extension PublicKey {
         return address
     }
 
+    public func bitcoinTestNetBech32Address() -> BitcoinSegwitAddress {
+        let witness = WitnessProgram(version: 0x00, program: bitcoinKeyHash)
+        let address = BitcoinSegwitAddress(data: witness.bech32Data!, hrp: .bitcoinTestNet)!
+        return address
+    }
+
     /// Returns the public key hash.
     public var bitcoinKeyHash: Data {
         return Crypto.sha256ripemd160(data)

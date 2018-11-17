@@ -25,7 +25,8 @@ public struct WitnessProgram: Equatable {
             // Invalid script version
             return false
         }
-        if program.count < 2 || program.count > 20 {
+        //fix bugs: According to https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki
+        if program.count < 2 || program.count > 40 {
             return false
         }
         if version == 0 && program.count != 20 && program.count != 32 {
@@ -35,13 +36,14 @@ public struct WitnessProgram: Equatable {
     }
 
     public static func from(bech32 address: String) -> WitnessProgram? {
-        guard let data = BitcoinSegwitAddress.bech32Decode(string: address) else {
+        guard let (data, _) = BitcoinSegwitAddress.bech32Decode(string: address) else {
             return nil
         }
         return WitnessProgram.from(bech32: data)
     }
 
     public static func from(bech32 data: Data) -> WitnessProgram? {
+        //Valid for main net and test net
         guard BitcoinSegwitAddress.isValid(data: data) else {
             return nil
         }

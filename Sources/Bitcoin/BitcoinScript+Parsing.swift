@@ -33,7 +33,7 @@ public extension BitcoinScript {
             if bytes.endIndex - index < 1 {
                 return nil
             }
-            size = index
+            size = Int(bytes[index])
             index += 1
         } else if opcode == OpCode.OP_PUSHDATA2 {
             if bytes.endIndex - index < 2 {

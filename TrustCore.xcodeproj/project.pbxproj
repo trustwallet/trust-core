@@ -102,6 +102,8 @@
 		8B6CF651216F5F2800DDD488 /* TronBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6CF650216F5F2800DDD488 /* TronBlock.swift */; };
 		8B6CF653216F6E9A00DDD488 /* TronSign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6CF652216F6E9A00DDD488 /* TronSign.swift */; };
 		8B6CF659216F70DC00DDD488 /* TronTransactionSignerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6CF658216F70DC00DDD488 /* TronTransactionSignerTest.swift */; };
+		91FCA2CE2191AD6000ED02B9 /* BitcoinAddressTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FCA2CA2191A02000ED02B9 /* BitcoinAddressTest.swift */; };
+		91FCA2CF2191AD6000ED02B9 /* BitcoinTestNetSignerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FCA2CC2191A80D00ED02B9 /* BitcoinTestNetSignerTests.swift */; };
 		BB06149A920620338B3323D1 /* Pods_TrustCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 682B6374F9856982618A8501 /* Pods_TrustCore.framework */; };
 		BB116822217034A2007C8DC9 /* BitcoinScriptTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB116821217034A2007C8DC9 /* BitcoinScriptTests.swift */; };
 		BB1215D021390A4D0092FC68 /* ERC721EncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1215CF21390A4D0092FC68 /* ERC721EncoderTests.swift */; };
@@ -235,6 +237,8 @@
 		8B6CF650216F5F2800DDD488 /* TronBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TronBlock.swift; sourceTree = "<group>"; };
 		8B6CF652216F6E9A00DDD488 /* TronSign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TronSign.swift; sourceTree = "<group>"; };
 		8B6CF658216F70DC00DDD488 /* TronTransactionSignerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TronTransactionSignerTest.swift; sourceTree = "<group>"; };
+		91FCA2CA2191A02000ED02B9 /* BitcoinAddressTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinAddressTest.swift; sourceTree = "<group>"; };
+		91FCA2CC2191A80D00ED02B9 /* BitcoinTestNetSignerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinTestNetSignerTests.swift; sourceTree = "<group>"; };
 		99258028638D3902B177E80C /* Pods-TrustCore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrustCore.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TrustCore/Pods-TrustCore.debug.xcconfig"; sourceTree = "<group>"; };
 		A1C9DA59AE410E04E68E1F89 /* Pods_TrustCore_TrustCoreTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TrustCore_TrustCoreTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB116821217034A2007C8DC9 /* BitcoinScriptTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinScriptTests.swift; sourceTree = "<group>"; };
@@ -400,6 +404,7 @@
 		6149A6C3201E43E200A2F35C /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				91FCA2C921919D3700ED02B9 /* BitcoinTestNet */,
 				297A91112189A27600728946 /* EOS */,
 				8B6CF655216F706300DDD488 /* Tron */,
 				77F80A9321363D5C0011D949 /* CryptoTests.swift */,
@@ -585,6 +590,15 @@
 				8B55FD28219795970051D225 /* TronAssetContractTest.swift */,
 			);
 			path = Tron;
+			sourceTree = "<group>";
+		};
+		91FCA2C921919D3700ED02B9 /* BitcoinTestNet */ = {
+			isa = PBXGroup;
+			children = (
+				91FCA2CA2191A02000ED02B9 /* BitcoinAddressTest.swift */,
+				91FCA2CC2191A80D00ED02B9 /* BitcoinTestNetSignerTests.swift */,
+			);
+			path = BitcoinTestNet;
 			sourceTree = "<group>";
 		};
 		A21D6DABB34C662DA8064833 /* Pods */ = {
@@ -913,6 +927,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				91FCA2CE2191AD6000ED02B9 /* BitcoinAddressTest.swift in Sources */,
+				91FCA2CF2191AD6000ED02B9 /* BitcoinTestNetSignerTests.swift in Sources */,
 				77F8D3DF2148625100E80CD6 /* PurposeTests.swift in Sources */,
 				5DFB545721665A980041AE73 /* IconAddressTests.swift in Sources */,
 				297A91132189A28200728946 /* EOSTests.swift in Sources */,
