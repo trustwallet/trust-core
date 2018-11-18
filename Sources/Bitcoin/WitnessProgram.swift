@@ -35,14 +35,14 @@ public struct WitnessProgram: Equatable {
     }
 
     public static func from(bech32 address: String) -> WitnessProgram? {
-        guard let data = BitcoinSegwitAddress.bech32Decode(string: address) else {
+        guard let (data, _) = BitcoinBech32Address.bech32Decode(string: address) else {
             return nil
         }
         return WitnessProgram.from(bech32: data)
     }
 
     public static func from(bech32 data: Data) -> WitnessProgram? {
-        guard BitcoinSegwitAddress.isValid(data: data) else {
+        guard BitcoinBech32Address.isValid(data: data) else {
             return nil
         }
         let version = data[0]

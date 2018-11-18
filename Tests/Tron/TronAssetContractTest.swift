@@ -23,16 +23,16 @@ class TronAssetContractTest: XCTestCase {
         let version = Int32(3)
         let block = TronBlock(timestamp: timestamp, txTrieRoot: txTrieRoot, parentHash: parentHash, number: number, witnessAddress: witnessAddress, version: version)
         let tronTransaction = TronTransaction(tronContract: contract, tronBlock: block, timestamp: Date(timeIntervalSince1970: 1539295479))
-        
+
         let transaction = try! tronTransaction.transaction()
-        
+
         var sighn = TronSign(tronTransaction: transaction)
         let privateKey =  PrivateKey(data: Data(hexString: "2d8f68944bdbfbc0769542fba8fc2d2a3de67393334471624364c7006da2aa54")!)!
-        
+
         try! sighn.sign(hashSigner: { data in
             return Crypto.sign(hash: data, privateKey: privateKey.data)
         })
-        
+
         XCTAssertEqual(sighn.signature?.hexString, "dafb40c26a31bd90c13fff181bd0b8bcbe286b53a0f3da28c594bca85e0635b930a66075ff12fbe562e453c6a7bc704be45cf8c157c37ea019b4df0a81dd842100")
     }
 }

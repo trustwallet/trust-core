@@ -40,7 +40,7 @@ class BitcoinAddressTests: XCTestCase {
     func testFromPrivateKeySegwitAddress() {
         let privateKey = PrivateKey(wif: "KxZX6Jv3to6RWnhsffTcLLryRnNyyc8Ng2G8P9LFkbCdzGDEhNy1")!
         let publicKey = privateKey.publicKey(compressed: true)
-        let address = Bitcoin().legacyAddress(for: publicKey, prefix: 0x0)
+        let address = Bitcoin().legacyAddress(for: publicKey)
 
         XCTAssertEqual(address.description, Bitcoin().address(string: "1PeUvjuxyf31aJKX6kCXuaqxhmG78ZUdL1")!.description)
     }
@@ -88,17 +88,17 @@ class BitcoinAddressTests: XCTestCase {
         let publicKey = PublicKey(data: Data(hexString: "0279BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798")!)!
         let bitcoin = Bitcoin()
         let expect = "bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4"
-        XCTAssertTrue(BitcoinSegwitAddress.isValid(string: expect))
+        XCTAssertTrue(BitcoinBech32Address.isValid(string: expect))
 
         let address = bitcoin.address(for: publicKey)
         XCTAssertEqual(address.description, expect)
 
-        let addressFromString = BitcoinSegwitAddress(string: expect)
-        XCTAssertEqual(address as? BitcoinSegwitAddress, addressFromString)
+        let addressFromString = BitcoinBech32Address(string: expect)
+        XCTAssertEqual(address as? BitcoinBech32Address, addressFromString)
     }
 
     func testWitnessProgramToBech32Address() {
-        let address = BitcoinSegwitAddress(string: "bc1qr583w2swedy2acd7rung055k8t3n7udp7vyzyg")!
+        let address = BitcoinBech32Address(string: "bc1qr583w2swedy2acd7rung055k8t3n7udp7vyzyg")!
         let scriptPubKey = BitcoinScript.buildPayToWitnessPubkeyHash(WitnessProgram.from(bech32: address.description)!.program)
         XCTAssertEqual(scriptPubKey.data.hexString, "00141d0f172a0ecb48aee1be1f2687d2963ae33f71a1")
     }
@@ -118,7 +118,7 @@ class BitcoinAddressTests: XCTestCase {
         ]
 
         for invalid in addresses {
-            XCTAssertFalse(BitcoinSegwitAddress.isValid(string: invalid))
+            XCTAssertFalse(BitcoinBech32Address.isValid(string: invalid))
         }
     }
 

@@ -23,36 +23,39 @@ class BitcoinScriptTests: XCTestCase {
     }
 
     func testLockScriptForP2PKHAddress() {
+        let bitcoin = Bitcoin()
         let address = BitcoinAddress(string: "1Cu32FVupVCgHkMMRJdYJugxwo2Aprgk7H")!
-        let scriptPub = BitcoinScript.buildScript(for: address)
+        let scriptPub = bitcoin.buildScript(for: address)
         XCTAssertEqual(scriptPub?.data.hexString, "76a9148280b37df378db99f66f85c95a783a76ac7a6d5988ac")
 
         let address2 = BitcoinAddress(string: "16TZ8J6Q5iZKBWizWzFAYnrsaox5Z5aBRV")!
-        let scriptPub2 = BitcoinScript.buildScript(for: address2)
+        let scriptPub2 = bitcoin.buildScript(for: address2)
         XCTAssertEqual(scriptPub2?.data.hexString, "76a9143bde42dbee7e4dbe6a21b2d50ce2f0167faa815988ac")
     }
 
     func testLockScriptForP2SHAddress() {
+        let bitcoin = Bitcoin()
         let address = BitcoinAddress(string: "37rHiL4DN2wkt8pgCAUfYJRxhir98ZGN1y")!
-        let scriptPub = BitcoinScript.buildScript(for: address)
+        let scriptPub = bitcoin.buildScript(for: address)
         XCTAssertEqual(scriptPub?.data.hexString, "a9144391adbec172cad6a9fc3eebca36aeec6640abda87")
 
         let address2 = BitcoinAddress(string: "3HV63hgTNAgdiEp4FbJRPSVrjaV4ZoX4Bs")!
-        let scriptPub2 = BitcoinScript.buildScript(for: address2)
+        let scriptPub2 = bitcoin.buildScript(for: address2)
         XCTAssertEqual(scriptPub2?.data.hexString, "a914ad40768af6419a20bdb94d83c06b6c8c94721dc087")
     }
 
     func testLockScriptForP2WPKHAddress() {
-        let address = BitcoinSegwitAddress(string: "bc1q6hppaw7uld68amnnu5vpp5dd5u7k92c2vtdtkq")!
-        let scriptPub = BitcoinScript.buildScript(for: address)
+        let bitcoin = Bitcoin()
+        let address = BitcoinBech32Address(string: "bc1q6hppaw7uld68amnnu5vpp5dd5u7k92c2vtdtkq")!
+        let scriptPub = bitcoin.buildScript(for: address)
         XCTAssertEqual(scriptPub?.data.hexString, "0014d5c21ebbdcfb747eee73e51810d1ada73d62ab0a")
 
-        let address2 = BitcoinSegwitAddress(string: "bc1qqw0jllft9pcr7r5uw0x08njkft0thd0g5yus0x")!
-        let scriptPub2 = BitcoinScript.buildScript(for: address2)
+        let address2 = BitcoinBech32Address(string: "bc1qqw0jllft9pcr7r5uw0x08njkft0thd0g5yus0x")!
+        let scriptPub2 = bitcoin.buildScript(for: address2)
         XCTAssertEqual(scriptPub2?.data.hexString, "0014039f2ffd2b28703f0e9c73ccf3ce564adebbb5e8")
     }
 
     func testLockScriptForInvalidAddress() {
-        XCTAssertNil(BitcoinScript.buildScript(for: EthereumAddress(string: "0x2457c289d6054910cc01d00d73deed368a907df7")!))
+        XCTAssertNil(Bitcoin().buildScript(for: EthereumAddress(string: "0x2457c289d6054910cc01d00d73deed368a907df7")!))
     }
 }

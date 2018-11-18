@@ -19,4 +19,3 @@ extension TronContractType {
         return .transferAssetContract(from: from, to: to, amount: amount, assetName: assetName)
     }
 }
-

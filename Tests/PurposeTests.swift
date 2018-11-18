@@ -12,6 +12,7 @@ class PurposeTests: XCTestCase {
         XCTAssertEqual(.bip44, Tron().coinPurpose)
 
         XCTAssertEqual(.bip84, Bitcoin().coinPurpose)
+        XCTAssertEqual(.bip44, BitcoinCash().coinPurpose)
         XCTAssertEqual(.bip84, Litecoin().coinPurpose)
         XCTAssertEqual(.bip44, Dash().coinPurpose)
 
