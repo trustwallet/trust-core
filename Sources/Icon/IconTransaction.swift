@@ -29,7 +29,7 @@ public struct IconTransaction {
         timestamp: Date,
         nonce: BigInt,
         nid: BigInt,
-        version: BigInt
+        version: BigInt = BigInt(3)
         ) {
         self.from = from
         self.to = to
