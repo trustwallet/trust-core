@@ -13,7 +13,7 @@ public struct IconTransaction {
     public let value: BigInt
     public let stepLimit: BigInt
     public let timestamp: Date
-    public let nonce: BigInt
+    public let nonce: BigInt?
     public let nid: BigInt
     public let version: BigInt
 
@@ -27,7 +27,7 @@ public struct IconTransaction {
         value: BigInt,
         stepLimit: BigInt,
         timestamp: Date,
-        nonce: BigInt,
+        nonce: BigInt?,
         nid: BigInt,
         version: BigInt = BigInt(3)
         ) {
@@ -47,7 +47,9 @@ public struct IconTransaction {
         params["to"] = to.description
         let microsecondTimestamp = UInt64(timestamp.timeIntervalSince1970 * 1000 * 1000)
         params["timestamp"] = "0x" + String(format: "%llx", microsecondTimestamp)
-        params["nonce"] = "0x" + String(nonce, radix: 16, uppercase: false)
+        if let nonce = nonce {
+            params["nonce"] = "0x" + String(nonce, radix: 16, uppercase: false)
+        }
         params["stepLimit"] = "0x" + String(stepLimit, radix: 16, uppercase: false)
         params["value"] = "0x" + String(value, radix: 16, uppercase: false)
         params["nid"] = "0x" + String(nid, radix: 16, uppercase: false)
