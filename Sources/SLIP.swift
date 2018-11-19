@@ -23,6 +23,7 @@ public struct SLIP {
         case tron = 195
         case vechain = 818
         case callisto = 820
+        case tomoChain = 889
         case wanchain = 5718350
         case icon = 74
         case eos = 194
