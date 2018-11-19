@@ -5,12 +5,14 @@ PODS:
   - SwiftLint (0.26.0)
   - SwiftProtobuf (1.1.2)
   - TrezorCrypto (0.0.9)
+  - TrustWalletCore (0.0.1)
 
 DEPENDENCIES:
   - BigInt (~> 3.0)
   - SwiftLint
   - SwiftProtobuf (~> 1.0)
   - TrezorCrypto (~> 0.0.9)
+  - "TrustWalletCore (from `git@github.com:TrustWallet/trust-wallet-core.git`, branch `master`)"
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -20,13 +22,24 @@ SPEC REPOS:
     - SwiftProtobuf
     - TrezorCrypto
 
+EXTERNAL SOURCES:
+  TrustWalletCore:
+    :branch: master
+    :git: "git@github.com:TrustWallet/trust-wallet-core.git"
+
+CHECKOUT OPTIONS:
+  TrustWalletCore:
+    :commit: 66ceaf2b361c29ed8de52b744d8221d44adfbc21
+    :git: "git@github.com:TrustWallet/trust-wallet-core.git"
+
 SPEC CHECKSUMS:
   BigInt: 76b5dfdfa3e2e478d4ffdf161aeede5502e2742f
   SipHash: fad90a4683e420c52ef28063063dbbce248ea6d4
   SwiftLint: f6b83e8d95ee1e91e11932d843af4fdcbf3fc764
   SwiftProtobuf: 7147b8ec19c8c0694a45155d989ea9e6dedaf51f
   TrezorCrypto: bfeea47a052dca2c77d4a39e1e183865e52de14d
+  TrustWalletCore: c704c1a4c35149ba6faead6503ec9de9e609b7e4
 
-PODFILE CHECKSUM: ab36b3012ae20ec550e99300a22b04542e01fc9b
+PODFILE CHECKSUM: 7cd030986ee3a4ec08e9e85ebd6c4d067ac440df
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.0.beta.1
