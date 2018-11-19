@@ -102,3 +102,13 @@ public final class ThunderToken: Ethereum {
         return .thunderToken
     }
 }
+
+public final class TomoChain: Ethereum {
+    public override var chainID: Int {
+        return 88
+    }
+
+    public override var coinType: SLIP.CoinType {
+        return .tomoChain
+    }
+}
