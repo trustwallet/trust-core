@@ -5,6 +5,7 @@
 // file LICENSE at the root of the source code distribution tree.
 
 import Foundation
+import BigInt
 
 enum BitcoinUnspentSelectorError: LocalizedError {
     case insufficientFunds
@@ -12,15 +13,15 @@ enum BitcoinUnspentSelectorError: LocalizedError {
 }
 
 public struct BitcoinUnspentSelector {
-    public let byteFee: Int64
-    public let dustThreshold: Int64
+    public let byteFee: BigInt
+    public let dustThreshold: BigInt
 
-    public init(byteFee: Int64 = 1, dustThreshold: Int64 = 3 * 182) {
+    public init(byteFee: BigInt = 1, dustThreshold: BigInt = 3 * 182) {
         self.byteFee = byteFee
         self.dustThreshold = dustThreshold
     }
 
-    public func select(from utxos: [BitcoinUnspentTransaction], targetValue: Int64) throws -> (utxos: [BitcoinUnspentTransaction], fee: Int64) {
+    public func select(from utxos: [BitcoinUnspentTransaction], targetValue: BigInt) throws -> (utxos: [BitcoinUnspentTransaction], fee: BigInt) {
         // if target value is zero, fee is zero
         guard targetValue > 0 else {
             return ([], 0)
@@ -39,7 +40,7 @@ public struct BitcoinUnspentSelector {
         let sortedUtxos: [BitcoinUnspentTransaction] = utxos.sorted(by: { $0.output.value < $1.output.value })
 
         // difference from 2x targetValue
-        func distFrom2x(_ val: Int64) -> Int64 {
+        func distFrom2x(_ val: BigInt) -> BigInt {
             return abs(val - doubleTargetValue)
         }
 
@@ -78,9 +79,9 @@ public struct BitcoinUnspentSelector {
         throw BitcoinUnspentSelectorError.insufficientFunds
     }
 
-    public func calculateFee(input: Int, output: Int = 2) -> Int64 {
+    public func calculateFee(input: Int, output: Int = 2) -> BigInt {
         let txsize = ((148 * input) + (34 * output) + 10)
-        return Int64(txsize) * byteFee
+        return BigInt(txsize) * byteFee
     }
 }
 
@@ -96,7 +97,7 @@ private extension Array {
 }
 
 private extension Sequence where Element == BitcoinUnspentTransaction {
-    func sum() -> Int64 {
-        return reduce(0) { $0 + $1.output.value }
+    func sum() -> BigInt {
+        return BigInt(reduce(0) { $0 + $1.output.value })
     }
 }

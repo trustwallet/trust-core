@@ -6,6 +6,7 @@
 
 @testable import TrustCore
 import XCTest
+import BigInt
 
 // swiftlint:disable line_length
 
@@ -19,9 +20,9 @@ class BitcoinSignerTests: XCTestCase {
 
         let amount: Int64 = 600
         let selector = BitcoinUnspentSelector()
-        let result = try! selector.select(from: [utxo], targetValue: amount)
+        let result = try! selector.select(from: [utxo], targetValue: BigInt(amount))
 
-        let tx = BitcoinTransaction.build(to: toAddress, amount: amount, fee: result.fee, changeAddress: changeAddress, utxos: [utxo])
+        let tx = BitcoinTransaction.build(to: toAddress, amount: amount, fee: Int64(result.fee), changeAddress: changeAddress, utxos: [utxo])
         let sighash = tx.getSignatureHash(scriptCode: utxo.output.script, index: 0, hashType: [.all, .fork], amount: utxo.output.value, version: .witnessV0)
         XCTAssertEqual(sighash.hexString, "1136d4975aee4ff6ccf0b8a9c640532f563b48d9856fdc9682c37a071702937c")
     }
@@ -39,7 +40,7 @@ class BitcoinSignerTests: XCTestCase {
 
         let amount: Int64 = 600
         let selector = BitcoinUnspentSelector()
-        let result = try! selector.select(from: [utxo], targetValue: amount)
+        let result = try! selector.select(from: [utxo], targetValue: BigInt(amount))
 
         let unsignedTx = BitcoinTransaction.build(to: toAddress, amount: amount, fee: Int64(result.fee), changeAddress: changeAddress, utxos: [utxo])
         let signer = BitcoinTransactionSigner(keyProvider: provider, transaction: unsignedTx)
