@@ -18,6 +18,7 @@ class IconAddressTests: XCTestCase {
         XCTAssertFalse(IconAddress.isValid(string: "abc"))
         XCTAssertFalse(IconAddress.isValid(string: "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed"))
         XCTAssertTrue(IconAddress.isValid(string: "hx116f042497e5f34268b1b91e742680f84cf4e9f3"))
+        XCTAssertTrue(IconAddress.isValid(string: "cx116f042497e5f34268b1b91e742680f84cf4e9f3"))
     }
 
     func testFromPrivateKey() {
