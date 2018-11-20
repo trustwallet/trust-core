@@ -6,10 +6,14 @@
 
 import Foundation
 
+public enum IconAddressPrefix: String {
+    case address = "hx"
+    case contract = "cx"
+}
+
 /// Icon address.
 public struct IconAddress: Address, Hashable {
     public static let size = 20
-    public static let prefix = "hx"
 
     /// Validates that the raw data is a valid address.
     static public func isValid(data: Data) -> Bool {
@@ -18,18 +22,19 @@ public struct IconAddress: Address, Hashable {
 
     /// Validates that the string is a valid address.
     static public func isValid(string: String) -> Bool {
-        if string.hasPrefix(IconAddress.prefix) {
-            ///Remove address prefix
-            guard let data = Data(hexString: String(string.dropFirst(2))) else {
-                return false
-            }
-            return IconAddress.isValid(data: data)
+        guard let _ = IconAddressPrefix(rawValue: String(string.prefix(2))) else {
+            return false
         }
-        return false
+        guard let data = Data(hexString: String(string.dropFirst(2))) else {
+            return false
+        }
+        return IconAddress.isValid(data: data)
     }
 
     /// Raw address bytes, length 20.
     public let data: Data
+
+    public let type: IconAddressPrefix
 
     /// Creates an address with `Data`.
     ///
@@ -39,23 +44,21 @@ public struct IconAddress: Address, Hashable {
             return nil
         }
         self.data = data
+        self.type = .address
     }
 
     /// Creates an address with an hexadecimal string representation.
     public init?(string: String) {
-        var address = string
-        if address.hasPrefix(IconAddress.prefix) {
-            ///Remove prefix
-            address = String(string.dropFirst(2))
-        }
-        guard let data = Data(hexString: address), data.count == IconAddress.size else {
-            return nil
-        }
+        guard
+            let prefix = IconAddressPrefix(rawValue: String(string.prefix(2))),
+            let data = Data(hexString: String(string.dropFirst(2))),
+            data.count == IconAddress.size else { return nil }
         self.data = data
+        self.type = prefix
     }
 
     public var description: String {
-        return IconAddress.prefix + data.hexString
+        return type.rawValue + data.hexString
     }
 
     public var hashValue: Int {
