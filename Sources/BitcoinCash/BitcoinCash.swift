@@ -16,6 +16,10 @@ public class BitcoinCash: Bitcoin {
         return .bitcoincash
     }
 
+    override public var hrp: SLIP.HRP {
+        return .bitcoincash
+    }
+
     override public var supportSegwit: Bool {
         return false
     }

@@ -42,4 +42,24 @@ class BitcoinCashTests: XCTestCase {
         XCTAssertNil(bc.buildScript(for: address2))
         XCTAssertNil(bc.buildScript(for: address2.toBitcoinAddress()))
     }
+
+    func testExtendedKeys() {
+        let wallet = HDWallet(mnemonic: "ripple scissors kick mammal hire column oak again sun offer wealth tomorrow wagon turn fatal", passphrase: "TREZOR")
+
+        let xprv = wallet.getExtendedPrivateKey(for: .bip44, coin: .bitcoincash, version: .xprv)
+        let xpub = wallet.getExtendedPubKey(for: .bip44, coin: .bitcoincash, version: .xpub)
+
+        XCTAssertEqual(xprv, "xprv9yEvwSfPanK5gLYVnYvNyF2CEWJx1RsktQtKDeT6jnCnqASBiPCvFYHFSApXv39bZbF6hRaha1kWQBVhN1xjo7NHuhAn5uUfzy79TBuGiHh")
+        XCTAssertEqual(xpub, "xpub6CEHLxCHR9sNtpcxtaTPLNxvnY9SQtbcFdov22riJ7jmhxmLFvXAoLbjHSzwXwNNuxC1jUP6tsHzFV9rhW9YKELfmR9pJaKFaM8C3zMPgjw")
+    }
+
+    func testDeriveFromXPub() {
+        let xpub = "xpub6CEHLxCHR9sNtpcxtaTPLNxvnY9SQtbcFdov22riJ7jmhxmLFvXAoLbjHSzwXwNNuxC1jUP6tsHzFV9rhW9YKELfmR9pJaKFaM8C3zMPgjw"
+        let bc = BitcoinCash(purpose: .bip44)
+        let xpubAddr2 = bc.derive(from: xpub, at: bc.derivationPath(at: 2))!
+        let xpubAddr9 = bc.derive(from: xpub, at: bc.derivationPath(at: 9))!
+
+        XCTAssertEqual(xpubAddr2.description, "bitcoincash:qq4cm0hcc4trsj98v425f4ackdq7h92rsy6zzstrgy")
+        XCTAssertEqual(xpubAddr9.description, "bitcoincash:qqyqupaugd7mycyr87j899u02exc6t2tcg9frrqnve")
+    }
 }
