@@ -38,7 +38,7 @@ public struct EthereumAddress: Address, Hashable {
             return nil
         }
         self.data = data
-        eip55String = EthereumChecksum.computeString(for: data, type: .EIP55)
+        eip55String = EthereumChecksum.computeString(for: data, type: .eip55)
     }
 
     /// Creates an address with an hexadecimal string representation.
@@ -47,7 +47,7 @@ public struct EthereumAddress: Address, Hashable {
             return nil
         }
         self.data = data
-        eip55String = EthereumChecksum.computeString(for: data, type: .EIP55)
+        eip55String = EthereumChecksum.computeString(for: data, type: .eip55)
     }
 
     public var description: String {

@@ -19,14 +19,14 @@ public struct WanchainAddress: Address, Hashable {
     }
 
     public let data: Data
-    public let checksum: String
+    public let checksumString: String
 
     public init?(data: Data) {
         guard WanchainAddress.isValid(data: data) else {
             return nil
         }
         self.data = data
-        checksum = EthereumChecksum.computeString(for: data, type: .Wanchain)
+        checksumString = EthereumChecksum.computeString(for: data, type: .wanchain)
     }
 
     public init?(string: String) {
@@ -34,11 +34,11 @@ public struct WanchainAddress: Address, Hashable {
             return nil
         }
         self.data = data
-        checksum = EthereumChecksum.computeString(for: data, type: .Wanchain)
+        checksumString = EthereumChecksum.computeString(for: data, type: .wanchain)
     }
 
     public var description: String {
-        return checksum
+        return checksumString
     }
 
     public var hashValue: Int {

@@ -24,16 +24,16 @@ public struct EthereumChecksum {
                 string.append(a)
             case (_, "8"), (_, "9"), (_, "a"), (_, "b"), (_, "c"), (_, "d"), (_, "e"), (_, "f"):
                 switch type {
-                case .EIP55:
+                case .eip55:
                     string.append(contentsOf: String(a).uppercased())
-                case .Wanchain:
+                case .wanchain:
                     string.append(contentsOf: String(a).lowercased())
                 }
             default:
                 switch type {
-                case .EIP55:
+                case .eip55:
                     string.append(contentsOf: String(a).lowercased())
-                case .Wanchain:
+                case .wanchain:
                     string.append(contentsOf: String(a).uppercased())
                 }
             }
