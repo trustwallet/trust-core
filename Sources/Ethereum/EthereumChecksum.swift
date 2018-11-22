@@ -7,7 +7,7 @@
 import Foundation
 
 public enum EthereumChecksumType {
-    case EIP55
+    case eip55
     case Wanchain
 }
 
