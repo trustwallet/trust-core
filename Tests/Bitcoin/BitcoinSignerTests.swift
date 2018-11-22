@@ -11,7 +11,7 @@ import BigInt
 // swiftlint:disable line_length
 
 class BitcoinSignerTests: XCTestCase {
-    func testSignHash() {
+    func testSignHash() throws {
         let toAddress = BitcoinAddress(string: "1Bp9U1ogV3A14FMvKbRJms7ctyso4Z4Tcx")!
         let changeAddress = BitcoinAddress(string: "1FQc5LdgGHMHEN9nwkjmz6tWkxhPpxBvBU")!
         let unspentOutput = BitcoinTransactionOutput(value: 5151, script: BitcoinScript(data: Data(hexString: "76a914aff1e0789e5fe316b729577665aa0a04d5b0f8c788ac")!))
@@ -22,7 +22,7 @@ class BitcoinSignerTests: XCTestCase {
         let selector = BitcoinUnspentSelector()
         let result = try! selector.select(from: [utxo], targetValue: BigInt(amount))
 
-        let tx = BitcoinTransaction.build(to: toAddress, amount: amount, fee: Int64(result.fee), changeAddress: changeAddress, utxos: [utxo])
+        let tx = try BitcoinTransaction.build(to: toAddress, amount: amount, fee: Int64(result.fee), changeAddress: changeAddress, utxos: [utxo])
         let sighash = tx.getSignatureHash(scriptCode: utxo.output.script, index: 0, hashType: [.all, .fork], amount: utxo.output.value, version: .witnessV0)
         XCTAssertEqual(sighash.hexString, "1136d4975aee4ff6ccf0b8a9c640532f563b48d9856fdc9682c37a071702937c")
     }
@@ -42,7 +42,7 @@ class BitcoinSignerTests: XCTestCase {
         let selector = BitcoinUnspentSelector()
         let result = try! selector.select(from: [utxo], targetValue: BigInt(amount))
 
-        let unsignedTx = BitcoinTransaction.build(to: toAddress, amount: amount, fee: Int64(result.fee), changeAddress: changeAddress, utxos: [utxo])
+        let unsignedTx = try BitcoinTransaction.build(to: toAddress, amount: amount, fee: Int64(result.fee), changeAddress: changeAddress, utxos: [utxo])
         let signer = BitcoinTransactionSigner(keyProvider: provider, transaction: unsignedTx)
         let signedTx = try signer.sign([utxo])
 
