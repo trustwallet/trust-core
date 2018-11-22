@@ -46,8 +46,7 @@ public struct EthereumAddress: Address, Hashable {
         guard let data = Data(hexString: string), EthereumAddress.isValid(data: data) else {
             return nil
         }
-        self.data = data
-        eip55String = EthereumChecksum.computeString(for: data, type: .eip55)
+        self.init(data: data)
     }
 
     public var description: String {

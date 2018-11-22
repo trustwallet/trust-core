@@ -33,8 +33,7 @@ public struct WanchainAddress: Address, Hashable {
         guard let data = Data(hexString: string), WanchainAddress.isValid(data: data) else {
             return nil
         }
-        self.data = data
-        checksumString = EthereumChecksum.computeString(for: data, type: .wanchain)
+        self.init(data: data)
     }
 
     public var description: String {
