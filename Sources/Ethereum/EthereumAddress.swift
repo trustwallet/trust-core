@@ -38,16 +38,16 @@ public struct EthereumAddress: Address, Hashable {
             return nil
         }
         self.data = data
-        eip55String = EthereumAddress.computeEIP55String(for: data)
+        eip55String = EthereumChecksum.computeString(for: data, type: .EIP55)
     }
 
     /// Creates an address with an hexadecimal string representation.
     public init?(string: String) {
-        guard let data = Data(hexString: string), data.count == EthereumAddress.size else {
+        guard let data = Data(hexString: string), EthereumAddress.isValid(data: data) else {
             return nil
         }
         self.data = data
-        eip55String = EthereumAddress.computeEIP55String(for: data)
+        eip55String = EthereumChecksum.computeString(for: data, type: .EIP55)
     }
 
     public var description: String {
@@ -60,28 +60,5 @@ public struct EthereumAddress: Address, Hashable {
 
     public static func == (lhs: EthereumAddress, rhs: EthereumAddress) -> Bool {
         return lhs.data == rhs.data
-    }
-}
-
-extension EthereumAddress {
-    /// Converts the address to an EIP55 checksumed representation.
-    fileprivate static func computeEIP55String(for data: Data) -> String {
-        let addressString = data.hexString
-        let hashInput = addressString.data(using: .ascii)!
-        let hash = Crypto.hash(hashInput).hexString
-
-        var string = "0x"
-        for (a, h) in zip(addressString, hash) {
-            switch (a, h) {
-            case ("0", _), ("1", _), ("2", _), ("3", _), ("4", _), ("5", _), ("6", _), ("7", _), ("8", _), ("9", _):
-                string.append(a)
-            case (_, "8"), (_, "9"), (_, "a"), (_, "b"), (_, "c"), (_, "d"), (_, "e"), (_, "f"):
-                string.append(contentsOf: String(a).uppercased())
-            default:
-                string.append(contentsOf: String(a).lowercased())
-            }
-        }
-
-        return string
     }
 }
