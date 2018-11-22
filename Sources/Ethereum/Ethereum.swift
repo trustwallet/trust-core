@@ -73,16 +73,6 @@ public final class EthereumClassic: Ethereum {
     }
 }
 
-public final class Wanchain: Ethereum {
-    public override var chainID: Int {
-        return 1
-    }
-
-    public override var coinType: SLIP.CoinType {
-        return .wanchain
-    }
-}
-
 public final class Vechain: Ethereum {
     public override var chainID: Int {
         return 74
