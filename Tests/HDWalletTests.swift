@@ -31,9 +31,10 @@ class HDWalletTests: XCTestCase {
     }
 
     func testWanchain() {
+        let blockchain = Wanchain()
         let wallet = HDWallet(mnemonic: words, passphrase: passphrase)
-        let key0 = wallet.getKey(at: Wanchain().derivationPath(at: 0))
-        XCTAssertEqual(key0.publicKey().wanchainAddress.description, "0x4ddA26870b4B3FA3fBa32222159359038F588318")
+        let key0 = wallet.getKey(at: blockchain.derivationPath(at: 0))
+        XCTAssertEqual(blockchain.address(for: key0.publicKey()).description, "0x4ddA26870b4B3FA3fBa32222159359038F588318")
     }
 
     func testDeriveBitcoin() {
