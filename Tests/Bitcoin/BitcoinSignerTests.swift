@@ -27,33 +27,6 @@ class BitcoinSignerTests: XCTestCase {
         XCTAssertEqual(sighash.hexString, "1136d4975aee4ff6ccf0b8a9c640532f563b48d9856fdc9682c37a071702937c")
     }
 
-    func testSignTransaction() throws {
-        let toAddress = BitcoinAddress(string: "1Bp9U1ogV3A14FMvKbRJms7ctyso4Z4Tcx")!
-        let changeAddress = BitcoinAddress(string: "1FQc5LdgGHMHEN9nwkjmz6tWkxhPpxBvBU")!
-
-        let address = BitcoinAddress(data: Data(hexString: "00aff1e0789e5fe316b729577665aa0a04d5b0f8c7")!)!
-        let unspentOutput = BitcoinTransactionOutput(payToPublicKeyHash: address, amount: 5151)
-        let unspentOutpoint = BitcoinOutPoint(hash: Data(hexString: "e28c2b955293159898e34c6840d99bf4d390e2ee1c6f606939f18ee1e2000d05")!, index: 2)
-        let utxo = BitcoinUnspentTransaction(output: unspentOutput, outpoint: unspentOutpoint)
-        let utxoKey = PrivateKey(wif: "L1WFAgk5LxC5NLfuTeADvJ5nm3ooV3cKei5Yi9LJ8ENDfGMBZjdW")!
-        let provider = BitcoinDefaultPrivateKeyProvider(keys: [utxoKey])
-
-        let amount: Int64 = 600
-        let selector = BitcoinUnspentSelector()
-        let result = try! selector.select(from: [utxo], targetValue: BigInt(amount))
-
-        let unsignedTx = try BitcoinTransaction.build(to: toAddress, amount: amount, fee: Int64(result.fee), changeAddress: changeAddress, utxos: [utxo])
-        let signer = BitcoinTransactionSigner(keyProvider: provider, transaction: unsignedTx)
-        let signedTx = try signer.sign([utxo])
-
-        var serialized = Data()
-        signedTx.encode(into: &serialized)
-
-        XCTAssertEqual(signedTx.transactionId, "b07970ad5ce836d01f7d44362f32fa265bf8267ed587255a9b057e34427c2546")
-        XCTAssertEqual(signedTx.transactionId, signedTx.witnessId)
-        XCTAssertEqual(serialized.hexString, "0100000001e28c2b955293159898e34c6840d99bf4d390e2ee1c6f606939f18ee1e2000d05020000006b483045022100c0c5a08d0f4382b962895c601a140143588ad700ebfee987712b6125e7c275cb02204145cb6043131c830eaf69192bc3e68e26b46131f9b6fc0fa880c29f98423b2b4121038eab72ec78e639d02758e7860cdec018b49498c307791f785aa3019622f4ea5bffffffff0258020000000000001976a914769bdff96a02f9135a1d19b749db6a78fe07dc9088ace5100000000000001976a9149e089b6889e032d46e3b915a3392edfd616fb1c488ac00000000")
-    }
-
     func testSignP2WPKH() throws {
         let unspentOutput0 = BitcoinTransactionOutput(value: 625_000_000, script: BitcoinScript(data: Data(hexString: "2103c9f4836b9a4f77fc0d81f7bcb01b7f1b35916864b9476c241ce9fc198bd25432ac")!))
         let unspentOutpoint0 = BitcoinOutPoint(hash: Data(hexString: "fff7f7881a8099afa6940d42d1e7f6362bec38171ea3edf433541db4e4ad969f")!, index: 0)
