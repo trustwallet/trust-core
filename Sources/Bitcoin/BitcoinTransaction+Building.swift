@@ -6,16 +6,21 @@
 
 import Foundation
 
+enum BitcoinTransactionError: LocalizedError {
+    case invalidScript
+}
+
 public extension BitcoinTransaction {
-    static func build(to: Address, amount: Int64, fee: Int64, changeAddress: Address, utxos: [BitcoinUnspentTransaction]) -> BitcoinTransaction {
+    static func build(to: Address, amount: Int64, fee: Int64, changeAddress: Address, utxos: [BitcoinUnspentTransaction]) throws -> BitcoinTransaction {
 
         let bitcoin = Bitcoin()
         let totalAmount: Int64 = utxos.reduce(0) { $0 + $1.output.value }
         let change: Int64 = totalAmount - amount - fee
 
-        let lockingScriptTo = bitcoin.buildScript(for: to)!
+        guard let lockingScriptTo = bitcoin.buildScript(for: to) else {
+            throw BitcoinTransactionError.invalidScript
+        }
         let toOutput = BitcoinTransactionOutput(value: amount, script: lockingScriptTo)
-
         var outputs = [toOutput]
 
         if change > 0 {

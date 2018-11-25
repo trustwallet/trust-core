@@ -39,8 +39,8 @@ public class HDWallet {
         return PrivateKey(data: data)!
     }
 
-    public func getExtendedPrivateKey(for purpose: Purpose, version: SLIP.HDVersion) -> String {
-        var node = getNode(for: purpose)
+    public func getExtendedPrivateKey(for purpose: Purpose, coin: SLIP.CoinType, version: SLIP.HDVersion) -> String {
+        var node = getNode(for: purpose, coin: coin)
         let buffer = [Int8](repeating: 0, count: 128)
         let fingerprint = hdnode_fingerprint(&node)
         hdnode_private_ckd(&node, DerivationPath.Index(0, hardened: true).derivationIndex)
@@ -48,8 +48,8 @@ public class HDWallet {
         return String(cString: buffer)
     }
 
-    public func getExtendedPubKey(for purpose: Purpose, version: SLIP.HDVersion) -> String {
-        var node = getNode(for: purpose)
+    public func getExtendedPubKey(for purpose: Purpose, coin: SLIP.CoinType, version: SLIP.HDVersion) -> String {
+        var node = getNode(for: purpose, coin: coin)
         let buffer = [Int8](repeating: 0, count: 128)
         let fingerprint = hdnode_fingerprint(&node)
         hdnode_private_ckd(&node, DerivationPath.Index(0, hardened: true).derivationIndex)
@@ -58,11 +58,11 @@ public class HDWallet {
         return String(cString: buffer)
     }
 
-    private func getNode(for purpose: Purpose) -> HDNode {
+    private func getNode(for purpose: Purpose, coin: SLIP.CoinType) -> HDNode {
         var node = getMasterNode()
         let indices = [
             DerivationPath.Index(purpose.rawValue, hardened: true),
-            DerivationPath.Index(0, hardened: true),
+            DerivationPath.Index(coin.rawValue, hardened: true),
             ]
 
         for index in indices {

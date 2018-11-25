@@ -14,7 +14,7 @@ public final class BitcoinTransactionSigner {
     public var hashType: SignatureHashType
     private var signedInputs = [BitcoinTransactionInput]()
 
-    public init(keyProvider: BitcoinPrivateKeyProvider, transaction: BitcoinTransaction, hashType: SignatureHashType = [.all, .fork]) {
+    public init(keyProvider: BitcoinPrivateKeyProvider, transaction: BitcoinTransaction, hashType: SignatureHashType) {
         self.keyProvider = keyProvider
         self.transaction = transaction
         self.hashType = hashType
@@ -39,12 +39,19 @@ public final class BitcoinTransactionSigner {
         var redeemScript: BitcoinScript?
         var witnessStack = [Data]()
 
-        var results = try signStep(script: script, index: index, utxo: utxo, version: .base)
+        let signatureVersion: SignatureVersion = {
+            if hashType.contains(.fork) {
+                return .witnessV0
+            } else {
+                return .base
+            }
+        }()
+        var results = try signStep(script: script, index: index, utxo: utxo, version: signatureVersion)
         let txin = transaction.inputs[index]
 
         if script.isPayToScriptHash {
             script = BitcoinScript(data: results.first!)
-            results = try signStep(script: script, index: index, utxo: utxo, version: .base)
+            results = try signStep(script: script, index: index, utxo: utxo, version: signatureVersion)
             results.append(script.data)
             redeemScript = script
         }
