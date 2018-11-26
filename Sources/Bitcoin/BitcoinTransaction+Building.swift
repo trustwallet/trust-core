@@ -10,20 +10,20 @@ enum BitcoinTransactionError: LocalizedError {
     case invalidScript
 }
 
-public extension BitcoinTransaction {
-    static func build(to: Address, amount: Int64, fee: Int64, changeAddress: Address, utxos: [BitcoinUnspentTransaction], bitcoin: Bitcoin = Bitcoin()) throws -> BitcoinTransaction {
+public extension Bitcoin {
+    func build(to: Address, amount: Int64, fee: Int64, changeAddress: Address, utxos: [BitcoinUnspentTransaction]) throws -> BitcoinTransaction {
 
         let totalAmount: Int64 = utxos.reduce(0) { $0 + $1.output.value }
         let change: Int64 = totalAmount - amount - fee
 
-        guard let lockingScriptTo = bitcoin.buildScript(for: to) else {
+        guard let lockingScriptTo = self.buildScript(for: to) else {
             throw BitcoinTransactionError.invalidScript
         }
         let toOutput = BitcoinTransactionOutput(value: amount, script: lockingScriptTo)
         var outputs = [toOutput]
 
         if change > 0 {
-            let lockingScriptChange = bitcoin.buildScript(for: changeAddress)!
+            let lockingScriptChange = self.buildScript(for: changeAddress)!
             let changeOutput = BitcoinTransactionOutput(value: change, script: lockingScriptChange)
             outputs.append(changeOutput)
         }
@@ -31,9 +31,7 @@ public extension BitcoinTransaction {
         let unsignedInputs = utxos.map { BitcoinTransactionInput(previousOutput: $0.outpoint, script: BitcoinScript(), sequence: UInt32.max) }
         return BitcoinTransaction(version: 1, inputs: unsignedInputs, outputs: outputs, lockTime: 0)
     }
-}
 
-public extension Bitcoin {
     func buildScript(for address: Address) -> BitcoinScript? {
         if let bitcoinAddress = address as? BitcoinAddress {
             if bitcoinAddress.data[0] == self.p2pkhPrefix {
