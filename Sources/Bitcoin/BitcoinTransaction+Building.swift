@@ -11,9 +11,8 @@ enum BitcoinTransactionError: LocalizedError {
 }
 
 public extension BitcoinTransaction {
-    static func build(to: Address, amount: Int64, fee: Int64, changeAddress: Address, utxos: [BitcoinUnspentTransaction]) throws -> BitcoinTransaction {
+    static func build(to: Address, amount: Int64, fee: Int64, changeAddress: Address, utxos: [BitcoinUnspentTransaction], bitcoin: Bitcoin = Bitcoin()) throws -> BitcoinTransaction {
 
-        let bitcoin = Bitcoin()
         let totalAmount: Int64 = utxos.reduce(0) { $0 + $1.output.value }
         let change: Int64 = totalAmount - amount - fee
 
@@ -42,11 +41,6 @@ public extension Bitcoin {
                 return BitcoinScript.buildPayToPublicKeyHash(bitcoinAddress.data.dropFirst())
             } else if bitcoinAddress.data[0] == self.p2shPrefix {
                 // address starts with 3/M
-                guard supportSegwit else {
-                    // bch doesn't support segwit and we don't support multi sig in the app
-                    // google: bitcoin cash stuck segwit
-                    return nil
-                }
                 return BitcoinScript.buildPayToScriptHash(bitcoinAddress.data.dropFirst())
             }
         } else if let bech32Address = address as? BitcoinBech32Address {

@@ -38,9 +38,10 @@ class BitcoinCashTests: XCTestCase {
         XCTAssertEqual(scriptPub.data.hexString, "76a9146cfa0e96c34fce09c0e4e671fcd43338c14812e588ac")
 
         let address2 = BitcoinCashAddress(string: "bitcoincash:pzclklsyx9f068hd00a0vene45akeyrg7vv0053uqf")!
+        let scriptPub2 = bc.buildScript(for: address2)!
         XCTAssertEqual(address2.toBitcoinAddress().description, "3Hv6oV8BYCoocW4eqZaEXsaR5tHhCxiMSk")
-        XCTAssertNil(bc.buildScript(for: address2))
-        XCTAssertNil(bc.buildScript(for: address2.toBitcoinAddress()))
+        XCTAssertEqual(scriptPub2.data.hexString, "a914b1fb7e043152fd1eed7bfaf66679ad3b6c9068f387")
+        XCTAssertEqual(scriptPub2.data, bc.buildScript(for: address2.toBitcoinAddress())?.data)
     }
 
     func testExtendedKeys() {
