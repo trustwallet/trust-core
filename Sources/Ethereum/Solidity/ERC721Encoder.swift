@@ -72,6 +72,15 @@ public final class ERC721Encoder {
         try! encoder.encode(function: function, arguments: [owner, index])
         return encoder.data
     }
+    /// Encodes a function call to `transfer`
+    ///
+    /// Solidity function: `function encodeTransfer(address _to, uint256 _tokenId)`
+    public static func encodeTransfer(to: EthereumAddress, tokenId: BigUInt) -> Data {
+        let function = Function(name: "transfer", parameters: [.address, .uint(bits: 256)])
+        let encoder = ABIEncoder()
+        try! encoder.encode(function: function, arguments: [to, tokenId])
+        return encoder.data
+    }
     /// Encodes a function call to `safeTransferFrom`
     ///
     /// Solidity function: `function safeTransferFrom(address _from, address _to, uint256 _tokenId)`

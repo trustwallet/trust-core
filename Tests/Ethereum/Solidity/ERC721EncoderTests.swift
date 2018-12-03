@@ -37,6 +37,10 @@ class ERC721EncoderTests: XCTestCase {
         XCTAssertEqual(expect.hexString, "42842e0e0000000000000000000000005aaeb6053f3e94c9b9a09f33669435e7ef1beaed0000000000000000000000005aaeb6053f3e94c9b9a09f33669435e7ef1beaed00000000000000000000000000000000000000000000000000000000000004d2")
     }
 
+    func testEncodeTransfer() {
+        XCTAssertEqual(ERC721Encoder.encodeTransfer(to: address, tokenId: 1).hexString, "a9059cbb000000000000000000000000\(address.data.hexString)0000000000000000000000000000000000000000000000000000000000000001")
+    }
+
     func testEncodeApprove() {
         // ethabi encode function ./erc721.json approve -p 5aaeb6053f3e94c9b9a09f33669435e7ef1beaed 00000000000000000000000000000000000000000000000000000000000004d2
         let expect = ERC721Encoder.encodeApprove(approved: address, tokenId: tokenId)
