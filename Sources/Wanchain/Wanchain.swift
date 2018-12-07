@@ -15,22 +15,22 @@ public final class Wanchain: Ethereum {
         return .wanchain
     }
 
-    public override func address(for publicKey: PublicKey) -> Address {
-        return publicKey.wanchainAddress
-    }
-
-    public override func address(string: String) -> Address? {
-        return WanchainAddress(string: string)
-    }
-
-    public override func address(data: Data) -> Address? {
-        return WanchainAddress(data: data)
-    }
+//    public override func address(for publicKey: PublicKey) -> Address {
+//        return publicKey.wanchainAddress
+//    }
+//
+//    public override func address(string: String) -> Address? {
+//        return WanchainAddress(string: string)
+//    }
+//
+//    public override func address(data: Data) -> Address? {
+//        return WanchainAddress(data: data)
+//    }
 }
 
-public extension PublicKey {
-    public var wanchainAddress: WanchainAddress {
-        let hash = Crypto.hash(data[1...])
-        return WanchainAddress(data: hash.suffix(WanchainAddress.size))!
-    }
-}
+//public extension PublicKey {
+//    public var wanchainAddress: WanchainAddress {
+//        let hash = Crypto.hash(data[1...])
+//        return WanchainAddress(data: hash.suffix(WanchainAddress.size))!
+//    }
+//}
