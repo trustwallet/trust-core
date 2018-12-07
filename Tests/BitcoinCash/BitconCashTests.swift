@@ -11,7 +11,7 @@ class BitcoinCashTests: XCTestCase {
     func testLegacyToCashAddr() {
         let privateKey = PrivateKey(wif: "KxZX6Jv3to6RWnhsffTcLLryRnNyyc8Ng2G8P9LFkbCdzGDEhNy1")!
         let publicKey = privateKey.publicKey(compressed: true)
-        let legacyAddress = Bitcoin().legacyAddress(for: publicKey)
+        let legacyAddress = BitcoinCash().legacyAddress(for: publicKey)
         XCTAssertEqual(legacyAddress.description, "1PeUvjuxyf31aJKX6kCXuaqxhmG78ZUdL1")
 
         let cashAddress = publicKey.cashAddress()
@@ -56,7 +56,7 @@ class BitcoinCashTests: XCTestCase {
 
     func testDeriveFromXPub() {
         let xpub = "xpub6CEHLxCHR9sNtpcxtaTPLNxvnY9SQtbcFdov22riJ7jmhxmLFvXAoLbjHSzwXwNNuxC1jUP6tsHzFV9rhW9YKELfmR9pJaKFaM8C3zMPgjw"
-        let bc = BitcoinCash(purpose: .bip44)
+        let bc = BitcoinCash()
         let xpubAddr2 = bc.derive(from: xpub, at: bc.derivationPath(at: 2))!
         let xpubAddr9 = bc.derive(from: xpub, at: bc.derivationPath(at: 9))!
 
@@ -80,7 +80,7 @@ class BitcoinCashTests: XCTestCase {
 
         let amount: Int64 = 600
 
-        let unsignedTx = try BitcoinTransaction.build(to: toAddress, amount: amount, fee: 226, changeAddress: changeAddress, utxos: [utxo])
+        let unsignedTx = try BitcoinCash().build(to: toAddress, amount: amount, fee: 226, changeAddress: changeAddress, utxos: [utxo])
 
         let signer = BitcoinTransactionSigner(keyProvider: provider, transaction: unsignedTx, hashType: [.fork, .all])
         let signedTx = try signer.sign([utxo])
