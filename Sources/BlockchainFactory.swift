@@ -41,5 +41,7 @@ public func blockchain(coin: SLIP.CoinType) -> Blockchain {
         return BitcoinCash()
     case .tomoChain:
         return TomoChain()
+    case .aion:
+        return Aion()
     }
 }

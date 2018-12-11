@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		221AAE8E21BB9295000D3C29 /* Aion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221AAE8D21BB9295000D3C29 /* Aion.swift */; };
+		221AAE9021BB94D2000D3C29 /* AionAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221AAE8F21BB94D2000D3C29 /* AionAddress.swift */; };
+		221AAE9221BE27ED000D3C29 /* AionTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221AAE9121BE27ED000D3C29 /* AionTransaction.swift */; };
+		221AAE9421BE2AFF000D3C29 /* AionSigner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221AAE9321BE2AFF000D3C29 /* AionSigner.swift */; };
 		293AB63321A674A700B7DE52 /* EthereumChecksum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293AB63221A674A700B7DE52 /* EthereumChecksum.swift */; };
 		293AB63521A675C500B7DE52 /* WanchainAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293AB63421A675C500B7DE52 /* WanchainAddress.swift */; };
 		293AB63821A6773600B7DE52 /* WanchainAddressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293AB63721A6773600B7DE52 /* WanchainAddressTests.swift */; };
@@ -145,6 +149,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		221AAE8D21BB9295000D3C29 /* Aion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Aion.swift; sourceTree = "<group>"; };
+		221AAE8F21BB94D2000D3C29 /* AionAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AionAddress.swift; sourceTree = "<group>"; };
+		221AAE9121BE27ED000D3C29 /* AionTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AionTransaction.swift; sourceTree = "<group>"; };
+		221AAE9321BE2AFF000D3C29 /* AionSigner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AionSigner.swift; sourceTree = "<group>"; };
 		293AB63221A674A700B7DE52 /* EthereumChecksum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumChecksum.swift; sourceTree = "<group>"; };
 		293AB63421A675C500B7DE52 /* WanchainAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WanchainAddress.swift; sourceTree = "<group>"; };
 		293AB63721A6773600B7DE52 /* WanchainAddressTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WanchainAddressTests.swift; sourceTree = "<group>"; };
@@ -302,6 +310,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		221AAE8C21BB9208000D3C29 /* Aion */ = {
+			isa = PBXGroup;
+			children = (
+				221AAE8D21BB9295000D3C29 /* Aion.swift */,
+				221AAE8F21BB94D2000D3C29 /* AionAddress.swift */,
+				221AAE9121BE27ED000D3C29 /* AionTransaction.swift */,
+				221AAE9321BE2AFF000D3C29 /* AionSigner.swift */,
+			);
+			path = Aion;
+			sourceTree = "<group>";
+		};
 		293AB63621A6772A00B7DE52 /* Wanchain */ = {
 			isa = PBXGroup;
 			children = (
@@ -309,14 +328,6 @@
 				293AB63E21A67A5600B7DE52 /* WanchainTests.swift */,
 			);
 			path = Wanchain;
-			sourceTree = "<group>";
-		};
-		293AB63B21A679B000B7DE52 /* Wanchain */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Wanchain;
-			path = "New Group1";
 			sourceTree = "<group>";
 		};
 		297A910C21899B8500728946 /* EOS */ = {
@@ -398,7 +409,6 @@
 		6149A6BB201E43E200A2F35C /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				293AB63B21A679B000B7DE52 /* Wanchain */,
 				615AE1E520F1DC1F00A5A0ED /* Crypto.h */,
 				6149A6BC201E43E200A2F35C /* TrustCore.h */,
 				615AE1E620F1DC1F00A5A0ED /* Crypto.m */,
@@ -414,6 +424,7 @@
 				77F8D3DA214860D200E80CD6 /* Purpose.swift */,
 				7749DFEE2141105800411ED8 /* SLIP.swift */,
 				61A728D220F46ECF0005045D /* String+Clear.swift */,
+				221AAE8C21BB9208000D3C29 /* Aion */,
 				615AE1D120F1D1BA00A5A0ED /* Bitcoin */,
 				BB70DDF7219F850100E9F2FB /* BitcoinCash */,
 				BB70DDF12199C82900E9F2FB /* Litecoin */,
@@ -912,6 +923,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B55FD2721978B210051D225 /* TronContractType.swift in Sources */,
+				221AAE8E21BB9295000D3C29 /* Aion.swift in Sources */,
 				61675570207AD81F00018DC8 /* Function.swift in Sources */,
 				BB636D3B2121528D0071AE07 /* GenericJSON.swift in Sources */,
 				5DC50057216FC58F008F426A /* IconSigner.swift in Sources */,
@@ -932,6 +944,7 @@
 				293AB63D21A679BC00B7DE52 /* Wanchain.swift in Sources */,
 				6149A6CA201E472000A2F35C /* EthereumTransaction.swift in Sources */,
 				8B1A2FA8216FB25A009874E0 /* Contract.pb.swift in Sources */,
+				221AAE9421BE2AFF000D3C29 /* AionSigner.swift in Sources */,
 				BB48ECB52189D45300F12709 /* EOS.swift in Sources */,
 				BB70DDFE219F85F900E9F2FB /* BitcoinCash.swift in Sources */,
 				BBC0729421908EAF00A9B082 /* BitcoinUnspentSelector.swift in Sources */,
@@ -948,6 +961,7 @@
 				61A728E520F480560005045D /* HDWallet.swift in Sources */,
 				6149A6C8201E455D00A2F35C /* EthereumAddress.swift in Sources */,
 				615AE1D820F1D66000A5A0ED /* PublicKey.swift in Sources */,
+				221AAE9221BE27ED000D3C29 /* AionTransaction.swift in Sources */,
 				BBD1CF7C2150F5CE00B99329 /* BitcoinBech32Address.swift in Sources */,
 				BB3864C92095C80D00CBF773 /* Namehash.swift in Sources */,
 				6149A6CC201E496A00A2F35C /* Data+Hex.swift in Sources */,
@@ -977,6 +991,7 @@
 				BB9C2B9D216F363E0096321A /* BitcoinTransaction+Building.swift in Sources */,
 				61675575207AE06100018DC8 /* ABIError.swift in Sources */,
 				5DFB5459216660B40041AE73 /* PublicKey+Icon.swift in Sources */,
+				221AAE9021BB94D2000D3C29 /* AionAddress.swift in Sources */,
 				297A910E21899BA400728946 /* EOSAddress.swift in Sources */,
 				77F80A862134A4F60011D949 /* VechainTransaction.swift in Sources */,
 				77044FAD212F8E7400CC20D1 /* WanchainTransaction.swift in Sources */,
