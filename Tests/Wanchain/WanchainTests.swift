@@ -12,9 +12,9 @@ class WanchainTests: XCTestCase {
     func testAddressForString() {
         let blockchain = Wanchain()
 
-//        XCTAssertEqual(
-//            blockchain.address(string: "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed")?.description,
-//            WanchainAddress(string: "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed")?.description
-//        )
+        XCTAssertEqual(
+            blockchain.address(string: "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed")?.description,
+            EthereumAddress(string: "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed")?.description
+        )
     }
 }

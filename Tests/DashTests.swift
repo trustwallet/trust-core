@@ -9,10 +9,10 @@ import XCTest
 
 class DashAddressTests: XCTestCase {
     func testAddress() {
-        let privateKey = PrivateKey()
+        let privateKey = PrivateKey(wif: "XDoxFwfxsEZDd15uNyj8vt64c3GLxcFjTefnUz7gckvAJeYSFaRz")!
         let publicKey = privateKey.publicKey(compressed: true)
-        let address = Dash().compatibleAddress(for: publicKey)
+        let address = Dash().address(for: publicKey)
 
-        XCTAssert(address.description.hasPrefix("X"))
+        XCTAssertEqual(address.description, "Xw7HTXGY3TFeA3ZsVuMRrYh96GtwWb4hQb")
     }
 }

@@ -15,6 +15,7 @@
 		293AB63F21A67A5600B7DE52 /* WanchainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293AB63E21A67A5600B7DE52 /* WanchainTests.swift */; };
 		297A910E21899BA400728946 /* EOSAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297A910D21899BA400728946 /* EOSAddress.swift */; };
 		297A91132189A28200728946 /* EOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297A91122189A28200728946 /* EOSTests.swift */; };
+		29A8DDFD21C6510D00D83159 /* Dash.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A8DDFC21C6510D00D83159 /* Dash.swift */; };
 		29EDBD2A214AEF6F00C86992 /* Tron.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29EDBD29214AEF6F00C86992 /* Tron.swift */; };
 		5D0296C0216A485B00A94661 /* IconTransactionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0296BF216A485B00A94661 /* IconTransactionTests.swift */; };
 		5D119A0C21676B18003E5D78 /* IconAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D119A0B21676B18003E5D78 /* IconAddress.swift */; };
@@ -153,6 +154,7 @@
 		293AB63E21A67A5600B7DE52 /* WanchainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WanchainTests.swift; sourceTree = "<group>"; };
 		297A910D21899BA400728946 /* EOSAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EOSAddress.swift; sourceTree = "<group>"; };
 		297A91122189A28200728946 /* EOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EOSTests.swift; sourceTree = "<group>"; };
+		29A8DDFC21C6510D00D83159 /* Dash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dash.swift; sourceTree = "<group>"; };
 		29EDBD29214AEF6F00C86992 /* Tron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tron.swift; sourceTree = "<group>"; };
 		5D0296BF216A485B00A94661 /* IconTransactionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconTransactionTests.swift; sourceTree = "<group>"; };
 		5D119A0B21676B18003E5D78 /* IconAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconAddress.swift; sourceTree = "<group>"; };
@@ -336,6 +338,14 @@
 			path = EOS;
 			sourceTree = "<group>";
 		};
+		29A8DDFB21C650FF00D83159 /* Dash */ = {
+			isa = PBXGroup;
+			children = (
+				29A8DDFC21C6510D00D83159 /* Dash.swift */,
+			);
+			path = Dash;
+			sourceTree = "<group>";
+		};
 		29EDBD28214AEF6100C86992 /* Tron */ = {
 			isa = PBXGroup;
 			children = (
@@ -398,6 +408,7 @@
 		6149A6BB201E43E200A2F35C /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				29A8DDFB21C650FF00D83159 /* Dash */,
 				293AB63B21A679B000B7DE52 /* Wanchain */,
 				615AE1E520F1DC1F00A5A0ED /* Crypto.h */,
 				6149A6BC201E43E200A2F35C /* TrustCore.h */,
@@ -936,6 +947,7 @@
 				BB70DDFE219F85F900E9F2FB /* BitcoinCash.swift in Sources */,
 				BBC0729421908EAF00A9B082 /* BitcoinUnspentSelector.swift in Sources */,
 				7749DFEF2141105800411ED8 /* SLIP.swift in Sources */,
+				29A8DDFD21C6510D00D83159 /* Dash.swift in Sources */,
 				29EDBD2A214AEF6F00C86992 /* Tron.swift in Sources */,
 				615AE1E220F1D71000A5A0ED /* Address.swift in Sources */,
 				612B85D6212BC3A500F5BCF5 /* SignatureHashType.swift in Sources */,

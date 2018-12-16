@@ -12,6 +12,7 @@ extension PrivateKey {
     static let prefixSet = Set([
         Bitcoin().privateKeyPrefix,
         Litecoin().privateKeyPrefix,
+        Dash().privateKeyPrefix,
     ])
 
     public convenience init?(wif: String) {
