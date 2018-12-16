@@ -115,17 +115,3 @@ open class Bitcoin: Blockchain {
         return BitcoinAddress(data: data)
     }
 }
-
-public final class Dash: Bitcoin {
-    override public var coinType: SLIP.CoinType {
-        return .dash
-    }
-
-    override public var p2shPrefix: UInt8 {
-        return 0x4C
-    }
-
-    override public init(purpose: Purpose = .bip44) {
-        super.init(purpose: purpose)
-    }
-}
