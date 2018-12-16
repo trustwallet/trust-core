@@ -15,4 +15,24 @@ class DashAddressTests: XCTestCase {
 
         XCTAssertEqual(address.description, "Xw7HTXGY3TFeA3ZsVuMRrYh96GtwWb4hQb")
     }
+
+    func testExtendedKeys() {
+        let wallet = HDWallet(mnemonic: "ripple scissors kick mammal hire column oak again sun offer wealth tomorrow wagon turn fatal", passphrase: "TREZOR")
+
+        let xprv = wallet.getExtendedPrivateKey(for: .bip44, coin: .dash, version: .xprv)
+        let xpub = wallet.getExtendedPubKey(for: .bip44, coin: .dash, version: .xpub)
+
+        XCTAssertEqual(xprv, "xprv9zSMAfz7nQUZDQXMifsT5Cbss1Kh8XgnsKsrFfx83bvbuubs6ra84k95XMpAJmt51jymfNrXid81bu9tUTW2W2g7CBU5e6F297XBuXfSmjJ")
+        XCTAssertEqual(xpub, "xpub6DRhaBX1cn2rRtbpphQTSLYcR3ABXzQeEYoT44MjbwTanhw1ePtNcYTZNeHyrJMsMGTbig4iFMSvht7RviohzFxkpjURgHDThygLqbZ1tib")
+    }
+
+    func testDeriveFromXPub() {
+        let xpub = "xpub6DRhaBX1cn2rRtbpphQTSLYcR3ABXzQeEYoT44MjbwTanhw1ePtNcYTZNeHyrJMsMGTbig4iFMSvht7RviohzFxkpjURgHDThygLqbZ1tib"
+        let bc = Dash()
+        let xpubAddr2 = bc.derive(from: xpub, at: bc.derivationPath(account: 0, change: 1, at: 2))!
+        let xpubAddr9 = bc.derive(from: xpub, at: bc.derivationPath(account: 0, change: 1, at: 9))!
+
+        XCTAssertEqual(xpubAddr2.description, "Xh4D3Mv6ikL5iR45bEsCtaR8Ub4jkRLpU2")
+        XCTAssertEqual(xpubAddr9.description, "XvwNJsXVBpvAU92xPwU8phT6wKjJVaBMkk")
+    }
 }
