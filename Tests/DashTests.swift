@@ -45,4 +45,14 @@ class DashAddressTests: XCTestCase {
         XCTAssertEqual(xpubAddr2.description, "ySgp4JzYAHzA49ydA6BbvbqUksZ7GqFrLq")
         XCTAssertEqual(xpubAddr9.description, "ygZyKpbvdNaEosxVxnnXrisTDcDg1JKybg")
     }
+    func testLockScript() {
+        let dash = Dash()
+        let address = DashAddress(string: "XrQdeH6THeUsWT9pjLBCACiY6PYnXpR9qA")!
+        let address2 = DashAddress(string: "XsuadBD6Q5mVbSKbB6ud1jd6ta3qsbooSq")!
+        let script = dash.buildScript(for: address)!
+        let script2 = dash.buildScript(for: address2)!
+
+        XCTAssertEqual(script.data.hexString, "76a914ac712e9df2a955b1399a57e0e41379a7b811669d88ac")
+        XCTAssertEqual(script2.data.hexString, "76a914bce2d9c3f8af21b82e6a3ee11c3a900c6fe9513788ac")
+    }
 }
