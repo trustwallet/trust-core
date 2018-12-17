@@ -10,8 +10,14 @@ public final class Tron: Bitcoin {
     override public var coinType: SLIP.CoinType {
         return .tron
     }
+    
     override public var p2shPrefix: UInt8 {
-        return 0x41
+        switch network {
+        case .main:
+            return 0x41
+        case .test:
+            return 0xa0
+        }
     }
 
     override public func address(for publicKey: PublicKey) -> Address {

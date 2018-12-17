@@ -10,6 +10,14 @@ import Foundation
 ///
 /// Bitcoin-based blockchains should inherit from this class.
 open class Bitcoin: Blockchain {
+
+    convenience public init(purpose: Purpose = .bip84, network: SLIP.Network) {
+        self.init(purpose: purpose)
+        self.network = network
+    }
+
+    open var network: SLIP.Network = .main
+
     /// SLIP-044 coin type.
     override open var coinType: SLIP.CoinType {
         return .bitcoin
@@ -38,22 +46,48 @@ open class Bitcoin: Blockchain {
     }
 
     /// Public key hash address prefix.
+    ///
+    /// - SeeAlso: https://en.bitcoin.it/wiki/List_of_address_prefixes
     open var p2pkhPrefix: UInt8 {
-        return 0x00
+        switch network {
+        case .main:
+            return 0x00
+        case .test:
+            return 0x6f
+        }
     }
 
     /// Private key prefix.
+    ///
+    /// - SeeAlso: https://en.bitcoin.it/wiki/List_of_address_prefixes
     open var privateKeyPrefix: UInt8 {
-        return 0x80
+        switch network {
+        case .main:
+            return 0x80
+        case .test:
+            return 0xef
+        }
     }
 
     /// Pay to script hash (P2SH) address prefix.
+    ///
+    /// - SeeAlso: https://en.bitcoin.it/wiki/List_of_address_prefixes
     open var p2shPrefix: UInt8 {
-        return 0x05
+        switch network {
+        case .main:
+            return 0x05
+        case .test:
+            return 0xc4
+        }
     }
 
     open var hrp: SLIP.HRP {
-        return .bitcoin
+        switch network {
+        case .main:
+            return .bitcoin
+        case .test:
+            return .bitcoinTest
+        }
     }
 
     open var supportSegwit: Bool {
@@ -113,5 +147,9 @@ open class Bitcoin: Blockchain {
 
     open func legacyAddress(data: Data) -> Address? {
         return BitcoinAddress(data: data)
+    }
+
+    override public func derivationPath(account: Int = 0, change: Int = 0, at index: Int) -> DerivationPath {
+        return DerivationPath(purpose: coinPurpose.rawValue, coinType: network == .main ? coinType.rawValue : network.rawValue, account: account, change: change, address: index)
     }
 }

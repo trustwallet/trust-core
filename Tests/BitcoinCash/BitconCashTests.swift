@@ -64,6 +64,16 @@ class BitcoinCashTests: XCTestCase {
         XCTAssertEqual(xpubAddr9.description, "bitcoincash:qqyqupaugd7mycyr87j899u02exc6t2tcg9frrqnve")
     }
 
+    func testDeriveTestnetAddressFromXPub() {
+        let xpub = "xpub6CEHLxCHR9sNtpcxtaTPLNxvnY9SQtbcFdov22riJ7jmhxmLFvXAoLbjHSzwXwNNuxC1jUP6tsHzFV9rhW9YKELfmR9pJaKFaM8C3zMPgjw"
+        let bc = BitcoinCash(network: .test)
+        let xpubAddr2 = bc.derive(from: xpub, at: bc.derivationPath(at: 2))!
+        let xpubAddr9 = bc.derive(from: xpub, at: bc.derivationPath(at: 9))!
+
+        XCTAssertEqual(xpubAddr2.description, "bchtest:qq4cm0hcc4trsj98v425f4ackdq7h92rsy7sxhf50c")
+        XCTAssertEqual(xpubAddr9.description, "bchtest:qqyqupaugd7mycyr87j899u02exc6t2tcgpm8yzyt9")
+    }
+
     func testSignTransaction() throws {
         // Transaction on Bitcoin Cash Mainnet
         // https://blockchair.com/bitcoin-cash/transaction/96ee20002b34e468f9d3c5ee54f6a8ddaa61c118889c4f35395c2cd93ba5bbb4

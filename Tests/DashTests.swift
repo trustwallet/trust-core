@@ -35,4 +35,14 @@ class DashAddressTests: XCTestCase {
         XCTAssertEqual(xpubAddr2.description, "Xh4D3Mv6ikL5iR45bEsCtaR8Ub4jkRLpU2")
         XCTAssertEqual(xpubAddr9.description, "XvwNJsXVBpvAU92xPwU8phT6wKjJVaBMkk")
     }
+
+    func testDeriveTestnetFromXPub() {
+        let xpub = "xpub6DRhaBX1cn2rRtbpphQTSLYcR3ABXzQeEYoT44MjbwTanhw1ePtNcYTZNeHyrJMsMGTbig4iFMSvht7RviohzFxkpjURgHDThygLqbZ1tib"
+        let bc = Dash(network: .test)
+        let xpubAddr2 = bc.derive(from: xpub, at: bc.derivationPath(account: 0, change: 1, at: 2))!
+        let xpubAddr9 = bc.derive(from: xpub, at: bc.derivationPath(account: 0, change: 1, at: 9))!
+
+        XCTAssertEqual(xpubAddr2.description, "ySgp4JzYAHzA49ydA6BbvbqUksZ7GqFrLq")
+        XCTAssertEqual(xpubAddr9.description, "ygZyKpbvdNaEosxVxnnXrisTDcDg1JKybg")
+    }
 }

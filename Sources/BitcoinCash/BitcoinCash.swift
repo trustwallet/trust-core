@@ -12,12 +12,22 @@ public class BitcoinCash: Bitcoin {
         super.init(purpose: purpose)
     }
 
+    convenience public init(purpose: Purpose = .bip44, network: SLIP.Network) {
+        self.init(purpose: purpose)
+        self.network = network
+    }
+    
     override public var coinType: SLIP.CoinType {
         return .bitcoincash
     }
 
     override public var hrp: SLIP.HRP {
-        return .bitcoincash
+        switch network {
+        case .main:
+            return .bitcoincash
+        case .test:
+            return .bitcoincashTest
+        }
     }
 
     override public var supportSegwit: Bool {
@@ -25,7 +35,7 @@ public class BitcoinCash: Bitcoin {
     }
 
     override public func address(for publicKey: PublicKey) -> Address {
-        return publicKey.compressed.cashAddress()
+        return publicKey.compressed.cashAddress(hrp: hrp)
     }
 
     override open func address(string: String) -> Address? {

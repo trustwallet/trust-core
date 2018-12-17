@@ -54,13 +54,13 @@ open class Blockchain: Hashable {
     public var hashValue: Int {
         return coinType.hashValue
     }
+
+    public func derivationPath(account: Int = 0, change: Int = 0, at index: Int) -> DerivationPath {
+        return DerivationPath(purpose: coinPurpose.rawValue, coinType: coinType.rawValue, account: account, change: change, address: index)
+    }
 }
 
 public extension Blockchain {
-    func derivationPath(account: Int = 0, change: Int = 0, at index: Int) -> DerivationPath {
-        return DerivationPath(purpose: coinPurpose.rawValue, coinType: coinType.rawValue, account: account, change: change, address: index)
-    }
-
     func derive(from extendedPubkey: String, at path: DerivationPath) -> Address? {
         guard let xpubV = xpubVersion,
             let xprvV = xprvVersion else {

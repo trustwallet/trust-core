@@ -16,6 +16,11 @@ class PurposeTests: XCTestCase {
         XCTAssertEqual(.bip84, Litecoin().coinPurpose)
         XCTAssertEqual(.bip44, Dash().coinPurpose)
 
+        XCTAssertEqual(.bip84, Bitcoin(network: .test).coinPurpose)
+        XCTAssertEqual(.bip44, BitcoinCash(network: .test).coinPurpose)
+        XCTAssertEqual(.bip84, Litecoin(network: .test).coinPurpose)
+        XCTAssertEqual(.bip44, Dash(network: .test).coinPurpose)
+
         XCTAssertEqual(.bip44, Ethereum().coinPurpose)
         XCTAssertEqual(.bip44, Wanchain().coinPurpose)
         XCTAssertEqual(.bip44, Vechain().coinPurpose)
