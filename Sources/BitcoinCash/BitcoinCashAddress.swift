@@ -34,7 +34,7 @@ public struct BitcoinCashAddress: Address, Equatable {
     }
 
     public static func validate(hrp: String) -> Bool {
-        return SLIP.HRP.bitcoincash.rawValue == hrp
+        return SLIP.HRP.bitcoincash.rawValue == hrp || SLIP.HRP.bitcoincashTest.rawValue == hrp
     }
 
     public static func cashAddrDecode(string: String) -> (Data, String)? {

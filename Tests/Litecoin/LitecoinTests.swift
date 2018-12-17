@@ -27,6 +27,21 @@ class LitecoinTests: XCTestCase {
         XCTAssertEqual(LitecoinBech32Address(string: "ltc1qytnqzjknvv03jwfgrsmzt0ycmwqgl0asjnaxwu")!.description, bech32Address.description)
     }
 
+    func testTestnetAddress() {
+        let litcoin = Litecoin(network: .test)
+        let privateKey = PrivateKey(wif: "cUiCtmMEwdNLGC8QuAPffTPGP3KyosKG66uLaswXp25EfLrUBj8r")!
+        let publicKey = privateKey.publicKey(compressed: true)
+
+        let legacyAddress = litcoin.legacyAddress(for: publicKey)
+        XCTAssertEqual(LitecoinAddress(string: "mkRJSdGuixGcRktuJdmwwBgisEALAAedrg")!.description, legacyAddress.description)
+
+        let compatibleAddress = litcoin.compatibleAddress(for: publicKey)
+        XCTAssertEqual(LitecoinAddress(string: "QV6nL5qn9Tzqthkt9zVuurYVTpkixzBygG")!.description, compatibleAddress.description)
+
+        let bech32Address = litcoin.address(for: publicKey)
+        XCTAssertEqual(LitecoinBech32Address(string: "tltc1qxhr08gtdjcmzxtx538vvqnhnyptlzxgnkwv6t0")!.description, bech32Address.description)
+    }
+
     func testExtendedKeys() {
         let wallet = HDWallet(mnemonic: "ripple scissors kick mammal hire column oak again sun offer wealth tomorrow wagon turn fatal", passphrase: "TREZOR")
 

@@ -15,19 +15,39 @@ public final class Litecoin: Bitcoin {
     }
 
     override public var privateKeyPrefix: UInt8 {
-        return 0xB0
+        switch network {
+        case .main:
+            return 0xB0
+        case .test:
+            return 0xef
+        }
     }
 
     override public var p2pkhPrefix: UInt8 {
-        return 0x30
+        switch network {
+        case .main:
+            return 0x30
+        case .test:
+            return 0x6f
+        }
     }
 
     override public var p2shPrefix: UInt8 {
-        return 0x32
+        switch network {
+        case .main:
+            return 0x32
+        case .test:
+            return 0x3a
+        }
     }
 
     override public var hrp: SLIP.HRP {
-        return .litecoin
+        switch network {
+        case .main:
+            return .litecoin
+        case .test:
+            return .litecoinTest
+        }
     }
 
     override public var xpubVersion: SLIP.HDVersion? {

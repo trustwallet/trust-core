@@ -35,4 +35,12 @@ class TronAddressTests: XCTestCase {
 
         XCTAssertEqual(address.description, "TJRyWwFs9wTFGZg3JbrVriFbNfCug5tDeC")
     }
+
+    func testTestnetFromPrivateKey() {
+        let privateKey =  PrivateKey(data: Data(hexString: "2d8f68944bdbfbc0769542fba8fc2d2a3de67393334471624364c7006da2aa54")!)!
+        let publicKey = privateKey.publicKey(compressed: false )
+        let address = Tron(network: .test).address(for: publicKey)
+
+        XCTAssertEqual(address.description, "27XYH4FaEc5UUxjvGdTVmvd7LAagXDc3dXv")
+    }
 }

@@ -13,6 +13,9 @@ extension PrivateKey {
         Bitcoin().privateKeyPrefix,
         Litecoin().privateKeyPrefix,
         Dash().privateKeyPrefix,
+        Bitcoin(network: .test).privateKeyPrefix,
+        Litecoin(network: .test).privateKeyPrefix,
+        Dash(network: .test).privateKeyPrefix,
     ])
 
     public convenience init?(wif: String) {
