@@ -16,7 +16,7 @@ public class BitcoinCash: Bitcoin {
         self.init(purpose: purpose)
         self.network = network
     }
-    
+
     override public var coinType: SLIP.CoinType {
         return .bitcoincash
     }

@@ -59,23 +59,12 @@ public struct SLIP {
     ///  Registered human-readable parts for BIP-0173
     ///
     /// - SeeAlso: https://github.com/satoshilabs/slips/blob/master/slip-0173.md
-    public enum HRP: String {
+    public enum HRP: String, CaseIterable {
         case bitcoin = "bc"
         case bitcoinTest = "tb"
         case litecoin = "ltc"
         case litecoinTest = "tltc"
         case bitcoincash = "bitcoincash"
         case bitcoincashTest = "bchtest"
-
-        static var allSet: Set<String> {
-            return [
-                HRP.bitcoin.rawValue,
-                HRP.bitcoinTest.rawValue,
-                HRP.litecoin.rawValue,
-                HRP.litecoinTest.rawValue,
-                HRP.bitcoincash.rawValue,
-                HRP.bitcoincashTest.rawValue,
-            ]
-        }
     }
 }
