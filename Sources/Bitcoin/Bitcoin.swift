@@ -114,7 +114,7 @@ open class Bitcoin: Blockchain {
     }
 
     override open func address(data: Data) -> Address? {
-        if let bech32Address = BitcoinBech32Address(data: data) {
+        if let bech32Address = BitcoinBech32Address(data: data, hrp: hrp.rawValue) {
             return bech32Address
         } else {
             return BitcoinAddress(data: data)

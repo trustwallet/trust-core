@@ -10,7 +10,7 @@ public final class Tron: Bitcoin {
     override public var coinType: SLIP.CoinType {
         return .tron
     }
-    
+
     override public var p2shPrefix: UInt8 {
         switch network {
         case .main:

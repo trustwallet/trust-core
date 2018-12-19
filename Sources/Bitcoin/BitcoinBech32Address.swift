@@ -29,7 +29,7 @@ public struct BitcoinBech32Address: Address, Equatable {
     }
 
     public static func validate(hrp: String) -> Bool {
-        return SLIP.HRP.allSet.contains(hrp)
+        return SLIP.HRP.allCases.map({ $0.rawValue }).contains(hrp)
     }
 
     public static func bech32Decode(string: String) -> (Data, String)? {

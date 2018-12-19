@@ -27,6 +27,14 @@ class LitecoinTests: XCTestCase {
         XCTAssertEqual(LitecoinBech32Address(string: "ltc1qytnqzjknvv03jwfgrsmzt0ycmwqgl0asjnaxwu")!.description, bech32Address.description)
     }
 
+    func testAddressFromData() {
+        // issues/581, hardcoded "bc" hrp
+        let data = Data(base64Encoded: "AB8fDxAIBBYSCwgPHRYVDhQIAwseCR8SCw4UERgEGwYL")!
+        let address = Litecoin().address(data: data)
+
+        XCTAssertEqual(address?.description, "ltc1qll0sgykjtg0ak4w5grt7fljtw53cymxt059qsq")
+    }
+
     func testTestnetAddress() {
         let litcoin = Litecoin(network: .test)
         let privateKey = PrivateKey(wif: "cUiCtmMEwdNLGC8QuAPffTPGP3KyosKG66uLaswXp25EfLrUBj8r")!
