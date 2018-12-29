@@ -8,6 +8,8 @@ import Foundation
 
 public struct BitcoinCashAddress: Address, Equatable {
 
+    public static let prefix = "bitcoincash:"
+
     /// Version bytes
     ///
     /// https://github.com/bitcoincashorg/bitcoincash.org/blob/master/spec/cashaddr.md
@@ -38,8 +40,14 @@ public struct BitcoinCashAddress: Address, Equatable {
     }
 
     public static func cashAddrDecode(string: String) -> (Data, String)? {
+        let value: String = {
+            if string.lowercased().hasPrefix(BitcoinCashAddress.prefix) {
+                return string.lowercased()
+            }
+            return BitcoinCashAddress.prefix + string.lowercased()
+        }()
         var hrp: NSString?
-        guard let data = Crypto.cashAddrDecode(string, hrp: &hrp),
+        guard let data = Crypto.cashAddrDecode(value, hrp: &hrp),
             let readable = hrp as String?,
             BitcoinCashAddress.validate(hrp: readable as String) else {
                 return nil
