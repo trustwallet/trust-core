@@ -71,8 +71,8 @@ class BitcoinCashTests: XCTestCase {
         let xpubAddr2 = bc.derive(from: xpub, at: bc.derivationPath(at: 2))!
         let xpubAddr9 = bc.derive(from: xpub, at: bc.derivationPath(at: 9))!
 
-        XCTAssertEqual(xpubAddr2.description, "qq4cm0hcc4trsj98v425f4ackdq7h92rsy6zzstrgy")
-        XCTAssertEqual(xpubAddr9.description, "qqyqupaugd7mycyr87j899u02exc6t2tcg9frrqnve")
+        XCTAssertEqual(xpubAddr2.description, "bitcoincash:qq4cm0hcc4trsj98v425f4ackdq7h92rsy6zzstrgy")
+        XCTAssertEqual(xpubAddr9.description, "bitcoincash:qqyqupaugd7mycyr87j899u02exc6t2tcg9frrqnve")
     }
 
     func testDeriveTestnetAddressFromXPub() {
@@ -81,8 +81,8 @@ class BitcoinCashTests: XCTestCase {
         let xpubAddr2 = bc.derive(from: xpub, at: bc.derivationPath(at: 2))!
         let xpubAddr9 = bc.derive(from: xpub, at: bc.derivationPath(at: 9))!
 
-        XCTAssertEqual(xpubAddr2.description, "qq4cm0hcc4trsj98v425f4ackdq7h92rsy7sxhf50c")
-        XCTAssertEqual(xpubAddr9.description, "qqyqupaugd7mycyr87j899u02exc6t2tcgpm8yzyt9")
+        XCTAssertEqual(xpubAddr2.description, "bchtest:qq4cm0hcc4trsj98v425f4ackdq7h92rsy7sxhf50c")
+        XCTAssertEqual(xpubAddr9.description, "bchtest:qqyqupaugd7mycyr87j899u02exc6t2tcgpm8yzyt9")
     }
 
     func testSignTransaction() throws {
