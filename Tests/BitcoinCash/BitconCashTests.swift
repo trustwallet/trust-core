@@ -38,8 +38,6 @@ class BitcoinCashTests: XCTestCase {
         XCTAssertEqual(cashAddress2, BitcoinCashAddress(string: "bitcoincash:prm3srpqu4kmx00370m4wt5qr3cp7sekmcksezufmd")!)
     }
 
-
-
     func testLockScript() {
         let bc = BitcoinCash()
         let address = BitcoinCashAddress(string: "bitcoincash:qpk05r5kcd8uuzwqunn8rlx5xvuvzjqju5rch3tc0u")!
