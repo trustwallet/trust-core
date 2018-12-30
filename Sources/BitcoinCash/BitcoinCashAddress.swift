@@ -81,12 +81,7 @@ public struct BitcoinCashAddress: Address, Equatable {
     }
 
     public var description: String {
-        let prefix = hrp + ":"
-        let address = Crypto.cashAddrEncode(data, hrp: hrp)
-        guard address.hasPrefix(prefix) else {
-            return address
-        }
-        return String(address.dropFirst(prefix.count))
+        return Crypto.cashAddrEncode(data, hrp: hrp)
     }
 
     public func toBitcoinAddress() -> BitcoinAddress {
