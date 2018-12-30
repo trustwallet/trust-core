@@ -16,7 +16,7 @@ class BitcoinCashTests: XCTestCase {
 
         XCTAssertEqual(expected, BitcoinCashAddress(string: prefixString)!)
         XCTAssertEqual(expected, BitcoinCashAddress(string: string)!)
-        XCTAssertEqual(expected, BitcoinCashAddress(string: String(SLIP.HRP.bitcoincash.rawValue + ":").capitalized + string.capitalized)!)
+        XCTAssertEqual(expected, BitcoinCashAddress(string: prefixString.capitalized)!)
     }
 
     func testLegacyToCashAddr() {
