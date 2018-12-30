@@ -8,6 +8,17 @@ import TrustCore
 import XCTest
 
 class BitcoinCashTests: XCTestCase {
+
+    func testAddressInit() {
+        let string = "qruxj7zq6yzpdx8dld0e9hfvt7u47zrw9gfr5hy0vh"
+        let prefixString = [SLIP.HRP.bitcoincash.rawValue, "qruxj7zq6yzpdx8dld0e9hfvt7u47zrw9gfr5hy0vh"].joined(separator: ":")
+        let expected = BitcoinCashAddress(string: prefixString)!
+
+        XCTAssertEqual(expected, BitcoinCashAddress(string: prefixString))
+        XCTAssertEqual(expected, BitcoinCashAddress(string: string))
+        XCTAssertEqual(expected, BitcoinCashAddress(string: prefixString.capitalized))
+    }
+
     func testLegacyToCashAddr() {
         let privateKey = PrivateKey(wif: "KxZX6Jv3to6RWnhsffTcLLryRnNyyc8Ng2G8P9LFkbCdzGDEhNy1")!
         let publicKey = privateKey.publicKey(compressed: true)

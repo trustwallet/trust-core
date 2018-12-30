@@ -38,8 +38,14 @@ public struct BitcoinCashAddress: Address, Equatable {
     }
 
     public static func cashAddrDecode(string: String) -> (Data, String)? {
+        let value: String = {
+            if string.lowercased().hasPrefix(SLIP.HRP.bitcoincash.rawValue) {
+                return string.lowercased()
+            }
+            return [SLIP.HRP.bitcoincash.rawValue, string.lowercased()].joined(separator: ":")
+        }()
         var hrp: NSString?
-        guard let data = Crypto.cashAddrDecode(string, hrp: &hrp),
+        guard let data = Crypto.cashAddrDecode(value, hrp: &hrp),
             let readable = hrp as String?,
             BitcoinCashAddress.validate(hrp: readable as String) else {
                 return nil
