@@ -11,11 +11,12 @@ class BitcoinCashTests: XCTestCase {
 
     func testAddressInit() {
         let string = "qruxj7zq6yzpdx8dld0e9hfvt7u47zrw9gfr5hy0vh"
-        let expected = BitcoinCashAddress(string: BitcoinCashAddress.prefix + string)!
+        let prefixString = [SLIP.HRP.bitcoincash.rawValue, "qruxj7zq6yzpdx8dld0e9hfvt7u47zrw9gfr5hy0vh"].joined(separator: ":")
+        let expected = BitcoinCashAddress(string: prefixString)!
 
-        XCTAssertEqual(expected, BitcoinCashAddress(string: BitcoinCashAddress.prefix + string)!)
+        XCTAssertEqual(expected, BitcoinCashAddress(string: prefixString)!)
         XCTAssertEqual(expected, BitcoinCashAddress(string: string)!)
-        XCTAssertEqual(expected, BitcoinCashAddress(string: BitcoinCashAddress.prefix.capitalized + string.capitalized)!)
+        XCTAssertEqual(expected, BitcoinCashAddress(string: String(SLIP.HRP.bitcoincash.rawValue + ":").capitalized + string.capitalized)!)
     }
 
     func testLegacyToCashAddr() {
