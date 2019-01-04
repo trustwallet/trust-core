@@ -119,6 +119,8 @@
 		BB3864C720956F8B00CBF773 /* ReverseResolverEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3864C620956F8B00CBF773 /* ReverseResolverEncoderTests.swift */; };
 		BB3864C92095C80D00CBF773 /* Namehash.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3864C82095C80D00CBF773 /* Namehash.swift */; };
 		BB48ECB52189D45300F12709 /* EOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB48ECB42189D45300F12709 /* EOS.swift */; };
+		BB5359CE21DF0819003F0ADE /* cryptofights_712.json in Resources */ = {isa = PBXBuildFile; fileRef = BB5359CD21DF0819003F0ADE /* cryptofights_712.json */; };
+		BB5359CF21DF0A06003F0ADE /* cryptofights_712.json in Resources */ = {isa = PBXBuildFile; fileRef = BB5359CD21DF0819003F0ADE /* cryptofights_712.json */; };
 		BB58F29C213CF787007A826C /* ERC721Encoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB58F29B213CF787007A826C /* ERC721Encoder.swift */; };
 		BB636D3B2121528D0071AE07 /* GenericJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB636D392121528C0071AE07 /* GenericJSON.swift */; };
 		BB636D3C2121528D0071AE07 /* EIP712TypedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB636D3A2121528C0071AE07 /* EIP712TypedData.swift */; };
@@ -265,6 +267,7 @@
 		BB3864C620956F8B00CBF773 /* ReverseResolverEncoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReverseResolverEncoderTests.swift; sourceTree = "<group>"; };
 		BB3864C82095C80D00CBF773 /* Namehash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Namehash.swift; sourceTree = "<group>"; };
 		BB48ECB42189D45300F12709 /* EOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EOS.swift; sourceTree = "<group>"; };
+		BB5359CD21DF0819003F0ADE /* cryptofights_712.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = cryptofights_712.json; sourceTree = "<group>"; };
 		BB58F29B213CF787007A826C /* ERC721Encoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ERC721Encoder.swift; sourceTree = "<group>"; };
 		BB636D36212151EA0071AE07 /* EIP712TypedDataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EIP712TypedDataTests.swift; sourceTree = "<group>"; };
 		BB636D392121528C0071AE07 /* GenericJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericJSON.swift; sourceTree = "<group>"; };
@@ -683,6 +686,7 @@
 			isa = PBXGroup;
 			children = (
 				BB636D36212151EA0071AE07 /* EIP712TypedDataTests.swift */,
+				BB5359CD21DF0819003F0ADE /* cryptofights_712.json */,
 			);
 			path = EIP712;
 			sourceTree = "<group>";
@@ -829,6 +833,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BB5359CE21DF0819003F0ADE /* cryptofights_712.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -836,6 +841,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BB5359CF21DF0A06003F0ADE /* cryptofights_712.json in Resources */,
 				BB3864AF20905AE000CBF773 /* ens_abi.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
