@@ -6,6 +6,7 @@
 
 /// https://github.com/ethereum/EIPs/blob/master/EIPS/eip-712.md
 import Foundation
+import BigInt
 
 /// A struct represents EIP712 type tuple
 public struct EIP712Type: Codable {
@@ -114,13 +115,21 @@ extension EIP712TypedData {
             return try? ABIValue(address, type: .address)
         } else if type.starts(with: "uint") {
             let size = parseIntSize(type: type, prefix: "uint")
-            if size > 0, let value = data?.floatValue {
+            guard size > 0 else { return nil }
+            if let value = data?.floatValue {
                 return try? ABIValue(Int(value), type: .uint(bits: size))
+            } else if let value = data?.stringValue,
+                let bigInt = BigUInt(value: value) {
+                return try? ABIValue(bigInt, type: .uint(bits: size))
             }
         } else if type.starts(with: "int") {
             let size = parseIntSize(type: type, prefix: "int")
-            if size > 0, let value = data?.floatValue {
+            guard size > 0 else { return nil }
+            if let value = data?.floatValue {
                 return try? ABIValue(Int(value), type: .int(bits: size))
+            } else if let value = data?.stringValue,
+                let bigInt = BigInt(value: value) {
+                return try? ABIValue(bigInt, type: .int(bits: size))
             }
         } else if type.starts(with: "bytes") {
             if let length = Int(type.dropFirst("bytes".count)),
@@ -148,5 +157,25 @@ extension EIP712TypedData {
             return -1
         }
         return size
+    }
+}
+
+private extension BigInt {
+    init?(value: String) {
+        if value.starts(with: "0x") {
+            self.init(String(value.dropFirst(2)), radix: 16)
+        } else {
+            self.init(value)
+        }
+    }
+}
+
+private extension BigUInt {
+    init?(value: String) {
+        if value.starts(with: "0x") {
+            self.init(String(value.dropFirst(2)), radix: 16)
+        } else {
+            self.init(value)
+        }
     }
 }
