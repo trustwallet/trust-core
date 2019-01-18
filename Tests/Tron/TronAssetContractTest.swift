@@ -12,8 +12,8 @@ class TronAssetContractTest: XCTestCase {
         let from = BitcoinAddress(string: "TJRyWwFs9wTFGZg3JbrVriFbNfCug5tDeC")!
         let to = BitcoinAddress(string: "THTR75o8xXAgCTQqpiot2AFRAjvW1tSbVV")!
         let amount = Int64(4)
-        let assetName = "IPFS"
-        let type = TronContractType.transferAssetContract(from: from, to: to, amount: amount, assetName: assetName)
+        let assetId = "1000959"
+        let type = TronContractType.transferAssetContract(from: from, to: to, amount: amount, assetId: assetId)
         let contract = TronContract(type: type)
         let timestamp: Int64 = 1541890116000
         let txTrieRoot = Data(hexString: "845ab51bf63c2c21ee71a4dc0ac3781619f07a7cd05e1e0bd8ba828979332ffa")!
@@ -33,6 +33,6 @@ class TronAssetContractTest: XCTestCase {
             return Crypto.sign(hash: data, privateKey: privateKey.data)
         })
 
-        XCTAssertEqual(sighn.signature?.hexString, "dafb40c26a31bd90c13fff181bd0b8bcbe286b53a0f3da28c594bca85e0635b930a66075ff12fbe562e453c6a7bc704be45cf8c157c37ea019b4df0a81dd842100")
+        XCTAssertEqual(sighn.signature?.hexString, "77f5eabde31e739d34a66914540f1756981dc7d782c9656f5e14e53b59a15371603a183aa12124adeee7991bf55acc8e488a6ca04fb393b1a8ac16610eeafdfc00")
     }
 }
